@@ -73,7 +73,7 @@ class AriWebSocketClient
     /**
      * Subscribe to the asterisk instance and start the event loop
      */
-    function runWithEventHandlers()
+    function publishWithAMQP()
     {
         $ariSettings = $this->settings;
         $wsType = $ariSettings['wssEnabled'] ? 'wss' : 'ws';

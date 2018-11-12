@@ -9,6 +9,3 @@ vendor
 # Own composer specific files
 composer.phar
 composer.lock
-
-# The environment variables
-environment.yaml

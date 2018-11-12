@@ -120,8 +120,10 @@ abstract class BasicStasisApp
      */
     function run()
     {
-        $this->ariWebSocketClient->runWithEventHandlers();
-        $this->handleEvents();
+        // TODO: Don't do that but refactor the possibility to write a local application?!
+        // TODO: This is not working at the moment!!!!
+        //$this->ariWebSocketClient->publishWithAMQP();
+        //$this->handleEvents();
         $this->logger->info('Application is running and listening for events...');
     }
 
