@@ -6,7 +6,7 @@
  * @copyright ng-voice GmbH (2018)
  */
 
-namespace AriStasisApp\ariclients;
+namespace AriStasisApp\rest_clients;
 
 use function AriStasisApp\{getShortClassName, initLogger};
 use GuzzleHttp\Exception\GuzzleException;
@@ -15,7 +15,7 @@ use GuzzleHttp\Client;
 use Monolog\Logger;
 
 
-class AriClient
+class AriRestClient
 {
     /**
      * @var Logger
@@ -28,7 +28,7 @@ class AriClient
     protected $guzzleClient;
 
     /**
-     * AriClient constructor.
+     * AriRestClient constructor.
      * @param bool $https_enabled
      * @param string $host
      * @param int $port

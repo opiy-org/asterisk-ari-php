@@ -5,16 +5,16 @@
  * @copyright ng-voice GmbH (2018)
  */
 
-namespace AriStasisApp\ariclients;
+namespace AriStasisApp\rest_clients;
 
 /**
- * Class AsteriskClient
+ * Class AsteriskRestClient
  *
  * The details for all the REST calls can be found in the asterisk documentation.
  *
  * @package AriStasisApp
  */
-class AsteriskClient extends AriClient
+class AsteriskRestClient extends AriRestClient
 {
     /**
      * @param string $configClass

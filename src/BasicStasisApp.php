@@ -9,17 +9,17 @@
 namespace AriStasisApp;
 
 use Monolog\Logger;
-use AriStasisApp\ariclients\{AriWebSocketClient,
-    BridgesClient,
-    ChannelsClient,
-    AsteriskClient,
-    ApplicationsClient,
-    DeviceStatesClient,
-    EndpointsClient,
-    EventsClient,
-    MailboxesClient,
-    PlaybacksClient,
-    SoundsClient};
+use AriStasisApp\rest_clients\{AriWebSocketClient,
+    BridgesRestClient,
+    ChannelsRestClient,
+    AsteriskRestClient,
+    ApplicationsRestClient,
+    DeviceStatesRestClient,
+    EndpointsRestClient,
+    EventsRestClient,
+    MailboxesRestClient,
+    PlaybacksRestClient,
+    SoundsRestClient};
 
 require_once 'helping_functions.php';
 
@@ -39,52 +39,52 @@ abstract class BasicStasisApp
     protected $logger;
 
     /**
-     * @var SoundsClient
+     * @var SoundsRestClient
      */
     protected $sounds;
 
     /**
-     * @var EventsClient
+     * @var EventsRestClient
      */
     protected $events;
 
     /**
-     * @var BridgesClient
+     * @var BridgesRestClient
      */
     protected $bridges;
 
     /**
-     * @var ChannelsClient
+     * @var ChannelsRestClient
      */
     protected $channels;
 
     /**
-     * @var AsteriskClient
+     * @var AsteriskRestClient
      */
     protected $asterisk;
 
     /**
-     * @var MailboxesClient
+     * @var MailboxesRestClient
      */
     protected $mailboxes;
 
     /**
-     * @var PlaybacksClient
+     * @var PlaybacksRestClient
      */
     protected $playbacks;
 
     /**
-     * @var EndpointsClient
+     * @var EndpointsRestClient
      */
     protected $endpoints;
 
     /**
-     * @var ApplicationsClient
+     * @var ApplicationsRestClient
      */
     protected $applications;
 
     /**
-     * @var DeviceStatesClient
+     * @var DeviceStatesRestClient
      */
     protected $deviceStates;
 
@@ -102,16 +102,16 @@ abstract class BasicStasisApp
         $stasisAppName = getShortClassName($this);
         $this->logger = initLogger($stasisAppName);
 
-        $this->sounds = new SoundsClient();
-        $this->events = new EventsClient();
-        $this->bridges = new BridgesClient();
-        $this->channels = new ChannelsClient();
-        $this->asterisk = new AsteriskClient();
-        $this->mailboxes = new MailboxesClient();
-        $this->endpoints = new EndpointsClient();
-        $this->playbacks = new PlaybacksClient();
-        $this->applications = new ApplicationsClient();
-        $this->deviceStates = new DeviceStatesClient();
+        $this->sounds = new SoundsRestClient();
+        $this->events = new EventsRestClient();
+        $this->bridges = new BridgesRestClient();
+        $this->channels = new ChannelsRestClient();
+        $this->asterisk = new AsteriskRestClient();
+        $this->mailboxes = new MailboxesRestClient();
+        $this->endpoints = new EndpointsRestClient();
+        $this->playbacks = new PlaybacksRestClient();
+        $this->applications = new ApplicationsRestClient();
+        $this->deviceStates = new DeviceStatesRestClient();
         $this->ariWebSocketClient = new AriWebSocketClient($stasisAppName);
     }
 
@@ -130,7 +130,7 @@ abstract class BasicStasisApp
      */
     function stop()
     {
-        $this->ariWebSocketClient->stop();
+        //$this->ariWebSocketClient->stop();
         $this->logger->info("Application has stopped. Terminating...");
     }
 
@@ -142,7 +142,7 @@ abstract class BasicStasisApp
      */
     protected function handle(string $eventName, callable $function)
     {
-        $this->ariWebSocketClient->handle($eventName, $function);
+        //$this->ariWebSocketClient->handle($eventName, $function);
     }
 
     /**

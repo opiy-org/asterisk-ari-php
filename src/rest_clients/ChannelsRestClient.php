@@ -4,13 +4,13 @@
  * @author Rick Barentin
  * @copyright ng-voice GmbH (2018)
  */
-namespace AriStasisApp\ariclients;
+namespace AriStasisApp\rest_clients;
 
 /**
- * Class ChannelsClient
+ * Class ChannelsRestClient
  * @package AriStasisApp\ariclients
  */
-class ChannelsClient extends AriClient
+class ChannelsRestClient extends AriRestClient
 {
     /**
      *

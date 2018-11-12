@@ -14,15 +14,15 @@
  *
  */
 
-namespace AriStasisApp\ariclients;
+namespace AriStasisApp\rest_clients;
 
 
 /**
- * Class PlaybacksClient
+ * Class PlaybacksRestClient
  *
  * @package AriStasisApp\ariclients
  */
-class PlaybacksClient extends AriClient
+class PlaybacksRestClient extends AriRestClient
 {
     /**
      * @param string $playbackId

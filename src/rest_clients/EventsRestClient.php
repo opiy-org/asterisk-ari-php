@@ -14,18 +14,18 @@
  *
  */
 
-namespace AriStasisApp\ariclients;
+namespace AriStasisApp\rest_clients;
 
 
 /**
- * Class EventsClient
+ * Class EventsRestClient
  *
  * GET /events is not part of this API because it has to be a WebSocket connection (ws:// or wss://)
  * and is handled separately in the AriWebSocketClient.
  *
  * @package AriStasisApp\ariclients
  */
-class EventsClient extends AriClient
+class EventsRestClient extends AriRestClient
 {
     /**
      * @param string $eventName
@@ -33,7 +33,7 @@ class EventsClient extends AriClient
      * @param int $newMessages
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface
      */
-    function update(string $eventName, int $oldMessages, int $newMessages)
+    function userEvent(string $eventName, int $oldMessages, int $newMessages)
     {
         return $this->postRequest("/events/{$eventName}",
             ['oldMessages' => $oldMessages, 'newMessages' => $newMessages]);

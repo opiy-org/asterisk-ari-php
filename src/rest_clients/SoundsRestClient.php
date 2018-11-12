@@ -14,15 +14,15 @@
  *
  */
 
-namespace AriStasisApp\ariclients;
+namespace AriStasisApp\rest_clients;
 
 
 /**
- * Class SoundsClient
+ * Class SoundsRestClient
  *
  * @package AriStasisApp\ariclients
  */
-class SoundsClient extends AriClient
+class SoundsRestClient extends AriRestClient
 {
     /**
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface

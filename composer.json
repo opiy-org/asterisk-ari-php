@@ -20,10 +20,10 @@
   "require" : {
     "php": ">=7.2.11",
     "ext-json": "*",
-    "ratchet/pawl": "v0.3.2",
     "monolog/monolog": "2.x-dev",
     "guzzlehttp/guzzle": "6.3.3",
-    "php-amqplib/php-amqplib": "v2.8.0"
+    "php-amqplib/php-amqplib": "v2.8.0",
+    "nekland/woketo": "2.2.0"
   },
   "require-dev": {
     "zircote/swagger-php": "3.0.1",

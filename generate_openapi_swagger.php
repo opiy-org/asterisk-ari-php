@@ -14,7 +14,7 @@
 require_once 'vendor/autoload.php';
 
 
-$openapi = \OpenApi\scan(__DIR__ . '/src/ariclients');
+$openapi = \OpenApi\scan(__DIR__ . '/src/rest_clients');
 header('Content-Type: application/x-yaml');
 
 echo $openapi->toYaml();

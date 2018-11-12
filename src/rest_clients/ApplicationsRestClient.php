@@ -14,15 +14,15 @@
  *
  */
 
-namespace AriStasisApp\ariclients;
+namespace AriStasisApp\rest_clients;
 
 
 /**
- * Class ApplicationsClient
+ * Class ApplicationsRestClient
  *
  * @package AriStasisApp\ariclients
  */
-class ApplicationsClient extends AriClient
+class ApplicationsRestClient extends AriRestClient
 {
     /**
      * @OA\Get(

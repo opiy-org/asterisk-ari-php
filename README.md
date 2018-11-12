@@ -23,6 +23,8 @@ To build your own stasis applications, simply build your own class and inherit f
 That's about it!
 For further information on functions etc. read the Documentation phpDoc (link)
 
+And ontop of that, thanks to the awesome people from php-amqplib, you can use whatever implements the AMQP. 
+You are not depending on RabbitMQ (although it is tested with that)!
 
 Feel free to send us a message! :) We'd love to hear from you and get to know your applications and use cases.
 

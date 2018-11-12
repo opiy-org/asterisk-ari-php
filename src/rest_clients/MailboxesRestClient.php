@@ -14,15 +14,15 @@
  *
  */
 
-namespace AriStasisApp\ariclients;
+namespace AriStasisApp\rest_clients;
 
 
 /**
- * Class MailboxesClient
+ * Class MailboxesRestClient
  *
  * @package AriStasisApp\ariclients
  */
-class MailboxesClient extends AriClient
+class MailboxesRestClient extends AriRestClient
 {
     /**
      * @OA\Get(
