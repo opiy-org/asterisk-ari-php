@@ -1,0 +1,14 @@
+# TODO: Add comments!
+
+# Intellij Files
+.idea
+
+# Dependencies
+vendor
+
+# Own composer specific files
+composer.phar
+composer.lock
+
+# The environment variables
+environment.yaml

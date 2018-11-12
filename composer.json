@@ -1,0 +1,45 @@
+{
+  "name": "ng-voice/asterisk-ari-stasis-app",
+  "type": "library",
+  "description": "PHP library to build asterisk stasis applications simple and fast",
+  "keywords": ["ari", "asterisk", "rest", "stasis", "client", "stasisapp"],
+  "homepage": "https://www.ng-voice.com/",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Lukas Stermann",
+      "email": "lukas@ng-voice.com",
+      "homepage": "https://github.com/oktavlachs"
+    },
+    {
+      "name": "Rick Barentin",
+      "email": "rick@ng-voice.com",
+      "homepage": "https://ng-voice.com"
+    }
+  ],
+  "require" : {
+    "php": ">=7.2.11",
+    "ext-json": "*",
+    "ratchet/pawl": "v0.3.2",
+    "monolog/monolog": "2.x-dev",
+    "guzzlehttp/guzzle": "6.3.3",
+    "php-amqplib/php-amqplib": "v2.8.0"
+  },
+  "require-dev": {
+    "zircote/swagger-php": "3.0.1",
+    "pact-foundation/pact-php": "4.0.2",
+    "phpunit/phpunit": "7.4.3",
+    "phpunit/php-code-coverage": "6.1.4",
+    "mockery/mockery": "1.2.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "AriStasisApp\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "AriStasisApp\\Tests\\": "tests/"
+    }
+  }
+}

@@ -1,0 +1,23 @@
+#
+# Application environment
+#
+# @author Lukas Stermann
+# @author Rick Barentin
+# @copyright ng-voice GmbH (2018)
+#
+#
+# !!!!! NEVER, repeat, NEVER commit your own settings to your (git) repository !!!!!
+
+app:
+  debugmode: false
+
+# [This only needs to be specified, if you plan on passing asterisk events
+# through a AriWebSocketClient into a RabbitMQ message broker.]
+
+rabbitmq:
+  host: 'localhost'
+  port: 5672
+  user: 'guest'
+  password: 'guest'
+  vhost: '/'
+  debugmode: false
