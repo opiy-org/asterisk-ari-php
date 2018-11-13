@@ -17,10 +17,6 @@ namespace AriStasisApp\http_client;
 class ApplicationsRestClient extends AriRestClient
 {
     /**
-     * @OA\Get(
-     *     path="/applications",
-     *     @OA\Response(response="200", description="An example resource")
-     * )
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface
      */
     function list()

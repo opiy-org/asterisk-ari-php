@@ -8,11 +8,9 @@
 
 namespace AriStasisApp\amqp;
 
-use function AriStasisApp\{initLogger, getShortClassName};
+use function AriStasisApp\{initLogger, getShortClassName, parseAMQPSettings};
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
-
-require_once __DIR__ . '/../helping_functions.php';
 
 /**
  * Class AriAMQPPublisher
@@ -51,32 +49,28 @@ class AriAMQPPublisher
      *
      * The default values are for RabbitMQ but you can choose whatever implements the AMQP protocol!
      *
-     * @param string $appName
-     * @param string $host
-     * @param int $port
-     * @param string $user
-     * @param string $password
-     * @param string $vhost
-     * @param string $exchange
+     * @param array $amqpSettings
      */
-    function __construct(
-        string $appName = '',
-        string $host = 'localhost',
-        int $port = 5672,
-        string $user = 'guest',
-        string $password = 'guest',
-        string $vhost = '/',
-        string $exchange = 'asterisk'
-        )
+    function __construct(array $amqpSettings = [])
     {
-        $queue = 'from-' . strtolower($appName) . '-queue';
-        $this->exchange = $exchange;
         $this->logger = initLogger(getShortClassName($this));
+        $amqpSettings = parseAMQPSettings($amqpSettings);
+        $lowerAppName = strtolower($amqpSettings['appName']);
+        $this->exchange = $exchange = $amqpSettings['exchange'];
+
+        if (empty($lowerAppName))
+        {
+            $lowerAppName = 'all-stasis-apps';
+        }
+        $queue = 'from-' . $lowerAppName . '-queue';
+
         $this->messageOptions =
             ['content_type' => 'application/json', 'delivery_mode' => AMQPMessage::DELIVERY_MODE_PERSISTENT];
         $this->logger->info("Connecting to AMQP server");
         // TODO: Possibility to add multiple hosts?! Think about the architecture here
-        $this->connection = new AMQPStreamConnection($host, $port, $user, $password, $vhost);
+        $this->connection = new AMQPStreamConnection(
+            $amqpSettings['host'], $amqpSettings['port'], $amqpSettings['user'],
+            $amqpSettings['password'], $amqpSettings['vhost']);
         $this->channel = $this->connection->channel();
         $this->logger->info("Declaring Queue: {$queue}");
         $this->channel->queue_declare($queue, false, true, false, false);

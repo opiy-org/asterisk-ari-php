@@ -6,6 +6,7 @@
  * Time: 14:48
  */
 
+require_once __DIR__ . '/../vendor/autoload.php';
 interface TestInterface
 {
     function bla();
@@ -50,15 +51,4 @@ class ChannelCl extends AriCl
     }
 }
 
-$test = new BasicStApp();
-$test->bla();
-$test1 = new ExampleStApp();
-$test1->bla();
-$wurst = 'channelsclient';
-echo str_replace('client','', $wurst) . "\n";
-if ('0')
-    echo 'true';
-else
-    echo 'false';
-
-
+$consumer = new \AriStasisApp\amqp\AriAMQPConsumer();

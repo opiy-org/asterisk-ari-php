@@ -8,11 +8,12 @@
 use AriStasisApp\AriEventHandler;
 use AriStasisApp\http_client\{RecordingsRestClient, ChannelsRestClient, AsteriskRestClient, BridgesRestClient};
 
+require_once '../vendor/autoload.php';
+
 /**
  * ExampleAriApplication
  *
  * You cannot break anything while writing your own stasis app and do whatever you like.
- *
  *
  */
 // Starts your http clients so it is easy to talk to ARI from your application.

@@ -15,7 +15,6 @@ use Nekland\Woketo\Core\AbstractConnection;
 use Nekland\Woketo\Exception\WebsocketException;
 use Nekland\Woketo\Message\MessageHandlerInterface;
 
-
 /**
  * Class AriPassThroughMessageHandler
  *
@@ -37,9 +36,9 @@ class AriPassThroughMessageHandler implements MessageHandlerInterface
     /**
      * AriPassThroughMessageHandler constructor.
      *
-     * @param string $appName
+     * @param array $appName
      */
-    function __construct(string $appName)
+    function __construct(array $appName)
     {
         $this->logger = initLogger(getShortClassName($this));
         $this->amqpPublisher = new AriAMQPPublisher($appName);

@@ -14,7 +14,6 @@ use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Client;
 use Monolog\Logger;
 
-
 /**
  * Class AriRestClient
  *
