@@ -26,11 +26,8 @@
     "nekland/woketo": "2.2.0"
   },
   "require-dev": {
-    "zircote/swagger-php": "3.0.1",
-    "pact-foundation/pact-php": "4.0.2",
     "phpunit/phpunit": "7.4.3",
-    "phpunit/php-code-coverage": "6.1.4",
-    "mockery/mockery": "1.2.0"
+    "phpunit/php-code-coverage": "6.1.4"
   },
   "autoload": {
     "psr-4": {
