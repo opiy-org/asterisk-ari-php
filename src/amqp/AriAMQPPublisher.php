@@ -8,10 +8,11 @@
 
 namespace AriStasisApp\amqp;
 
-use function AriStasisApp\{getShortClassName, initLogger};
+use function AriStasisApp\{initLogger, getShortClassName};
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 
+require_once __DIR__ . '/../helping_functions.php';
 
 /**
  * Class AriAMQPPublisher
@@ -73,7 +74,7 @@ class AriAMQPPublisher
         $this->logger = initLogger(getShortClassName($this));
         $this->messageOptions =
             ['content_type' => 'application/json', 'delivery_mode' => AMQPMessage::DELIVERY_MODE_PERSISTENT];
-        $this->logger->info("Connecting to RabbitMQ server");
+        $this->logger->info("Connecting to AMQP server");
         // TODO: Possibility to add multiple hosts?! Think about the architecture here
         $this->connection = new AMQPStreamConnection($host, $port, $user, $password, $vhost);
         $this->channel = $this->connection->channel();
@@ -86,7 +87,7 @@ class AriAMQPPublisher
     }
 
     /**
-     * Publish message to RabbitMQ
+     * Publish message to AMQP
      *
      * @param string $body should be a json in a string format
      **/

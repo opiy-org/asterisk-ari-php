@@ -9,6 +9,8 @@
 /**
  * [GENERAL]
  * - We need a LICENCE! Also see if the used libraries are free to integrate.
+ * - Error logs should really be exceptions so the person using the library has to handle them.
+ *   - But really also the guzzle exceptions? They make code in the class that uses the AriManager really messy.
  *
  * [Writing a wrapping Asterisk application with Laravel]
  * - Think of a simple turn key setup (which also includes to start and supervise the RabbitMQ workers)
@@ -33,5 +35,4 @@
  * [RabbitMQ]
  * - What if someone is already in a call and has to be pushed into a conference that exists elsewhere?
  *   - Have a deeper thought about bridging via ARI to another asterisk (in a cluster)
- *
  */

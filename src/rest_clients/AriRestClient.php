@@ -15,6 +15,11 @@ use GuzzleHttp\Client;
 use Monolog\Logger;
 
 
+/**
+ * Class AriRestClient
+ *
+ * @package AriStasisApp\rest_clients
+ */
 class AriRestClient
 {
     /**
@@ -29,6 +34,7 @@ class AriRestClient
 
     /**
      * AriRestClient constructor.
+     *
      * @param bool $https_enabled
      * @param string $host
      * @param int $port
@@ -49,10 +55,7 @@ class AriRestClient
         // TODO: Parse rootUrl, so there won't be conflicts with '/'
         $baseUri = "{$httpType}://{$host}:{$port}{$rootUrl}";
 
-        $this->guzzleClient = new Client([
-            'base_uri' => $baseUri,
-            'auth' => [$user, $password]
-        ]);
+        $this->guzzleClient = new Client(['base_uri' => $baseUri, 'auth' => [$user, $password]]);
     }
 
     /**
@@ -139,42 +142,44 @@ class AriRestClient
         }
     }
 
+    /**
+     * @param string $method
+     * @param string $uri
+     * @param array $queryParameters
+     * @param array $body
+     */
     private function logRequest(string $method, string $uri,
-                                  string $queryParameters = '', array $body = [])
+                                  array $queryParameters = [], array $body = [])
     {
-        $this->logger->debug(
-            "Sending Request... 
-                Method: {$method} | 
-                URI: {$uri} |
-                QueryParameters: {$queryParameters} |
-                Body: {$body}"
-        );
+        $this->logger->debug("Sending Request... Method: {$method} | URI: {$uri} | "
+                . "QueryParameters: {$queryParameters} | Body: {$body}");
     }
 
+    /**
+     * @param Response $response
+     * @param string $method
+     * @param string $uri
+     */
     private function logResponse(Response $response, string $method, string $uri)
     {
-        $this->logger->debug(
-            "Received Response... 
-                Method: {$method} |
-                URI: {$uri} |
-                ResponseCode: {$response->getStatusCode()} |
-                Reason: {$response->getReasonPhrase()}
-                Body: {$response->getBody()}"
-        );
+        $this->logger->debug("Received Response... Method: {$method} | URI: {$uri} | "
+            . "ResponseCode: {$response->getStatusCode()} | Reason: {$response->getReasonPhrase()} "
+            . "Body: {$response->getBody()}");
     }
 
-
+    /**
+     * @param \Exception $e
+     * @param string $method
+     * @param string $uri
+     * @param array $queryParameters
+     * @param array $body
+     */
     private function logException(\Exception $e, string $method, string $uri,
-                                  string $queryParameters = '', array $body = [])
+                                  array $queryParameters = [], array $body = [])
     {
-        $this->logger->error(
-            "Failed Request...
-                ResponseCode: {$e->getCode()} |
-                Reason: {$e->getMessage()} |
-                Method: {$method} |
-                URI: {$uri} |
-                QueryParameters: {$queryParameters} |
-                RequestBody: {$body}"
+        $this->logger->warning("Failed Request... ResponseCode: {$e->getCode()} | "
+            . "Reason: {$e->getMessage()} | Method: {$method} | URI: {$uri} | "
+            . "QueryParameters: {$queryParameters} | RequestBody: {$body}"
         );
     }
 }

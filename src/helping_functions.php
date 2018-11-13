@@ -33,8 +33,6 @@ function initLogger(string $name)
             new StreamHandler('php://stdout', Logger::INFO));
         $logger->pushHandler(
             new StreamHandler('php://stdout', Logger::WARNING));
-        $logger->pushHandler(
-            new StreamHandler(__DIR__ . "/../log/{$name}/error.log", Logger::ERROR));
 
         $logger->debug('Loggers have successfully been set');
     } catch (\Exception $e) {

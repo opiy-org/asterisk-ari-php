@@ -6,21 +6,22 @@
  * @copyright ng-voice GmbH (2018)
  */
 
-namespace AriStasisApp\amqp;
+namespace AriStasisApp\websocket;
 
 use function AriStasisApp\{getShortClassName, initLogger};
 use Monolog\Logger;
+use AriStasisApp\amqp\AriAMQPPublisher;
 use Nekland\Woketo\Core\AbstractConnection;
 use Nekland\Woketo\Exception\WebsocketException;
 use Nekland\Woketo\Message\MessageHandlerInterface;
 
 
 /**
- * Class AriWebSocketMessageHandler
+ * Class AriPassThroughMessageHandler
  *
  * @package AriStasisApp\rabbitmq
  */
-class AriWebSocketMessageHandler implements MessageHandlerInterface
+class AriPassThroughMessageHandler implements MessageHandlerInterface
 {
     /**
      * @var Logger
@@ -30,18 +31,18 @@ class AriWebSocketMessageHandler implements MessageHandlerInterface
     /**
      * @var AriAMQPPublisher
      */
-    private $rabbitMQMessagePublisher;
+    private $amqpPublisher;
 
 
     /**
-     * AriWebSocketMessageHandler constructor.
+     * AriPassThroughMessageHandler constructor.
      *
      * @param string $appName
      */
     function __construct(string $appName)
     {
         $this->logger = initLogger(getShortClassName($this));
-        $this->rabbitMQMessagePublisher = new AriAMQPPublisher($appName);
+        $this->amqpPublisher = new AriAMQPPublisher($appName);
     }
 
 
@@ -57,8 +58,8 @@ class AriWebSocketMessageHandler implements MessageHandlerInterface
     {
         // TODO: If the message is 'StasisEnd', the connection can be closed.
         // Or is it automatically closed after that message comes in?
-        $this->logger->debug("Received raw message: {$data}");
-        $this->rabbitMQMessagePublisher->publish($data);
+        $this->logger->debug("Received raw message from asterisk WebSocket server: {$data}");
+        $this->amqpPublisher->publish($data);
     }
 
     public function onBinary(string $data, AbstractConnection $connection)
@@ -68,13 +69,19 @@ class AriWebSocketMessageHandler implements MessageHandlerInterface
 
     public function onDisconnect(AbstractConnection $connection)
     {
-        $this->logger->debug("Connection to Asterisk was closed.");
+        $this->logger->debug('Connection to Asterisk was closed. Stopping AMQP publisher.');
+        $this->amqpPublisher->stop();
         exit();
     }
 
+    /**
+     * @param WebsocketException $e
+     * @param AbstractConnection $connection
+     * @throws WebsocketException
+     */
     public function onError(WebsocketException $e, AbstractConnection $connection)
     {
-        $this->logger->error("Could not connect to Asterisk: {$e->getMessage()}");
-        exit(1);
+        $this->logger->warning($e->getMessage());
+        throw $e;
     }
 }
