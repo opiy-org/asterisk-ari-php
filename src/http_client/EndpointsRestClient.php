@@ -14,7 +14,7 @@
  *
  */
 
-namespace AriStasisApp\rest_clients;
+namespace AriStasisApp\http_client;
 
 
 /**

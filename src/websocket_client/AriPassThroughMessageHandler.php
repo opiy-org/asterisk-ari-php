@@ -6,7 +6,7 @@
  * @copyright ng-voice GmbH (2018)
  */
 
-namespace AriStasisApp\websocket;
+namespace AriStasisApp\websocket_client;
 
 use function AriStasisApp\{getShortClassName, initLogger};
 use Monolog\Logger;

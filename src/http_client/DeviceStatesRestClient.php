@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @author Lukas Stermann
  * @author Rick Barentin
@@ -15,15 +14,15 @@
  *
  */
 
-namespace AriStasisApp\rest_clients;
+namespace AriStasisApp\http_client;
 
 
 /**
- * Class MailboxesRestClient
+ * Class DeviceStatesRestClient
  *
  * @package AriStasisApp\ariclients
  */
-class MailboxesRestClient extends AriRestClient
+class DeviceStatesRestClient extends AriRestClient
 {
     /**
      * @OA\Get(
@@ -34,36 +33,34 @@ class MailboxesRestClient extends AriRestClient
      */
     function list()
     {
-        return $this->getRequest('/mailboxes');
+        return $this->getRequest('/deviceStates');
     }
 
     /**
-     * @param string $mailboxName
+     * @param string $deviceName
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface
      */
-    function get(string $mailboxName)
+    function get(string $deviceName)
     {
-        return $this->getRequest("/mailboxes/{$mailboxName}");
+        return $this->getRequest("/deviceStates/{$deviceName}");
     }
 
     /**
-     * @param string $mailboxName
-     * @param int $oldMessages
-     * @param int $newMessages
+     * @param string $deviceName
+     * @param string $deviceState Allowed: NOT_INUSE, INUSE, BUSY, INVALID, UNAVAILABLE, RINGING, RINGINUSE, ONHOLD
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface
      */
-    function update(string $mailboxName, int $oldMessages, int $newMessages)
+    function update(string $deviceName, string $deviceState)
     {
-        return $this->putRequest("/mailboxes/{$mailboxName}",
-            ['oldMessages' => $oldMessages, 'newMessages' => $newMessages]);
+        return $this->putRequest("/deviceStates/{$deviceName}", ['deviceState' => $deviceState]);
     }
 
     /**
-     * @param string $mailboxName
+     * @param string $deviceName
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface
      */
-    function delete(string $mailboxName)
+    function delete(string $deviceName)
     {
-        return $this->deleteRequest("/mailboxes/{$mailboxName}");
+        return $this->deleteRequest("/deviceStates/{$deviceName}");
     }
 }

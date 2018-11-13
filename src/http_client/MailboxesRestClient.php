@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Lukas Stermann
  * @author Rick Barentin
@@ -14,15 +15,15 @@
  *
  */
 
-namespace AriStasisApp\rest_clients;
+namespace AriStasisApp\http_client;
 
 
 /**
- * Class DeviceStatesRestClient
+ * Class MailboxesRestClient
  *
  * @package AriStasisApp\ariclients
  */
-class DeviceStatesRestClient extends AriRestClient
+class MailboxesRestClient extends AriRestClient
 {
     /**
      * @OA\Get(
@@ -33,34 +34,36 @@ class DeviceStatesRestClient extends AriRestClient
      */
     function list()
     {
-        return $this->getRequest('/deviceStates');
+        return $this->getRequest('/mailboxes');
     }
 
     /**
-     * @param string $deviceName
+     * @param string $mailboxName
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface
      */
-    function get(string $deviceName)
+    function get(string $mailboxName)
     {
-        return $this->getRequest("/deviceStates/{$deviceName}");
+        return $this->getRequest("/mailboxes/{$mailboxName}");
     }
 
     /**
-     * @param string $deviceName
-     * @param string $deviceState Allowed: NOT_INUSE, INUSE, BUSY, INVALID, UNAVAILABLE, RINGING, RINGINUSE, ONHOLD
+     * @param string $mailboxName
+     * @param int $oldMessages
+     * @param int $newMessages
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface
      */
-    function update(string $deviceName, string $deviceState)
+    function update(string $mailboxName, int $oldMessages, int $newMessages)
     {
-        return $this->putRequest("/deviceStates/{$deviceName}", ['deviceState' => $deviceState]);
+        return $this->putRequest("/mailboxes/{$mailboxName}",
+            ['oldMessages' => $oldMessages, 'newMessages' => $newMessages]);
     }
 
     /**
-     * @param string $deviceName
+     * @param string $mailboxName
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface
      */
-    function delete(string $deviceName)
+    function delete(string $mailboxName)
     {
-        return $this->deleteRequest("/deviceStates/{$deviceName}");
+        return $this->deleteRequest("/mailboxes/{$mailboxName}");
     }
 }

@@ -6,7 +6,7 @@
  * @copyright ng-voice GmbH (2018)
  */
 
-namespace AriStasisApp\rest_clients;
+namespace AriStasisApp\http_client;
 
 use function AriStasisApp\{getShortClassName, initLogger};
 use GuzzleHttp\Exception\GuzzleException;

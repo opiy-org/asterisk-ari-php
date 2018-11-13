@@ -3,7 +3,7 @@
 namespace AriStasisApp;
 
 
-use AriStasisApp\websocket\AriWebSocketClient;
+use AriStasisApp\websocket_client\AriWebSocketClient;
 
 /**
  * Class AriEventHandler
