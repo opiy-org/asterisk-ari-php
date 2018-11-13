@@ -35,9 +35,12 @@ Great for microservices!
 Possible TODO's if you want to contribute but don't have an own idea:
 
 [GENERAL]
-* We need a LICENCE! Also see if the used libraries are free to integrate.
-* Error logs should really be exceptions so the person using the library has to handle them.
-  * But really also the guzzle exceptions? They make code in the class that uses the AriManager really messy.
+
+- We need a LICENCE! Also see if the used libraries are free to integrate.
+
+- Error logs should really be exceptions so the person using the library has to handle them.
+  
+  - But really also the guzzle exceptions? They make code in the class that uses the AriManager really messy.
  
 [Writing a wrapping Asterisk application with Laravel]
 * Think of a simple turn key setup (which also includes to start and supervise the RabbitMQ workers)
