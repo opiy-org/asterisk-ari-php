@@ -13,6 +13,21 @@ use Monolog\Logger;
 
 
 /**
+ * @param array $array
+ * @return string
+ */
+function glueArrayOfStrings(array $array)
+{
+    $result = '';
+    foreach ($array as $option)
+    {
+        $result = "{$result},{$option}";
+    }
+    return ltrim($result,',');
+}
+
+
+/**
  * @return array
  */
 function getAsteriskDefaultSettings()

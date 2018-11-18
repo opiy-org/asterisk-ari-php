@@ -6,11 +6,11 @@ namespace AriStasisApp;
 use AriStasisApp\websocket_client\AriWebSocketClient;
 
 /**
- * Class AriEventHandler
+ * Class WebSocketInitializer
  *
  * @package AriStasisApp\websocket
  */
-class AriEventHandler
+class WebSocketInitializer
 {
     /**
      * @param array $appNames

@@ -123,3 +123,7 @@ of optimistic database usage).
 Feel free to send us a message! :) We'd love to hear from you and get to know your applications and use cases.
 
 lukas@ng-voice.com or rick@ng-voice.com
+
+[ARIClients]
+
+- Go through every single client class and compare to Documentation

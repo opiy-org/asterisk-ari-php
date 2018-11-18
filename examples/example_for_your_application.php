@@ -5,7 +5,6 @@
  * @copyright ng-voice GmbH (2018)
  */
 
-use AriStasisApp\AriEventHandler;
 use AriStasisApp\http_client\{RecordingsRestClient, ChannelsRestClient, AsteriskRestClient, BridgesRestClient};
 
 require_once '../vendor/autoload.php';
@@ -29,7 +28,7 @@ $bridges = new BridgesRestClient();
  */
 try {
     // Leave the array empty to let the WebSockets listen for all asterisk Events.
-    AriEventHandler::startWebSocketsAndAMQPPublishers(['ExampleStasisApplication', 'AnotherApplication']);
+    //WebSocketInitializer::startWebSocketsAndAMQPPublishers(['ExampleStasisApplication', 'AnotherApplication']);
     echo 'WebSocket is running and listening for events. Events will be provided to AMQP with an own queue '
         . "for every stasis application\n";
 }
@@ -39,7 +38,9 @@ catch (Exception $e) {
 }
 
 $recordings->listStored();
-$channels->originate('SIP/Alice');
+$channels->originate('SIP/Alice',['app' => 'ExampleStasisApplication']);
+//$channels->sendDtmf('channel123',"34545");
+
 $channels = $channels->list();
 $asteriskInfo = $asterisk->getInfo();
 $bridges = $bridges->list();

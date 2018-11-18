@@ -7,6 +7,8 @@
 
 namespace AriStasisApp\http_client;
 
+use function AriStasisApp\glueArrayOfStrings;
+
 /**
  * Class AsteriskRestClient
  *
@@ -65,10 +67,10 @@ class AsteriskRestClient extends AriRestClient
      * @param array $only
      *
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface
-     * TODO:
      */
     function getInfo(array $only = [])
     {
+        $only = glueArrayOfStrings($only);
         if (!empty($only))
             return $this->getRequest('/asterisk/info', ['only' => $only]);
         else
