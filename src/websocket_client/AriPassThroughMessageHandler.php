@@ -36,18 +36,18 @@ class AriPassThroughMessageHandler implements MessageHandlerInterface
     /**
      * AriPassThroughMessageHandler constructor.
      *
-     * @param array $appName
+     * @param array $amqpSettings
      */
-    function __construct(array $appName)
+    function __construct(array $amqpSettings)
     {
         $this->logger = initLogger(getShortClassName($this));
-        $this->amqpPublisher = new AriAMQPPublisher($appName);
+        $this->amqpPublisher = new AriAMQPPublisher($amqpSettings);
     }
 
 
     public function onConnection(AbstractConnection $connection)
     {
-        $this->logger->debug('Connection to asterisk successfully');
+        $this->logger->debug('Connection to asterisk successfully. Waiting for messages...');
     }
 
     // TODO: Make this abstract so can extend this class?

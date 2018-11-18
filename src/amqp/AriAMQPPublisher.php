@@ -54,9 +54,9 @@ class AriAMQPPublisher
     function __construct(array $amqpSettings = [])
     {
         $this->logger = initLogger(getShortClassName($this));
-        $amqpSettings = parseAMQPSettings($amqpSettings);
-        $lowerAppName = strtolower($amqpSettings['appName']);
-        $this->exchange = $exchange = $amqpSettings['exchange'];
+        [$appName, $host, $port, $user, $password, $vhost, $exchange] = parseAMQPSettings($amqpSettings);
+        $lowerAppName = strtolower($appName);
+        $this->exchange = $exchange;
 
         if (empty($lowerAppName))
         {
@@ -68,9 +68,7 @@ class AriAMQPPublisher
             ['content_type' => 'application/json', 'delivery_mode' => AMQPMessage::DELIVERY_MODE_PERSISTENT];
         $this->logger->info("Connecting to AMQP server");
         // TODO: Possibility to add multiple hosts?! Think about the architecture here
-        $this->connection = new AMQPStreamConnection(
-            $amqpSettings['host'], $amqpSettings['port'], $amqpSettings['user'],
-            $amqpSettings['password'], $amqpSettings['vhost']);
+        $this->connection = new AMQPStreamConnection($host, $port, $user, $password, $vhost);
         $this->channel = $this->connection->channel();
         $this->logger->info("Declaring Queue: {$queue}");
         $this->channel->queue_declare($queue, false, true, false, false);

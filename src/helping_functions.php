@@ -8,26 +8,24 @@ namespace AriStasisApp;
 
 use ReflectionClass;
 use Symfony\Component\Yaml\Yaml;
-use Monolog\Handler\NullHandler;
-use Monolog\Handler\StreamHandler;
+use Monolog\Handler\{StreamHandler, NullHandler};
 use Monolog\Logger;
 
+
 /**
- * @param array $ariSettings
  * @return array
  */
-function parseAriSettings(array $ariSettings)
+function getAsteriskDefaultSettings()
 {
-    $ariSettings = array_merge([
-        'httpsEnabled' => false,
+    return [
         'host' => 'localhost',
         'port' => 8088,
         'rootUrl' => '/ari',
         'user' => 'asterisk',
         'password' => 'asterisk'
-    ], $ariSettings);
-    return $ariSettings;
+    ];
 }
+
 
 /**
  * @param array $amqpSettings
@@ -35,7 +33,7 @@ function parseAriSettings(array $ariSettings)
  */
 function parseAMQPSettings(array $amqpSettings)
 {
-    $amqpSettings = array_merge([
+    return array_merge([
         'appName' => '',
         'host' => 'localhost',
         'port' => 5672,
@@ -44,8 +42,30 @@ function parseAMQPSettings(array $amqpSettings)
         'vhost' => '/',
         'exchange' => 'asterisk'
     ], $amqpSettings);
-    return $amqpSettings;
 }
+
+
+/**
+ * @param array $ariSettings
+ * @return array
+ */
+function parseAriSettings(array $ariSettings)
+{
+    return array_merge(
+        array_merge(['httpsEnabled' => false], getAsteriskDefaultSettings()), $ariSettings);
+}
+
+
+/**
+ * @param array $webSocketSettings
+ * @return array
+ */
+function parseAriWebSocketSettings(array $webSocketSettings)
+{
+    return array_merge(
+        array_merge(['appName' => '', 'wssEnabled' => false], getAsteriskDefaultSettings()), $webSocketSettings);
+}
+
 
 /**
  * @param $object
@@ -54,7 +74,7 @@ function parseAMQPSettings(array $amqpSettings)
 function getShortClassName($object)
 {
 
-    try{
+    try {
         $reflect = new ReflectionClass($object);
         return $reflect->getShortName();
     }
@@ -65,6 +85,7 @@ function getShortClassName($object)
     }
 
 }
+
 
 /**
  * Create a log channel and set it up.
@@ -90,7 +111,8 @@ function initLogger(string $name)
             new StreamHandler('php://stderr', Logger::ERROR));
 
         $logger->debug('Loggers have successfully been set');
-    } catch (\Exception $e) {
+    }
+    catch (\Exception $e) {
         print_r("Error while setting up loggers:\n", true);
         print_r($e->getMessage(), true);
         exit(1);

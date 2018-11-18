@@ -8,7 +8,7 @@
 
 namespace AriStasisApp\websocket_client;
 
-use function AriStasisApp\{getShortClassName, initLogger};
+use function AriStasisApp\{getShortClassName, initLogger, parseAriWebSocketSettings};
 use Nekland\Woketo\Client\WebSocketClient;
 use Monolog\Logger;
 
@@ -27,9 +27,9 @@ class AriWebSocketClient
     private $logger;
 
     /**
-     * @var mixed
+     * @var array
      */
-    private $settings;
+    private $webSocketSettings;
 
     /**
      * @var WebSocketClient
@@ -39,20 +39,11 @@ class AriWebSocketClient
     /**
      * AriWebSocketClient constructor.
      *
-     * @param string $stasisAppName
-     * @param bool $wssEnabled
-     * @param string $host
-     * @param int $port
-     * @param string $rootUrl
-     * @param string $user
-     * @param string $password
+     * @param array $webSocketSettings
      */
-    function __construct(string $stasisAppName = '', bool $wssEnabled = false, string $host = '127.0.0.1',
-                         int $port = 8088, string $rootUrl = '/ari', string $user = 'asterisk',
-                         string $password = 'asterisk')
+    function __construct(array $webSocketSettings = [])
     {
-        $this->settings = ['stasisAppName' => $stasisAppName, 'wssEnabled' => $wssEnabled, 'host' => $host,
-            'port' => $port, 'rootUrl' => $rootUrl, 'user' => $user, 'password' => $password];
+        $this->webSocketSettings = parseAriWebSocketSettings($webSocketSettings);
         $this->logger = initLogger(getShortClassName($this));
     }
 
@@ -63,17 +54,15 @@ class AriWebSocketClient
      */
     function publishWithAMQP()
     {
-        $ariSettings = $this->settings;
-        $wsType = $ariSettings['wssEnabled'] ? 'wss' : 'ws';
-        $wsUrl = "{$wsType}://{$ariSettings['host']}:{$ariSettings['port']}{$ariSettings['rootUrl']}";
+        [$appName, $wssEnabled, $host, $port, $rootUri, $user, $password] = $this->webSocketSettings;
+        $wsType = $wssEnabled ? 'wss' : 'ws';
+        $wsUrl = "{$wsType}://{$host}:{$port}{$rootUri}";
 
-        $wsQuerySpecificApp =
-            "/events?api_key={$ariSettings['user']}:{$ariSettings['password']}&app={$ariSettings['stasisAppName']}";
-        $wsQuery = empty($ariSettings['stasisAppName']) ?
-            $wsQuerySpecificApp . "&subscribeAll=true" : $wsQuerySpecificApp;
+        $wsQuerySpecificApp = "/events?api_key={$user}:{$password}&app={$appName}";
+        $wsQuery = empty($stasisAppName) ? $wsQuerySpecificApp . "&subscribeAll=true" : $wsQuerySpecificApp;
         $uri = "{$wsUrl}{$wsQuery}";
         $this->webSocketClient = new WebSocketClient($uri);
-        $this->webSocketClient->start(new AriPassThroughMessageHandler($this->settings['stasisAppName']));
+        $this->webSocketClient->start(new AriPassThroughMessageHandler($appName));
 
     }
 }
