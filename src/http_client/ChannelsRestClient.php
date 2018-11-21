@@ -6,6 +6,8 @@
  */
 namespace AriStasisApp\http_client;
 
+use function AriStasisApp\glueArrayOfStrings;
+
 /**
  * Class ChannelsRestClient
  * @package AriStasisApp\ariclients
@@ -129,15 +131,13 @@ class ChannelsRestClient extends AriRestClient
     /**
      * @param string $channelId
      * @param string $dtmf
-     * @param string $before
-     * @param string $between
-     * @param string $duration
-     * @param string $after
+     * @param array $options
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface
      */
-    function sendDtmf(string $channelId, string $dtmf, string $before, string $between, string $duration, string $after)
+    function sendDtmf(string $channelId, string $dtmf, array $options = [])
     {
-        return $this->postRequest("/channels/{$channelId}/dtmf", [$dtmf, $before, $between, $duration, $after]);
+        return $this->postRequest("/channels/{$channelId}/dtmf",
+            array_merge(['dtmf' => $dtmf, 'before' => 0, 'between' => 100, 'duration' => 100, 'after' => 0], $options));
     }
 
     /**
@@ -147,7 +147,7 @@ class ChannelsRestClient extends AriRestClient
      */
     function mute(string $channelId, string $direction)
     {
-        return $this->postRequest("/channels/{$channelId}/mute", [$direction]);
+        return $this->postRequest("/channels/{$channelId}/mute", ['direction' => $direction]);
     }
 
     /**
@@ -223,7 +223,7 @@ class ChannelsRestClient extends AriRestClient
      */
     function play(string $channelId, array $media, array $options = [])
     {
-        // TODO: Split media into comma separated string
+        $media = glueArrayOfStrings($media);
         return $this->postRequest("/channels/{$channelId}/play",
             array_merge(['media' => $media], $options));
     }
@@ -237,7 +237,7 @@ class ChannelsRestClient extends AriRestClient
      */
     function playWithId(string $channelId, string $playbackId, array $media, array $options = [])
     {
-        // TODO: Split media into comma separated string
+        $media = glueArrayOfStrings($media);
         return $this->postRequest("/channels/{$channelId}/play/{$playbackId}",
             array_merge(['media' => $media], $options));
     }

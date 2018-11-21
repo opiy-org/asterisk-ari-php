@@ -1,9 +1,13 @@
 <?php
+/**
+ * @author Lukas Stermann
+ * @author Rick Barentin
+ * @copyright ng-voice GmbH (2018)
+ *
+ */
 
-namespace AriStasisApp;
+namespace AriStasisApp\websocket_client;
 
-
-use AriStasisApp\websocket_client\AriWebSocketClient;
 
 /**
  * Class WebSocketInitializer
@@ -20,24 +24,21 @@ class WebSocketInitializer
     static function startWebSocketsAndAMQPPublishers(array $appNames = [], array $asteriskSettings = [])
     {
         // TODO: Do we need a break; statement here every time?
-        switch ($appNames){
-            case []:
-                $ariWebSocketClient = new AriWebSocketClient($asteriskSettings);
-                $ariWebSocketClient->publishWithAMQP();
-                break;
-
-            default:
-                foreach ($appNames as $appName)
+        if ($appNames === []) {
+            $ariWebSocketClient = new WebSocketClient($asteriskSettings);
+            $ariWebSocketClient->publishWithAMQP();
+        } else {
+            foreach ($appNames as $appName)
+            {
+                print_r("AppName: ".$appName."\n");
+                // Empty strings are not allowed. Otherwise the WebSocket would listen for all events.
+                if ($appName !== '')
                 {
-                    // Empty strings are not allowed. Otherwise the WebSocket would listen for all events.
-                    if (!empty($appName))
-                    {
-                        $ariWebSocketClient = new AriWebSocketClient(
-                            array_merge(['appName' => $appName], $asteriskSettings));
-                        $ariWebSocketClient->publishWithAMQP();
-                    }
+                    $ariWebSocketClient = new WebSocketClient(
+                        array_merge(['appName' => $appName], $asteriskSettings));
+                    $ariWebSocketClient->publishWithAMQP();
                 }
-                break;
+            }
         }
     }
 }

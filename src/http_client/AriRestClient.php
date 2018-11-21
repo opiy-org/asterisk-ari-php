@@ -24,12 +24,12 @@ class AriRestClient
     /**
      * @var Logger
      */
-    protected $logger;
+    private $logger;
 
     /**
      * @var Client
      */
-    protected $guzzleClient;
+    private $guzzleClient;
 
     /**
      * @var string
@@ -46,7 +46,7 @@ class AriRestClient
         $settings = parseAriSettings($ariSettings);
         $this->logger = initLogger(getShortClassName($this));
 
-        $httpType = $settings['https_enabled'] ? 'https' : 'http';
+        $httpType = $settings['httpsEnabled'] ? 'https' : 'http';
         // TODO: Parse rootUri, so there won't be conflicts with '/'
         $baseUri = "{$httpType}://{$settings['host']}:{$settings['port']}{$settings['rootUri']}";
         $this->rootUri = $settings['rootUri'];
@@ -61,7 +61,7 @@ class AriRestClient
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface
      * TODO: Check, if all extending clients only use the second parameter for BODY, not mistakenly query parameters
      */
-    function putRequest(string $uri, array $body = [])
+    protected function putRequest(string $uri, array $body = [])
     {
         $method = 'PUT';
         $uri = $this->rootUri . $uri;
@@ -84,7 +84,7 @@ class AriRestClient
      * @param array $body
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface
      */
-    function postRequest(string $uri, array $queryParameters = [], array $body = [])
+    protected function postRequest(string $uri, array $queryParameters = [], array $body = [])
     {
         $method = 'POST';
         $uri = $this->rootUri . $uri;
@@ -105,7 +105,7 @@ class AriRestClient
      * @param array $queryParameters
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface
      */
-    function getRequest(string $uri, array $queryParameters = [])
+    protected function getRequest(string $uri, array $queryParameters = [])
     {
         $method = 'GET';
         $uri = $this->rootUri . $uri;
@@ -127,7 +127,7 @@ class AriRestClient
      * @param array $queryParameters
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface
      */
-    function deleteRequest(string $uri, array $queryParameters = [])
+    protected function deleteRequest(string $uri, array $queryParameters = [])
     {
         $method = 'DELETE';
         $uri = $this->rootUri . $uri;

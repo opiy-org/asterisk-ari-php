@@ -4,38 +4,39 @@
  * @author Rick Barentin
  * @copyright ng-voice GmbH (2018)
  *
- * @OA\Info(
- *     title="Asterisk ARI Library",
- *     version="0.1",
- *     @OA\Contact(
- *         email="support@ng-voice.com"
- *     )
- * )
- *
  */
 
 namespace AriStasisApp\http_client;
 
 
+use function AriStasisApp\glueArrayOfStrings;
+
 /**
  * Class EventsRestClient
  *
  * GET /events is not part of this API because it has to be a WebSocket connection (ws:// or wss://)
- * and is handled separately in the AriWebSocketClient.
+ * and is handled separately in the WebSocketClient.
  *
  * @package AriStasisApp\ariclients
  */
 class EventsRestClient extends AriRestClient
 {
     /**
-     * @param string $eventName
-     * @param int $oldMessages
-     * @param int $newMessages
+     * Generate a user event.
+     *
+     * @param string $eventName Event name.
+     * @param string $application The name of the application that will receive this event
+     * @param array $source URI for event source (channel:{channelId}, bridge:{bridgeId},
+     * endpoint:{tech}/{resource}, deviceState:{deviceName})
+     * TODO: Needs testing. Not clarified how nested container with variables exactly is defined.
+     * @param array $variables containers - The "variables" key in the body object holds custom key/value pairs to add
+     * to the user event. Ex. { "variables": { "key": "value" } }
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface
      */
-    function userEvent(string $eventName, int $oldMessages, int $newMessages)
+    function userEvent(string $eventName, string $application, array $source = [], array $variables = [])
     {
-        return $this->postRequest("/events/{$eventName}",
-            ['oldMessages' => $oldMessages, 'newMessages' => $newMessages]);
+        $source = glueArrayOfStrings($source);
+        return $this->postRequest("/events/user/{$eventName}",
+            ['application' => $application, 'source' => $source], ['variables' => $variables]);
     }
 }

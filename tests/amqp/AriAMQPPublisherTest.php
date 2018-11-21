@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace AriStasisApp\Tests\amqp;
 
-use AriStasisApp\amqp\AriAMQPPublisher;
+use AriStasisApp\amqp\AMQPPublisher;
 use PHPUnit\Framework\TestCase;
 
 
@@ -17,6 +17,6 @@ final class AriAMQPPublisherTest extends TestCase
 {
     public function testCreateInstance(): void
     {
-        $this->assertInstanceOf(AriAMQPPublisher::class, new AriAMQPPublisher());
+        $this->assertInstanceOf(AMQPPublisher::class, new AMQPPublisher());
     }
 }

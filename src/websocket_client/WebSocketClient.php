@@ -9,17 +9,16 @@
 namespace AriStasisApp\websocket_client;
 
 use function AriStasisApp\{getShortClassName, initLogger, parseAriWebSocketSettings};
-use Nekland\Woketo\Client\WebSocketClient;
 use Monolog\Logger;
 
 /**
- * Class AriWebSocketClient
+ * Class WebSocketClient
  *
  * @package AriStasisApp\ariclients
  *
  * TODO: Also create a new Class for RabbitMQ pass through events (one, many or all applications)
  */
-class AriWebSocketClient
+class WebSocketClient
 {
     /**
      * @var Logger
@@ -37,7 +36,7 @@ class AriWebSocketClient
     private $webSocketClient;
 
     /**
-     * AriWebSocketClient constructor.
+     * WebSocketClient constructor.
      *
      * @param array $webSocketSettings
      */
@@ -54,15 +53,18 @@ class AriWebSocketClient
      */
     function publishWithAMQP()
     {
-        [$appName, $wssEnabled, $host, $port, $rootUri, $user, $password] = $this->webSocketSettings;
+        ['appName' => $appName, 'wssEnabled' => $wssEnabled,
+            'host' => $host, 'port' => $port, 'rootUri' => $rootUri,
+            'user' => $user, 'password' => $password
+        ] = $this->webSocketSettings;
         $wsType = $wssEnabled ? 'wss' : 'ws';
         $wsUrl = "{$wsType}://{$host}:{$port}{$rootUri}";
 
         $wsQuerySpecificApp = "/events?api_key={$user}:{$password}&app={$appName}";
         $wsQuery = empty($stasisAppName) ? $wsQuerySpecificApp . "&subscribeAll=true" : $wsQuerySpecificApp;
         $uri = "{$wsUrl}{$wsQuery}";
-        $this->webSocketClient = new WebSocketClient($uri);
-        $this->webSocketClient->start(new AriPassThroughMessageHandler($appName));
+        $this->webSocketClient = new \Nekland\Woketo\Client\WebSocketClient($uri);
+        $this->webSocketClient->start(new MessageHandler($appName));
 
     }
 }

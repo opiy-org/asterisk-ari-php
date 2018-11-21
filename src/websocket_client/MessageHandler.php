@@ -10,17 +10,17 @@ namespace AriStasisApp\websocket_client;
 
 use function AriStasisApp\{getShortClassName, initLogger};
 use Monolog\Logger;
-use AriStasisApp\amqp\AriAMQPPublisher;
+use AriStasisApp\amqp\AMQPPublisher;
 use Nekland\Woketo\Core\AbstractConnection;
 use Nekland\Woketo\Exception\WebsocketException;
 use Nekland\Woketo\Message\MessageHandlerInterface;
 
 /**
- * Class AriPassThroughMessageHandler
+ * Class MessageHandler
  *
  * @package AriStasisApp\rabbitmq
  */
-class AriPassThroughMessageHandler implements MessageHandlerInterface
+class MessageHandler implements MessageHandlerInterface
 {
     /**
      * @var Logger
@@ -28,20 +28,19 @@ class AriPassThroughMessageHandler implements MessageHandlerInterface
     private $logger;
 
     /**
-     * @var AriAMQPPublisher
+     * @var AMQPPublisher
      */
     private $amqpPublisher;
 
 
     /**
-     * AriPassThroughMessageHandler constructor.
-     *
-     * @param array $amqpSettings
+     * MessageHandler constructor.
+     * @param string $appName
      */
-    function __construct(array $amqpSettings)
+    function __construct(string $appName)
     {
         $this->logger = initLogger(getShortClassName($this));
-        $this->amqpPublisher = new AriAMQPPublisher($amqpSettings);
+        $this->amqpPublisher = new AMQPPublisher(['appName' => $appName]);
     }
 
 
@@ -63,7 +62,7 @@ class AriPassThroughMessageHandler implements MessageHandlerInterface
 
     public function onBinary(string $data, AbstractConnection $connection)
     {
-        // TODO: For a download e.g.
+        // TODO: For a download. Is not necessary here!
     }
 
     public function onDisconnect(AbstractConnection $connection)

@@ -35,7 +35,7 @@ function getAsteriskDefaultSettings()
     return [
         'host' => 'localhost',
         'port' => 8088,
-        'rootUrl' => '/ari',
+        'rootUri' => '/ari',
         'user' => 'asterisk',
         'password' => 'asterisk'
     ];

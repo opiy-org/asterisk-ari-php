@@ -13,11 +13,11 @@ use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 
 /**
- * Class AriAMQPPublisher
+ * Class AMQPPublisher
  *
  * @package AriStasisApp\amqp
  */
-class AriAMQPPublisher
+class AMQPPublisher
 {
     /**
      * @var \Monolog\Logger
@@ -45,7 +45,7 @@ class AriAMQPPublisher
     private $messageOptions;
 
     /**
-     * AriAMQPPublisher constructor.
+     * AMQPPublisher constructor.
      *
      * The default values are for RabbitMQ but you can choose whatever implements the AMQP protocol!
      *
@@ -53,8 +53,9 @@ class AriAMQPPublisher
      */
     function __construct(array $amqpSettings = [])
     {
-        $this->logger = initLogger(getShortClassName($this));
-        [$appName, $host, $port, $user, $password, $vhost, $exchange] = parseAMQPSettings($amqpSettings);
+        ['appName' => $appName, 'host' => $host, 'port' => $port, 'user' => $user,
+            'password' => $password, 'vhost' => $vhost, 'exchange' => $exchange] = parseAMQPSettings($amqpSettings);
+        $this->logger = initLogger(getShortClassName($this). '-' . $appName);
         $lowerAppName = strtolower($appName);
         $this->exchange = $exchange;
 
@@ -91,7 +92,7 @@ class AriAMQPPublisher
     }
 
     /**
-     * Stops the AriAMQPPublisher
+     * Stops the AMQPPublisher
      */
     function stop()
     {

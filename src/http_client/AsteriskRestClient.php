@@ -170,7 +170,6 @@ class AsteriskRestClient extends AriRestClient
      * @param string $variable
      * @param string $value
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface
-     * // TODO: Is this correctly set in the heaader? -> Documentation
      */
     function setGlobalVar(string $variable, string $value)
     {
