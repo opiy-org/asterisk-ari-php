@@ -43,7 +43,7 @@ class WebSocketClient
      * @param array $amqpSettings
      * TODO: There is still a bug, because we can see in the logs of asterisk that the application is activated twice
      */
-    function __construct(string $appName, array $webSocketSettings = [], array $amqpSettings = [])
+    function __construct(string $appName = '', array $webSocketSettings = [], array $amqpSettings = [])
     {
         $this->logger = initLogger(getShortClassName($this));
 
