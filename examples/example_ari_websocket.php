@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Lukas Stermann
  * @author Rick Barentin
@@ -10,8 +11,7 @@ use AriStasisApp\websocket_client\WebSocketClient;
 require_once '../vendor/autoload.php';
 
 
-if (!$argv[1])
-{
+if (!$argv[1]) {
     print_r("Please provide an application name as a script parameter\n");
     exit(1);
 }
@@ -44,13 +44,7 @@ $amqpSettings = [
  * or (preferably) use your favorite framework like we do to handle amqp events :) e.g. Laravel
  */
 $ariWebsocket = new WebSocketClient($appName, $webSocketSettings, $amqpSettings);
-print_r("WebSocket is initialized.\n");
+$ariWebsocket->run();
+print_r('Success. Events will be provided to AMQP with '
+    . "an own queue for the stasis application '{$appName}'.\n");
 
-try {
-    $ariWebsocket->run();
-    print_r("Events will be provided to AMQP with an own queue for every stasis application.\n");
-}
-catch (Exception $e) {
-    print_r( "Exception occurred: {$e->getMessage()}\n");
-    exit(1);
-}

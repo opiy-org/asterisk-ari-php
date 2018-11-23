@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Lukas Stermann
  * @author Rick Barentin
@@ -16,10 +17,8 @@ require_once '../vendor/autoload.php';
  * Open two terminals and start
  * 'php example_ari_websocket ExampleStasisApp'
  * 'php example_ari_websocket AnotherStasisApp'
- * You cannot break anything while writing your own stasis app and do whatever you like.
- *
  */
-// Start your http clients so it is easy to talk to ARI from your application.
+// Start your event http client so it is easy to talk to ARI from your application.
 $events = new EventsRestClient();
 $events->userEvent('customEventExample', 'ExampleStasisApp');
 $events->userEvent('customEventAnother', 'AnotherStasisApp');

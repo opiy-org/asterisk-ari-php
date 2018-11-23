@@ -70,11 +70,15 @@ class WebSocketClient
 
     /**
      * Subscribe to the WebSocket of your Asterisk instance
-     *
-     * @throws \Exception
      */
     function run()
     {
-        $this->webSocketClient->start(new MessageHandler(new AMQPPublisher($this->amqpSettings)));
+        try {
+            $this->webSocketClient->start(new MessageHandler(new AMQPPublisher($this->amqpSettings)));
+        }
+        catch (\Exception $e) {
+            $this->logger->error("{$e->getMessage()}");
+            exit(1);
+        }
     }
 }

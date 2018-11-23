@@ -49,7 +49,6 @@ function getAsteriskDefaultSettings()
 function parseAMQPSettings(array $amqpSettings)
 {
     return array_merge([
-        'appName' => '',
         'host' => 'localhost',
         'port' => 5672,
         'user' => 'guest',
