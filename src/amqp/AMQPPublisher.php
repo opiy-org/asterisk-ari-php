@@ -54,11 +54,12 @@ class AMQPPublisher
      *
      * The default values are for RabbitMQ but you can choose whatever implements the AMQP protocol!
      *
+     * @param string $appName
      * @param array $amqpSettings
      */
-    function __construct(array $amqpSettings = [])
+    function __construct(string $appName, array $amqpSettings = [])
     {
-        ['appName' => $appName, 'host' => $host, 'port' => $port, 'user' => $user,
+        ['host' => $host, 'port' => $port, 'user' => $user,
             'password' => $password, 'vhost' => $vhost, 'exchange' => $exchange] = parseAMQPSettings($amqpSettings);
         $nr = 0;
         $this->logger = initLogger(getShortClassName($this). '-' . $appName);
@@ -90,7 +91,7 @@ class AMQPPublisher
      * Publish message to AMQP
      *
      * @param string $body should be a json in a string format
-     **/
+     */
     function publish(string $body)
     {
         $this->logger->debug("Preparing to send data: {$body}");

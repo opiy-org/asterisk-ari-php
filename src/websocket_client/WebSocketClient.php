@@ -9,7 +9,7 @@
 namespace AriStasisApp\websocket_client;
 
 use AriStasisApp\amqp\AMQPPublisher;
-use function AriStasisApp\{getShortClassName, initLogger, parseAMQPSettings, parseWebSocketSettings};
+use function AriStasisApp\{getShortClassName, initLogger, parseWebSocketSettings};
 use Monolog\Logger;
 
 /**
@@ -30,10 +30,11 @@ class WebSocketClient
      */
     private $webSocketClient;
 
+
     /**
-     * @var array
+     * @var MessageHandler
      */
-    private $amqpSettings;
+    private $messageHandler;
 
     /**
      * WebSocketClient constructor.
@@ -41,23 +42,20 @@ class WebSocketClient
      * @param string $appName
      * @param array $webSocketSettings
      * @param array $amqpSettings
+     *
      * TODO: There is still a bug, because we can see in the logs of asterisk that the application is activated twice
+     *
      */
     function __construct(string $appName = '', array $webSocketSettings = [], array $amqpSettings = [])
     {
         $this->logger = initLogger(getShortClassName($this));
-
-        // Initialize the AMQPPublisher
-        $amqpSettings = array_merge($amqpSettings, ['appName' => $appName]);
-        $this->amqpSettings = parseAMQPSettings($amqpSettings);
+        $amqpPublisher = new AMQPPublisher($appName, $amqpSettings);
+        $this->messageHandler = new MessageHandler($amqpPublisher);
 
         // Initialize the WebSocket
-        $webSocketSettings = array_merge($webSocketSettings, ['appName' => $appName]);
         $webSocketSettings = parseWebSocketSettings($webSocketSettings);
-        ['appName' => $appName, 'wssEnabled' => $wssEnabled,
-            'host' => $host, 'port' => $port, 'rootUri' => $rootUri,
-            'user' => $user, 'password' => $password
-        ] = $webSocketSettings;
+        ['wssEnabled' => $wssEnabled, 'host' => $host, 'port' => $port,
+            'rootUri' => $rootUri, 'user' => $user, 'password' => $password] = $webSocketSettings;
         $wsType = $wssEnabled ? 'wss' : 'ws';
         $wsUrl = "{$wsType}://{$host}:{$port}{$rootUri}";
 
@@ -74,7 +72,7 @@ class WebSocketClient
     function run()
     {
         try {
-            $this->webSocketClient->start(new MessageHandler(new AMQPPublisher($this->amqpSettings)));
+            $this->webSocketClient->start($this->messageHandler);
         }
         catch (\Exception $e) {
             $this->logger->error($e->getMessage());
