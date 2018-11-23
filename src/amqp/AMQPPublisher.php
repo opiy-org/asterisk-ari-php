@@ -57,7 +57,7 @@ class AMQPPublisher
      * @param string $appName
      * @param array $amqpSettings
      */
-    function __construct(string $appName, array $amqpSettings = [])
+    function __construct(string $appName = '', array $amqpSettings = [])
     {
         ['host' => $host, 'port' => $port, 'user' => $user,
             'password' => $password, 'vhost' => $vhost, 'exchange' => $exchange] = parseAMQPSettings($amqpSettings);
