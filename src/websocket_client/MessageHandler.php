@@ -35,12 +35,12 @@ class MessageHandler implements MessageHandlerInterface
 
     /**
      * MessageHandler constructor.
-     * @param string $appName
+     * @param AMQPPublisher $amqpPublisher
      */
-    function __construct(string $appName)
+    function __construct(AMQPPublisher $amqpPublisher)
     {
         $this->logger = initLogger(getShortClassName($this));
-        $this->amqpPublisher = new AMQPPublisher(['appName' => $appName]);
+        $this->amqpPublisher = $amqpPublisher;
     }
 
 

@@ -8,7 +8,8 @@
 
 namespace AriStasisApp\websocket_client;
 
-use function AriStasisApp\{getShortClassName, initLogger, parseAriWebSocketSettings};
+use AriStasisApp\amqp\AMQPPublisher;
+use function AriStasisApp\{getShortClassName, initLogger, parseAMQPSettings, parseWebSocketSettings};
 use Monolog\Logger;
 
 /**
@@ -26,24 +27,46 @@ class WebSocketClient
     private $logger;
 
     /**
-     * @var array
-     */
-    private $webSocketSettings;
-
-    /**
      * @var WebSocketClient
      */
     private $webSocketClient;
 
     /**
+     * @var array
+     */
+    private $amqpSettings;
+
+    /**
      * WebSocketClient constructor.
      *
+     * @param string $appName
      * @param array $webSocketSettings
+     * @param array $amqpSettings
+     * TODO: There is still a bug, because we can see in the logs of asterisk that the application is activated twice...
      */
-    function __construct(array $webSocketSettings = [])
+    function __construct(string $appName, array $webSocketSettings = [], array $amqpSettings = [])
     {
-        $this->webSocketSettings = parseAriWebSocketSettings($webSocketSettings);
         $this->logger = initLogger(getShortClassName($this));
+
+        // Initialize the AMQPPublisher
+        $amqpSettings = array_merge($amqpSettings, ['appName' => $appName]);
+        $this->amqpSettings = parseAMQPSettings($amqpSettings);
+
+        // Initialize the WebSocket
+        $webSocketSettings = array_merge($webSocketSettings, ['appName' => $appName]);
+        $webSocketSettings = parseWebSocketSettings($webSocketSettings);
+        ['appName' => $appName, 'wssEnabled' => $wssEnabled,
+            'host' => $host, 'port' => $port, 'rootUri' => $rootUri,
+            'user' => $user, 'password' => $password
+        ] = $webSocketSettings;
+        $wsType = $wssEnabled ? 'wss' : 'ws';
+        $wsUrl = "{$wsType}://{$host}:{$port}{$rootUri}";
+
+        $wsQuerySpecificApp = "/events?api_key={$user}:{$password}&app={$appName}";
+        $wsQuery = ($appName === '') ? "{$wsQuerySpecificApp}&subscribeAll=true" : $wsQuerySpecificApp;
+        $uri = "{$wsUrl}{$wsQuery}";
+        $this->logger->debug("URI to asterisk: '{$uri}'");
+        $this->webSocketClient = new \Nekland\Woketo\Client\WebSocketClient($uri);
     }
 
     /**
@@ -51,20 +74,8 @@ class WebSocketClient
      *
      * @throws \Exception
      */
-    function publishWithAMQP()
+    function run()
     {
-        ['appName' => $appName, 'wssEnabled' => $wssEnabled,
-            'host' => $host, 'port' => $port, 'rootUri' => $rootUri,
-            'user' => $user, 'password' => $password
-        ] = $this->webSocketSettings;
-        $wsType = $wssEnabled ? 'wss' : 'ws';
-        $wsUrl = "{$wsType}://{$host}:{$port}{$rootUri}";
-
-        $wsQuerySpecificApp = "/events?api_key={$user}:{$password}&app={$appName}";
-        $wsQuery = empty($stasisAppName) ? $wsQuerySpecificApp . "&subscribeAll=true" : $wsQuerySpecificApp;
-        $uri = "{$wsUrl}{$wsQuery}";
-        $this->webSocketClient = new \Nekland\Woketo\Client\WebSocketClient($uri);
-        $this->webSocketClient->start(new MessageHandler($appName));
-
+        $this->webSocketClient->start(new MessageHandler(new AMQPPublisher($this->amqpSettings)));
     }
 }

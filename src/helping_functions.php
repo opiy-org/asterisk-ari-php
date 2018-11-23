@@ -75,7 +75,7 @@ function parseAriSettings(array $ariSettings)
  * @param array $webSocketSettings
  * @return array
  */
-function parseAriWebSocketSettings(array $webSocketSettings)
+function parseWebSocketSettings(array $webSocketSettings)
 {
     return array_merge(
         array_merge(['appName' => '', 'wssEnabled' => false], getAsteriskDefaultSettings()), $webSocketSettings);

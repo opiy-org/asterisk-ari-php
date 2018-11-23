@@ -45,6 +45,11 @@ class AMQPPublisher
     private $messageOptions;
 
     /**
+     * @var string
+     */
+    private $lowerAppName;
+
+    /**
      * AMQPPublisher constructor.
      *
      * The default values are for RabbitMQ but you can choose whatever implements the AMQP protocol!
@@ -55,28 +60,30 @@ class AMQPPublisher
     {
         ['appName' => $appName, 'host' => $host, 'port' => $port, 'user' => $user,
             'password' => $password, 'vhost' => $vhost, 'exchange' => $exchange] = parseAMQPSettings($amqpSettings);
+        $nr = 0;
         $this->logger = initLogger(getShortClassName($this). '-' . $appName);
         $lowerAppName = strtolower($appName);
         $this->exchange = $exchange;
 
-        if (empty($lowerAppName))
+        if ($lowerAppName === '')
         {
             $lowerAppName = 'all-stasis-apps';
         }
-        $queue = 'from-' . $lowerAppName . '-queue';
+        $this->lowerAppName = $lowerAppName;
+        $queue = "from-{$lowerAppName}-queue";
 
         $this->messageOptions =
             ['content_type' => 'application/json', 'delivery_mode' => AMQPMessage::DELIVERY_MODE_PERSISTENT];
-        $this->logger->info("Connecting to AMQP server");
-        // TODO: Possibility to add multiple hosts?! Think about the architecture here
+        $nr = $nr + 1;
+        $this->logger->info("Connecting to AMQP server {$nr}");
         $this->connection = new AMQPStreamConnection($host, $port, $user, $password, $vhost);
         $this->channel = $this->connection->channel();
-        $this->logger->info("Declaring Queue: {$queue}");
-        $this->channel->queue_declare($queue, false, true, false, false);
-        $this->logger->info("Declaring Exchanger: {$exchange}");
+        $this->logger->info("Declaring Exchanger: '{$exchange}'");
         $this->channel->exchange_declare($exchange, 'direct', false, true, false);
-        $this->logger->info("Binding Queue: {$queue}");
-        $this->channel->queue_bind($queue, $exchange);
+        $this->logger->info("Declaring Queue: '{$queue}'");
+        $this->channel->queue_declare($queue, false, true, false, false);
+        $this->logger->info("Binding Queue: '{$queue}'");
+        $this->channel->queue_bind($queue, $exchange, $lowerAppName);
     }
 
     /**
@@ -87,7 +94,8 @@ class AMQPPublisher
     function publish(string $body)
     {
         $this->logger->debug("Preparing to send data: {$body}");
-        $this->channel->basic_publish(new AMQPMessage($body, $this->messageOptions), $this->exchange);
+        $this->channel->basic_publish(new AMQPMessage($body, $this->messageOptions),
+            $this->exchange, $this->lowerAppName);
         $this->logger->debug('Message successfully published to AMQP exchange');
     }
 
