@@ -70,7 +70,7 @@ class AMQPPublisher
             $lowerAppName = 'all-stasis-apps';
         }
         $this->lowerAppName = $lowerAppName;
-        $queue = "from-{$lowerAppName}-queue";
+        $queue = $lowerAppName;
 
         $this->messageOptions =
             ['content_type' => 'application/json', 'delivery_mode' => AMQPMessage::DELIVERY_MODE_PERSISTENT];

@@ -77,7 +77,7 @@ class WebSocketClient
             $this->webSocketClient->start(new MessageHandler(new AMQPPublisher($this->amqpSettings)));
         }
         catch (\Exception $e) {
-            $this->logger->error("{$e->getMessage()}");
+            $this->logger->error($e->getMessage());
             exit(1);
         }
     }

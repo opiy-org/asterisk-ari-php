@@ -40,11 +40,11 @@ $amqpSettings = [
 
 /**
  * The asterisk events will be received by a web socket client and then published to an ampq server (e.g RabbitMQ).
- * Implement your own consumers for the queues (name pattern is 'from-yourapplicationname-queue')
+ * Implement your own consumers for the queues (name pattern is 'yourapplicationname')
  * or (preferably) use your favorite framework like we do to handle amqp events :) e.g. Laravel
  */
-$ariWebsocket = new WebSocketClient($appName, $webSocketSettings, $amqpSettings);
-$ariWebsocket->run();
+$ariWebSocket = new WebSocketClient($appName, $webSocketSettings, $amqpSettings);
+$ariWebSocket->run();
 print_r('Success. Events will be provided to AMQP with '
     . "an own queue for the stasis application '{$appName}'.\n");
 
