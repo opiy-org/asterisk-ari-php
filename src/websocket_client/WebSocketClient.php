@@ -17,7 +17,6 @@ use Monolog\Logger;
  *
  * @package AriStasisApp\ariclients
  *
- * TODO: Also create a new Class for RabbitMQ pass through events (one, many or all applications)
  */
 class WebSocketClient
 {
@@ -42,7 +41,7 @@ class WebSocketClient
      * @param string $appName
      * @param array $webSocketSettings
      * @param array $amqpSettings
-     * TODO: There is still a bug, because we can see in the logs of asterisk that the application is activated twice...
+     * TODO: There is still a bug, because we can see in the logs of asterisk that the application is activated twice
      */
     function __construct(string $appName, array $webSocketSettings = [], array $amqpSettings = [])
     {
