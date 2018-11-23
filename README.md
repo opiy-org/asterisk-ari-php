@@ -37,6 +37,8 @@ We use docker containers for the following but you of course don't have to do th
     
 - Asterisk (either your own container or one from the official repository)
 
+- Supervisor (will manage your WebSockets in the background)
+
 #### 3. Composer
 Make sure you run `composer install` in this directory before you use the library. You might run into troubles with 
 missing php extensions. Simply install them with e.g. `apt install php7.2-mbstring` (may differ depending on your 
