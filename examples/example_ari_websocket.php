@@ -15,9 +15,9 @@ use AriStasisApp\websocket_client\WebSocketClient;
 require_once '../vendor/autoload.php';
 
 
-if (!$argv[1]) {
+if (!isset($argv[1])) {
     print_r("Please provide an application name as a script parameter.\n"
-        . "It can also be an empty string, to listen for all events from your asterisk.\n");
+        . "It can also be an empty string, forcing your WebSocket to listen for all events from your asterisk.\n");
     exit(1);
 }
 else {

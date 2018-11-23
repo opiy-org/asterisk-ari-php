@@ -4,21 +4,29 @@
  * @author Lukas Stermann
  * @author Rick Barentin
  * @copyright ng-voice GmbH (2018)
+ *
+ * Example for usage in your application.
+ *
+ * TODO: READ FIRST!
+ * Open two terminals and start
+ * 'php example_ari_websocket.php ExampleStasisApp'
+ * 'php example_ari_websocket.php AnotherStasisApp'
  */
 
+use AriStasisApp\http_client\AsteriskRestClient;
 use AriStasisApp\http_client\EventsRestClient;
 
 require_once '../vendor/autoload.php';
 
-/**
- * Example for a usage in your application.
- *
- * READ FIRST:
- * Open two terminals and start
- * 'php example_ari_websocket ExampleStasisApp'
- * 'php example_ari_websocket AnotherStasisApp'
+// E.g. get your asterisk settings (This will not trigger stasis app events!)
+$asterisk = new AsteriskRestClient();
+$asteriskInfo = $asterisk->getInfo();
+print_r($asteriskInfo ."\n", true);
+
+/*
+ * This ARI client can generate custom user events for specific applications. Nice and simple to test your setup :)
+ * The events will be published to your AMQP server.
  */
-// Start your event http client so it is easy to talk to ARI from your application.
 $events = new EventsRestClient();
 $events->userEvent('customEventExample', 'ExampleStasisApp');
 $events->userEvent('customEventAnother', 'AnotherStasisApp');

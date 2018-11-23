@@ -8,8 +8,8 @@
 
 namespace AriStasisApp\websocket_client;
 
-use AriStasisApp\amqp\AMQPPublisher;
 use function AriStasisApp\{getShortClassName, initLogger, parseWebSocketSettings};
+use AriStasisApp\amqp\AMQPPublisher;
 use Monolog\Logger;
 
 /**
