@@ -1,6 +1,6 @@
 <?php
 
-use AriStasisApp\Tests\amqp\AriAMQPPublisherTest;
+use AriStasisApp\Tests\amqp\AMQPPublisherTest;
 use SebastianBergmann\CodeCoverage\CodeCoverage;
 
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -11,7 +11,7 @@ $coverage->filter()->addDirectoryToWhitelist(__DIR__ . '/../src');
 
 
 // TODO: Write the tests.
-$coverage->start(new AriAMQPPublisherTest());
+$coverage->start(new AMQPPublisherTest());
 
 // ...
 

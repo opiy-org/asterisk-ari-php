@@ -9,11 +9,11 @@ use PHPUnit\Framework\TestCase;
 
 
 /**
- * Class AriAMQPPublisherTest
+ * Class AMQPPublisherTest
  *
  * @package AriStasisApp\Tests\amqp
  */
-final class AriAMQPPublisherTest extends TestCase
+final class AMQPPublisherTest extends TestCase
 {
     public function testCreateInstance(): void
     {
