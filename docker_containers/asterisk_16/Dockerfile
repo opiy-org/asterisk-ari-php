@@ -36,11 +36,11 @@ COPY ari.conf /etc/asterisk/
 COPY http.conf /etc/asterisk/
 COPY docker-entrypoint.sh /tmp
 WORKDIR /tmp
-# TODO: Can we do better? Is there any way to run the container properly in the background?
 RUN chmod +x docker-entrypoint.sh
 
 # Exposing the default ARI HTTP Port
 EXPOSE 8088
 
 WORKDIR /etc/asterisk
+# TODO: Can we do better? Is there any way to run the container properly in the background without having to run bash?
 ENTRYPOINT /tmp/docker-entrypoint.sh

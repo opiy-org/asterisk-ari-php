@@ -21,7 +21,6 @@ require_once '../vendor/autoload.php';
 // E.g. get your asterisk settings (This will not trigger stasis app events!)
 $asterisk = new AsteriskRestClient();
 $asteriskInfo = $asterisk->getInfo();
-print_r($asteriskInfo ."\n", true);
 
 /*
  * This ARI client can generate custom user events for specific applications. Nice and simple to test your setup :)
