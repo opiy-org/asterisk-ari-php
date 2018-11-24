@@ -31,11 +31,18 @@ You have to set up http.conf and ari.conf on your asterisk instance first.
 
 We use docker containers for the following but you of course don't have to do that.
 
+- MySql 
+    
+    - docker run --name some-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=lumen -d mysql
+
 - RabbitMQ (recommended with the RabbitMQ management interface for better monitoring)
 
     - docker run -d -p 15672:15672 -p 5672:5672 --hostname my-rabbit --name some-rabbit rabbitmq:3-management
     
-- Asterisk (either your own container or one from the official repository)
+- Asterisk (build your own container from tests/docker_containers/asterisk_16) with
+
+    - docker build -t asterisk:16.0.1 .
+    - docker run -t -d --name some-asterisk -p 8088:8088 asterisk:16.0.1
 
 - Supervisor (will manage your WebSockets in the background)
 
