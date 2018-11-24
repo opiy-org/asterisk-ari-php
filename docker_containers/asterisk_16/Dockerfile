@@ -1,6 +1,10 @@
 FROM debian:9.6
-MAINTAINER Lukas Stermann <lukas@ng-voice.com>
+LABEL maintainer="Lukas Stermann <lukas@ng-voice.com>"
+LABEL Description="This is an Asterisk 16 image, configured to work with ARI"
+LABEL Vendor="ng-voice"
+LABEL Version="16.0.1"
 
+# Make debian frontend noninteractive, so we don't get errors while building
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 WORKDIR /tmp
 
@@ -25,8 +29,8 @@ RUN make install
 # Install sample asterisk conf files
 RUN make samples
 # Installs an initscript that starts asterisk when starting the server and monitors it.
-# This script starts Asterisk when your server starts, will monitor the Asterisk process in case anything bad happens
-# to it, and can be used to stop or restart Asterisk as well
+# This script starts Asterisk when your server starts, will monitor the Asterisk process
+# in case anything bad happens to it, and can be used to stop or restart Asterisk as well
 RUN make config
 #Smarter and compiled logs in asterisk
 RUN make install-logrotate

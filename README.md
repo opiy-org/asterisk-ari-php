@@ -119,6 +119,8 @@ of optimistic database usage).
 - Restrict origin of ARI to localhost.
   
   - Add this to 'origin' header in AriWebSocketClient
+  
+  - Restrict origin of requests to the asterisk and WebSocketClient containers in a cluster.
  
 [RabbitMQ]
 
