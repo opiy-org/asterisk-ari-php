@@ -43,6 +43,7 @@ RUN make install-logrotate
 COPY ari.conf /etc/asterisk/
 COPY http.conf /etc/asterisk/
 COPY modules.conf /etc/asterisk/
+COPY pjsip.conf /etc/asterisk/
 COPY docker-entrypoint.sh /tmp
 WORKDIR /tmp
 RUN chmod +x docker-entrypoint.sh
