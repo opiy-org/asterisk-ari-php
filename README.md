@@ -31,9 +31,9 @@ You have to set up http.conf and ari.conf on your asterisk instance first.
 
 We use docker containers for the following but you of course don't have to do that.
 
-- MySql 
+- MySql (own docker container build)
     
-    - docker run --name some-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=lumen -d mysql
+    - docker run --name some-mysql -p 3306:3306 -d mysql-lumen
 
 - RabbitMQ (recommended with the RabbitMQ management interface for better monitoring)
 
