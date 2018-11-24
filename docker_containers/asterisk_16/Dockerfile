@@ -13,7 +13,7 @@ RUN apt-get install apt-utils -y
 RUN apt-get update
 RUN apt-get upgrade
 RUN apt-get install wget -y
-# Get Asterisk package. Reconfigure this for newer versions!
+
 RUN wget http://downloads.asterisk.org/pub/telephony/asterisk/asterisk-16.0.1.tar.gz
 RUN tar -zxvf asterisk-16.0.1.tar.gz && rm asterisk-16.0.1.tar.gz
 
@@ -21,7 +21,11 @@ WORKDIR /tmp/asterisk-16.0.1/contrib/scripts
 RUN echo 'Y' | ./install_prereq test
 RUN echo 'Y' | ./install_prereq install
 RUN echo 'Y' | ./install_prereq install-unpackaged
+# Should be run for self signed certificate (e.g. more secure WebRTC for browsers)
+# https://wiki.asterisk.org/wiki/display/AST/Configuring+Asterisk+for+WebRTC+Clients
+#RUN echo 'Y' | ./ast_tls_cert
 
+# Asterisk modifications to use WebRTC
 WORKDIR /tmp/asterisk-16.0.1
 RUN ./configure --with-jansson-bundled
 RUN make
@@ -38,6 +42,7 @@ RUN make install-logrotate
 # Default configurations are copied into the container
 COPY ari.conf /etc/asterisk/
 COPY http.conf /etc/asterisk/
+COPY modules.conf /etc/asterisk/
 COPY docker-entrypoint.sh /tmp
 WORKDIR /tmp
 RUN chmod +x docker-entrypoint.sh
