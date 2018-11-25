@@ -62,7 +62,7 @@ class AMQPPublisher
         ['host' => $host, 'port' => $port, 'user' => $user,
             'password' => $password, 'vhost' => $vhost, 'exchange' => $exchange] = parseAMQPSettings($amqpSettings);
         $nr = 0;
-        $this->logger = initLogger(getShortClassName($this). '-' . $appName);
+        $this->logger = initLogger(getShortClassName($this). "-{$appName}");
         $lowerAppName = strtolower($appName);
         $this->exchange = $exchange;
 

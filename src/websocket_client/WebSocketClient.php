@@ -48,7 +48,7 @@ class WebSocketClient
      */
     function __construct(string $appName = '', array $webSocketSettings = [], array $amqpSettings = [])
     {
-        $this->logger = initLogger(getShortClassName($this));
+        $this->logger = initLogger(getShortClassName($this) . "-{$appName}");
         $amqpPublisher = new AMQPPublisher($appName, $amqpSettings);
         $this->messageHandler = new MessageHandler($amqpPublisher);
 
