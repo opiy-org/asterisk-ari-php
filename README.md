@@ -60,9 +60,9 @@ We only implemented one consumer. Most likely you will use a framework (e.g. we 
 for your wrapping asterisk application that lets you work with consumers waaaaay more easy.
 Great for microservices!
 
-#### Example
+## Example
 
-Start a WebSocketClient process (take care of it and make healthchecks!) and pass the events into a AMQP server.
+Starts a WebSocketClient process and publishes events into an AMQP server.
 ```php
 <?php
 
@@ -103,7 +103,7 @@ $ariWebSocket->run();
 
 ```
 
-Simple ARI Request handling
+Simple ARI Request to send a 
 ```php
 <?php
 
