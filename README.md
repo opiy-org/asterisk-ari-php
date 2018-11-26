@@ -1,31 +1,22 @@
-# Asterisk Ari AMQP Library
+# Asterisk RESTful Interface AMQP Library
 
-Inspired by the phpari library. Mainly refactored it using non-deprecated libraries.
+An ARI library to use Asterisk in a modern microservice architecture. Publishing events to your favourite AMQP server.
 
-`Tested and implemented for Asterisk 16!` 
+####`Tested and implemented for Asterisk 16` 
 
 ## Setup
-You should follow these installation steps: 
-#### 1. Asterisk
-You have to set up http.conf and ari.conf on your asterisk instance first.
 
-[http.conf]
+#### Asterisk
+You will have to start a running asterisk instance first and configure it to use it's light http server (http.conf) and
+ARI (ari.conf). The official Asterisk documentation shows you how to configure http.conf and ari.conf
+in order to use ARI.
 
-- You have to enable the http server here.
+!!PREFERABLY USE THE PROVIDED DOCKERFILE TO COMPILE YOUR OWN ASTERISK CONTAINER!!
 
-- Copy bindaddr and bindport to the asterisk.ini in this library
+    - docker build -t asterisk:16.0.1 .
+    - docker run -t -d --name some-asterisk -p 8088:8088 asterisk:16.0.1
 
-[ari.conf]
-
-- Enable the ARI here -> "enable=yes"
-
-- Please make sure you enable the pretty human readable format for the ARI events -> "pretty=yes"
-
-- Configure a user, password
-
-- Copy \[user] and bindport to the asterisk.ini in this library
-
-#### 2. Other dependencies
+#### Other dependencies
 
 - php7.2
 
@@ -34,8 +25,7 @@ We use docker containers for the following but you of course don't have to do th
 - MySql 
     
     - docker run --name some-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql
-    
-        - Sad
+
 
 - RabbitMQ (recommended with the RabbitMQ management interface for better monitoring)
 
@@ -48,12 +38,12 @@ We use docker containers for the following but you of course don't have to do th
 
 - Supervisor (will manage your WebSockets in the background)
 
-#### 3. Composer
+##### PHP extensions
 Make sure you run `composer install` in this directory before you use the library. You might run into troubles with 
 missing php extensions. Simply install them with e.g. `apt install php7.2-mbstring` (may differ depending on your 
 underlying operating system.
 
-#### 4. Tests
+#### 3. Tests
 Before you start developing your application around your asterisk, make shure everything is up and running nicely. 
 `Run the 'execute_tests.sh' script from the /tests directory`. If you have no errors, you are ready to go!
 
@@ -68,15 +58,92 @@ in our microservice universe anyway?
 #### WebsocketClient
 Basically connects to asterisk via `GET /events` and listens for either for one, many or all stasis application events.
 
-### AMQP Publisher and Consumer
+### AMQP Publisher
 And ontop of that, thanks to the awesome people from php-amqplib, you can use whatever implements the AMQP. 
 You are not depending on RabbitMQ (although it is recommended).
 We only implemented one consumer. Most likely you will use a framework (e.g. we use Laravel)
 for your wrapping asterisk application that lets you work with consumers waaaaay more easy.
 Great for microservices!
 
-#### Examples
-An example of how to use the library is found in the examples directory.
+#### Example
+
+Start a WebSocketClient process (take care of it and make healthchecks!) and pass the events into a AMQP server.
+```php
+<?php
+
+/**
+ * @author Lukas Stermann
+ * @author Rick Barentin
+ * @copyright ng-voice GmbH (2018)
+ *
+ * The asterisk events will be received by a web socket client and then published to an ampq server (e.g RabbitMQ).
+ * Implement your own consumers for the queues (name of the queue that holds events from your stasis app is
+ * 'yourapplicationname') or (preferably) use your favorite framework like we do to handle amqp events :) e.g. Laravel
+ */
+
+use AriStasisApp\websocket_client\WebSocketClient;
+
+require_once '/vendor/autoload.php';
+
+$webSocketSettings = [
+    'wssEnabled'    => false,
+    'host'          => 'localhost',
+    'port'          => 8088,
+    'rootUri'       => '/ari',
+    'user'          => 'asterisk',
+    'password'      => 'asterisk'
+];
+
+$amqpSettings = [
+    'host'      => 'localhost',
+    'port'      => 5672,
+    'user'      => 'guest',
+    'password'  => 'guest',
+    'vhost'     => '/',
+    'exchange'  => 'asterisk'
+];
+
+$ariWebSocket = new WebSocketClient('ExampleStasisApp', $webSocketSettings, $amqpSettings);
+$ariWebSocket->run();
+
+```
+
+Simple ARI Request handling
+```php
+<?php
+
+/**
+ * @author Lukas Stermann
+ * @author Rick Barentin
+ * @copyright ng-voice GmbH (2018)
+ *
+ * Example for usage in your application.
+ */
+
+use AriStasisApp\http_client\AsteriskRestClient;
+use AriStasisApp\http_client\EventsRestClient;
+
+require_once '/vendor/autoload.php';
+
+
+// E.g. get your asterisk settings (This will not trigger stasis app events!)
+$asterisk = new AsteriskRestClient();
+$asteriskInfo = $asterisk->getInfo();
+
+/*
+ * This ARI client can generate custom user events for specific applications. Nice and simple to test your setup :)
+ * The events will be published to your AMQP server.
+ */
+$events = new EventsRestClient();
+$events->userEvent('customEventExample', 'ExampleStasisApp');
+```
+## FAQ
+Q: Why didn't you also implement consumers?!
+
+A: We are leaving out AMQP consumers on purpose because we believe that it is best practice to use this 
+library within a light microframework like e.g. Laravel/Lumen.
+They consume AMQP messages much better than we would implement it, while providing the possibility to use asterisk 
+calls in ORM context.
 
 ## Todos
 Possible TODO's if you want to contribute but don't have an own idea:
@@ -89,6 +156,8 @@ Possible TODO's if you want to contribute but don't have an own idea:
   
   - But really also the guzzle exceptions? They make code in the class that uses the AriManager really messy.
  
+- Move dependencies description here to the lumen project.
+
 [Writing a wrapping Asterisk application with Laravel]
 
 - Think of a simple turn key setup (which also includes to start and supervise the RabbitMQ workers)
@@ -142,3 +211,9 @@ lukas@ng-voice.com or rick@ng-voice.com
 [ARIClients]
 
 - Go through every single client class and compare to Documentation
+
+##Contact
+We are happy to help!
+- Lukas Stermann lukas@ng-voice.com
+
+- Rick Barentin rick@ng-voice.com
