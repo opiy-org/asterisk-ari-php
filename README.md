@@ -11,7 +11,7 @@ You will have to start a running asterisk instance first and configure it to use
 ARI (ari.conf). The official Asterisk documentation shows you how to configure http.conf and ari.conf
 in order to use ARI.
 
-!!PREFERABLY USE THE PROVIDED DOCKERFILE TO COMPILE YOUR OWN ASTERISK CONTAINER!!
+Preferably use the provided Dockerfile to compile your own asterisk container.
 
     - docker build -t asterisk:16.0.1 .
     - docker run -t -d --name some-asterisk -p 8088:8088 asterisk:16.0.1
