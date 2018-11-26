@@ -13,12 +13,14 @@ in order to use ARI.
 
 Preferably use the provided Dockerfile to compile your own asterisk container.
 
-    - docker build -t asterisk:16.0.1 .
-    - docker run -t -d --name some-asterisk -p 8088:8088 asterisk:16.0.1
+    docker build -t asterisk:16.0.1 .
+    docker run -t -d --name some-asterisk -p 8088:8088 asterisk:16.0.1
+
+#### RabbitMQ
+    docker run -d -p 15672:15672 -p 5672:5672 --hostname my-rabbit --name some-rabbit rabbitmq:3-management
+
 
 #### Other dependencies
-
-- php7.2
 
 We use docker containers for the following but you of course don't have to do that.
 
@@ -30,13 +32,6 @@ We use docker containers for the following but you of course don't have to do th
 - RabbitMQ (recommended with the RabbitMQ management interface for better monitoring)
 
     - docker run -d -p 15672:15672 -p 5672:5672 --hostname my-rabbit --name some-rabbit rabbitmq:3-management
-    
-- Asterisk (build your own container from tests/docker_containers/asterisk_16) with
-
-    - docker build -t asterisk:16.0.1 .
-    - docker run -t -d --name some-asterisk -p 8088:8088 asterisk:16.0.1
-
-- Supervisor (will manage your WebSockets in the background)
 
 ##### PHP extensions
 Make sure you run `composer install` in this directory before you use the library. You might run into troubles with 
@@ -48,17 +43,17 @@ Before you start developing your application around your asterisk, make shure ev
 `Run the 'execute_tests.sh' script from the /tests directory`. If you have no errors, you are ready to go!
 
 ## Features
-#### ARI HTTP Wrapper
+#### ARI Clients
 To build your own stasis applications, talk to your asterisk instance by using the given http clients.
 That's about it!
 We believe that today microservices can easily scale with your needs. And so should your asterisk instances.
 So of couse it is possible to use the asterisk rest api directly. But why, if we communicate through amqp
 in our microservice universe anyway?
 
-#### WebsocketClient
+#### ARI WebsocketClient
 Basically connects to asterisk via `GET /events` and listens for either for one, many or all stasis application events.
 
-### AMQP Publisher
+### AMQP Publisher for Asterisk events
 And ontop of that, thanks to the awesome people from php-amqplib, you can use whatever implements the AMQP. 
 You are not depending on RabbitMQ (although it is recommended).
 We only implemented one consumer. Most likely you will use a framework (e.g. we use Laravel)
