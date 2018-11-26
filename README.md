@@ -203,17 +203,17 @@ of optimistic database usage).
   
   - Have a deeper thought about bridging via ARI to another asterisk (in a cluster)
 
-## Contributing
-Feel free to send us a message! :) We'd love to hear from you and get to know your applications and use cases.
-
-lukas@ng-voice.com or rick@ng-voice.com
-
 [ARIClients]
 
 - Go through every single client class and compare to Documentation
 
+
 ##Contact
-We are happy to help!
+We are happy to help! Feel free to send us a message! :) 
+We'd also love to hear about your application ideas and use cases.
+
 - Lukas Stermann lukas@ng-voice.com
 
 - Rick Barentin rick@ng-voice.com
+
+##Licence
