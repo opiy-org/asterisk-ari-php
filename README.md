@@ -140,46 +140,28 @@ library within a light microframework like e.g. Laravel/Lumen.
 They consume AMQP messages much better than we would implement it, while providing the possibility to use asterisk 
 calls in ORM context.
 
-## Todos
+## Contribute
+We are happy to hear about your improvement ideas.
+
 Possible TODO's if you want to contribute but don't have an own idea:
 
 [GENERAL]
 
 - We need a LICENCE! Also see if the used libraries are free to integrate.
+   
 
-- Error logs should really be exceptions so the person using the library has to handle them.
-  
-  - But really also the guzzle exceptions? They make code in the class that uses the AriManager really messy.
- 
-- Move dependencies description here to the lumen project.
-
-[Writing a wrapping Asterisk application with Laravel]
-
-- Think of a simple turn key setup (which also includes to start and supervise the RabbitMQ workers)
-  
-  - How can we automatically install stuff? Dockerfile?
-
-- PDO transactional for concurrent conference database calls (avoids two database users read/write because 
-of optimistic database usage).
-
-- Integrate Swagger for php
-
-- Integrate Laravel Nova :)
- 
-[DEVELOPEMENT]
-
-- Mockery
-
-- Pact
-
-- TESTING!!!!
- 
 [composer.json]
 
 - Rename "autoload" namespace from "AriStasisApp" to something better
 
 - Move test frameworks to require-dev
  
+
+
+[ARIClients]
+
+- Go through every single client class and compare to Documentation
+
 [Asterisk]
 
 - Restrict origin of ARI to localhost.
@@ -187,20 +169,14 @@ of optimistic database usage).
   - Add this to 'origin' header in AriWebSocketClient
   
   - Restrict origin of requests to the asterisk and WebSocketClient containers in a cluster.
- 
-[RabbitMQ]
 
-- Have a deeper look at the RabbitMQ conventions and design of queues (names, topic, spreading messsages etc.)
+[DEVELOPEMENT]
 
-- Erlang Cookie should be providable! Start a container with the cookie and make it configurable in the library
+- Mockery
 
-- What if someone is already in a call and has to be pushed into a conference that exists elsewhere?
-  
-  - Have a deeper thought about bridging via ARI to another asterisk (in a cluster)
+- Pact
 
-[ARIClients]
-
-- Go through every single client class and compare to Documentation
+- TESTING!!!!
 
 
 ##Contact
