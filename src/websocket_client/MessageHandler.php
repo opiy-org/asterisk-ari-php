@@ -50,12 +50,12 @@ class MessageHandler implements MessageHandlerInterface
     }
 
     // TODO: Make this abstract so can extend this class?
-    // TODO: Not just listen for ANY Messages and publish them. Look at the app behind the event and push it onto
+    //   Not just listen for ANY Messages and publish them. Look at the app behind the event and push it onto
     // a specified queue
     public function onMessage(string $data, AbstractConnection $connection)
     {
         // TODO: If the message is 'StasisEnd', the connection can be closed.
-        // Or is it automatically closed after that message comes in?
+        //   Or is it automatically closed after that message comes in?
         $this->logger->debug("Received raw message from asterisk WebSocket server: {$data}");
         $this->amqpPublisher->publish($data);
     }

@@ -42,14 +42,18 @@ RUN make install-logrotate
 # Default configurations are copied into the container
 COPY ari.conf /etc/asterisk/
 COPY http.conf /etc/asterisk/
-COPY modules.conf /etc/asterisk/
-COPY pjsip.conf /etc/asterisk/
+# TODO: This two operations are not working at the moment!
+#COPY modules.conf /etc/asterisk/
+#COPY pjsip.conf /etc/asterisk/
 COPY docker-entrypoint.sh /tmp
 WORKDIR /tmp
 RUN chmod +x docker-entrypoint.sh
 
 # Exposing the default ARI HTTP Port
 EXPOSE 8088
+
+# TODO: Healthcheck doesn't work. Has to be edited.
+HEALTHCHECK CMD pidof asterisk || exit 1
 
 WORKDIR /etc/asterisk
 # TODO: Can we do better? Is there any way to run the container properly in the background without having to run bash?

@@ -44,5 +44,3 @@ $amqpSettings = [
 
 $ariWebSocket = new WebSocketClient($appName, $webSocketSettings, $amqpSettings);
 $ariWebSocket->run();
-print_r('Success. Events will be provided to AMQP with '
-    . "an own queue for the stasis application '{$appName}'.\n");
