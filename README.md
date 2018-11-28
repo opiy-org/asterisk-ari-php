@@ -1,46 +1,40 @@
-# Asterisk RESTful Interface AMQP Library
+# Asterisk RESTful Interface (ARI) Message Broker Library
 
-An ARI library to use Asterisk in a modern microservice architecture. Publishing events to your favourite AMQP server.
+Using Asterisk in a microservice architecture by publishing Asterisk-Events to your favourite AMQP server.
 
-####`Tested and implemented for Asterisk 16` 
+`Tested and implemented for Asterisk 16!`
 
-## Setup
+## Installation
+Use this library with composer and include it into your composer.json by using the terminal command
+`composer require ng-voice/arilib` ???????
 
+#### PHP extensions
+You might run into troubles with missing php extensions.
+  * mbstring
+  * json
+  
+We recommend to install them with terminal commands. \
+E.g. for Debian: `apt install php7.2-mbstring` (may differ depending on your underlying operating system. Don't forget 
+to restart your apache server with `service apache2 restart`
 #### Asterisk
-You will have to start a running asterisk instance first and configure it to use it's light http server (http.conf) and
-ARI (ari.conf). The official Asterisk documentation shows you how to configure http.conf and ari.conf
-in order to use ARI.
+You will have to start a running asterisk instance first and configure it to use it's light http server and the 
+"Asterisk RESTful Interface" (ARI). The official Asterisk documentation shows you how to configure http.conf and 
+ari.conf in order to use ARI.
 
-Preferably use the provided Dockerfile to compile your own asterisk container.
+Preferably use the provided Dockerfile in this library to compile your own asterisk container.
 
     docker build -t asterisk:16.0.1 .
     docker run -t -d --name some-asterisk -p 8088:8088 asterisk:16.0.1
 
-#### RabbitMQ
+#### AMQP Server
+Use your favourite AMQP server. We recommend RabbitMQ's official docker image:
+
     docker run -d -p 15672:15672 -p 5672:5672 --hostname my-rabbit --name some-rabbit rabbitmq:3-management
 
 
-#### Other dependencies
-
-We use docker containers for the following but you of course don't have to do that.
-
-- MySql 
-    
-    - docker run --name some-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql
-
-
-- RabbitMQ (recommended with the RabbitMQ management interface for better monitoring)
-
-    - docker run -d -p 15672:15672 -p 5672:5672 --hostname my-rabbit --name some-rabbit rabbitmq:3-management
-
-##### PHP extensions
-Make sure you run `composer install` in this directory before you use the library. You might run into troubles with 
-missing php extensions. Simply install them with e.g. `apt install php7.2-mbstring` (may differ depending on your 
-underlying operating system.
-
-#### 3. Tests
+#### Tests
 Before you start developing your application around your asterisk, make shure everything is up and running nicely. 
-`Run the 'execute_tests.sh' script from the /tests directory`. If you have no errors, you are ready to go!
+Run the `execute_tests.sh` script from the /tests directory. If everything is green, you are ready to go!
 
 ## Features
 #### ARI Clients
@@ -103,7 +97,7 @@ $ariWebSocket->run();
 
 ```
 
-Simple ARI Request to send a 
+Simple ARI request to send an event
 ```php
 <?php
 
