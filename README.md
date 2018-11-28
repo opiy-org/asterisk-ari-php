@@ -15,7 +15,8 @@ You might run into troubles with missing php extensions.
     
    - json
   
-We recommend to install them with terminal commands. \
+We recommend to install them with terminal commands.
+
 E.g. for Debian: `apt install php7.2-mbstring` (may differ depending on your underlying operating system. Don't forget 
 to restart your apache server with `service apache2 restart`
 ##### Asterisk
