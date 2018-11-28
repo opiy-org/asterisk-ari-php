@@ -9,7 +9,7 @@
     {
       "name": "Lukas Stermann",
       "email": "lukas@ng-voice.com",
-      "homepage": "https://github.com/oktavlachs"
+      "homepage": "https://ng-voice.com"
     },
     {
       "name": "Rick Barentin",
@@ -21,10 +21,10 @@
     "php": ">=7.2.11",
     "monolog/monolog": "2.x-dev",
     "guzzlehttp/guzzle": "6.3.3",
-    "php-amqplib/php-amqplib": "v2.8.0",
     "symfony/yaml": "v4.1.7",
     "nekland/woketo": "2.2.0",
-    "ext-json": "*"
+    "ext-json": "*",
+    "php-amqplib/php-amqplib": "v2.8.1"
   },
   "require-dev": {
     "phpunit/phpunit": "7.4.3",
