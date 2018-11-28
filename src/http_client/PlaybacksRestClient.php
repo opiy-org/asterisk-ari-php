@@ -1,17 +1,8 @@
 <?php
 /**
  * @author Lukas Stermann
- * @author Rick Barentin
+ * @author Rick Barenthin
  * @copyright ng-voice GmbH (2018)
- *
- * @OA\Info(
- *     title="Asterisk ARI Library",
- *     version="0.1",
- *     @OA\Contact(
- *         email="support@ng-voice.com"
- *     )
- * )
- *
  */
 
 namespace AriStasisApp\http_client;

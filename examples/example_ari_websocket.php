@@ -2,7 +2,7 @@
 
 /**
  * @author Lukas Stermann
- * @author Rick Barentin
+ * @author Rick Barenthin
  * @copyright ng-voice GmbH (2018)
  *
  * The asterisk events will be received by a web socket client and then published to an ampq server (e.g RabbitMQ).

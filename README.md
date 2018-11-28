@@ -142,7 +142,7 @@ We'd also love to hear about your application ideas and use cases.
 
 - Lukas Stermann lukas@ng-voice.com
 
-- Rick Barentin rick@ng-voice.com
+- Rick Barenthin rick@ng-voice.com
 
 ##Licence
 MIT
