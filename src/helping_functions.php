@@ -110,7 +110,7 @@ function initLogger(string $name)
 {
     $logger = new Logger($name);
 
-    $settings = Yaml::parseFile('../environment.yaml');
+    $settings = Yaml::parseFile(__DIR__ . '/../environment.yaml');
 
     try {
         $settings['app']['debugmode'] ?
