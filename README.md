@@ -2,7 +2,7 @@
 
 Using Asterisk in a microservice architecture by publishing Asterisk-Events to your favourite AMQP server.
 
-`Tested and implemented for Asterisk 16!`
+`Implemented for Asterisk 16!`
 
 ## Installation
 Use this library with composer and include it into your composer.json by using the terminal command
@@ -136,45 +136,6 @@ library within a light microframework like e.g. Laravel/Lumen.
 They consume AMQP messages much better than we would implement it, while providing the possibility to use asterisk 
 calls in ORM context.
 
-## Contribute
-We are happy to hear about your improvement ideas. Please use PSR-2 if you want to contribute.
-
-Possible TODO's if you want to contribute but don't have an own idea:
-
-[GENERAL]
-
-- We need a LICENCE! Also see if the used libraries are free to integrate.
-   
-
-[composer.json]
-
-- Rename "autoload" namespace from "AriStasisApp" to something better
-
-- Move test frameworks to require-dev
- 
-
-
-[ARIClients]
-
-- Go through every single client class and compare to Documentation
-
-[Asterisk]
-
-- Restrict origin of ARI to localhost.
-  
-  - Add this to 'origin' header in AriWebSocketClient
-  
-  - Restrict origin of requests to the asterisk and WebSocketClient containers in a cluster.
-
-[DEVELOPEMENT]
-
-- Mockery
-
-- Pact
-
-- TESTING!!!!
-
-
 ##Contact
 We are happy to help! Feel free to send us a message! :) 
 We'd also love to hear about your application ideas and use cases.
@@ -184,3 +145,35 @@ We'd also love to hear about your application ideas and use cases.
 - Rick Barentin rick@ng-voice.com
 
 ##Licence
+MIT
+
+## Contribute
+We are happy to hear about your improvement ideas. Please use PSR-2 if you want to contribute.
+
+Possible TODO's if you want to contribute but don't have an own idea:
+
+[composer.json]
+
+- Rename "autoload" namespace from "AriStasisApp" to something better 
+
+
+[ARIClients]
+
+- Go through every single client class and compare to Asterisk Documentation
+
+- Test the clients!
+
+[Asterisk]
+
+- Restrict origin of ARI to localhost.
+  
+  - Add 'origin' header in WebSocketClient requests
+  
+
+[DEVELOPEMENT]
+
+- Mockery
+
+- Pact
+
+- TESTING!!!!
