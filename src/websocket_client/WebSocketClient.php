@@ -8,9 +8,9 @@
 
 namespace AriStasisApp\websocket_client;
 
-use function AriStasisApp\{getShortClassName, initLogger, parseWebSocketSettings};
 use AriStasisApp\amqp\AMQPPublisher;
 use Monolog\Logger;
+use function AriStasisApp\{getShortClassName, initLogger, parseWebSocketSettings};
 
 /**
  * Class WebSocketClient
@@ -54,8 +54,14 @@ class WebSocketClient
 
         // Initialize the WebSocket
         $webSocketSettings = parseWebSocketSettings($webSocketSettings);
-        ['wssEnabled' => $wssEnabled, 'host' => $host, 'port' => $port,
-            'rootUri' => $rootUri, 'user' => $user, 'password' => $password] = $webSocketSettings;
+        [
+            'wssEnabled' => $wssEnabled,
+            'host' => $host,
+            'port' => $port,
+            'rootUri' => $rootUri,
+            'user' => $user,
+            'password' => $password
+        ] = $webSocketSettings;
         $wsType = $wssEnabled ? 'wss' : 'ws';
         $wsUrl = "{$wsType}://{$host}:{$port}{$rootUri}";
 
@@ -73,8 +79,7 @@ class WebSocketClient
     {
         try {
             $this->webSocketClient->start($this->messageHandler);
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             $this->logger->error($e->getMessage());
             exit(1);
         }

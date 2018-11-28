@@ -8,9 +8,9 @@
 
 namespace AriStasisApp\amqp;
 
-use function AriStasisApp\{initLogger, getShortClassName, parseAMQPSettings};
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
+use function AriStasisApp\{getShortClassName, initLogger, parseAMQPSettings};
 
 /**
  * Class AMQPPublisher
@@ -59,15 +59,20 @@ class AMQPPublisher
      */
     function __construct(string $appName = '', array $amqpSettings = [])
     {
-        ['host' => $host, 'port' => $port, 'user' => $user,
-            'password' => $password, 'vhost' => $vhost, 'exchange' => $exchange] = parseAMQPSettings($amqpSettings);
+        [
+            'host' => $host,
+            'port' => $port,
+            'user' => $user,
+            'password' => $password,
+            'vhost' => $vhost,
+            'exchange' => $exchange
+        ] = parseAMQPSettings($amqpSettings);
         $nr = 0;
-        $this->logger = initLogger(getShortClassName($this). "-{$appName}");
+        $this->logger = initLogger(getShortClassName($this) . "-{$appName}");
         $lowerAppName = strtolower($appName);
         $this->exchange = $exchange;
 
-        if ($lowerAppName === '')
-        {
+        if ($lowerAppName === '') {
             $lowerAppName = 'all-stasis-apps';
         }
         $this->lowerAppName = $lowerAppName;

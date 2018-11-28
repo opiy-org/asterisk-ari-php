@@ -8,11 +8,11 @@
 
 namespace AriStasisApp\http_client;
 
-use function AriStasisApp\{getShortClassName, initLogger, parseAriSettings};
+use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Response;
-use GuzzleHttp\Client;
 use Monolog\Logger;
+use function AriStasisApp\{getShortClassName, initLogger, parseAriSettings};
 
 /**
  * Class AriRestClient
@@ -70,75 +70,8 @@ class AriRestClient
             $response = $this->guzzleClient->request($method, $uri, ['json' => $body]);
             $this->logResponse($response, $method, $uri);
             return $response;
-        }
-        catch (GuzzleException $e) {
+        } catch (GuzzleException $e) {
             $this->logException($e, $method, $uri, [], $body);
-            return false;
-        }
-    }
-
-
-    /**
-     * @param string $uri
-     * @param array $queryParameters
-     * @param array $body
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
-     */
-    protected function postRequest(string $uri, array $queryParameters = [], array $body = [])
-    {
-        $method = 'POST';
-        $uri = $this->rootUri . $uri;
-        try {
-            $this->logRequest($method, $uri, $queryParameters, $body);
-            $response = $this->guzzleClient->request($method, $uri, ['json' => $body, 'query' => $queryParameters]);
-            $this->logResponse($response, $method, $uri);
-            return $response;
-        }
-        catch (GuzzleException $e) {
-            $this->logException($e, $method, $uri, $queryParameters, $body);
-            return false;
-        }
-    }
-
-    /**
-     * @param string $uri
-     * @param array $queryParameters
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
-     */
-    protected function getRequest(string $uri, array $queryParameters = [])
-    {
-        $method = 'GET';
-        $uri = $this->rootUri . $uri;
-        try {
-            $this->logRequest($method, $uri, $queryParameters);
-            $response = $this->guzzleClient->request($method, $uri, ['query' => $queryParameters]);
-            $this->logResponse($response, $method, $uri);
-
-            return $response;
-        }
-        catch (GuzzleException $e) {
-            $this->logException($e, $method, $uri, $queryParameters);
-            return false;
-        }
-    }
-
-    /**
-     * @param string $uri
-     * @param array $queryParameters
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
-     */
-    protected function deleteRequest(string $uri, array $queryParameters = [])
-    {
-        $method = 'DELETE';
-        $uri = $this->rootUri . $uri;
-        try {
-            $this->logRequest($method, $uri, $queryParameters);
-            $response = $this->guzzleClient->request($method, $uri, ['query' => $queryParameters]);
-            $this->logResponse($response, $method, $uri);
-            return $response;
-        }
-        catch (GuzzleException $e) {
-            $this->logException($e, $method, $uri);
             return false;
         }
     }
@@ -149,13 +82,16 @@ class AriRestClient
      * @param array $queryParameters
      * @param array $body
      */
-    private function logRequest(string $method, string $uri,
-                                  array $queryParameters = [], array $body = [])
-    {
+    private function logRequest(
+        string $method,
+        string $uri,
+        array $queryParameters = [],
+        array $body = []
+    ) {
         $queryParameters = print_r($queryParameters, true);
         $body = print_r($body, true);
         $this->logger->debug("Sending Request... Method: {$method} | URI: {$uri} | "
-                . "QueryParameters: {$queryParameters} | Body: {$body}");
+            . "QueryParameters: {$queryParameters} | Body: {$body}");
     }
 
     /**
@@ -177,14 +113,80 @@ class AriRestClient
      * @param array $queryParameters
      * @param array $body
      */
-    private function logException(\Exception $e, string $method, string $uri,
-                                  array $queryParameters = [], array $body = [])
-    {
+    private function logException(
+        \Exception $e,
+        string $method,
+        string $uri,
+        array $queryParameters = [],
+        array $body = []
+    ) {
         $queryParameters = print_r($queryParameters, true);
         $body = print_r($body, true);
         $this->logger->error("Failed Request... ResponseCode: {$e->getCode()} | "
             . "Reason: {$e->getMessage()} | Method: {$method} | URI: {$uri} | "
             . "QueryParameters: {$queryParameters} | RequestBody: {$body}"
         );
+    }
+
+    /**
+     * @param string $uri
+     * @param array $queryParameters
+     * @param array $body
+     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     */
+    protected function postRequest(string $uri, array $queryParameters = [], array $body = [])
+    {
+        $method = 'POST';
+        $uri = $this->rootUri . $uri;
+        try {
+            $this->logRequest($method, $uri, $queryParameters, $body);
+            $response = $this->guzzleClient->request($method, $uri, ['json' => $body, 'query' => $queryParameters]);
+            $this->logResponse($response, $method, $uri);
+            return $response;
+        } catch (GuzzleException $e) {
+            $this->logException($e, $method, $uri, $queryParameters, $body);
+            return false;
+        }
+    }
+
+    /**
+     * @param string $uri
+     * @param array $queryParameters
+     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     */
+    protected function getRequest(string $uri, array $queryParameters = [])
+    {
+        $method = 'GET';
+        $uri = $this->rootUri . $uri;
+        try {
+            $this->logRequest($method, $uri, $queryParameters);
+            $response = $this->guzzleClient->request($method, $uri, ['query' => $queryParameters]);
+            $this->logResponse($response, $method, $uri);
+
+            return $response;
+        } catch (GuzzleException $e) {
+            $this->logException($e, $method, $uri, $queryParameters);
+            return false;
+        }
+    }
+
+    /**
+     * @param string $uri
+     * @param array $queryParameters
+     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     */
+    protected function deleteRequest(string $uri, array $queryParameters = [])
+    {
+        $method = 'DELETE';
+        $uri = $this->rootUri . $uri;
+        try {
+            $this->logRequest($method, $uri, $queryParameters);
+            $response = $this->guzzleClient->request($method, $uri, ['query' => $queryParameters]);
+            $this->logResponse($response, $method, $uri);
+            return $response;
+        } catch (GuzzleException $e) {
+            $this->logException($e, $method, $uri);
+            return false;
+        }
     }
 }

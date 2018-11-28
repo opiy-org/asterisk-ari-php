@@ -19,7 +19,7 @@ $coverage->start(new AMQPPublisherTest());
 try {
     $coverage->stop();
 } catch (ReflectionException $exception) {
-    print_r($exception->getMessage(),true);
+    print_r($exception->getMessage(), true);
     exit(1);
 }
 

@@ -8,12 +8,12 @@
 
 namespace AriStasisApp\websocket_client;
 
-use function AriStasisApp\{getShortClassName, initLogger};
-use Monolog\Logger;
 use AriStasisApp\amqp\AMQPPublisher;
+use Monolog\Logger;
 use Nekland\Woketo\Core\AbstractConnection;
 use Nekland\Woketo\Exception\WebsocketException;
 use Nekland\Woketo\Message\MessageHandlerInterface;
+use function AriStasisApp\{getShortClassName, initLogger};
 
 /**
  * Class MessageHandler

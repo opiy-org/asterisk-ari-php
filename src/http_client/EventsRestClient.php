@@ -37,16 +37,13 @@ class EventsRestClient extends AriRestClient
         $queryParameters = ['application' => $application];
         $body = [];
 
-        if ($source !== [])
-        {
-            $queryParameters = array_merge($queryParameters,['source' => glueArrayOfStrings($source)]);
+        if ($source !== []) {
+            $queryParameters = array_merge($queryParameters, ['source' => glueArrayOfStrings($source)]);
         }
 
-        if ($variables !== [])
-        {
+        if ($variables !== []) {
             $body = ['variables' => []];
-            foreach ($variables as $key => $value)
-            {
+            foreach ($variables as $key => $value) {
                 $body['variables'] = array_merge($body['variables'], [[$key => $value]]);
             }
         }

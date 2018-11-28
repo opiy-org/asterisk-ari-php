@@ -99,6 +99,7 @@ class RecordingsRestClient extends AriRestClient
     {
         return $this->postRequest("/recordings/live/{$recordingName}/pause");
     }
+
     /**
      * @param string $recordingName
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface

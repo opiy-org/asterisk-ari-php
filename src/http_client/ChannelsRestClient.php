@@ -4,6 +4,7 @@
  * @author Rick Barentin
  * @copyright ng-voice GmbH (2018)
  */
+
 namespace AriStasisApp\http_client;
 
 use function AriStasisApp\glueArrayOfStrings;
@@ -30,7 +31,7 @@ class ChannelsRestClient extends AriRestClient
      * @param array $channelVariables
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface
      */
-    function originate(string $endpoint,array $options = [], array $channelVariables = [])
+    function originate(string $endpoint, array $options = [], array $channelVariables = [])
     {
         $body = array_merge(['endpoint' => $endpoint, 'variables' => $channelVariables], $options);
         return $this->postRequest('/channels', [], $body);

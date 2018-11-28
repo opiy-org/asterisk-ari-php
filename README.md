@@ -9,7 +9,7 @@ Use this library with composer and include it into your composer.json by using t
 `composer require ng-voice/arilib` ???????
 
 ##### PHP extensions
-You might run into troubles with missing php extensions.
+You might run into troubles with missing php extensions. The following are required:
    
    - mbstring
     
@@ -97,7 +97,6 @@ $amqpSettings = [
 
 $ariWebSocket = new WebSocketClient('ExampleStasisApp', $webSocketSettings, $amqpSettings);
 $ariWebSocket->run();
-
 ```
 
 Simple ARI request to send an event

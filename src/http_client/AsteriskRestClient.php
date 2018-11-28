@@ -42,9 +42,10 @@ class AsteriskRestClient extends AriRestClient
     function createOrUpdateObject(string $configClass, string $objectType, string $id, array $body = [])
     {
         $parsedBody = ['fields' => []];
-        if ($body === []){
-            foreach ($body as $key => $value)
+        if ($body === []) {
+            foreach ($body as $key => $value) {
                 $parsedBody['fields'] = array_merge($parsedBody['fields'], [['attribute' => $key, 'value' => $value]]);
+            }
         }
         return $this->putRequest("/asterisk/config/dynamic/{$configClass}/{$objectType}/{$id}", $parsedBody);
     }
@@ -71,10 +72,11 @@ class AsteriskRestClient extends AriRestClient
     function getInfo(array $only = [])
     {
         $only = glueArrayOfStrings($only);
-        if (!empty($only))
+        if (!empty($only)) {
             return $this->getRequest('/asterisk/info', ['only' => $only]);
-        else
+        } else {
             return $this->getRequest('/asterisk/info');
+        }
     }
 
     /**

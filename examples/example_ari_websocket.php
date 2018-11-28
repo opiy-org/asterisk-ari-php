@@ -19,27 +19,26 @@ if (!isset($argv[1])) {
     print_r("Please provide an application name as a script parameter.\n"
         . "It can also be an empty string, forcing your WebSocket to listen for all events from your asterisk.\n");
     exit(1);
-}
-else {
+} else {
     $appName = $argv[1];
 }
 
 $webSocketSettings = [
-    'wssEnabled'    => false,
-    'host'          => 'localhost',
-    'port'          => 8088,
-    'rootUri'       => '/ari',
-    'user'          => 'asterisk',
-    'password'      => 'asterisk'
+    'wssEnabled' => false,
+    'host' => 'localhost',
+    'port' => 8088,
+    'rootUri' => '/ari',
+    'user' => 'asterisk',
+    'password' => 'asterisk'
 ];
 
 $amqpSettings = [
-    'host'      => 'localhost',
-    'port'      => 5672,
-    'user'      => 'guest',
-    'password'  => 'guest',
-    'vhost'     => '/',
-    'exchange'  => 'asterisk'
+    'host' => 'localhost',
+    'port' => 5672,
+    'user' => 'guest',
+    'password' => 'guest',
+    'vhost' => '/',
+    'exchange' => 'asterisk'
 ];
 
 $ariWebSocket = new WebSocketClient($appName, $webSocketSettings, $amqpSettings);

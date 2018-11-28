@@ -4,12 +4,13 @@
  * @author Rick Barentin
  * @copyright ng-voice GmbH (2018)
  */
+
 namespace AriStasisApp;
 
+use Monolog\Handler\{NullHandler, StreamHandler};
+use Monolog\Logger;
 use ReflectionClass;
 use Symfony\Component\Yaml\Yaml;
-use Monolog\Handler\{StreamHandler, NullHandler};
-use Monolog\Logger;
 
 
 /**
@@ -19,11 +20,10 @@ use Monolog\Logger;
 function glueArrayOfStrings(array $array)
 {
     $result = '';
-    foreach ($array as $option)
-    {
+    foreach ($array as $option) {
         $result = "{$result},{$option}";
     }
-    return ltrim($result,',');
+    return ltrim($result, ',');
 }
 
 
@@ -91,8 +91,7 @@ function getShortClassName($object)
     try {
         $reflect = new ReflectionClass($object);
         return $reflect->getShortName();
-    }
-    catch (\ReflectionException $e) {
+    } catch (\ReflectionException $e) {
         print_r("Reflection of class {$object} failed. Terminating...", true);
         print_r($e->getMessage(), true);
         exit(1);
@@ -125,8 +124,7 @@ function initLogger(string $name)
             new StreamHandler('php://stderr', Logger::ERROR));
 
         $logger->debug('Loggers have successfully been set');
-    }
-    catch (\Exception $e) {
+    } catch (\Exception $e) {
         print_r("Error while setting up loggers:\n", true);
         print_r($e->getMessage(), true);
         exit(1);
