@@ -65,7 +65,7 @@ class WebSocketClient
         $wsType = $wssEnabled ? 'wss' : 'ws';
         $wsUrl = "{$wsType}://{$host}:{$port}{$rootUri}";
 
-        $wsQuerySpecificApp = "/events?api_key={$user}:{$password}&app={$appName}";
+        $wsQuerySpecificApp = "/events?api_key={$user}:{$password}&app='{$appName}''";
         $wsQuery = ($appName === '') ? "{$wsQuerySpecificApp}&subscribeAll=true" : $wsQuerySpecificApp;
         $uri = "{$wsUrl}{$wsQuery}";
         $this->logger->debug("URI to asterisk: '{$uri}'");

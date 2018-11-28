@@ -41,5 +41,5 @@ $amqpSettings = [
     'exchange' => 'asterisk'
 ];
 
-$ariWebSocket = new WebSocketClient($appName, $webSocketSettings, $amqpSettings);
+$ariWebSocket = new WebSocketClient();
 $ariWebSocket->run();

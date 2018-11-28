@@ -81,7 +81,7 @@ class AMQPPublisher
         $this->messageOptions =
             ['content_type' => 'application/json', 'delivery_mode' => AMQPMessage::DELIVERY_MODE_PERSISTENT];
         $nr = $nr + 1;
-        $this->logger->info("Connecting to AMQP server {$nr}");
+        $this->logger->info("Connecting to AMQP server number {$nr}");
         $this->connection = new AMQPStreamConnection($host, $port, $user, $password, $vhost);
         $this->channel = $this->connection->channel();
         $this->logger->info("Declaring Exchanger: '{$exchange}'");
