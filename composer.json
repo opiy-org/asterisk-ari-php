@@ -1,7 +1,7 @@
 {
-  "name": "ng-voice/asterisk-ari-stasis-app",
+  "name": "oktavlachs/asterisk-ari-stasis-app",
   "type": "library",
-  "description": "PHP library to build asterisk stasis applications simple and fast",
+  "description": "PHP library to build asterisk stasis applications in a microservice environment.",
   "keywords": ["ari", "asterisk", "rest", "stasis", "client", "stasisapp"],
   "homepage": "https://www.ng-voice.com/",
   "license": "MIT",
