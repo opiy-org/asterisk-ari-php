@@ -10,8 +10,10 @@ Use this library with composer and include it into your composer.json by using t
 
 ##### PHP extensions
 You might run into troubles with missing php extensions.
-- mbstring
-- json
+   
+   - mbstring
+    
+   - json
   
 We recommend to install them with terminal commands. \
 E.g. for Debian: `apt install php7.2-mbstring` (may differ depending on your underlying operating system. Don't forget 
