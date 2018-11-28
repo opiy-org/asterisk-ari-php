@@ -137,7 +137,7 @@ They consume AMQP messages much better than we would implement it, while providi
 calls in ORM context.
 
 ## Contribute
-We are happy to hear about your improvement ideas.
+We are happy to hear about your improvement ideas. Please use PSR-2 if you want to contribute.
 
 Possible TODO's if you want to contribute but don't have an own idea:
 
