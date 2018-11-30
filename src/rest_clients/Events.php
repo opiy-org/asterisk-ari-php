@@ -38,13 +38,13 @@ class Events extends AriRestClient
         $body = [];
 
         if ($source !== []) {
-            $queryParameters = array_merge($queryParameters, ['source' => glueArrayOfStrings($source)]);
+            $queryParameters = $queryParameters + ['source' => glueArrayOfStrings($source)];
         }
 
         if ($variables !== []) {
             $body = ['variables' => []];
             foreach ($variables as $key => $value) {
-                $body['variables'] = array_merge($body['variables'], [[$key => $value]]);
+                $body['variables'] = $body['variables'] + [[$key => $value]];
             }
         }
         return $this->postRequest("/events/user/{$eventName}", $queryParameters, $body);
