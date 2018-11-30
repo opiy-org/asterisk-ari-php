@@ -6,20 +6,20 @@
  *
  */
 
-namespace AriStasisApp\http_client;
+namespace AriStasisApp\rest_clients;
 
 
 use function AriStasisApp\glueArrayOfStrings;
 
 /**
- * Class EventsRestClient
+ * Class Events
  *
  * GET /events is not part of this API because it has to be a WebSocket connection (ws:// or wss://)
- * and is handled separately in the WebSocketClient.
+ * and is handled separately in the WebSocketClient of this library.
  *
  * @package AriStasisApp\ariclients
  */
-class EventsRestClient extends AriRestClient
+class Events extends AriRestClient
 {
     /**
      * Generate a user event.
@@ -32,7 +32,7 @@ class EventsRestClient extends AriRestClient
      * to the user event. Ex. { "variables": { "key": "value" } }
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface
      */
-    function userEvent(string $eventName, string $application, array $source = [], array $variables = [])
+    public function userEvent(string $eventName, string $application, array $source = [], array $variables = [])
     {
         $queryParameters = ['application' => $application];
         $body = [];

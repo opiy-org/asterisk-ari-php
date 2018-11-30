@@ -14,15 +14,15 @@
  *
  */
 
-namespace AriStasisApp\http_client;
+namespace AriStasisApp\rest_clients;
 
 
 /**
- * Class DeviceStatesRestClient
+ * Class DeviceStates
  *
  * @package AriStasisApp\ariclients
  */
-class DeviceStatesRestClient extends AriRestClient
+class DeviceStates extends AriRestClient
 {
     /**
      * @OA\Get(

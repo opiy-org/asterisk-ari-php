@@ -1,12 +1,12 @@
-# Asterisk RESTful Interface (ARI) Message Broker Library
+# Asterisk RESTful Interface (ARI) WebHook Library
 
-Using Asterisk in a microservice architecture by publishing Asterisk-Events to your favourite AMQP server.
+Using Asterisk in a microservice environment by .
 
 `Implemented for Asterisk 16!`
 
 ## Installation
 Use this library with composer and include it into your composer.json by using the terminal command
-`composer require ng-voice/arilib` ???????
+`composer require ng-voice/arilib` ??????
 
 ##### PHP extensions
 You might run into troubles with missing php extensions. The following are required:
@@ -29,12 +29,6 @@ Preferably use the provided Dockerfile in this library to compile your own aster
     docker build -t asterisk:16.0.1 .
     docker run -t -d --name some-asterisk -p 8088:8088 asterisk:16.0.1
 
-##### AMQP Server
-Use your favourite AMQP server. We recommend RabbitMQ's official docker image:
-
-    docker run -d -p 15672:15672 -p 5672:5672 --hostname my-rabbit --name some-rabbit rabbitmq:3-management
-
-
 ##### Tests
 Before you start developing your application around your asterisk, make shure everything is up and running nicely. 
 Run the `execute_tests.sh` script from the /tests directory. If everything is green, you are ready to go!
@@ -49,13 +43,6 @@ in our microservice universe anyway?
 
 #### ARI WebsocketClient
 Basically connects to asterisk via `GET /events` and listens for either for one, many or all stasis application events.
-
-### AMQP Publisher for Asterisk events
-And ontop of that, thanks to the awesome people from php-amqplib, you can use whatever implements the AMQP. 
-You are not depending on RabbitMQ (although it is recommended).
-We only implemented one consumer. Most likely you will use a framework (e.g. we use Laravel)
-for your wrapping asterisk application that lets you work with consumers waaaaay more easy.
-Great for microservices!
 
 ## Example
 
@@ -77,25 +64,25 @@ use AriStasisApp\websocket_client\WebSocketClient;
 
 require_once '/vendor/autoload.php';
 
-$webSocketSettings = [
-    'wssEnabled'    => false,
-    'host'          => 'localhost',
-    'port'          => 8088,
-    'rootUri'       => '/ari',
-    'user'          => 'asterisk',
-    'password'      => 'asterisk'
+$ariSettings = [
+    'wssEnabled' => false,
+    'host' => 'localhost',
+    'port' => 8088,
+    'rootUri' => '/ari',
+    'user' => 'asterisk',
+    'password' => 'asterisk'
 ];
 
-$amqpSettings = [
-    'host'      => 'localhost',
-    'port'      => 5672,
-    'user'      => 'guest',
-    'password'  => 'guest',
-    'vhost'     => '/',
-    'exchange'  => 'asterisk'
+$myApiSettings = [
+    'host' => 'localhost',
+    'port' => 8000,
+    'rootUri' => '/api',
+    'user' => 'myUserName',
+    'password' => 'myPassword',
+    'apiKey' => 'myApiKey'
 ];
 
-$ariWebSocket = new WebSocketClient('ExampleStasisApp', $webSocketSettings, $amqpSettings);
+$ariWebSocket = new WebSocketClient('', $ariSettings, $myApiSettings);
 $ariWebSocket->run();
 ```
 
@@ -111,21 +98,21 @@ Simple ARI request to send an event
  * Example for usage in your application.
  */
 
-use AriStasisApp\http_client\AsteriskRestClient;
-use AriStasisApp\http_client\EventsRestClient;
+use AriStasisApp\rest_clients\Asterisk;
+use AriStasisApp\rest_clients\Events;
 
 require_once '/vendor/autoload.php';
 
 
 // E.g. get your asterisk settings (This will not trigger stasis app events!)
-$asterisk = new AsteriskRestClient();
+$asterisk = new Asterisk();
 $asteriskInfo = $asterisk->getInfo();
 
 /*
  * This ARI client can generate custom user events for specific applications. Nice and simple to test your setup :)
  * The events will be published to your AMQP server.
  */
-$events = new EventsRestClient();
+$events = new Events();
 $events->userEvent('customEventExample', 'ExampleStasisApp');
 ```
 ## FAQ

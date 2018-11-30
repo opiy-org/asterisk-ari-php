@@ -36,26 +36,27 @@ function getAsteriskDefaultSettings()
         'host' => 'localhost',
         'port' => 8088,
         'rootUri' => '/ari',
-        'user' => 'asterisk',
-        'password' => 'asterisk'
+        'user' => '',
+        'password' => ''
     ];
 }
 
 
 /**
- * @param array $amqpSettings
+ * @param array $myApiSettings
  * @return array
  */
-function parseAMQPSettings(array $amqpSettings)
+function parseMyApiSettings(array $myApiSettings)
 {
     return array_merge([
+        'httpsEnabled' => false,
         'host' => 'localhost',
-        'port' => 5672,
-        'user' => 'guest',
-        'password' => 'guest',
-        'vhost' => '/',
-        'exchange' => 'asterisk'
-    ], $amqpSettings);
+        'port' => 8000,
+        'webHookUri' => '/api/asteriskEvents'
+        // 'user' => 'myUserName', // Optional TODO: Implement this possibilites
+        // 'password' => 'myPassword', // Optional
+        // 'apiKey' => 'myApiKey' // Optional
+    ], $myApiSettings);
 }
 
 

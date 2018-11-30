@@ -5,15 +5,15 @@
  * @copyright ng-voice GmbH (2018)
  */
 
-namespace AriStasisApp\http_client;
+namespace AriStasisApp\rest_clients;
 
 
 /**
- * Class BridgesRestClient
+ * Class Bridges
  *
  * @package AriStasisApp\ariclients
  */
-class BridgesRestClient extends AriRestClient
+class Bridges extends AriRestClient
 {
     /**
      * List all active bridges in Asterisk.

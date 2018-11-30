@@ -8,19 +8,20 @@
 
 namespace AriStasisApp\websocket_client;
 
-use AriStasisApp\amqp\AMQPPublisher;
+use GuzzleHttp\Client as GuzzleClient;
+use GuzzleHttp\Exception\GuzzleException;
 use Monolog\Logger;
 use Nekland\Woketo\Core\AbstractConnection;
 use Nekland\Woketo\Exception\WebsocketException;
-use Nekland\Woketo\Message\MessageHandlerInterface;
-use function AriStasisApp\{getShortClassName, initLogger};
+use function AriStasisApp\{getShortClassName, initLogger, parseMyApiSettings};
+use Nekland\Woketo\Message\TextMessageHandler;
 
 /**
  * Class MessageHandler
  *
  * @package AriStasisApp\rabbitmq
  */
-class MessageHandler implements MessageHandlerInterface
+class MessageHandler extends TextMessageHandler
 {
     /**
      * @var Logger
@@ -28,58 +29,92 @@ class MessageHandler implements MessageHandlerInterface
     private $logger;
 
     /**
-     * @var AMQPPublisher
+     * @var GuzzleClient
      */
-    private $amqpPublisher;
+    private $guzzleClient;
+
+    /**
+     * @var string
+     */
+    private $webHookUri;
 
 
     /**
      * MessageHandler constructor.
-     * @param AMQPPublisher $amqpPublisher
+     * @param array $myApiSettings
      */
-    function __construct(AMQPPublisher $amqpPublisher)
+    function __construct(array $myApiSettings)
     {
         $this->logger = initLogger(getShortClassName($this));
-        $this->amqpPublisher = $amqpPublisher;
+        $myApiSettings = parseMyApiSettings($myApiSettings);
+
+        if ($myApiSettings['httpsEnabled'] === true) {
+            $httpType = 'https';
+        } else {
+            $httpType = 'http';
+        }
+
+        $baseUri = "{$httpType}://{$myApiSettings['host']}:{$myApiSettings['port']}";
+        $this->webHookUri = $myApiSettings['webHookUri'];
+
+        $guzzleClientSettings = ['base_uri' => $baseUri];
+
+        /*
+         * TODO: Add authentication methods (user+pass or/and APIkey)
+         * if (isset($myApiSettings['user']) && isset($myApiSettings['password'])) {
+         *      $guzzleClientSettings = $guzzleClientSettings + ['auth' =>....];
+         * }
+         */
+        $this->guzzleClient = new GuzzleClient($guzzleClientSettings);
     }
 
 
+    /**
+     * @param AbstractConnection $connection
+     */
     public function onConnection(AbstractConnection $connection)
     {
         $this->logger->debug('Connection to asterisk successfully. Waiting for messages...');
     }
 
-    // TODO: Make this abstract so can extend this class?
-    //   Not just listen for ANY Messages and publish them. Look at the app behind the event and push it onto
-    // a specified queue
-    public function onMessage(string $data, AbstractConnection $connection)
-    {
-        // TODO: If the message is 'StasisEnd', the connection can be closed.
-        //   Or is it automatically closed after that message comes in?
-        $this->logger->debug("Received raw message from asterisk WebSocket server: {$data}");
-        $this->amqpPublisher->publish($data);
-    }
-
-    public function onBinary(string $data, AbstractConnection $connection)
-    {
-        // TODO: For a download. Is not necessary here!
-    }
-
-    public function onDisconnect(AbstractConnection $connection)
-    {
-        $this->logger->debug('Connection to Asterisk was closed. Stopping AMQP publisher.');
-        $this->amqpPublisher->stop();
-        exit();
-    }
 
     /**
-     * @param WebsocketException $e
+     * @param string $data
+     * @param AbstractConnection $connection
+     */
+    public function onMessage(string $data, AbstractConnection $connection)
+    {
+        $this->logger->debug("Received raw message from asterisk WebSocket server: {$data}");
+        $webHookUri = $this->webHookUri;
+
+        try {
+            $this->guzzleClient->request('PUT', $webHookUri, ['json' => json_decode($data)]);
+        }
+        catch (GuzzleException $exception) {
+            $this->logger->error($exception->getMessage());
+        }
+
+        $this->logger->debug("Message successfully sent to {$webHookUri} on local application");
+    }
+
+
+    /**
+     * @param AbstractConnection $connection
+     */
+    public function onDisconnect(AbstractConnection $connection)
+    {
+        $this->logger->info('Connection to Asterisk was closed.');
+    }
+
+
+    /**
+     * @param WebsocketException $websocketException
      * @param AbstractConnection $connection
      * @throws WebsocketException
      */
-    public function onError(WebsocketException $e, AbstractConnection $connection)
+    public function onError(WebsocketException $websocketException, AbstractConnection $connection)
     {
-        $this->logger->warning($e->getMessage());
-        throw $e;
+        $this->logger->error($websocketException->getMessage());
+        throw $websocketException;
     }
 }

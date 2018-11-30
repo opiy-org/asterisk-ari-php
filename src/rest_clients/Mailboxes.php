@@ -6,15 +6,15 @@
  * @copyright ng-voice GmbH (2018)
  */
 
-namespace AriStasisApp\http_client;
+namespace AriStasisApp\rest_clients;
 
 
 /**
- * Class MailboxesRestClient
+ * Class Mailboxes
  *
  * @package AriStasisApp\ariclients
  */
-class MailboxesRestClient extends AriRestClient
+class Mailboxes extends AriRestClient
 {
     /**
      * @OA\Get(

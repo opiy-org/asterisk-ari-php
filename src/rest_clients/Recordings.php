@@ -6,15 +6,15 @@
  * @copyright ng-voice GmbH (2018)
  */
 
-namespace AriStasisApp\http_client;
+namespace AriStasisApp\rest_clients;
 
 
 /**
- * Class RecordingsRestClient
+ * Class Recordings
  *
  * @package AriStasisApp\rest_clients
  */
-class RecordingsRestClient extends AriRestClient
+class Recordings extends AriRestClient
 {
     /**
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface

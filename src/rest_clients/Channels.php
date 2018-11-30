@@ -5,15 +5,15 @@
  * @copyright ng-voice GmbH (2018)
  */
 
-namespace AriStasisApp\http_client;
+namespace AriStasisApp\rest_clients;
 
 use function AriStasisApp\glueArrayOfStrings;
 
 /**
- * Class ChannelsRestClient
+ * Class Channels
  * @package AriStasisApp\ariclients
  */
-class ChannelsRestClient extends AriRestClient
+class Channels extends AriRestClient
 {
     /**
      *

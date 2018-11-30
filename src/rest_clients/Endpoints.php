@@ -14,15 +14,15 @@
  *
  */
 
-namespace AriStasisApp\http_client;
+namespace AriStasisApp\rest_clients;
 
 
 /**
- * Class EndpointsRestClient
+ * Class Endpoints
  *
  * @package AriStasisApp\ariclients
  */
-class EndpointsRestClient extends AriRestClient
+class Endpoints extends AriRestClient
 {
     /**
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface

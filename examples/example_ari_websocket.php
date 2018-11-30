@@ -5,14 +5,13 @@
  * @author Rick Barenthin
  * @copyright ng-voice GmbH (2018)
  *
- * The asterisk events will be received by a web socket client and then published to an ampq server (e.g RabbitMQ).
- * Implement your own consumers for the queues (name of the queue that holds events from your stasis app is
- * 'yourapplicationname') or (preferably) use your favorite framework like we do to handle amqp events :) e.g. Laravel
+ * The asterisk events will be received by a web socket client which then sends them to your API.
+ * We recommend using superviisor to monitor this process in the background.
  */
 
 use AriStasisApp\websocket_client\WebSocketClient;
 
-require_once '../vendor/autoload.php';
+require_once __DIR__ . '../vendor/autoload.php';
 
 
 if (!isset($argv[1])) {
@@ -32,14 +31,16 @@ $webSocketSettings = [
     'password' => 'asterisk'
 ];
 
-$amqpSettings = [
+$myApiSettings = [
+    'httpsEnabled' => false,
     'host' => 'localhost',
-    'port' => 5672,
-    'user' => 'guest',
-    'password' => 'guest',
-    'vhost' => '/',
-    'exchange' => 'asterisk'
+    'port' => 8000,
+    'webHookUri' => '/api/asteriskEvents'
+    // TODO: Not implemented yet
+    // 'user' => 'myUserName',
+    // 'password' => 'myPassword',
+    // 'apiKey' => 'myApiKey'
 ];
 
-$ariWebSocket = new WebSocketClient();
+$ariWebSocket = new WebSocketClient($appName, $webSocketSettings, $myApiSettings);
 $ariWebSocket->run();

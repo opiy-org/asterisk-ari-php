@@ -5,18 +5,18 @@
  * @copyright ng-voice GmbH (2018)
  */
 
-namespace AriStasisApp\http_client;
+namespace AriStasisApp\rest_clients;
 
 use function AriStasisApp\glueArrayOfStrings;
 
 /**
- * Class AsteriskRestClient
+ * Class Asterisk
  *
  * The details for all the REST calls can be found in the asterisk documentation.
  *
  * @package AriStasisApp
  */
-class AsteriskRestClient extends AriRestClient
+class Asterisk extends AriRestClient
 {
     /**
      * @param string $configClass

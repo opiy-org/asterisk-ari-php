@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace AriStasisApp\Tests\http_client;
+namespace AriStasisApp\Tests\http_clients;
 
-use AriStasisApp\http_client\EventsRestClient;
+use AriStasisApp\rest_clients\Events;
 use PHPUnit\Framework\TestCase;
 
 
@@ -17,7 +17,7 @@ final class EventsRestClientTest extends TestCase
 {
     public function testCreateInstance(): void
     {
-        $this->assertInstanceOf(EventsRestClient::class, new EventsRestClient());
+        $this->assertInstanceOf(Events::class, new Events());
     }
 
     public function testQueryParameters(): void

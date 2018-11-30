@@ -5,15 +5,15 @@
  * @copyright ng-voice GmbH (2018)
  */
 
-namespace AriStasisApp\http_client;
+namespace AriStasisApp\rest_clients;
 
 
 /**
- * Class PlaybacksRestClient
+ * Class Playbacks
  *
  * @package AriStasisApp\ariclients
  */
-class PlaybacksRestClient extends AriRestClient
+class Playbacks extends AriRestClient
 {
     /**
      * @param string $playbackId

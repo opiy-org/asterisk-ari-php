@@ -6,15 +6,15 @@
  *
  */
 
-namespace AriStasisApp\http_client;
+namespace AriStasisApp\rest_clients;
 
 
 /**
- * Class ApplicationsRestClient
+ * Class Applications
  *
  * @package AriStasisApp\ariclients
  */
-class ApplicationsRestClient extends AriRestClient
+class Applications extends AriRestClient
 {
     /**
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface
