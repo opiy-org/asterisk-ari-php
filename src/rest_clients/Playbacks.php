@@ -8,6 +8,8 @@
 namespace AriStasisApp\rest_clients;
 
 
+use AriStasisApp\models\Playback;
+
 /**
  * Class Playbacks
  *
@@ -19,31 +21,30 @@ class Playbacks extends AriRestClient
      * @param string $playbackId
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \JsonMapper_Exception
      */
     function get(string $playbackId)
     {
-        return $this->getRequest("/playbacks/{$playbackId}");
+        $response = $this->getRequest("/playbacks/{$playbackId}");
+        return $this->jsonMapper->map(json_decode($response->getBody()), new Playback());
     }
 
     /**
      * @param string $playbackId
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function stop(string $playbackId)
+    function stop(string $playbackId): void
     {
-        return $this->deleteRequest("/playbacks/{$playbackId}");
+        $this->deleteRequest("/playbacks/{$playbackId}");
     }
 
     /**
      * @param string $playbackId
      * @param string $operation Allowed: restart, pause, unpause, reverse, forward
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function control(string $playbackId, string $operation)
+    function control(string $playbackId, string $operation): void
     {
-        return $this->postRequest("/playbacks/{$playbackId}/control",
-            ['operation' => $operation]);
+        $this->postRequest("/playbacks/{$playbackId}/control", ['operation' => $operation]);
     }
 }

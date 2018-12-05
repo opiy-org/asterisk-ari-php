@@ -17,6 +17,8 @@
 namespace AriStasisApp\rest_clients;
 
 
+use AriStasisApp\models\Endpoint;
+
 /**
  * Class Endpoints
  *
@@ -25,10 +27,10 @@ namespace AriStasisApp\rest_clients;
 class Endpoints extends AriRestClient
 {
     /**
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @return bool|mixed|\Psr\Http\Message\ResponseInterface TODO: List[Endpoint]
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function list()
+    function list(): array
     {
         return $this->getRequest('/endpoints');
     }
@@ -36,16 +38,14 @@ class Endpoints extends AriRestClient
     /**
      * @param string $to
      * @param string $from
-     * @param string $body
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
-     * TODO: This is weird in the documentation. Report issue, because it is unclear if the body in the request
-     * has to be set or if the body is delivered via a string in the query parameter.
+     * @param string $body TODO: This is weird in the documentation. Report issue,
+     *   because it is unclear if the body in the request has to be set or if
+     *   the body is delivered via a string in the query parameter.
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function sendMessage(string $to, string $from, string $body)
+    function sendMessage(string $to, string $from, string $body): void
     {
-        return $this->putRequest("/endpoints/sendMessage",
-            ['to' => $to, 'from' => $from, 'body' => $body]);
+        $this->putRequest("/endpoints/sendMessage", ['to' => $to, 'from' => $from, 'body' => $body]);
     }
 
     /**
@@ -61,27 +61,27 @@ class Endpoints extends AriRestClient
     /**
      * @param string $tech
      * @param string $resource
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @return Endpoint|object
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \JsonMapper_Exception
      */
-    function get(string $tech, string $resource)
+    function get(string $tech, string $resource): Endpoint
     {
-        return $this->getRequest("/endpoints/{$tech}/{$resource}");
+        $response = $this->getRequest("/endpoints/{$tech}/{$resource}");
+        return $this->jsonMapper->map(json_decode($response->getBody()), new Endpoint());
     }
 
     /**
      * @param string $tech
      * @param string $resource
      * @param string $from
-     * @param string $body The body of the message
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
-     * TODO: This is weird in the documentation. Report issue, because it is unclear if the body in the request
-     * has to be set or if the body is delivered via a string in the query parameter.
+     * @param string $body The body of the message TODO: This is weird in the documentation.
+     *   Report issue, because it is unclear if the body in the request has to be set or if
+     *   the body is delivered via a string in the query parameter.
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function sendMessageToEndpoint(string $tech, string $resource, string $from, string $body)
+    function sendMessageToEndpoint(string $tech, string $resource, string $from, string $body): void
     {
-        return $this->putRequest("/endpoints/{$tech}/{$resource}/sendMessage",
-            ['from' => $from, 'body' => $body]);
+        $this->putRequest("/endpoints/{$tech}/{$resource}/sendMessage", ['from' => $from, 'body' => $body]);
     }
 }

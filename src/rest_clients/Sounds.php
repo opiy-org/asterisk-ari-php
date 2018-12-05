@@ -8,6 +8,8 @@
 namespace AriStasisApp\rest_clients;
 
 
+use AriStasisApp\models\Sound;
+
 /**
  * Class Sounds
  *
@@ -16,7 +18,7 @@ namespace AriStasisApp\rest_clients;
 class Sounds extends AriRestClient
 {
     /**
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @return bool|mixed|\Psr\Http\Message\ResponseInterface TODO: List[Sound]
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     function list()
@@ -26,11 +28,13 @@ class Sounds extends AriRestClient
 
     /**
      * @param string $soundId
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @return Sound|object
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \JsonMapper_Exception
      */
-    function get(string $soundId)
+    function get(string $soundId): Sound
     {
-        return $this->getRequest("/sounds/{$soundId}");
+        $response = $this->getRequest("/sounds/{$soundId}");
+        return $this->jsonMapper->map(json_decode($response->getBody()), new Sound());
     }
 }

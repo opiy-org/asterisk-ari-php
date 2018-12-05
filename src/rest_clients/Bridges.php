@@ -8,9 +8,7 @@
 namespace AriStasisApp\rest_clients;
 
 
-use AriStasisApp\models\Bridge;
-use AriStasisApp\models\LiveRecording;
-use AriStasisApp\models\Playback;
+use AriStasisApp\models\{Bridge, LiveRecording, Playback};
 use function AriStasisApp\glueArrayOfStrings;
 
 /**

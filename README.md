@@ -165,7 +165,7 @@ Possible TODO's if you want to contribute but don't have an own idea:
 
 - Test the clients!
 
-- Throwing Exceptions if Bad Request etc?!
+- Responsetypes Check in every Client!
 
 [Asterisk]
 
