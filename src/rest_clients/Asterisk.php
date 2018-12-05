@@ -7,12 +7,11 @@
 
 namespace AriStasisApp\rest_clients;
 
+use AriStasisApp\models\{AsteriskInfo, Module, Variable};
 use function AriStasisApp\glueArrayOfStrings;
 
 /**
  * Class Asterisk
- *
- * The details for all the REST calls can be found in the asterisk documentation.
  *
  * @package AriStasisApp
  */
@@ -23,6 +22,8 @@ class Asterisk extends AriRestClient
      * @param string $objectType
      * @param string $id
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * TODO: "responseClass": "List[ConfigTuple]",
      */
     function getObject(string $configClass, string $objectType, string $id)
     {
@@ -33,18 +34,18 @@ class Asterisk extends AriRestClient
      * @param string $configClass
      * @param string $objectType
      * @param string $id
-     *
-     * The body object should have a value that is a list of ConfigTuples, which provide the fields to update.
-     * Ex. [ { "attribute": "directmedia", "value": "false" } ]
-     * @param array $body
+     * @param array $body The body object should have a value that is a list of ConfigTuples,
+     * which provide the fields to update. Ex. [ { "attribute": "directmedia", "value": "false" } ]
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * TODO: "responseClass": "List[ConfigTuple]",
      */
     function createOrUpdateObject(string $configClass, string $objectType, string $id, array $body = [])
     {
         $parsedBody = ['fields' => []];
         if ($body === []) {
             foreach ($body as $key => $value) {
-                $parsedBody['fields'] = array_merge($parsedBody['fields'], [['attribute' => $key, 'value' => $value]]);
+                $parsedBody['fields'] = $parsedBody['fields'] + [['attribute' => $key, 'value' => $value]];
             }
         }
         return $this->putRequest("/asterisk/config/dynamic/{$configClass}/{$objectType}/{$id}", $parsedBody);
@@ -54,11 +55,11 @@ class Asterisk extends AriRestClient
      * @param string $configClass
      * @param string $objectType
      * @param string $id
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function deleteObject(string $configClass, string $objectType, string $id)
+    function deleteObject(string $configClass, string $objectType, string $id): void
     {
-        return $this->deleteRequest("/asterisk/config/dynamic/{$configClass}/{$objectType}/{$id}");
+        $this->deleteRequest("/asterisk/config/dynamic/{$configClass}/{$objectType}/{$id}");
     }
 
     /**
@@ -67,20 +68,26 @@ class Asterisk extends AriRestClient
      * Allows comma separated values.
      * @param array $only
      *
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @return AsteriskInfo|object
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \JsonMapper_Exception
      */
-    function getInfo(array $only = [])
+    function getInfo(array $only = []): AsteriskInfo
     {
-        $only = glueArrayOfStrings($only);
-        if (!empty($only)) {
-            return $this->getRequest('/asterisk/info', ['only' => $only]);
+        if ($only !== []) {
+            $only = glueArrayOfStrings($only);
+            $response = $this->getRequest('/asterisk/info', ['only' => $only]);
         } else {
-            return $this->getRequest('/asterisk/info');
+            $response = $this->getRequest('/asterisk/info');
         }
+
+        return $this->jsonMapper->map(json_decode($response->getBody()), new AsteriskInfo());
     }
 
     /**
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * TODO: "responseClass": "List[Module]",
      */
     function listModules()
     {
@@ -89,42 +96,47 @@ class Asterisk extends AriRestClient
 
     /**
      * @param string $moduleName
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @return Module|object
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \JsonMapper_Exception
      */
-    function getModule(string $moduleName)
+    function getModule(string $moduleName): Module
     {
-        return $this->getRequest("/asterisk/modules/{$moduleName}");
+        $response = $this->getRequest("/asterisk/modules/{$moduleName}");
+        return $this->jsonMapper->map(json_decode($response->getBody()), new Module());
     }
 
     /**
      * @param string $moduleName
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function loadModule(string $moduleName)
+    function loadModule(string $moduleName): void
     {
-        return $this->postRequest("/asterisk/modules/{$moduleName}");
+        $this->postRequest("/asterisk/modules/{$moduleName}");
     }
 
     /**
      * @param string $moduleName
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function unloadModule(string $moduleName)
+    function unloadModule(string $moduleName): void
     {
-        return $this->deleteRequest("/asterisk/modules/{$moduleName}");
+        $this->deleteRequest("/asterisk/modules/{$moduleName}");
     }
 
     /**
      * @param string $moduleName
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function reloadModule(string $moduleName)
+    function reloadModule(string $moduleName): void
     {
-        return $this->putRequest("/asterisk/modules/{$moduleName}");
+        $this->putRequest("/asterisk/modules/{$moduleName}");
     }
 
     /**
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * TODO: "responseClass": "List[LogChannel]"
      */
     function listLogChannels()
     {
@@ -134,47 +146,50 @@ class Asterisk extends AriRestClient
     /**
      * @param string $logChannelName
      * @param string $configuration Levels of the log channel
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function addLog(string $logChannelName, string $configuration)
+    function addLog(string $logChannelName, string $configuration): void
     {
-        return $this->postRequest("/asterisk/logging/{$logChannelName}", ['configuration' => $configuration]);
+        $this->postRequest("/asterisk/logging/{$logChannelName}", ['configuration' => $configuration]);
     }
 
     /**
      * @param string $logChannelName
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function deleteLog(string $logChannelName)
+    function deleteLog(string $logChannelName): void
     {
-        return $this->deleteRequest("/asterisk/logging/{$logChannelName}");
+        $this->deleteRequest("/asterisk/logging/{$logChannelName}");
     }
 
     /**
      * @param string $logChannelName
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function rotateLog(string $logChannelName)
+    function rotateLog(string $logChannelName): void
     {
-        return $this->putRequest("/asterisk/logging/{$logChannelName}/rotate");
+        $this->putRequest("/asterisk/logging/{$logChannelName}/rotate");
     }
 
     /**
      * @param string $variable
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @return Variable|object
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \JsonMapper_Exception
      */
-    function getGlobalVar(string $variable)
+    function getGlobalVar(string $variable): Variable
     {
-        return $this->getRequest('/asterisk/variable', ['variable' => $variable]);
+        $response = $this->getRequest('/asterisk/variable', ['variable' => $variable]);
+        return $this->jsonMapper->map(json_decode($response->getBody()), new Variable());
     }
 
     /**
      * @param string $variable
      * @param string $value
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function setGlobalVar(string $variable, string $value)
+    function setGlobalVar(string $variable, string $value): void
     {
-        return $this->postRequest('/asterisk/variable', ['variable' => $variable, 'value' => $value]);
+        $this->postRequest('/asterisk/variable', ['variable' => $variable, 'value' => $value]);
     }
 }

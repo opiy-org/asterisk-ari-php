@@ -1,7 +1,8 @@
-# TODO: Add comments!
-
 # Intellij Files
 .idea
+
+# Sonarcube hidden folders
+.scannerwork
 
 # Dependencies
 vendor

@@ -17,6 +17,7 @@ class Sounds extends AriRestClient
 {
     /**
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     function list()
     {
@@ -26,6 +27,7 @@ class Sounds extends AriRestClient
     /**
      * @param string $soundId
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     function get(string $soundId)
     {

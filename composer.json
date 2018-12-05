@@ -23,7 +23,10 @@
     "guzzlehttp/guzzle": "6.3.3",
     "symfony/yaml": "v4.1.7",
     "nekland/woketo": "2.2.0",
-    "ext-json": "*"
+    "ext-json": "*",
+    "zircote/swagger-php": "3.0.1",
+    "netresearch/jsonmapper": "v1.4.0",
+    "justinrainbow/json-schema": "^5.2"
   },
   "require-dev": {
     "phpunit/phpunit": "7.4.3",

@@ -9,6 +9,9 @@
 namespace AriStasisApp\rest_clients;
 
 
+use AriStasisApp\models\LiveRecording;
+use AriStasisApp\models\StoredRecording;
+
 /**
  * Class Recordings
  *
@@ -17,7 +20,8 @@ namespace AriStasisApp\rest_clients;
 class Recordings extends AriRestClient
 {
     /**
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @return bool|mixed|\Psr\Http\Message\ResponseInterface  TODO: List[StoredRecording]
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     function listStored()
     {
@@ -26,27 +30,33 @@ class Recordings extends AriRestClient
 
     /**
      * @param string $recordingName
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @return StoredRecording|object
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \JsonMapper_Exception
      */
-    function getStored(string $recordingName)
+    function getStored(string $recordingName): StoredRecording
     {
-        return $this->getRequest("/recordings/stored/{$recordingName}");
+        $response = $this->getRequest("/recordings/stored/{$recordingName}");
+        return $this->jsonMapper->map(json_decode($response->getBody()), new StoredRecording());
     }
 
     /**
      * @param string $recordingName
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function deleteStored(string $recordingName)
+    function deleteStored(string $recordingName): void
     {
-        return $this->deleteRequest("/recordings/stored/{$recordingName}");
+        $this->deleteRequest("/recordings/stored/{$recordingName}");
     }
 
     /**
      * @param string $recordingName
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      *
-     * TODO: We await a base 64 encoded bitstream here
+     * TODO: Test what is returned here and how it can be played. Maybe not save it locally?!
+     *   If we do have to, then add a parameter for the path here.
      */
     function getStoredFile(string $recordingName)
     {
@@ -56,74 +66,80 @@ class Recordings extends AriRestClient
     /**
      * @param string $recordingName
      * @param string $destinationRecordingName
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @return StoredRecording|object
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \JsonMapper_Exception
      */
-    function copyStored(string $recordingName, string $destinationRecordingName)
+    function copyStored(string $recordingName, string $destinationRecordingName): StoredRecording
     {
-        return $this->postRequest("/recordings/stored/{$recordingName}/copy",
+        $response = $this->postRequest("/recordings/stored/{$recordingName}/copy",
             ['destinationRecordingName' => $destinationRecordingName]);
+        return $this->jsonMapper->map(json_decode($response->getBody()), new StoredRecording());
     }
 
     /**
      * @param string $recordingName
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @return LiveRecording|object
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \JsonMapper_Exception
      */
-    function getLive(string $recordingName)
+    function getLive(string $recordingName): LiveRecording
     {
-        return $this->getRequest("/recordings/live/{$recordingName}");
+        $response = $this->getRequest("/recordings/live/{$recordingName}");
+        return $this->jsonMapper->map(json_decode($response->getBody()), new LiveRecording());
     }
 
     /**
      * @param string $recordingName
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function cancel(string $recordingName)
+    function cancel(string $recordingName): void
     {
-        return $this->deleteRequest("/recordings/live/{$recordingName}");
+        $this->deleteRequest("/recordings/live/{$recordingName}");
     }
 
     /**
      * @param string $recordingName
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function stop(string $recordingName)
+    function stop(string $recordingName): void
     {
-        return $this->postRequest("/recordings/live/{$recordingName}/stop");
+        $this->postRequest("/recordings/live/{$recordingName}/stop");
     }
 
     /**
      * @param string $recordingName
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function pause(string $recordingName)
+    function pause(string $recordingName): void
     {
-        return $this->postRequest("/recordings/live/{$recordingName}/pause");
+        $this->postRequest("/recordings/live/{$recordingName}/pause");
     }
 
     /**
      * @param string $recordingName
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function unpause(string $recordingName)
+    function unpause(string $recordingName): void
     {
-        return $this->deleteRequest("/recordings/live/{$recordingName}/pause");
+        $this->deleteRequest("/recordings/live/{$recordingName}/pause");
     }
 
     /**
      * @param string $recordingName
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function mute(string $recordingName)
+    function mute(string $recordingName): void
     {
-        return $this->postRequest("/recordings/live/{$recordingName}/mute");
+        $this->postRequest("/recordings/live/{$recordingName}/mute");
     }
 
     /**
      * @param string $recordingName
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function unmute(string $recordingName)
+    function unmute(string $recordingName): void
     {
-        return $this->deleteRequest("/recordings/live/{$recordingName}/mute");
+        $this->deleteRequest("/recordings/live/{$recordingName}/mute");
     }
 }

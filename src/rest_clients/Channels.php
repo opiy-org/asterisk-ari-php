@@ -7,17 +7,23 @@
 
 namespace AriStasisApp\rest_clients;
 
+use AriStasisApp\models\Channel;
+use AriStasisApp\models\LiveRecording;
+use AriStasisApp\models\Playback;
+use AriStasisApp\models\Variable;
 use function AriStasisApp\glueArrayOfStrings;
 
 /**
- * Class Channels
+ * A specific communication connection between Asterisk and an Endpoint.
+ *
  * @package AriStasisApp\ariclients
  */
 class Channels extends AriRestClient
 {
     /**
      *
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @return bool|mixed|\Psr\Http\Message\ResponseInterface TODO: List[Channel]
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     function list()
     {
@@ -25,36 +31,45 @@ class Channels extends AriRestClient
     }
 
     /**
-     *
      * @param string $endpoint e.g. SIP/alice
      * @param array $options
      * @param array $channelVariables
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @return Channel|object
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \JsonMapper_Exception
      */
-    function originate(string $endpoint, array $options = [], array $channelVariables = [])
+    function originate(string $endpoint, array $options = [], array $channelVariables = []): Channel
     {
         $body = array_merge(['endpoint' => $endpoint, 'variables' => $channelVariables], $options);
-        return $this->postRequest('/channels', [], $body);
+        $response = $this->postRequest('/channels', [], $body);
+        return $this->jsonMapper->map(json_decode($response->getBody()), new Channel());
     }
 
     /**
      * @param string $endpoint
      * @param string $stasisApp
      * @param array $options
+     * @return Channel|object
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \JsonMapper_Exception
      */
-    function create(string $endpoint, string $stasisApp, array $options = [])
+    function create(string $endpoint, string $stasisApp, array $options = []): Channel
     {
-        $this->postRequest('/channels/create', array_merge([$endpoint, $stasisApp], $options));
+        $response = $this->postRequest('/channels/create', array_merge([$endpoint, $stasisApp], $options));
+        return $this->jsonMapper->map(json_decode($response->getBody()), new Channel());
+
     }
 
     /**
-     *
      * @param string $id
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @return Channel|object
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \JsonMapper_Exception
      */
-    function get(string $id)
+    function get(string $id): Channel
     {
-        return $this->getRequest("/channels/{$id}");
+        $response = $this->getRequest("/channels/{$id}");
+        return $this->jsonMapper->map(json_decode($response->getBody()), new Channel());
     }
 
     /**
@@ -62,21 +77,24 @@ class Channels extends AriRestClient
      * @param string $endpoint
      * @param array $options
      * @param array $channelVariables
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @return Channel|object
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \JsonMapper_Exception
      */
-    function originateWithId(string $channelId, string $endpoint, array $options = [], $channelVariables = [])
+    function originateWithId(string $channelId, string $endpoint, array $options = [], $channelVariables = []): Channel
     {
         $body = array_merge(['endpoint' => $endpoint, 'variables' => $channelVariables], $options);
-        return $this->postRequest("/channels/{$channelId}", [], $body);
+        $response = $this->postRequest("/channels/{$channelId}", [], $body);
+        return $this->jsonMapper->map(json_decode($response->getBody()), new Channel());
     }
 
     /**
      * @param string $channelId
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function hangup(string $channelId)
+    function hangup(string $channelId): void
     {
-        return $this->deleteRequest("/channels/{$channelId}");
+        $this->deleteRequest("/channels/{$channelId}");
     }
 
     /**
@@ -85,148 +103,156 @@ class Channels extends AriRestClient
      * @param string $extension
      * @param string $priority
      * @param string $label
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function continueInDialPlan(string $channelId, string $context, string $extension, string $priority, string $label)
-    {
-        return $this->postRequest("/channels/{$channelId}/continue", [$context, $extension, $priority, $label]);
+    function continueInDialPlan(
+        string $channelId,
+        string $context,
+        string $extension,
+        string $priority,
+        string $label
+    ): void {
+        $this->postRequest("/channels/{$channelId}/continue", [$context, $extension, $priority, $label]);
     }
 
     /**
      * @param string $channelId
      * @param string $endpoint
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function redirect(string $channelId, string $endpoint)
+    function redirect(string $channelId, string $endpoint): void
     {
-        return $this->postRequest("/channels/{$channelId}/redirect", [$endpoint]);
+        $this->postRequest("/channels/{$channelId}/redirect", [$endpoint]);
     }
 
     /**
      * @param string $channelId
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function answer(string $channelId)
+    function answer(string $channelId): void
     {
-        return $this->postRequest("/channels/{$channelId}/answer");
+        $this->postRequest("/channels/{$channelId}/answer");
     }
 
     /**
      * @param string $channelId
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function ring(string $channelId)
+    function ring(string $channelId): void
     {
-        return $this->postRequest("/channels/{$channelId}/ring");
+        $this->postRequest("/channels/{$channelId}/ring");
     }
 
     /**
      * @param string $channelId
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function ringStop(string $channelId)
+    function ringStop(string $channelId): void
     {
-        return $this->deleteRequest("/channels/{$channelId}/ring");
+        $this->deleteRequest("/channels/{$channelId}/ring");
     }
 
     /**
      * @param string $channelId
      * @param string $dtmf
      * @param array $options
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function sendDtmf(string $channelId, string $dtmf, array $options = [])
+    function sendDtmf(string $channelId, string $dtmf, array $options = []): void
     {
-        return $this->postRequest("/channels/{$channelId}/dtmf",
+        $this->postRequest("/channels/{$channelId}/dtmf",
             array_merge(['dtmf' => $dtmf, 'before' => 0, 'between' => 100, 'duration' => 100, 'after' => 0], $options));
     }
 
     /**
      * @param string $channelId
      * @param string $direction
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function mute(string $channelId, string $direction)
+    function mute(string $channelId, string $direction): void
     {
-        return $this->postRequest("/channels/{$channelId}/mute", ['direction' => $direction]);
+        $this->postRequest("/channels/{$channelId}/mute", ['direction' => $direction]);
     }
 
     /**
      * @param string $channelId
      * @param string $direction
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function unMute(string $channelId, string $direction)
+    function unMute(string $channelId, string $direction): void
     {
-        return $this->deleteRequest("/channels/{$channelId}/mute", [$direction]);
+        $this->deleteRequest("/channels/{$channelId}/mute", [$direction]);
     }
 
     /**
      * @param string $channelId
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function hold(string $channelId)
+    function hold(string $channelId): void
     {
-        return $this->postRequest("/channels/{$channelId}/hold");
+        $this->postRequest("/channels/{$channelId}/hold");
     }
 
     /**
      * @param string $channelId
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function unHold(string $channelId)
+    function unHold(string $channelId): void
     {
-        return $this->deleteRequest("/channels/{$channelId}/hold");
+        $this->deleteRequest("/channels/{$channelId}/hold");
     }
 
     /**
      * @param string $channelId
      * @param string $mohClass
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function startMoh(string $channelId, string $mohClass)
+    function startMoh(string $channelId, string $mohClass): void
     {
-        return $this->postRequest("/channels/{$channelId}/moh", [$mohClass]);
+        $this->postRequest("/channels/{$channelId}/moh", [$mohClass]);
     }
 
     /**
      * @param string $channelId
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function stopMoh(string $channelId)
+    function stopMoh(string $channelId): void
     {
-        return $this->deleteRequest("/channels/{$channelId}/moh");
+        $this->deleteRequest("/channels/{$channelId}/moh");
     }
 
     /**
      * @param string $channelId
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function startSilence(string $channelId)
+    function startSilence(string $channelId): void
     {
-        return $this->postRequest("/channels/{$channelId}/silence");
+        $this->postRequest("/channels/{$channelId}/silence");
     }
 
     /**
      * @param string $channelId
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function stopSilence(string $channelId)
+    function stopSilence(string $channelId): void
     {
-        return $this->deleteRequest("/channels/{$channelId}/silence");
+        $this->deleteRequest("/channels/{$channelId}/silence");
     }
 
     /**
      * @param string $channelId
      * @param array $media
      * @param array $options
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @return Playback|object
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \JsonMapper_Exception
      */
-    function play(string $channelId, array $media, array $options = [])
+    function play(string $channelId, array $media, array $options = []): Playback
     {
         $media = glueArrayOfStrings($media);
-        return $this->postRequest("/channels/{$channelId}/play",
+        $response = $this->postRequest("/channels/{$channelId}/play",
             array_merge(['media' => $media], $options));
+        return $this->jsonMapper->map(json_decode($response->getBody()), new Playback());
     }
 
     /**
@@ -234,13 +260,16 @@ class Channels extends AriRestClient
      * @param string $playbackId
      * @param array $media
      * @param array $options
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @return Playback|object
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \JsonMapper_Exception
      */
-    function playWithId(string $channelId, string $playbackId, array $media, array $options = [])
+    function playWithId(string $channelId, string $playbackId, array $media, array $options = []): Playback
     {
         $media = glueArrayOfStrings($media);
-        return $this->postRequest("/channels/{$channelId}/play/{$playbackId}",
+        $response = $this->postRequest("/channels/{$channelId}/play/{$playbackId}",
             array_merge(['media' => $media], $options));
+        return $this->jsonMapper->map(json_decode($response->getBody()), new Playback());
     }
 
     /**
@@ -248,23 +277,29 @@ class Channels extends AriRestClient
      * @param string $name
      * @param string $format
      * @param array $options
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @return LiveRecording|object
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \JsonMapper_Exception
      */
-    function record(string $channelId, string $name, string $format, array $options = [])
+    function record(string $channelId, string $name, string $format, array $options = []): LiveRecording
     {
-        return $this->postRequest("/channels/{$channelId}/record",
+        $response = $this->postRequest("/channels/{$channelId}/record",
             array_merge(['name' => $name, 'format' => $format], $options));
+        return $this->jsonMapper->map(json_decode($response->getBody()), new LiveRecording());
     }
 
     /**
      *
      * @param string $channelId
      * @param string $key
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @return Variable|object
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \JsonMapper_Exception
      */
-    function getVariable(string $channelId, string $key)
+    function getVariable(string $channelId, string $key): Variable
     {
-        return $this->getRequest("/channels/{$channelId}/variable", ['variable' => $key]);
+        $response = $this->getRequest("/channels/{$channelId}/variable", ['variable' => $key]);
+        return $this->jsonMapper->map(json_decode($response->getBody()), new Variable());
     }
 
     /**
@@ -272,24 +307,26 @@ class Channels extends AriRestClient
      * @param string $channelId
      * @param string $key
      * @param int|string $value
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function setVariable(string $channelId, string $key, $value)
+    function setVariable(string $channelId, string $key, $value): void
     {
-        return $this->postRequest("/channels/{$channelId}/variable",
-            [], ['variable' => $key, 'value' => $value]);
+        $this->postRequest("/channels/{$channelId}/variable", [], ['variable' => $key, 'value' => $value]);
     }
 
     /**
      * @param string $channelId
      * @param string $app
      * @param array $options
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @return Channel|object
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \JsonMapper_Exception
      */
-    function snoopChannel(string $channelId, string $app, array $options = [])
+    function snoopChannel(string $channelId, string $app, array $options = []): Channel
     {
-        return $this->postRequest("/channels/{$channelId}/snoop",
+        $response = $this->postRequest("/channels/{$channelId}/snoop",
             array_merge(['app' => $app], $options));
+        return $this->jsonMapper->map(json_decode($response->getBody()), new Channel());
     }
 
     /**
@@ -297,22 +334,25 @@ class Channels extends AriRestClient
      * @param string $snoopId
      * @param string $app
      * @param array $options
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @return Channel|object
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \JsonMapper_Exception
      */
-    function snoopChannelWithId(string $channelId, string $snoopId, string $app, array $options = [])
+    function snoopChannelWithId(string $channelId, string $snoopId, string $app, array $options = []): Channel
     {
-        return $this->postRequest("/channels/{$channelId}/snoop/{$snoopId}",
+        $response = $this->postRequest("/channels/{$channelId}/snoop/{$snoopId}",
             array_merge(['app' => $app], $options));
+        return $this->jsonMapper->map(json_decode($response->getBody()), new Channel());
     }
 
     /**
      * @param string $channelId
      * @param string $caller
      * @param int $timeout
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function dial(string $channelId, string $caller, int $timeout)
+    function dial(string $channelId, string $caller, int $timeout): void
     {
-        return $this->postRequest("/channels/{$channelId}/dial", ['caller' => $caller, 'timeout' => $timeout]);
+        $this->postRequest("/channels/{$channelId}/dial", ['caller' => $caller, 'timeout' => $timeout]);
     }
 }

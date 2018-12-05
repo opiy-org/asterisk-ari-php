@@ -26,6 +26,7 @@ class Endpoints extends AriRestClient
 {
     /**
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     function list()
     {
@@ -39,6 +40,7 @@ class Endpoints extends AriRestClient
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface
      * TODO: This is weird in the documentation. Report issue, because it is unclear if the body in the request
      * has to be set or if the body is delivered via a string in the query parameter.
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     function sendMessage(string $to, string $from, string $body)
     {
@@ -49,6 +51,7 @@ class Endpoints extends AriRestClient
     /**
      * @param string $tech
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     function listByTech(string $tech)
     {
@@ -59,6 +62,7 @@ class Endpoints extends AriRestClient
      * @param string $tech
      * @param string $resource
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     function get(string $tech, string $resource)
     {
@@ -73,6 +77,7 @@ class Endpoints extends AriRestClient
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface
      * TODO: This is weird in the documentation. Report issue, because it is unclear if the body in the request
      * has to be set or if the body is delivered via a string in the query parameter.
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     function sendMessageToEndpoint(string $tech, string $resource, string $from, string $body)
     {

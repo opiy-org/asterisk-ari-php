@@ -17,6 +17,9 @@
 namespace AriStasisApp\rest_clients;
 
 
+use AriStasisApp\models\DeviceState;
+use JsonMapper_Exception;
+
 /**
  * Class DeviceStates
  *
@@ -25,11 +28,8 @@ namespace AriStasisApp\rest_clients;
 class DeviceStates extends AriRestClient
 {
     /**
-     * @OA\Get(
-     *     path="/applications",
-     *     @OA\Response(response="200", description="An example resource")
-     * )
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @return bool|mixed|\Psr\Http\Message\ResponseInterface TODO: List[DeviceState]
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     function list()
     {
@@ -39,28 +39,31 @@ class DeviceStates extends AriRestClient
     /**
      * @param string $deviceName
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws JsonMapper_Exception
      */
-    function get(string $deviceName)
+    function get(string $deviceName): DeviceState
     {
-        return $this->getRequest("/deviceStates/{$deviceName}");
+        $response = $this->getRequest("/deviceStates/{$deviceName}");
+        return $this->jsonMapper->map(json_decode($response->getBody()), new DeviceState());
     }
 
     /**
      * @param string $deviceName
      * @param string $deviceState Allowed: NOT_INUSE, INUSE, BUSY, INVALID, UNAVAILABLE, RINGING, RINGINUSE, ONHOLD
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function update(string $deviceName, string $deviceState)
+    function update(string $deviceName, string $deviceState): void
     {
-        return $this->putRequest("/deviceStates/{$deviceName}", ['deviceState' => $deviceState]);
+        $this->putRequest("/deviceStates/{$deviceName}", ['deviceState' => $deviceState]);
     }
 
     /**
      * @param string $deviceName
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function delete(string $deviceName)
+    function delete(string $deviceName): void
     {
-        return $this->deleteRequest("/deviceStates/{$deviceName}");
+        $this->deleteRequest("/deviceStates/{$deviceName}");
     }
 }

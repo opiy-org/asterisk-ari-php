@@ -12,12 +12,11 @@ use Monolog\Logger;
 use ReflectionClass;
 use Symfony\Component\Yaml\Yaml;
 
-
 /**
  * @param array $array
  * @return string
  */
-function glueArrayOfStrings(array $array)
+function glueArrayOfStrings(array $array): string
 {
     $result = '';
     foreach ($array as $option) {
@@ -30,7 +29,7 @@ function glueArrayOfStrings(array $array)
 /**
  * @return array
  */
-function getAsteriskDefaultSettings()
+function getAsteriskDefaultSettings(): array
 {
     return [
         'host' => 'localhost',
@@ -46,7 +45,7 @@ function getAsteriskDefaultSettings()
  * @param array $myApiSettings
  * @return array
  */
-function parseMyApiSettings(array $myApiSettings)
+function parseMyApiSettings(array $myApiSettings): array
 {
     return array_merge([
         'httpsEnabled' => false,
@@ -64,7 +63,7 @@ function parseMyApiSettings(array $myApiSettings)
  * @param array $ariSettings
  * @return array
  */
-function parseAriSettings(array $ariSettings)
+function parseAriSettings(array $ariSettings): array
 {
     return array_merge(
         array_merge(['httpsEnabled' => false], getAsteriskDefaultSettings()), $ariSettings);
@@ -75,7 +74,7 @@ function parseAriSettings(array $ariSettings)
  * @param array $webSocketSettings
  * @return array
  */
-function parseWebSocketSettings(array $webSocketSettings)
+function parseWebSocketSettings(array $webSocketSettings): array
 {
     return array_merge(
         array_merge(['wssEnabled' => false], getAsteriskDefaultSettings()), $webSocketSettings);
@@ -86,9 +85,8 @@ function parseWebSocketSettings(array $webSocketSettings)
  * @param $object
  * @return string
  */
-function getShortClassName($object)
+function getShortClassName($object): string
 {
-
     try {
         $reflect = new ReflectionClass($object);
         return $reflect->getShortName();
@@ -107,20 +105,21 @@ function getShortClassName($object)
  * @param string $name
  * @return Logger
  */
-function initLogger(string $name)
+function initLogger(string $name): Logger
 {
     $logger = new Logger($name);
 
     $settings = Yaml::parseFile(__DIR__ . '/../environment.yaml');
 
     try {
+        $stdOutPath = 'php://stdout';
         $settings['app']['debugmode'] ?
-            $logger->pushHandler(new StreamHandler('php://stdout', Logger::DEBUG))
+            $logger->pushHandler(new StreamHandler($stdOutPath, Logger::DEBUG))
             : $logger->pushHandler(new NullHandler(Logger::DEBUG));
         $logger->pushHandler(
-            new StreamHandler('php://stdout', Logger::INFO));
+            new StreamHandler($stdOutPath, Logger::INFO));
         $logger->pushHandler(
-            new StreamHandler('php://stdout', Logger::WARNING));
+            new StreamHandler($stdOutPath, Logger::WARNING));
         $logger->pushHandler(
             new StreamHandler('php://stderr', Logger::ERROR));
 

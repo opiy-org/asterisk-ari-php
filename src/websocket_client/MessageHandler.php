@@ -13,8 +13,8 @@ use GuzzleHttp\Exception\GuzzleException;
 use Monolog\Logger;
 use Nekland\Woketo\Core\AbstractConnection;
 use Nekland\Woketo\Exception\WebsocketException;
-use function AriStasisApp\{getShortClassName, initLogger, parseMyApiSettings};
 use Nekland\Woketo\Message\TextMessageHandler;
+use function AriStasisApp\{getShortClassName, initLogger, parseMyApiSettings};
 
 /**
  * Class MessageHandler
@@ -89,8 +89,7 @@ class MessageHandler extends TextMessageHandler
 
         try {
             $this->guzzleClient->request('PUT', $webHookUri, ['json' => json_decode($data)]);
-        }
-        catch (GuzzleException $exception) {
+        } catch (GuzzleException $exception) {
             $this->logger->error($exception->getMessage());
         }
 

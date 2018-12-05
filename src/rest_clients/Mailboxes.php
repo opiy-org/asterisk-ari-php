@@ -9,6 +9,8 @@
 namespace AriStasisApp\rest_clients;
 
 
+use AriStasisApp\models\Mailbox;
+
 /**
  * Class Mailboxes
  *
@@ -17,13 +19,10 @@ namespace AriStasisApp\rest_clients;
 class Mailboxes extends AriRestClient
 {
     /**
-     * @OA\Get(
-     *     path="/applications",
-     *     @OA\Response(response="200", description="An example resource")
-     * )
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @return bool|mixed|\Psr\Http\Message\ResponseInterface TODO: List[Mailbox]
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function list()
+    function list(): array
     {
         return $this->getRequest('/mailboxes');
     }
@@ -31,30 +30,34 @@ class Mailboxes extends AriRestClient
     /**
      * @param string $mailboxName
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \JsonMapper_Exception
      */
-    function get(string $mailboxName)
+    function get(string $mailboxName): Mailbox
     {
-        return $this->getRequest("/mailboxes/{$mailboxName}");
+        $response = $this->getRequest("/mailboxes/{$mailboxName}");
+        return $this->jsonMapper->map(json_decode($response->getBody()), new Mailbox());
+
     }
 
     /**
      * @param string $mailboxName
      * @param int $oldMessages
      * @param int $newMessages
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function update(string $mailboxName, int $oldMessages, int $newMessages)
+    function update(string $mailboxName, int $oldMessages, int $newMessages): void
     {
-        return $this->putRequest("/mailboxes/{$mailboxName}",
+        $this->putRequest("/mailboxes/{$mailboxName}",
             ['oldMessages' => $oldMessages, 'newMessages' => $newMessages]);
     }
 
     /**
      * @param string $mailboxName
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function delete(string $mailboxName)
+    function delete(string $mailboxName): void
     {
-        return $this->deleteRequest("/mailboxes/{$mailboxName}");
+        $this->deleteRequest("/mailboxes/{$mailboxName}");
     }
 }

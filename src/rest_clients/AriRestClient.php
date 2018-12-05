@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @author Lukas Stermann
  * @author Rick Barenthin
@@ -11,6 +10,7 @@ namespace AriStasisApp\rest_clients;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Response;
+use JsonMapper;
 use Monolog\Logger;
 use function AriStasisApp\{getShortClassName, initLogger, parseAriSettings};
 
@@ -21,6 +21,11 @@ use function AriStasisApp\{getShortClassName, initLogger, parseAriSettings};
  */
 class AriRestClient
 {
+    /**
+     * @var JsonMapper
+     */
+    protected $jsonMapper;
+
     /**
      * @var Logger
      */
@@ -36,28 +41,54 @@ class AriRestClient
      */
     private $rootUri;
 
-
     /**
-     * Singleton. So nobody should be able to access this.
-     *
      * AriRestClient constructor.
-     * @param array $ariSettings
+     *
+     * @param string $ariUser
+     * @param string $ariPassword
+     * @param array $otherAriSettings
      */
-    function __construct(array $ariSettings = []){
-        $settings = parseAriSettings($ariSettings);
-
+    function __construct(string $ariUser, string $ariPassword, array $otherAriSettings = [])
+    {
+        $ariSettings = parseAriSettings($otherAriSettings);
         $this->logger = initLogger(getShortClassName($this));
 
-        $httpType = $settings['httpsEnabled'] ? 'https' : 'http';
-        // TODO: Parse rootUri, so there won't be conflicts with '/'
-        $baseUri = "{$httpType}://{$settings['host']}:{$settings['port']}";
-        $this->rootUri = $settings['rootUri'];
-
+        $httpType = $ariSettings['httpsEnabled'] ? 'https' : 'http';
+        $baseUri = "{$httpType}://{$ariSettings['host']}:{$ariSettings['port']}/";
+        $this->rootUri = $ariSettings['rootUri'];
         $this->guzzleClient =
-            new Client(['base_uri' => $baseUri, 'auth' => [$settings['user'], $settings['password']]]);
+            new Client(['base_uri' => $baseUri, 'auth' => [$ariUser, $ariPassword]]);
+        $this->jsonMapper = new JsonMapper();
+        $this->jsonMapper->bIgnoreVisibility = true;
     }
 
     /**
+     * Sends a POST request via a GuzzleClient to Asterisk.
+     *
+     * @param string $uri
+     * @param array $queryParameters
+     * @param array $body
+     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws GuzzleException
+     */
+    protected function postRequest(string $uri, array $queryParameters = [], array $body = [])
+    {
+        $method = 'POST';
+        $uri = $this->rootUri . $uri;
+        try {
+            $this->logRequest($method, $uri, $queryParameters, $body);
+            $response = $this->guzzleClient->request($method, $uri, ['json' => $body, 'query' => $queryParameters]);
+            $this->logResponse($response, $method, $uri);
+            return $response;
+        } catch (GuzzleException $guzzleException) {
+            $this->logException($guzzleException, $method, $uri, $queryParameters, $body);
+            throw $guzzleException;
+        }
+    }
+
+    /**
+     * Logs Requests for debugging purposes.
+     *
      * @param string $method
      * @param string $uri
      * @param array $queryParameters
@@ -65,13 +96,15 @@ class AriRestClient
      */
     private function logRequest(string $method, string $uri, array $queryParameters = [], array $body = [])
     {
-
+        $queryParameters = print_r($queryParameters, true);
+        $body = print_r($body, true);
         $this->logger->debug("Sending Request... Method: {$method} | URI: {$uri} | "
             . "QueryParameters: {$queryParameters} | Body: {$body}");
     }
 
-
     /**
+     * Logs Responses for debugging purposes.
+     *
      * @param Response $response
      * @param string $method
      * @param string $uri
@@ -83,8 +116,9 @@ class AriRestClient
             . "Body: {$response->getBody()}");
     }
 
-
     /**
+     * Logs Exceptions in case of an error.
+     *
      * @param \Exception $e
      * @param string $method
      * @param string $uri
@@ -106,33 +140,13 @@ class AriRestClient
         );
     }
 
-
     /**
-     * @param string $uri
-     * @param array $queryParameters
-     * @param array $body
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
-     */
-    public function postRequest(string $uri, array $queryParameters = [], array $body = [])
-    {
-        $method = 'POST';
-        $uri = $this->rootUri . $uri;
-        try {
-            $this->logRequest($method, $uri, $queryParameters, $body);
-            $response = (new Client())->request($method, $uri, ['json' => $body, 'query' => $queryParameters]);
-            $this->logResponse($response, $method, $uri);
-            return $response;
-        } catch (GuzzleException $e) {
-            $this->logException($e, $method, $uri, $queryParameters, $body);
-            return false;
-        }
-    }
-
-
-    /**
+     * Sends a GET request via a GuzzleClient to Asterisk.
+     *
      * @param string $uri
      * @param array $queryParameters
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws GuzzleException
      */
     protected function getRequest(string $uri, array $queryParameters = [])
     {
@@ -144,17 +158,20 @@ class AriRestClient
             $this->logResponse($response, $method, $uri);
 
             return $response;
-        } catch (GuzzleException $e) {
-            $this->logException($e, $method, $uri, $queryParameters);
-            return false;
+        } catch (GuzzleException $guzzleException) {
+            $this->logException($guzzleException, $method, $uri, $queryParameters);
+            throw $guzzleException;
         }
     }
 
 
     /**
+     * Sends a DELETE request via a GuzzleClient to Asterisk.
+     *
      * @param string $uri
      * @param array $queryParameters
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws GuzzleException
      */
     protected function deleteRequest(string $uri, array $queryParameters = [])
     {
@@ -165,18 +182,21 @@ class AriRestClient
             $response = $this->guzzleClient->request($method, $uri, ['query' => $queryParameters]);
             $this->logResponse($response, $method, $uri);
             return $response;
-        } catch (GuzzleException $e) {
-            $this->logException($e, $method, $uri);
-            return false;
+        } catch (GuzzleException $guzzleException) {
+            $this->logException($guzzleException, $method, $uri);
+            throw $guzzleException;
         }
     }
 
 
     /**
+     * Sends a PUT request via a GuzzleClient to Asterisk.
+     *
      * @param string $uri
      * @param array $body
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface
      * TODO: Check, if all extending clients only use the second parameter for BODY, not mistakenly query parameters
+     * @throws GuzzleException
      */
     protected function putRequest(string $uri, array $body = [])
     {
@@ -187,9 +207,9 @@ class AriRestClient
             $response = $this->guzzleClient->request($method, $uri, ['json' => $body]);
             $this->logResponse($response, $method, $uri);
             return $response;
-        } catch (GuzzleException $e) {
-            $this->logException($e, $method, $uri, [], $body);
-            return false;
+        } catch (GuzzleException $guzzleException) {
+            $this->logException($guzzleException, $method, $uri, [], $body);
+            throw $guzzleException;
         }
     }
 }

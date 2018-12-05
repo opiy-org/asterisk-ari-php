@@ -18,6 +18,7 @@ class Playbacks extends AriRestClient
     /**
      * @param string $playbackId
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     function get(string $playbackId)
     {
@@ -27,6 +28,7 @@ class Playbacks extends AriRestClient
     /**
      * @param string $playbackId
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     function stop(string $playbackId)
     {
@@ -37,6 +39,7 @@ class Playbacks extends AriRestClient
      * @param string $playbackId
      * @param string $operation Allowed: restart, pause, unpause, reverse, forward
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     function control(string $playbackId, string $operation)
     {

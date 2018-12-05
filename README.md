@@ -92,28 +92,43 @@ Simple ARI request to send an event
 
 /**
  * @author Lukas Stermann
- * @author Rick Barentin
+ * @author Rick Barenthin
  * @copyright ng-voice GmbH (2018)
  *
  * Example for usage in your application.
+ *
+ * TODO: READ FIRST!
+ * Open two terminals and start two processes, to recieve the two asterisk events.
+ * 'php example_ari_websocket.php ExampleStasisApp'
+ * 'php example_ari_websocket.php AnotherStasisApp'
  */
 
-use AriStasisApp\rest_clients\Asterisk;
-use AriStasisApp\rest_clients\Events;
+use AriStasisApp\AriClient;
+use GuzzleHttp\Exception\GuzzleException;
 
-require_once '/vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
+$ariClient = new AriClient('asterisk', 'asterisk');
+$asterikClient = $ariClient->getAsteriskClient();
+$eventsClient = $ariClient->getEventsClient();
 
-// E.g. get your asterisk settings (This will not trigger stasis app events!)
-$asterisk = new Asterisk();
-$asteriskInfo = $asterisk->getInfo();
+try {
+    // E.g. get your asterisk settings (This will not trigger stasis app events!)
+    $asterikClient->getInfo();
 
-/*
- * This ARI client can generate custom user events for specific applications. Nice and simple to test your setup :)
- * The events will be published to your AMQP server.
- */
-$events = new Events();
-$events->userEvent('customEventExample', 'ExampleStasisApp');
+    /*
+     * This ARI client can generate custom user events for specific applications. Nice and simple to test your setup :)
+     * The events will be published to your AMQP server.
+     */
+    $eventsClient->userEvent('customEventExample', 'ExampleStasisApp');
+    $eventsClient->userEvent('customEventAnother', 'AnotherStasisApp');
+}
+catch (GuzzleException $guzzleException) {
+    print_r($guzzleException->getMessage());
+}
+catch (JsonMapper_Exception $jsonMapper_Exception) {
+    print_r($jsonMapper_Exception->getMessage());
+}
 ```
 ## FAQ
 Q: Why didn't you also implement consumers?!
@@ -150,6 +165,8 @@ Possible TODO's if you want to contribute but don't have an own idea:
 
 - Test the clients!
 
+- Throwing Exceptions if Bad Request etc?!
+
 [Asterisk]
 
 - Restrict origin of ARI to localhost.
@@ -164,3 +181,15 @@ Possible TODO's if you want to contribute but don't have an own idea:
 - Pact
 
 - TESTING!!!!
+
+- JSON Validation with justinrainbow/json-schema
+
+- Get rid of JSON Mapper exceptions for Client. Not his fault!
+
+- Rename GuzzleExceptions to something from the own library.
+
+- Subtypes Getter/setter public and class that was extended from no getter/setter and protected attributes!?
+
+- Add a MissingParams model to /messages? This is only required when the WebSocketClient fails during Startup so wayne?!
+
+- Take care of Lists in models!!!! Not yet implemented
