@@ -25,6 +25,13 @@ class SystemInfo
      */
     private $version;
 
+    /**
+     * @return string
+     */
+    public function getEntityId(): string
+    {
+        return $this->entityId;
+    }
 
     /**
      * @param string $entityId

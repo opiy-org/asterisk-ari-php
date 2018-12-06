@@ -77,15 +77,16 @@ Now, how should we handle events, that are sent to our WebSocketClient workers?
 Out of the box you can use the `LocalAppMessageHandler` (handling event objects in a local App) 
 or the `WebHookMessageHandler` (sending events to another API) but of course you can write your own.
 
-## FAQ
+## Testing
+
+./vendor/bin/phpunit
+sonar-scanner -Dsonar.projectKey=Arilib  -Dsonar.sources=./src -Dsonar.host.url=http://localhost:9000 -Dsonar.login=f96892641be737c31734396a9fcc567e5faf2d92 -Dsonar.php.coverage.reportPath=tests/results/code-coverage-report.xml
 
 ##Contact
-We are happy to help! Feel free to send us a message! :) 
+ng-voice is happy to help! Feel free to send us a message! :) 
 We'd also love to hear about your application ideas and use cases.
 
 - Lukas Stermann lukas@ng-voice.com
-
-- Rick Barenthin rick@ng-voice.com
 
 ##Licence
 MIT

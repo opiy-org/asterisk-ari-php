@@ -10,11 +10,6 @@
       "name": "Lukas Stermann",
       "email": "lukas@ng-voice.com",
       "homepage": "https://ng-voice.com"
-    },
-    {
-      "name": "Rick Barenthin",
-      "email": "rick@ng-voice.com",
-      "homepage": "https://ng-voice.com"
     }
   ],
   "require" : {
@@ -30,7 +25,8 @@
   },
   "require-dev": {
     "phpunit/phpunit": "7.4.3",
-    "phpunit/php-code-coverage": "6.1.4"
+    "phpunit/php-code-coverage": "6.1.4",
+    "ext-xdebug": "*"
   },
   "autoload": {
     "psr-4": {

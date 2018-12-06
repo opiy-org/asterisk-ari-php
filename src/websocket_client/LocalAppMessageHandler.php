@@ -69,7 +69,7 @@ class LocalAppMessageHandler extends TextMessageHandler
         $ariEventType = $decodedJson->type;
 
         try {
-            $jsonEvent = $this->jsonMapper->map($decodedJson, new $ariEventType());
+            $jsonEvent = $this->jsonMapper->map($decodedJson, new $ariEventType);
         }
         catch (JsonMapper_Exception $jsonMapper_Exception) {
             $this->logger->error($jsonMapper_Exception->getMessage());

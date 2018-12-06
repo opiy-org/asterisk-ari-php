@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "25ed1ad2aa3b5882860c0e369ee7c9b9",
+    "content-hash": "5a4bfe57561b809e903b80349672ed52",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1066,7 +1066,7 @@
         },
         {
             "name": "symfony/finder",
-            "version": "v4.2.0",
+            "version": "v4.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
@@ -2713,5 +2713,7 @@
         "php": ">=7.2.11",
         "ext-json": "*"
     },
-    "platform-dev": []
+    "platform-dev": {
+        "ext-xdebug": "*"
+    }
 }
