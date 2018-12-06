@@ -28,14 +28,14 @@ use AriStasisApp\rest_clients\{Applications,
 class AriClient
 {
     /**
-     * @var Applications
+     * @var Events
      */
-    private $applicationsClient;
+    private $eventsClient;
 
     /**
-     * @var Asterisk
+     * @var Sounds
      */
-    private $asteriskClient;
+    private $soundsClient;
 
     /**
      * @var Bridges
@@ -43,24 +43,19 @@ class AriClient
     private $bridgesClient;
 
     /**
+     * @var Asterisk
+     */
+    private $asteriskClient;
+
+    /**
      * @var Channels
      */
     private $channelsClient;
 
     /**
-     * @var DeviceStates
-     */
-    private $deviceStatesClient;
-
-    /**
      * @var Endpoints
      */
     private $endpointsClient;
-
-    /**
-     * @var Events
-     */
-    private $eventsClient;
 
     /**
      * @var Mailboxes
@@ -78,9 +73,14 @@ class AriClient
     private $recordingsClient;
 
     /**
-     * @var Sounds
+     * @var Applications
      */
-    private $soundsClient;
+    private $applicationsClient;
+
+    /**
+     * @var DeviceStates
+     */
+    private $deviceStatesClient;
 
     /**
      * AriClient constructor.
@@ -91,33 +91,33 @@ class AriClient
      */
     function __construct(string $ariUser, string $ariPassword, array $otherAriSettings = [])
     {
-        $this->applicationsClient = new Applications($ariUser, $ariPassword, $otherAriSettings);
-        $this->asteriskClient = new Asterisk($ariUser, $ariPassword, $otherAriSettings);
-        $this->bridgesClient = new Bridges($ariUser, $ariPassword, $otherAriSettings);
-        $this->channelsClient = new Channels($ariUser, $ariPassword, $otherAriSettings);
-        $this->deviceStatesClient = new DeviceStates($ariUser, $ariPassword, $otherAriSettings);
-        $this->endpointsClient = new Endpoints($ariUser, $ariPassword, $otherAriSettings);
         $this->eventsClient = new Events($ariUser, $ariPassword, $otherAriSettings);
+        $this->soundsClient = new Sounds($ariUser, $ariPassword, $otherAriSettings);
+        $this->bridgesClient = new Bridges($ariUser, $ariPassword, $otherAriSettings);
+        $this->asteriskClient = new Asterisk($ariUser, $ariPassword, $otherAriSettings);
+        $this->channelsClient = new Channels($ariUser, $ariPassword, $otherAriSettings);
+        $this->endpointsClient = new Endpoints($ariUser, $ariPassword, $otherAriSettings);
         $this->mailboxesClient = new Mailboxes($ariUser, $ariPassword, $otherAriSettings);
         $this->playbacksClient = new Playbacks($ariUser, $ariPassword, $otherAriSettings);
         $this->recordingsClient = new Recordings($ariUser, $ariPassword, $otherAriSettings);
-        $this->soundsClient = new Sounds($ariUser, $ariPassword, $otherAriSettings);
+        $this->applicationsClient = new Applications($ariUser, $ariPassword, $otherAriSettings);
+        $this->deviceStatesClient = new DeviceStates($ariUser, $ariPassword, $otherAriSettings);
     }
 
     /**
-     * @return Applications
+     * @return Events
      */
-    public function getApplicationsClient(): Applications
+    public function getEventsClient(): Events
     {
-        return $this->applicationsClient;
+        return $this->eventsClient;
     }
 
     /**
-     * @return Asterisk
+     * @return Sounds
      */
-    public function getAsteriskClient(): Asterisk
+    public function getSoundsClient(): Sounds
     {
-        return $this->asteriskClient;
+        return $this->soundsClient;
     }
 
     /**
@@ -129,6 +129,14 @@ class AriClient
     }
 
     /**
+     * @return Asterisk
+     */
+    public function getAsteriskClient(): Asterisk
+    {
+        return $this->asteriskClient;
+    }
+
+    /**
      * @return Channels
      */
     public function getChannelsClient(): Channels
@@ -137,27 +145,11 @@ class AriClient
     }
 
     /**
-     * @return DeviceStates
-     */
-    public function getDeviceStatesClient(): DeviceStates
-    {
-        return $this->deviceStatesClient;
-    }
-
-    /**
      * @return Endpoints
      */
     public function getEndpointsClient(): Endpoints
     {
         return $this->endpointsClient;
-    }
-
-    /**
-     * @return Events
-     */
-    public function getEventsClient(): Events
-    {
-        return $this->eventsClient;
     }
 
     /**
@@ -185,10 +177,18 @@ class AriClient
     }
 
     /**
-     * @return Sounds
+     * @return Applications
      */
-    public function getSoundsClient(): Sounds
+    public function getApplicationsClient(): Applications
     {
-        return $this->soundsClient;
+        return $this->applicationsClient;
+    }
+
+    /**
+     * @return DeviceStates
+     */
+    public function getDeviceStatesClient(): DeviceStates
+    {
+        return $this->deviceStatesClient;
     }
 }

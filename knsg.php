@@ -10,7 +10,7 @@ $ariClient = new AriClient('asterisk','asterisk');
 $asteriskClient = $ariClient->getAsteriskClient();
 
 try {
-    // Get general Information about your Asterisk.
+    // Get general information about your Asterisk.
     $asteriskInfo = $asteriskClient->getInfo();
 
     // Setting and getting an asterisk global variable
