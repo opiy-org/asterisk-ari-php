@@ -1,8 +1,8 @@
-# Asterisk RESTful Interface (ARI) WebHook Library
+# Asterisk RESTful Interface (ARI) Client Library
 
-Using Asterisk in a microservice environment by .
+Object oriented REST calls, handling Asterisk events like a piece of cake.
 
-`Implemented for Asterisk 16!`
+`Implemented with php7.2 and tested for Asterisk 16!`
 
 ## Installation
 Use this library with composer and include it into your composer.json by using the terminal command
