@@ -2,7 +2,6 @@
 
 /**
  * @author Lukas Stermann
- * @author Rick Barenthin
  * @copyright ng-voice GmbH (2018)
  *
  * The asterisk events will be received by a web socket client which then sends them to your API.

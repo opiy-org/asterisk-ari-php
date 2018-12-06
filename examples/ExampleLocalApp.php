@@ -1,7 +1,7 @@
 <?php
+
 /**
  * @author Lukas Stermann
- * @author Rick Barenthin
  * @copyright ng-voice GmbH (2018)
  */
 
