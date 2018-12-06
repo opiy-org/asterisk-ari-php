@@ -1,13 +1,11 @@
 <?php
 
-use AriStasisApp\AriClient;
+use AriStasisApp\rest_clients\Asterisk;
 use GuzzleHttp\Exception\GuzzleException;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-
-$ariClient = new AriClient('asterisk','asterisk');
-$asteriskClient = $ariClient->getAsteriskClient();
+$asteriskClient = new Asterisk('asterisk', 'asterisk');
 
 try {
     // Get general information about your Asterisk.
@@ -21,9 +19,6 @@ try {
 }
 catch (GuzzleException $guzzleException) {
     syslog(LOG_ERR, $guzzleException->getMessage());
-}
-catch (JsonMapper_Exception $jsonMapper_Exception) {
-    syslog(LOG_ERR, $jsonMapper_Exception->getMessage());
 }
 
 echo $asteriskInfo->getStatus()->getStartupTime() . "\n";

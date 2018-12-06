@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Lukas Stermann
  * @author Rick Barenthin
@@ -29,7 +30,7 @@ class AriRestClient
     /**
      * @var Logger
      */
-    private $logger;
+    protected $logger;
 
     /**
      * @var Client

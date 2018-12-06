@@ -17,11 +17,11 @@ use Nekland\Woketo\Message\TextMessageHandler;
 use function AriStasisApp\{getShortClassName, initLogger, parseMyApiSettings};
 
 /**
- * Class MessageHandler
+ * Class WebHookMessageHandler
  *
  * @package AriStasisApp\rabbitmq
  */
-class MessageHandler extends TextMessageHandler
+class WebHookMessageHandler extends TextMessageHandler
 {
     /**
      * @var Logger
@@ -38,9 +38,8 @@ class MessageHandler extends TextMessageHandler
      */
     private $webHookUri;
 
-
     /**
-     * MessageHandler constructor.
+     * WebHookMessageHandler constructor.
      * @param array $myApiSettings
      */
     function __construct(array $myApiSettings)

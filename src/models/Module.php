@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Lukas Stermann
  * @author Rick Barenthin
@@ -111,5 +112,4 @@ class Module
     {
         $this->description = $description;
     }
-
 }

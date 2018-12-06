@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Lukas Stermann
  * @author Rick Barenthin
@@ -9,6 +10,7 @@ namespace AriStasisApp\rest_clients;
 
 use AriStasisApp\models\{AsteriskInfo, Module, Variable};
 use function AriStasisApp\glueArrayOfStrings;
+use JsonMapper_Exception;
 
 /**
  * Class Asterisk
@@ -25,7 +27,7 @@ class Asterisk extends AriRestClient
      * @throws \GuzzleHttp\Exception\GuzzleException
      * TODO: "responseClass": "List[ConfigTuple]",
      */
-    function getObject(string $configClass, string $objectType, string $id)
+    function getObject(string $configClass, string $objectType, string $id): array
     {
         return $this->getRequest("/asterisk/config/dynamic/{$configClass}/{$objectType}/{$id}");
     }
@@ -40,7 +42,7 @@ class Asterisk extends AriRestClient
      * @throws \GuzzleHttp\Exception\GuzzleException
      * TODO: "responseClass": "List[ConfigTuple]",
      */
-    function createOrUpdateObject(string $configClass, string $objectType, string $id, array $body = [])
+    function createOrUpdateObject(string $configClass, string $objectType, string $id, array $body = []): array
     {
         $parsedBody = ['fields' => []];
         if ($body === []) {
@@ -70,7 +72,6 @@ class Asterisk extends AriRestClient
      *
      * @return AsteriskInfo|object
      * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \JsonMapper_Exception
      */
     function getInfo(array $only = []): AsteriskInfo
     {
@@ -81,7 +82,13 @@ class Asterisk extends AriRestClient
             $response = $this->getRequest('/asterisk/info');
         }
 
-        return $this->jsonMapper->map(json_decode($response->getBody()), new AsteriskInfo());
+        try {
+            return $this->jsonMapper->map(json_decode($response->getBody()), new AsteriskInfo());
+        }
+        catch (JsonMapper_Exception $jsonMapper_Exception) {
+            $this->logger->error($jsonMapper_Exception->getMessage());
+            exit;
+        }
     }
 
     /**
@@ -89,7 +96,7 @@ class Asterisk extends AriRestClient
      * @throws \GuzzleHttp\Exception\GuzzleException
      * TODO: "responseClass": "List[Module]",
      */
-    function listModules()
+    function listModules(): array
     {
         return $this->getRequest('/asterisk/modules');
     }
@@ -98,12 +105,18 @@ class Asterisk extends AriRestClient
      * @param string $moduleName
      * @return Module|object
      * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \JsonMapper_Exception
      */
     function getModule(string $moduleName): Module
     {
         $response = $this->getRequest("/asterisk/modules/{$moduleName}");
-        return $this->jsonMapper->map(json_decode($response->getBody()), new Module());
+
+        try {
+            return $this->jsonMapper->map(json_decode($response->getBody()), new Module());
+        }
+        catch (JsonMapper_Exception $jsonMapper_Exception) {
+            $this->logger->error($jsonMapper_Exception->getMessage());
+            exit;
+        }
     }
 
     /**
@@ -138,7 +151,7 @@ class Asterisk extends AriRestClient
      * @throws \GuzzleHttp\Exception\GuzzleException
      * TODO: "responseClass": "List[LogChannel]"
      */
-    function listLogChannels()
+    function listLogChannels(): array
     {
         return $this->getRequest('asterisk/logging');
     }
@@ -175,12 +188,17 @@ class Asterisk extends AriRestClient
      * @param string $variable
      * @return Variable|object
      * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \JsonMapper_Exception
      */
     function getGlobalVar(string $variable): Variable
     {
         $response = $this->getRequest('/asterisk/variable', ['variable' => $variable]);
-        return $this->jsonMapper->map(json_decode($response->getBody()), new Variable());
+        try {
+            return $this->jsonMapper->map(json_decode($response->getBody()), new Variable());
+        }
+        catch (JsonMapper_Exception $jsonMapper_Exception) {
+            $this->logger->error($jsonMapper_Exception->getMessage());
+            exit;
+        }
     }
 
     /**
