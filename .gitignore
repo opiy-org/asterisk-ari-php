@@ -12,3 +12,6 @@ composer.phar
 
 # logfiles
 log
+
+# Sonarqube Properties File
+sonar-project.properties

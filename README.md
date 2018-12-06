@@ -78,9 +78,11 @@ Out of the box you can use the `LocalAppMessageHandler` (handling event objects 
 or the `WebHookMessageHandler` (sending events to another API) but of course you can write your own.
 
 ## Testing
+You can run the tests as follows:
 
-./vendor/bin/phpunit
-sonar-scanner -Dsonar.projectKey=Arilib  -Dsonar.sources=./src -Dsonar.host.url=http://localhost:9000 -Dsonar.login=f96892641be737c31734396a9fcc567e5faf2d92 -Dsonar.php.coverage.reportPath=tests/results/code-coverage-report.xml
+    ./vendor/bin/phpunit
+
+sonar-scanner
 
 ##Contact
 ng-voice is happy to help! Feel free to send us a message! :) 
