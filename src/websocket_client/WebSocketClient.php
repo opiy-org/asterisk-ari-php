@@ -54,6 +54,8 @@ class WebSocketClient
             $loggerName = $shortClassName . "-{$appName}";
         }
         $this->logger = initLogger($loggerName);
+        // TODO: Make this more flexible, enable the coders to use their own messageHandler here for there purposes.
+        //   Also rename the MessageHandler.
         $this->messageHandler = new MessageHandler($myApiSettings);
 
         // Initialize the WebSocket

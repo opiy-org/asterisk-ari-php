@@ -22,7 +22,7 @@ use AriStasisApp\models\Endpoint;
 /**
  * Class Endpoints
  *
- * @package AriStasisApp\ariclients
+ * @package AriStasisApp\ariclients TODO: Change pakckage name in every Client to the correct one.
  */
 class Endpoints extends AriRestClient
 {
