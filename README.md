@@ -6,7 +6,7 @@ Object oriented REST calls, handling Asterisk events like a piece of cake.
 
 ## Installation
 Use this library with composer and include it into your composer.json by using the terminal command
-`composer require ng-voice/arilib` ??????
+`composer require ng-voice/ari-client-lib`
 
 ##### PHP extensions
 You might run into troubles with missing php extensions. The following are required:
@@ -71,6 +71,12 @@ Simple ARI request to send an event
 ```php
 
 ```
+
+Now, how should we handle events, that are sent to our WebSocketClient workers?
+
+Out of the box you can use the `LocalAppMessageHandler` (handling event objects in a local App) 
+or the `WebHookMessageHandler` (sending events to another API) but of course you can write your own.
+
 ## FAQ
 
 ##Contact
