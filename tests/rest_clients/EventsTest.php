@@ -20,9 +20,6 @@ use PHPUnit\Framework\TestCase;
  */
 final class EventsTest extends TestCase
 {
-    /**
-     *
-     */
     public function testCreateInstance(): void
     {
         $this->assertInstanceOf(Events::class, new Events('asterisk','asterisk'));

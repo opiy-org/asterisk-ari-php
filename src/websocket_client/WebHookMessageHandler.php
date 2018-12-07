@@ -83,15 +83,14 @@ class WebHookMessageHandler extends TextMessageHandler
     public function onMessage(string $data, AbstractConnection $connection)
     {
         $this->logger->debug("Received raw message from asterisk WebSocket server: {$data}");
-        $webHookUri = $this->webHookUri;
 
         try {
-            $this->guzzleClient->request('PUT', $webHookUri, ['json' => json_decode($data)]);
+            $this->guzzleClient->request('PUT', $this->webHookUri, ['json' => json_decode($data)]);
         } catch (GuzzleException $exception) {
             $this->logger->error($exception->getMessage());
         }
 
-        $this->logger->debug("Message successfully sent to {$webHookUri} on local application");
+        $this->logger->debug("Message successfully sent to {$this->webHookUri} on local application");
     }
 
 

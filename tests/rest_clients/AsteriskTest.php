@@ -10,11 +10,7 @@ declare(strict_types=1);
 namespace AriStasisApp\Tests\rest_clients;
 
 
-use AriStasisApp\models\AsteriskInfo;
-use AriStasisApp\models\BuildInfo;
-use AriStasisApp\models\ConfigInfo;
-use AriStasisApp\models\StatusInfo;
-use AriStasisApp\models\SystemInfo;
+use AriStasisApp\models\{AsteriskInfo, BuildInfo, ConfigInfo, StatusInfo, SystemInfo};
 use AriStasisApp\rest_clients\Asterisk;
 use PHPUnit\Framework\TestCase;
 
@@ -63,6 +59,4 @@ final class AsteriskTest extends TestCase
         $this->assertAttributeEquals(null, 'system', $asteriskInfo);
         $this->assertAttributeEquals(null,'status', $asteriskInfo);
     }
-
-
 }

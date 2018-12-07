@@ -9,6 +9,7 @@ namespace AriStasisApp\rest_clients;
 
 
 use AriStasisApp\models\Sound;
+use JsonMapper_Exception;
 
 /**
  * Class Sounds
@@ -30,11 +31,16 @@ class Sounds extends AriRestClient
      * @param string $soundId
      * @return Sound|object
      * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \JsonMapper_Exception
      */
     function get(string $soundId): Sound
     {
         $response = $this->getRequest("/sounds/{$soundId}");
-        return $this->jsonMapper->map(json_decode($response->getBody()), new Sound());
+        try {
+            return $this->jsonMapper->map(json_decode($response->getBody()), new Sound());
+        }
+        catch (JsonMapper_Exception $jsonMapper_Exception) {
+            $this->logger->error($jsonMapper_Exception->getMessage());
+            exit;
+        }
     }
 }

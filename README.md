@@ -80,7 +80,7 @@ or the `WebHookMessageHandler` (sending events to another API) but of course you
 ## Testing
 You can run the tests as follows:
 
-    ./vendor/bin/phpunit
+    ./vendor/bin/phpunit --testdox
 
 sonar-scanner
 
