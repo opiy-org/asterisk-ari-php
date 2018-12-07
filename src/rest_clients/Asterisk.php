@@ -7,9 +7,8 @@
 
 namespace AriStasisApp\rest_clients;
 
-use AriStasisApp\models\{AsteriskInfo, Module, Variable};
-use function AriStasisApp\glueArrayOfStrings;
-use JsonMapper_Exception;
+use function AriStasisApp\{mapJsonArrayToAriObjects, glueArrayOfStrings, mapJsonToAriObject};
+use AriStasisApp\models\{AsteriskInfo, ConfigTuple, LogChannel, Module, Variable};
 
 /**
  * Class Asterisk
@@ -22,13 +21,17 @@ class Asterisk extends AriRestClient
      * @param string $configClass
      * @param string $objectType
      * @param string $id
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @return ConfigTuple[]|object
      * @throws \GuzzleHttp\Exception\GuzzleException
-     * TODO: "responseClass": "List[ConfigTuple]",
      */
     function getObject(string $configClass, string $objectType, string $id): array
     {
-        return $this->getRequest("/asterisk/config/dynamic/{$configClass}/{$objectType}/{$id}");
+        return mapJsonArrayToAriObjects(
+            $this->getRequest("/asterisk/config/dynamic/{$configClass}/{$objectType}/{$id}"),
+            'AriStasisApp\models\ConfigTuple',
+            $this->jsonMapper,
+            $this->logger
+        );
     }
 
     /**
@@ -37,19 +40,26 @@ class Asterisk extends AriRestClient
      * @param string $id
      * @param array $body The body object should have a value that is a list of ConfigTuples,
      * which provide the fields to update. Ex. [ { "attribute": "directmedia", "value": "false" } ]
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @return ConfigTuple[]|object
      * @throws \GuzzleHttp\Exception\GuzzleException
-     * TODO: "responseClass": "List[ConfigTuple]",
      */
-    function createOrUpdateObject(string $configClass, string $objectType, string $id, array $body = []): array
+    function createOrUpdateObject(string $configClass, string $objectType, string $id, ?array $body): array
     {
         $parsedBody = ['fields' => []];
-        if ($body === []) {
-            foreach ($body as $key => $value) {
+        if (!is_null($body))
+        {
+            foreach ($body as $key => $value)
+            {
                 $parsedBody['fields'] = $parsedBody['fields'] + [['attribute' => $key, 'value' => $value]];
             }
         }
-        return $this->putRequest("/asterisk/config/dynamic/{$configClass}/{$objectType}/{$id}", $parsedBody);
+
+        return mapJsonArrayToAriObjects(
+            $this->putRequest("/asterisk/config/dynamic/{$configClass}/{$objectType}/{$id}", $parsedBody),
+            'AriStasisApp\models\ConfigTuple',
+            $this->jsonMapper,
+            $this->logger
+        );
     }
 
     /**
@@ -68,36 +78,38 @@ class Asterisk extends AriRestClient
      * Allowed values: build, system, config, status
      * Allows comma separated values.
      * @param array $only
-     *
      * @return AsteriskInfo|object
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     function getInfo(array $only = []): AsteriskInfo
     {
-        if ($only !== []) {
+        if ($only === []) {
+            $response = $this->getRequest('/asterisk/info');
+        } else {
             $only = glueArrayOfStrings($only);
             $response = $this->getRequest('/asterisk/info', ['only' => $only]);
-        } else {
-            $response = $this->getRequest('/asterisk/info');
         }
 
-        try {
-            return $this->jsonMapper->map(json_decode($response->getBody()), new AsteriskInfo());
-        }
-        catch (JsonMapper_Exception $jsonMapper_Exception) {
-            $this->logger->error($jsonMapper_Exception->getMessage());
-            exit;
-        }
+        return mapJsonToAriObject(
+            $response,
+            'AriStasisApp\models\AsteriskInfo',
+            $this->jsonMapper,
+            $this->logger
+        );
     }
 
     /**
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @return Module[]
      * @throws \GuzzleHttp\Exception\GuzzleException
-     * TODO: "responseClass": "List[Module]",
      */
     function listModules(): array
     {
-        return $this->getRequest('/asterisk/modules');
+        return mapJsonArrayToAriObjects(
+            $this->getRequest('/asterisk/modules'),
+            'AriStasisApp\models\Module',
+            $this->jsonMapper,
+            $this->logger
+        );
     }
 
     /**
@@ -107,15 +119,13 @@ class Asterisk extends AriRestClient
      */
     function getModule(string $moduleName): Module
     {
-        $response = $this->getRequest("/asterisk/modules/{$moduleName}");
+        return mapJsonToAriObject(
+            $this->getRequest("/asterisk/modules/{$moduleName}"),
+            'AriStasisApp\models\Module',
+            $this->jsonMapper,
+            $this->logger
+        );
 
-        try {
-            return $this->jsonMapper->map(json_decode($response->getBody()), new Module());
-        }
-        catch (JsonMapper_Exception $jsonMapper_Exception) {
-            $this->logger->error($jsonMapper_Exception->getMessage());
-            exit;
-        }
     }
 
     /**
@@ -146,13 +156,17 @@ class Asterisk extends AriRestClient
     }
 
     /**
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @return LogChannel[]
      * @throws \GuzzleHttp\Exception\GuzzleException
-     * TODO: "responseClass": "List[LogChannel]"
      */
     function listLogChannels(): array
     {
-        return $this->getRequest('asterisk/logging');
+        return mapJsonArrayToAriObjects(
+            $this->getRequest('asterisk/logging'),
+            'AriStasisApp\models\LogChannel',
+            $this->jsonMapper,
+            $this->logger
+        );
     }
 
     /**
@@ -190,14 +204,12 @@ class Asterisk extends AriRestClient
      */
     function getGlobalVar(string $variable): Variable
     {
-        $response = $this->getRequest('/asterisk/variable', ['variable' => $variable]);
-        try {
-            return $this->jsonMapper->map(json_decode($response->getBody()), new Variable());
-        }
-        catch (JsonMapper_Exception $jsonMapper_Exception) {
-            $this->logger->error($jsonMapper_Exception->getMessage());
-            exit;
-        }
+        return mapJsonToAriObject(
+            $this->getRequest('/asterisk/variable', ['variable' => $variable]),
+            'AriStasisApp\models\Variable',
+            $this->jsonMapper,
+            $this->logger
+        );
     }
 
     /**

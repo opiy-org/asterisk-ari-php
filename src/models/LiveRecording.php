@@ -16,22 +16,37 @@ namespace AriStasisApp\models;
 class LiveRecording
 {
     /**
+     * @var int Duration of talking, in seconds, detected in the recording.
+     * This is only available if the recording was initiated with a non-zero maxSilenceSeconds.
+     */
+    private $talkingDuration;
+
+    /**
      * @var string Base name for the recording.
+     * @required
      */
     private $name;
 
     /**
-     * @var string Recording format (wav, gsm, etc.).
-     */
-    private $format;
-
-    /**
      * @var string URI for the channel or bridge being recorded.
+     * @required
      */
     private $targetUri;
 
     /**
-     * @var string ("queued", "recording", "paused", "done", "failed", "canceled")
+     * @var string Recording format (wav, gsm, etc.).
+     * @required
+     */
+    private $format;
+
+    /**
+     * @var string Cause for recording failure if failed.
+     */
+    private $cause;
+
+    /**
+     * @var string ("queued", "recording", "paused", "done", "failed", "canceled").
+     * @required
      */
     private $state;
 
@@ -41,21 +56,26 @@ class LiveRecording
     private $duration;
 
     /**
-     * @var int Duration of talking, in seconds, detected in the recording.
-     * This is only available if the recording was initiated with a non-zero maxSilenceSeconds.
-     */
-    private $talkingDuration;
-
-    /**
      * @var int Duration of silence, in seconds, detected in the recording.
      * This is only available if the recording was initiated with a non-zero maxSilenceSeconds.
      */
     private $silenceDuration;
 
     /**
-     * @var string Cause for recording failure if failed
+     * @return int
      */
-    private $cause;
+    public function getTalkingDuration(): int
+    {
+        return $this->talkingDuration;
+    }
+
+    /**
+     * @param int $talkingDuration
+     */
+    public function setTalkingDuration(int $talkingDuration): void
+    {
+        $this->talkingDuration = $talkingDuration;
+    }
 
     /**
      * @return string
@@ -71,6 +91,22 @@ class LiveRecording
     public function setName(string $name): void
     {
         $this->name = $name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTargetUri(): string
+    {
+        return $this->targetUri;
+    }
+
+    /**
+     * @param string $targetUri
+     */
+    public function setTargetUri(string $targetUri): void
+    {
+        $this->targetUri = $targetUri;
     }
 
     /**
@@ -92,17 +128,17 @@ class LiveRecording
     /**
      * @return string
      */
-    public function getTargetUri(): string
+    public function getCause(): string
     {
-        return $this->targetUri;
+        return $this->cause;
     }
 
     /**
-     * @param string $targetUri
+     * @param string $cause
      */
-    public function setTargetUri(string $targetUri): void
+    public function setCause(string $cause): void
     {
-        $this->targetUri = $targetUri;
+        $this->cause = $cause;
     }
 
     /**
@@ -140,22 +176,6 @@ class LiveRecording
     /**
      * @return int
      */
-    public function getTalkingDuration(): int
-    {
-        return $this->talkingDuration;
-    }
-
-    /**
-     * @param int $talkingDuration
-     */
-    public function setTalkingDuration(int $talkingDuration): void
-    {
-        $this->talkingDuration = $talkingDuration;
-    }
-
-    /**
-     * @return int
-     */
     public function getSilenceDuration(): int
     {
         return $this->silenceDuration;
@@ -167,21 +187,5 @@ class LiveRecording
     public function setSilenceDuration(int $silenceDuration): void
     {
         $this->silenceDuration = $silenceDuration;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCause(): string
-    {
-        return $this->cause;
-    }
-
-    /**
-     * @param string $cause
-     */
-    public function setCause(string $cause): void
-    {
-        $this->cause = $cause;
     }
 }

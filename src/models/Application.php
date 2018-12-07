@@ -16,39 +16,98 @@ namespace AriStasisApp\models;
 class Application
 {
     /**
-     * Name of this application
-     *
-     * @var string
-     */
-    private $name;
-
-    /**
-     * Id's for channels subscribed to.
-     *
-     * @var array
-     */
-    private $channelIds;
-
-    /**
-     * Id's for bridges subscribed to.
-     *
-     * @var array
-     */
-    private $bridgeIds;
-
-    /**
-     * {tech}/{resource} for endpoints subscribed to.
-     *
-     * @var array
+     * @var string[] {tech}/{resource} for endpoints subscribed to.
+     * @required
      */
     private $endpointIds;
 
     /**
-     * Names of the devices subscribed to.
-     *
-     * @var array
+     * @var string[] Id's for channels subscribed to.
+     * @required
+     */
+    private $channelIds;
+
+    /**
+     * @var string[] Id's for bridges subscribed to.
+     * @required
+     */
+    private $bridgeIds;
+
+    /**
+     * @var string[] Names of the devices subscribed to.
+     * @required
      */
     private $deviceNames;
+
+    /**
+     * @var string Name of this application
+     * @required
+     */
+    private $name;
+
+    /**
+     * @return string[]
+     */
+    public function getEndpointIds(): array
+    {
+        return $this->endpointIds;
+    }
+
+    /**
+     * @param string[] $endpointIds
+     */
+    public function setEndpointIds(array $endpointIds): void
+    {
+        $this->endpointIds = $endpointIds;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getChannelIds(): array
+    {
+        return $this->channelIds;
+    }
+
+    /**
+     * @param string[] $channelIds
+     */
+    public function setChannelIds(array $channelIds): void
+    {
+        $this->channelIds = $channelIds;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getBridgeIds(): array
+    {
+        return $this->bridgeIds;
+    }
+
+    /**
+     * @param string[] $bridgeIds
+     */
+    public function setBridgeIds(array $bridgeIds): void
+    {
+        $this->bridgeIds = $bridgeIds;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getDeviceNames(): array
+    {
+        return $this->deviceNames;
+    }
+
+    /**
+     * @param string[] $deviceNames
+     */
+    public function setDeviceNames(array $deviceNames): void
+    {
+        $this->deviceNames = $deviceNames;
+    }
 
     /**
      * @return string
@@ -64,69 +123,5 @@ class Application
     public function setName(string $name): void
     {
         $this->name = $name;
-    }
-
-    /**
-     * @return array
-     */
-    public function getChannelIds(): array
-    {
-        return $this->channelIds;
-    }
-
-    /**
-     * @param array $channelIds
-     */
-    public function setChannelIds(array $channelIds): void
-    {
-        $this->channelIds = $channelIds;
-    }
-
-    /**
-     * @return array
-     */
-    public function getBridgeIds(): array
-    {
-        return $this->bridgeIds;
-    }
-
-    /**
-     * @param array $bridgeIds
-     */
-    public function setBridgeIds(array $bridgeIds): void
-    {
-        $this->bridgeIds = $bridgeIds;
-    }
-
-    /**
-     * @return array
-     */
-    public function getEndpointIds(): array
-    {
-        return $this->endpointIds;
-    }
-
-    /**
-     * @param array $endpointIds
-     */
-    public function setEndpointIds(array $endpointIds): void
-    {
-        $this->endpointIds = $endpointIds;
-    }
-
-    /**
-     * @return array
-     */
-    public function getDeviceNames(): array
-    {
-        return $this->deviceNames;
-    }
-
-    /**
-     * @param array $deviceNames
-     */
-    public function setDeviceNames(array $deviceNames): void
-    {
-        $this->deviceNames = $deviceNames;
     }
 }

@@ -16,11 +16,13 @@ namespace AriStasisApp\models;
 class FormatLangPair
 {
     /**
+     * @required
      * @var string
      */
     private $language;
 
     /**
+     * @required
      * @var string
      */
     private $format;

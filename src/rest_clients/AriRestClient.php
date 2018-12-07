@@ -60,6 +60,7 @@ class AriRestClient
             new Client(['base_uri' => $baseUri, 'auth' => [$ariUser, $ariPassword]]);
         $this->jsonMapper = new JsonMapper();
         $this->jsonMapper->bIgnoreVisibility = true;
+        $this->jsonMapper->bExceptionOnUndefinedProperty = true;
     }
 
     /**
@@ -195,7 +196,6 @@ class AriRestClient
      * @param string $uri
      * @param array $body
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface
-     * TODO: Check, if all extending clients only use the second parameter for BODY, not mistakenly query parameters
      * @throws GuzzleException
      */
     protected function putRequest(string $uri, array $body = [])

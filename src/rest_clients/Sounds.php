@@ -8,8 +8,8 @@
 namespace AriStasisApp\rest_clients;
 
 
+use function AriStasisApp\{mapJsonToAriObject, mapJsonArrayToAriObjects};
 use AriStasisApp\models\Sound;
-use JsonMapper_Exception;
 
 /**
  * Class Sounds
@@ -19,12 +19,17 @@ use JsonMapper_Exception;
 class Sounds extends AriRestClient
 {
     /**
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface TODO: List[Sound]
+     * @return Sound[]
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function list()
+    function list(): array
     {
-        return $this->getRequest('/sounds');
+        return mapJsonArrayToAriObjects(
+            $this->getRequest('/sounds'),
+            'AriStasisApp\models\Sound',
+            $this->jsonMapper,
+            $this->logger
+        );
     }
 
     /**
@@ -34,13 +39,11 @@ class Sounds extends AriRestClient
      */
     function get(string $soundId): Sound
     {
-        $response = $this->getRequest("/sounds/{$soundId}");
-        try {
-            return $this->jsonMapper->map(json_decode($response->getBody()), new Sound());
-        }
-        catch (JsonMapper_Exception $jsonMapper_Exception) {
-            $this->logger->error($jsonMapper_Exception->getMessage());
-            exit;
-        }
+        return mapJsonToAriObject(
+            $this->getRequest("/sounds/{$soundId}"),
+            'AriStasisApp\models\Sound',
+            $this->jsonMapper,
+            $this->logger
+        );
     }
 }

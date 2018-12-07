@@ -17,11 +17,13 @@ class ConfigTuple
 {
     /**
      * @var string A configuration object attribute.
+     * @required
      */
     private $attribute;
 
     /**
      * @var string The value for the attribute.
+     * @required
      */
     private $value;
 

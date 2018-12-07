@@ -8,7 +8,8 @@
 namespace AriStasisApp\rest_clients;
 
 
-use function AriStasisApp\glueArrayOfStrings;
+use function AriStasisApp\{mapJsonArrayToAriObjects, mapJsonToAriObject, glueArrayOfStrings};
+use AriStasisApp\models\Application;
 
 /**
  * Class Applications
@@ -17,31 +18,37 @@ use function AriStasisApp\glueArrayOfStrings;
  */
 class Applications extends AriRestClient
 {
-
     /**
      * List all applications on the asterisk.
      *
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @return Application[]
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function list()
+    function list(): array
     {
-        return $this->getRequest('/applications');
+        return mapJsonArrayToAriObjects(
+            $this->getRequest('/applications'),
+            'AriStasisApp\models\Application',
+            $this->jsonMapper,
+            $this->logger);
     }
-
 
     /**
      * Get details of the application.
      *
      * @param string $applicationName
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @return Application|object
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function get(string $applicationName)
+    function get(string $applicationName): Application
     {
-        return $this->getRequest("/applications/{$applicationName}");
+        return mapJsonToAriObject(
+            $this->getRequest("/applications/{$applicationName}"),
+            'AriStasisApp\models\Application',
+            $this->jsonMapper,
+            $this->logger
+        );
     }
-
 
     /**
      * Subscribe an application to a events source.
@@ -50,15 +57,22 @@ class Applications extends AriRestClient
      * @param string $applicationName
      * @param array $eventSource URI for events source
      * (channel:{channelId}, bridge:{bridgeId}, endpoint:{tech}[/{resource}], deviceState:{deviceName}
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @return Application|object
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function subscribe(string $applicationName, array $eventSource)
+    function subscribe(string $applicationName, array $eventSource): Application
     {
-        return $this->postRequest("/applications/{$applicationName}/subscription",
-            ['eventSource' => glueArrayOfStrings($eventSource)]);
+        $response = $this->postRequest(
+            "/applications/{$applicationName}/subscription",
+            ['eventSource' => glueArrayOfStrings($eventSource)]
+        );
+        return mapJsonToAriObject(
+            $response,
+            'AriStasisApp\models\Application',
+            $this->jsonMapper,
+            $this->logger
+        );
     }
-
 
     /**
      * Unsubscribe an application from an events source.
@@ -67,12 +81,20 @@ class Applications extends AriRestClient
      * @param string $applicationName
      * @param array $eventSource URI for events source
      * (channel:{channelId}, bridge:{bridgeId}, endpoint:{tech}[/{resource}], deviceState:{deviceName}
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @return Application|object
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function unsubscribe(string $applicationName, array $eventSource)
+    function unsubscribe(string $applicationName, array $eventSource): Application
     {
-        return $this->deleteRequest("/applications/{$applicationName}/subscription",
-            ['eventSource' => glueArrayOfStrings($eventSource)]);
+        $response = $this->deleteRequest(
+            "/applications/{$applicationName}/subscription",
+            ['eventSource' => glueArrayOfStrings($eventSource)]
+        );
+        return mapJsonToAriObject(
+            $response,
+            'AriStasisApp\models\Application',
+            $this->jsonMapper,
+            $this->logger
+        );
     }
 }

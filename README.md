@@ -80,7 +80,7 @@ or the `WebHookMessageHandler` (sending events to another API) but of course you
 ## Testing
 You can run the tests as follows:
 
-    ./vendor/bin/phpunit --testdox
+    ./vendor/bin/phpunit
 
 sonar-scanner
 
@@ -137,3 +137,5 @@ Possible TODO's if you want to contribute but don't have an own idea:
 - Add a MissingParams model to /messages? This is only required when the WebSocketClient fails during Startup so wayne?!
 
 - Take care of Lists in models!!!! Not yet implemented
+
+- @required annotation for models

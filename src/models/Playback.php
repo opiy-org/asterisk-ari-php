@@ -16,16 +16,6 @@ namespace AriStasisApp\models;
 class Playback
 {
     /**
-     * @var string ID for this playback operation.
-     */
-    private $id;
-
-    /**
-     * @var string The URI for the media currently being played back.
-     */
-    private $mediaUri;
-
-    /**
      * @var string If a list of URIs is being played, the next media URI to be played back.
      */
     private $nextMediaUri;
@@ -46,36 +36,14 @@ class Playback
     private $state;
 
     /**
-     * @return string
+     * @var string The URI for the media currently being played back.
      */
-    public function getId(): string
-    {
-        return $this->id;
-    }
+    private $mediaUri;
 
     /**
-     * @param string $id
+     * @var string ID for this playback operation.
      */
-    public function setId(string $id): void
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getMediaUri(): string
-    {
-        return $this->mediaUri;
-    }
-
-    /**
-     * @param string $mediaUri
-     */
-    public function setMediaUri(string $mediaUri): void
-    {
-        $this->mediaUri = $mediaUri;
-    }
+    private $id;
 
     /**
      * @return string
@@ -139,5 +107,37 @@ class Playback
     public function setState(string $state): void
     {
         $this->state = $state;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMediaUri(): string
+    {
+        return $this->mediaUri;
+    }
+
+    /**
+     * @param string $mediaUri
+     */
+    public function setMediaUri(string $mediaUri): void
+    {
+        $this->mediaUri = $mediaUri;
+    }
+
+    /**
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param string $id
+     */
+    public function setId(string $id): void
+    {
+        $this->id = $id;
     }
 }

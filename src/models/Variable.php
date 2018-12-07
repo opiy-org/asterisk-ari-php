@@ -17,6 +17,7 @@ class Variable
 {
     /**
      * @var string The value of the variable requested
+     * @required
      */
     private $value;
 

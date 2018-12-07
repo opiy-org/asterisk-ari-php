@@ -13,6 +13,7 @@ namespace AriStasisApp\Tests\rest_clients;
 use AriStasisApp\models\{AsteriskInfo, BuildInfo, ConfigInfo, StatusInfo, SystemInfo};
 use AriStasisApp\rest_clients\Asterisk;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Class AsteriskTest
@@ -23,8 +24,10 @@ final class AsteriskTest extends TestCase
 {
     public function asteriskInstanceProvider()
     {
+        $settings = Yaml::parseFile(__DIR__ . '/../../environment.yaml');
         return [
-            'setup asterisk' => [new Asterisk('asterisk', 'asterisk')]
+            'setup asterisk' =>
+                [new Asterisk($settings['tests']['asteriskUser'], $settings['tests']['asteriskPassword'])]
         ];
     }
 

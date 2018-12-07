@@ -9,16 +9,19 @@
  */
 
 use AriStasisApp\websocket_client\WebSocketClient;
+use Symfony\Component\Yaml\Yaml;
 
 require_once __DIR__ . '/../vendor/autoload.php';
+
+$settings = Yaml::parseFile(__DIR__ . '/../../environment.yaml');
 
 $webSocketSettings = [
     'wssEnabled' => false,
     'host' => 'localhost',
     'port' => 8088,
     'rootUri' => '/ari',
-    'user' => 'asterisk',
-    'password' => 'asterisk'
+    'user' => $settings['tests']['asteriskUser'],
+    'password' => $settings['tests']['asteriskPassword']
 ];
 
 $myApiSettings = [

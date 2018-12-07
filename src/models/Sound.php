@@ -21,12 +21,14 @@ class Sound
     private $text;
 
     /**
+     * @required
      * @var string Sound's identifier.
      */
     private $id;
 
     /**
-     * @var array The formats and languages in which this sound is available. TODO: List[FormatLangPair]
+     * @required
+     * @var FormatLangPair[] The formats and languages in which this sound is available.
      */
     private $formats;
 
@@ -63,7 +65,7 @@ class Sound
     }
 
     /**
-     * @return array
+     * @return FormatLangPair[]
      */
     public function getFormats(): array
     {
@@ -71,7 +73,7 @@ class Sound
     }
 
     /**
-     * @param array $formats
+     * @param FormatLangPair[] $formats
      */
     public function setFormats(array $formats): void
     {

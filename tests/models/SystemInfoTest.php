@@ -14,6 +14,7 @@ use AriStasisApp\models\AsteriskInfo;
 use AriStasisApp\models\SystemInfo;
 use AriStasisApp\rest_clients\Asterisk;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Class SystemInfoTest
@@ -28,8 +29,10 @@ final class SystemInfoTest extends TestCase
      */
     public function asteriskInstanceProvider()
     {
+        $settings = Yaml::parseFile(__DIR__ . '/../../environment.yaml');
         return [
-            'setup asterisk info' => [(new Asterisk('asterisk', 'asterisk'))->getInfo(['system'])]
+            'setup asterisk' =>
+                [(new Asterisk($settings['tests']['asteriskUser'], $settings['tests']['asteriskPassword']))->getInfo()]
         ];
     }
 

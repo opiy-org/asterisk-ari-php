@@ -16,39 +16,22 @@ namespace AriStasisApp\models;
 class Bridge
 {
     /**
-     * @var string Unique identifier for this bridge.
-     */
-    private $id;
-
-    /**
-     * @var string Name of the current bridging technology.
-     */
-    private $technology;
-
-    /**
      * @var string Type of bridge technology (mixing | holding).
+     * @required
      */
     private $bridgeType;
 
     /**
-     * @var string Bridging class.
-     */
-    private $bridgeClass;
-
-    /**
-     * @var string Entity that created the bridge.
-     */
-    private $creator;
-
-    /**
      * @var string Name the creator gave the bridge
+     * @required
      */
     private $name;
 
     /**
-     * @var array Ids of channels participating in this bridge
+     * @var string Entity that created the bridge.
+     * @required
      */
-    private $channels;
+    private $creator;
 
     /**
      * @var string The video mode the bridge is using. One of 'none', 'talker', or 'single'.
@@ -56,41 +39,33 @@ class Bridge
     private $videoMode;
 
     /**
+     * @var string[] Ids of channels participating in this bridge
+     * @required
+     */
+    private $channels;
+
+    /**
      * @var string The ID of the channel that is the source of video in this bridge, if one exists.
      */
     private $videoSourceId;
 
     /**
-     * @return string
+     * @var string Bridging class.
+     * @required
      */
-    public function getId(): string
-    {
-        return $this->id;
-    }
+    private $bridgeClass;
 
     /**
-     * @param string $id
+     * @var string Name of the current bridging technology.
+     * @required
      */
-    public function setId(string $id): void
-    {
-        $this->id = $id;
-    }
+    private $technology;
 
     /**
-     * @return string
+     * @var string Unique identifier for this bridge.
+     * @required
      */
-    public function getTechnology(): string
-    {
-        return $this->technology;
-    }
-
-    /**
-     * @param string $technology
-     */
-    public function setTechnology(string $technology): void
-    {
-        $this->technology = $technology;
-    }
+    private $id;
 
     /**
      * @return string
@@ -111,17 +86,17 @@ class Bridge
     /**
      * @return string
      */
-    public function getBridgeClass(): string
+    public function getName(): string
     {
-        return $this->bridgeClass;
+        return $this->name;
     }
 
     /**
-     * @param string $bridgeClass
+     * @param string $name
      */
-    public function setBridgeClass(string $bridgeClass): void
+    public function setName(string $name): void
     {
-        $this->bridgeClass = $bridgeClass;
+        $this->name = $name;
     }
 
     /**
@@ -143,38 +118,6 @@ class Bridge
     /**
      * @return string
      */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string $name
-     */
-    public function setName(string $name): void
-    {
-        $this->name = $name;
-    }
-
-    /**
-     * @return array
-     */
-    public function getChannels(): array
-    {
-        return $this->channels;
-    }
-
-    /**
-     * @param array $channels
-     */
-    public function setChannels(array $channels): void
-    {
-        $this->channels = $channels;
-    }
-
-    /**
-     * @return string
-     */
     public function getVideoMode(): string
     {
         return $this->videoMode;
@@ -186,6 +129,22 @@ class Bridge
     public function setVideoMode(string $videoMode): void
     {
         $this->videoMode = $videoMode;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getChannels(): array
+    {
+        return $this->channels;
+    }
+
+    /**
+     * @param string[] $channels
+     */
+    public function setChannels(array $channels): void
+    {
+        $this->channels = $channels;
     }
 
     /**
@@ -202,5 +161,53 @@ class Bridge
     public function setVideoSourceId(string $videoSourceId): void
     {
         $this->videoSourceId = $videoSourceId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBridgeClass(): string
+    {
+        return $this->bridgeClass;
+    }
+
+    /**
+     * @param string $bridgeClass
+     */
+    public function setBridgeClass(string $bridgeClass): void
+    {
+        $this->bridgeClass = $bridgeClass;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTechnology(): string
+    {
+        return $this->technology;
+    }
+
+    /**
+     * @param string $technology
+     */
+    public function setTechnology(string $technology): void
+    {
+        $this->technology = $technology;
+    }
+
+    /**
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param string $id
+     */
+    public function setId(string $id): void
+    {
+        $this->id = $id;
     }
 }
