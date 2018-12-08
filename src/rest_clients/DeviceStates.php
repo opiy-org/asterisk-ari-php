@@ -13,7 +13,7 @@ use AriStasisApp\models\DeviceState;
 /**
  * Class DeviceStates
  *
- * @package AriStasisApp\ariclients
+ * @package AriStasisApp\rest_clients
  */
 class DeviceStates extends AriRestClient
 {

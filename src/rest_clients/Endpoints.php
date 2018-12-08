@@ -13,65 +13,72 @@ use AriStasisApp\models\Endpoint;
 /**
  * Class Endpoints
  *
- * @package AriStasisApp\ariclients TODO: Change pakckage name in every Client to the correct one.
+ * @package AriStasisApp\rest_clients
  */
 class Endpoints extends AriRestClient
 {
     /**
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface TODO: List[Endpoint]
+     * List all endpoints.
+     *
+     * @return Endpoint[]
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     function list(): array
     {
-        return $this->getRequest('/endpoints');
+        return $this->getRequest('/endpoints', [], 'array', 'Endpoint');
     }
 
     /**
-     * @param string $to
-     * @param string $from
-     * @param string $body TODO: This is weird in the documentation. Report issue,
-     *   because it is unclear if the body in the request has to be set or if
-     *   the body is delivered via a string in the query parameter.
+     * Send a message to some technology URI or endpoint.
+     *
+     * @param string $to The endpoint resource or technology specific URI to send the message to.
+     * Valid resources are sip, pjsip, and xmpp.
+     * @param string $from The endpoint resource or technology specific identity to send this message from.
+     * Valid resources are sip, pjsip, and xmpp.
+     * @param string $body The body of the message.
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function sendMessage(string $to, string $from, string $body): void
+    function sendMessage(string $to, string $from, string $body = ''): void
     {
         $this->putRequest("/endpoints/sendMessage", ['to' => $to, 'from' => $from, 'body' => $body]);
     }
 
     /**
-     * @param string $tech
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * List available endoints for a given endpoint technology.
+     *
+     * @param string $tech Technology of the endpoints (sip,iax2,...).
+     * @return Endpoint[]
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function listByTech(string $tech)
+    function listByTech(string $tech): array
     {
-        return $this->getRequest("/endpoints/{$tech}");
+        return $this->getRequest("/endpoints/{$tech}", [], 'array', 'Endpoint');
     }
 
     /**
-     * @param string $tech
-     * @param string $resource
+     * Details for an endpoint.
+     *
+     * @param string $tech Technology of the endpoint.
+     * @param string $resource ID of the endpoint.
      * @return Endpoint|object
      * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \JsonMapper_Exception
      */
     function get(string $tech, string $resource): Endpoint
     {
-        $response = $this->getRequest("/endpoints/{$tech}/{$resource}");
-        return $this->jsonMapper->map(json_decode($response->getBody()), new Endpoint());
+        return $this->getRequest("/endpoints/{$tech}/{$resource}", [], 'model', 'Endpoint');
     }
 
     /**
-     * @param string $tech
-     * @param string $resource
-     * @param string $from
-     * @param string $body The body of the message TODO: This is weird in the documentation.
-     *   Report issue, because it is unclear if the body in the request has to be set or if
-     *   the body is delivered via a string in the query parameter.
+     * Send a message to some endpoint in a technology.
+     *
+     * @param string $tech Technology of the endpoint.
+     * @param string $resource ID of the endpoint.
+     * @param string $from The endpoint resource or technology specific identity to send this message from.
+     * Valid resources are sip, pjsip, and xmpp.
+     * @param string $body The body of the message.
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function sendMessageToEndpoint(string $tech, string $resource, string $from, string $body): void
+    function sendMessageToEndpoint(string $tech, string $resource, string $from, string $body = ''): void
     {
         $this->putRequest("/endpoints/{$tech}/{$resource}/sendMessage", ['from' => $from, 'body' => $body]);
     }

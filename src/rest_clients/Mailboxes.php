@@ -13,7 +13,7 @@ use AriStasisApp\models\Mailbox;
 /**
  * Class Mailboxes
  *
- * @package AriStasisApp\ariclients
+ * @package AriStasisApp\rest_clients
  */
 class Mailboxes extends AriRestClient
 {

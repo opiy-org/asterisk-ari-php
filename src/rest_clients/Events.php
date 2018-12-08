@@ -17,7 +17,7 @@ use function AriStasisApp\glueArrayOfStrings;
  * GET /events is not part of this API because it has to be a WebSocket connection (ws:// or wss://)
  * and is handled separately in the WebSocketClient of this library.
  *
- * @package AriStasisApp\ariclients
+ * @package AriStasisApp\rest_clients
  */
 class Events extends AriRestClient
 {

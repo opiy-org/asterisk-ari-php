@@ -13,7 +13,7 @@ use AriStasisApp\models\{AsteriskInfo, ConfigTuple, LogChannel, Module, Variable
 /**
  * Class Asterisk
  *
- * @package AriStasisApp
+ * @package AriStasisApp\rest_clients
  */
 class Asterisk extends AriRestClient
 {

@@ -14,7 +14,7 @@ use function AriStasisApp\glueArrayOfStrings;
 /**
  * Class Bridges
  *
- * @package AriStasisApp\ariclients
+ * @package AriStasisApp\rest_clients
  */
 class Bridges extends AriRestClient
 {

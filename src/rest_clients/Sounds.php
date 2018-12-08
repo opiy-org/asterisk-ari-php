@@ -8,42 +8,38 @@
 namespace AriStasisApp\rest_clients;
 
 
-use function AriStasisApp\{mapJsonToAriObject, mapJsonArrayToAriObjects};
 use AriStasisApp\models\Sound;
 
 /**
  * Class Sounds
  *
- * @package AriStasisApp\ariclients
+ * @package AriStasisApp\rest_clients
  */
 class Sounds extends AriRestClient
 {
     /**
+     * List all sounds.
+     *
+     * @param array $options
+     * lang: string - Lookup sound for a specific language.
+     * format: string - Lookup sound in a specific format.
      * @return Sound[]
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function list(): array
+    function list(array $options = []): array
     {
-        return mapJsonArrayToAriObjects(
-            $this->getRequest('/sounds'),
-            'AriStasisApp\models\Sound',
-            $this->jsonMapper,
-            $this->logger
-        );
+        return $this->getRequest('/sounds', $options, 'array', 'Sound');
     }
 
     /**
-     * @param string $soundId
+     * Get a sound's details.
+     *
+     * @param string $soundId Sound's id.
      * @return Sound|object
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     function get(string $soundId): Sound
     {
-        return mapJsonToAriObject(
-            $this->getRequest("/sounds/{$soundId}"),
-            'AriStasisApp\models\Sound',
-            $this->jsonMapper,
-            $this->logger
-        );
+        return $this->getRequest("/sounds/{$soundId}", [], 'model', 'Sound');
     }
 }

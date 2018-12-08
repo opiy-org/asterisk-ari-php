@@ -14,7 +14,7 @@ use function AriStasisApp\glueArrayOfStrings;
 /**
  * A specific communication connection between Asterisk and an Endpoint.
  *
- * @package AriStasisApp\ariclients
+ * @package AriStasisApp\rest_clients
  */
 class Channels extends AriRestClient
 {

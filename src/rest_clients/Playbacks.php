@@ -13,7 +13,7 @@ use AriStasisApp\models\Playback;
 /**
  * Class Playbacks
  *
- * @package AriStasisApp\ariclients
+ * @package AriStasisApp\rest_clients
  */
 class Playbacks extends AriRestClient
 {
