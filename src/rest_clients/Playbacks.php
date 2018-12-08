@@ -18,19 +18,21 @@ use AriStasisApp\models\Playback;
 class Playbacks extends AriRestClient
 {
     /**
-     * @param string $playbackId
+     * Get a playback's details.
+     *
+     * @param string $playbackId Playback's id.
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface
      * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \JsonMapper_Exception
      */
-    function get(string $playbackId)
+    function get(string $playbackId): Playback
     {
-        $response = $this->getRequest("/playbacks/{$playbackId}");
-        return $this->jsonMapper->map(json_decode($response->getBody()), new Playback());
+        return $this->getRequest("/playbacks/{$playbackId}", [], 'model', 'Playback');
     }
 
     /**
-     * @param string $playbackId
+     * Stop a playback.
+     *
+     * @param string $playbackId Playback's id
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     function stop(string $playbackId): void
@@ -39,8 +41,11 @@ class Playbacks extends AriRestClient
     }
 
     /**
-     * @param string $playbackId
-     * @param string $operation Allowed: restart, pause, unpause, reverse, forward
+     * Control a playback.
+     *
+     * @param string $playbackId Playback's id.
+     * @param string $operation  Operation to perform on the playback.
+     * Allowed: restart, pause, unpause, reverse, forward
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     function control(string $playbackId, string $operation): void

@@ -10,6 +10,7 @@ namespace AriStasisApp\rest_clients;
 
 use AriStasisApp\models\LiveRecording;
 use AriStasisApp\models\StoredRecording;
+use GuzzleHttp\Psr7\Response;
 
 /**
  * Class Recordings
@@ -19,28 +20,32 @@ use AriStasisApp\models\StoredRecording;
 class Recordings extends AriRestClient
 {
     /**
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface  TODO: List[StoredRecording]
+     * List recordings that are complete.
+     *
+     * @return StoredRecording[]
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function listStored()
+    function listStored(): array
     {
-        return $this->getRequest('/recordings/stored');
+        return $this->getRequest('/recordings/stored', [], 'array', 'StoredRecording');
     }
 
     /**
-     * @param string $recordingName
+     * Get a stored recording's details.
+     *
+     * @param string $recordingName The name of the recording
      * @return StoredRecording|object
      * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \JsonMapper_Exception
      */
     function getStored(string $recordingName): StoredRecording
     {
-        $response = $this->getRequest("/recordings/stored/{$recordingName}");
-        return $this->jsonMapper->map(json_decode($response->getBody()), new StoredRecording());
+        return $this->getRequest("/recordings/stored/{$recordingName}", [], 'model', 'StoredRecording');
     }
 
     /**
-     * @param string $recordingName
+     * Delete a stored recording.
+     *
+     * @param string $recordingName The name of the recording.
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
@@ -50,46 +55,47 @@ class Recordings extends AriRestClient
     }
 
     /**
-     * @param string $recordingName
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * Get the file associated with the stored recording.
      *
-     * TODO: Test what is returned here and how it can be played. Maybe not save it locally?!
-     *   If we do have to, then add a parameter for the path here.
+     * @param string $recordingName The name of the recording.
+     * @return mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function getStoredFile(string $recordingName)
+    function getStoredFile(string $recordingName): Response
     {
         return $this->getRequest("/recordings/stored/{$recordingName}/file");
     }
 
     /**
-     * @param string $recordingName
-     * @param string $destinationRecordingName
+     * Copy a stored recording.
+     *
+     * @param string $recordingName The name of the recording to copy.
+     * @param string $destinationRecordingName The destination name of the recording.
      * @return StoredRecording|object
      * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \JsonMapper_Exception
      */
     function copyStored(string $recordingName, string $destinationRecordingName): StoredRecording
     {
-        $response = $this->postRequest("/recordings/stored/{$recordingName}/copy",
-            ['destinationRecordingName' => $destinationRecordingName]);
-        return $this->jsonMapper->map(json_decode($response->getBody()), new StoredRecording());
+        return $this->postRequest("/recordings/stored/{$recordingName}/copy",
+            ['destinationRecordingName' => $destinationRecordingName], [], 'model', 'StoredRecording');
     }
 
     /**
-     * @param string $recordingName
+     * List live recordings.
+     *
+     * @param string $recordingName The name of the recording.
      * @return LiveRecording|object
      * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \JsonMapper_Exception
      */
     function getLive(string $recordingName): LiveRecording
     {
-        $response = $this->getRequest("/recordings/live/{$recordingName}");
-        return $this->jsonMapper->map(json_decode($response->getBody()), new LiveRecording());
+        return $this->getRequest("/recordings/live/{$recordingName}", [], 'model', 'LiveRecording');
     }
 
     /**
-     * @param string $recordingName
+     * Stop a live recording and discard it.
+     *
+     * @param string $recordingName The name of the recording.
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     function cancel(string $recordingName): void
@@ -98,7 +104,9 @@ class Recordings extends AriRestClient
     }
 
     /**
-     * @param string $recordingName
+     * Stop a live recording and store it.
+     *
+     * @param string $recordingName The name of the recording.
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     function stop(string $recordingName): void
@@ -107,7 +115,11 @@ class Recordings extends AriRestClient
     }
 
     /**
-     * @param string $recordingName
+     * Pause a live recording. Pausing a recording suspends silence detection,
+     * which will be restarted when the recording is unpaused. Paused time is not
+     * included in the accounting for maxDurationSeconds.
+     *
+     * @param string $recordingName The name of the recording.
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     function pause(string $recordingName): void
@@ -116,7 +128,9 @@ class Recordings extends AriRestClient
     }
 
     /**
-     * @param string $recordingName
+     * Unpause a live recording.
+     *
+     * @param string $recordingName The name of the recording.
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     function unpause(string $recordingName): void
@@ -125,7 +139,10 @@ class Recordings extends AriRestClient
     }
 
     /**
-     * @param string $recordingName
+     * Mute a live recording. Muting a recording suspends silence detection,
+     * which will be restarted when the recording is unmuted.
+     *
+     * @param string $recordingName The name of the recording.
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     function mute(string $recordingName): void
@@ -134,7 +151,9 @@ class Recordings extends AriRestClient
     }
 
     /**
-     * @param string $recordingName
+     * Unmute a live recording.
+     *
+     * @param string $recordingName The name of the recording.
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     function unmute(string $recordingName): void
