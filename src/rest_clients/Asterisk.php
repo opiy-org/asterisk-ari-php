@@ -18,9 +18,11 @@ use AriStasisApp\models\{AsteriskInfo, ConfigTuple, LogChannel, Module, Variable
 class Asterisk extends AriRestClient
 {
     /**
-     * @param string $configClass
-     * @param string $objectType
-     * @param string $id
+     * Retrieve a dynamic configuration object.
+     *
+     * @param string $configClass The configuration class containing dynamic configuration objects.
+     * @param string $objectType The type of configuration object to retrieve.
+     * @param string $id The unique identifier of the object to retrieve.
      * @return ConfigTuple[]|object
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
@@ -34,22 +36,24 @@ class Asterisk extends AriRestClient
     }
 
     /**
-     * @param string $configClass
-     * @param string $objectType
-     * @param string $id
-     * @param string[] $body The body object should have a value that is a list of ConfigTuples,
+     * Create or update a dynamic configuration object.
+     *
+     * @param string $configClass The configuration class containing dynamic configuration objects.
+     * @param string $objectType The type of configuration object to create or update.
+     * @param string $id The unique identifier of the object to create or update.
+     * @param string[] $fields The body object should have a value that is a list of ConfigTuples,
      * which provide the fields to update.
      * @return ConfigTuple[]|object
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function updateObject(string $configClass, string $objectType, string $id, array $body = []): array
+    function updateObject(string $configClass, string $objectType, string $id, array $fields = []): array
     {
-        $parsedBody = ['fields' => []];
-        if ($body !== [])
+        $body = ['fields' => []];
+        if ($fields !== [])
         {
-            foreach ($body as $attribute => $value)
+            foreach ($fields as $attribute => $value)
             {
-                $parsedBody['fields'] = $parsedBody['fields'] + [['attribute' => $attribute, 'value' => $value]];
+                $parsedBody['fields'] = $body['fields'] + [['attribute' => $attribute, 'value' => $value]];
             }
         }
 
@@ -60,9 +64,11 @@ class Asterisk extends AriRestClient
     }
 
     /**
-     * @param string $configClass
-     * @param string $objectType
-     * @param string $id
+     * Delete a dynamic configuration object.
+     *
+     * @param string $configClass The configuration class containing dynamic configuration objects.
+     * @param string $objectType The type of configuration object to delete.
+     * @param string $id The unique identifier of the object to delete.
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     function deleteObject(string $configClass, string $objectType, string $id): void
@@ -71,11 +77,9 @@ class Asterisk extends AriRestClient
     }
 
     /**
-     * Filter information returned
-     * Allowed values: build, system, config, status
-     * Allows comma separated values.
+     * Gets Asterisk system information.
      *
-     * @param array $only
+     * @param array $only Filter information returned. Allowed values: build, system, config, status.
      * @return AsteriskInfo|object
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
@@ -93,6 +97,8 @@ class Asterisk extends AriRestClient
     }
 
     /**
+     * List Asterisk modules.
+     *
      * @return Module[]
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
@@ -106,7 +112,9 @@ class Asterisk extends AriRestClient
     }
 
     /**
-     * @param string $moduleName
+     * Get Asterisk module information.
+     *
+     * @param string $moduleName Module's name.
      * @return Module|object
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
@@ -121,7 +129,9 @@ class Asterisk extends AriRestClient
     }
 
     /**
-     * @param string $moduleName
+     * Load an Asterisk module.
+     *
+     * @param string $moduleName Module's name.
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     function loadModule(string $moduleName): void
@@ -130,7 +140,9 @@ class Asterisk extends AriRestClient
     }
 
     /**
-     * @param string $moduleName
+     * Unload an Asterisk module.
+     *
+     * @param string $moduleName Module's name.
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     function unloadModule(string $moduleName): void
@@ -139,7 +151,9 @@ class Asterisk extends AriRestClient
     }
 
     /**
-     * @param string $moduleName
+     * Reload an Asterisk module.
+     *
+     * @param string $moduleName Module's name.
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     function reloadModule(string $moduleName): void
@@ -148,6 +162,8 @@ class Asterisk extends AriRestClient
     }
 
     /**
+     * Gets Asterisk log channel information.
+     *
      * @return LogChannel[]
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
@@ -161,7 +177,9 @@ class Asterisk extends AriRestClient
     }
 
     /**
-     * @param string $logChannelName
+     * Adds a log channel.
+     *
+     * @param string $logChannelName The log channel to add.
      * @param string $configuration Levels of the log channel
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
@@ -171,7 +189,9 @@ class Asterisk extends AriRestClient
     }
 
     /**
-     * @param string $logChannelName
+     * Deletes a log channel.
+     *
+     * @param string $logChannelName Log channels name.
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     function deleteLog(string $logChannelName): void
@@ -180,7 +200,9 @@ class Asterisk extends AriRestClient
     }
 
     /**
-     * @param string $logChannelName
+     * Rotates a log channel.
+     *
+     * @param string $logChannelName Log channel's name.
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     function rotateLog(string $logChannelName): void
@@ -189,7 +211,9 @@ class Asterisk extends AriRestClient
     }
 
     /**
-     * @param string $variable
+     * Get the value of a global variable.
+     *
+     * @param string $variable The variable to get.
      * @return Variable|object
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
@@ -203,8 +227,10 @@ class Asterisk extends AriRestClient
     }
 
     /**
-     * @param string $variable
-     * @param string $value
+     * Set the value of a global variable.
+     *
+     * @param string $variable The variable to set.
+     * @param string $value The value to set the variable to.
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     function setGlobalVar(string $variable, string $value): void
