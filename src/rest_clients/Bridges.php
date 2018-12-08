@@ -9,7 +9,7 @@ namespace AriStasisApp\rest_clients;
 
 
 use AriStasisApp\models\{Bridge, LiveRecording, Playback};
-use function AriStasisApp\{glueArrayOfStrings, mapJsonArrayToAriObjects, mapJsonToAriObject};
+use function AriStasisApp\glueArrayOfStrings;
 
 /**
  * Class Bridges
@@ -21,50 +21,29 @@ class Bridges extends AriRestClient
     /**
      * List all active bridges in Asterisk.
      *
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @return Bridge[]
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     function list(): array
     {
-        return mapJsonArrayToAriObjects(
-            $this->getRequest('/bridges'),
-            'AriStasisApp\models\Bridge',
-            $this->jsonMapper,
-            $this->logger
-        );
+        return $this->getRequest('/bridges', [], ['returnType' => 'array', 'modelClassName' => 'Bridge']);
     }
 
     /**
      * Create a new bridge.
      * This bridge persists until it has been shut down, or Asterisk has been shut down.
      *
-     * @param array $type List of bridge type attributes
-     * (mixing, holding, dtmf_events, proxy_media, video_sfu).
-     * @param string $bridgeId Unique ID to give to the bridge being created.
-     * @param string $name Name to give to the bridge being created.
+     * @param string[] $options
+     * type: string - Comma separated list of bridge type attributes
+     *      (mixing, holding, dtmf_events, proxy_media, video_sfu).
+     * bridgeId: string - Unique ID to give to the bridge being created.
+     * name: string - Name to give to the bridge being created.
      * @return Bridge|object
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function create(?array $type, ?string $bridgeId, ?string $name): Bridge
+    function create(array $options = []): Bridge
     {
-        $queryParameters = [];
-        if (!is_null($type)) {
-            $queryParameters['type'] = glueArrayOfStrings($type);
-        }
-        if (!is_null($bridgeId)) {
-            $queryParameters['bridgeId'] = $bridgeId;
-        }
-        if (!is_null($name)) {
-            $queryParameters['name'] = $name;
-        }
-
-        return mapJsonToAriObject(
-            $this->postRequest('/bridges', $queryParameters),
-            'AriStasisApp\models\Bridge',
-            $this->jsonMapper,
-            $this->logger
-        );
-
+        return $this->postRequest('/bridges', $options, [], ['returnType' => 'model', 'modelClassName' => 'Bridge']);
     }
 
     /**
@@ -72,27 +51,20 @@ class Bridges extends AriRestClient
      * This bridge persists until it has been shut down, or Asterisk has been shut down.
      *
      * @param string $bridgeId Unique ID to give to the bridge being created.
-     * @param array $type List of bridge type attributes
-     * (mixing, holding, dtmf_events, proxy_media, video_sfu) to set.
-     * @param string $name Set the name of the bridge.
+     * @param string[] $options
+     * type: string - Comma separated list of bridge type attributes
+     *      (mixing, holding, dtmf_events, proxy_media, video_sfu) to set.
+     * name: string - Set the name of the bridge.
      * @return Bridge|object
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function createWithId(string $bridgeId, ?array $type, ?string $name): Bridge
+    function createWithId(string $bridgeId, array $options = []): Bridge
     {
-        $queryParameters = [];
-        if (!is_null($type)) {
-            $queryParameters['type'] = glueArrayOfStrings($type);
-        }
-        if (!is_null($name)) {
-            $queryParameters['name'] = $name;
-        }
-
-        return mapJsonToAriObject(
-            $this->postRequest("/bridges/{$bridgeId}", $queryParameters),
-            'AriStasisApp\models\Bridge',
-            $this->jsonMapper,
-            $this->logger
+        return $this->postRequest(
+            "/bridges/{$bridgeId}",
+            $options,
+            [],
+            ['returnType' => 'model', 'modelClassName' => 'Bridge']
         );
     }
 
@@ -105,11 +77,10 @@ class Bridges extends AriRestClient
      */
     function get(string $bridgeId): Bridge
     {
-        return mapJsonToAriObject(
-            $this->getRequest("/bridges/{$bridgeId}"),
-            'AriStasisApp\models\Bridge',
-            $this->jsonMapper,
-            $this->logger
+        return $this->getRequest(
+            "/bridges/{$bridgeId}",
+            [],
+            ['returnType' => 'model', 'modelClassName' => 'Bridge']
         );
     }
 
@@ -130,39 +101,27 @@ class Bridges extends AriRestClient
      *
      * @param string $bridgeId Bridge's id
      * @param array $channel Ids of channels to add to bridge.
-     * @param string $role Channels's role in the bridge.
-     * @param bool $absorbDTMF Absorb DTMF coming from this channel, preventing it to pass through to the bridge.
-     * @param bool $mute Mute audio from this channel, preventing it to pass through to the bridge.
+     * @param array $options
+     * role: string - Channel's role in the bridge
+     * absorbDTMF: boolean - Absorb DTMF coming from this channel, preventing it to pass through to the bridge
+     * mute: boolean - Mute audio from this channel, preventing it to pass through to the bridge
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function addChannel(
-        string $bridgeId,
-        array $channel,
-        ?string $role,
-        bool $absorbDTMF = false,
-        bool $mute = false
-    ): void {
-        $queryParameters = ['absorbDTMF' => $absorbDTMF, 'mute' => $mute];
-        $queryParameters['channel'] = glueArrayOfStrings($channel);
-
-        if (!is_null($role)) {
-            $queryParameters['role'] = $role;
-        }
-
-        $this->postRequest("/bridges/{$bridgeId}/addChannel", $queryParameters);
+    function addChannel(string $bridgeId, array $channel, array $options = []): void
+    {
+        $this->postRequest("/bridges/{$bridgeId}/addChannel", ['channel' => glueArrayOfStrings($channel)] + $options);
     }
 
     /**
      * Remove a channel from a bridge.
      *
      * @param string $bridgeId Bridge's id
-     * @param array $channel Ids of channels to remove from bridge
+     * @param string[] $channel Ids of channels to remove from bridge
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     function removeChannel(string $bridgeId, array $channel): void
     {
-        $queryParameters = ['channel' => glueArrayOfStrings($channel)];
-        $this->postRequest("/bridges/{$bridgeId}/removeChannel", $queryParameters);
+        $this->postRequest("/bridges/{$bridgeId}/removeChannel", ['channel' => glueArrayOfStrings($channel)]);
     }
 
     /**
@@ -198,13 +157,12 @@ class Bridges extends AriRestClient
      * @param string $mohClass Music on hold class
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function startMoh(string $bridgeId, ?string $mohClass): void
+    function startMoh(string $bridgeId, string $mohClass = ''): void
     {
         $queryParameters = [];
-        if (!is_null($mohClass)) {
+        if ($mohClass !== '') {
             $queryParameters = ['mohClass' => $mohClass];
         }
-
         $this->postRequest("/bridges/{$bridgeId}/moh", $queryParameters);
     }
 
@@ -230,38 +188,23 @@ class Bridges extends AriRestClient
      *
      * @param string $bridgeId Bridge's id
      * @param array $media List of media URIs to play.
-     * @param string $lang For sounds, selects language for sound.
-     * @param int $offsetms Number of milliseconds to skip before playing. Only applies to the first
-     * URI if multiple media URIs are specified.
-     * @param int $skipms Number of milliseconds to skip for forward/reverse operations.
-     * @param string $playbackId Playback Id
+     * @param array $options
+     * lang: string - For sounds, selects language for sound.
+     * offsetms: int - Number of milliseconds to skip before playing.
+     *      Only applies to the first URI if multiple media URIs are specified. Allowed range: Min: 0; Max: None
+     * skipms: int - Number of milliseconds to skip for forward/reverse operations.
+     *      Default: 3000. Allowed range: Min: 0; Max: None
+     * playbackId: string - Playback Id.
      * @return Playback|object
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function play(
-        string $bridgeId,
-        array $media,
-        ?string $lang,
-        ?string $playbackId,
-        int $offsetms = 0,
-        int $skipms = 3000
-    ): Playback {
-        $queryParameters = [];
-        $queryParameters['media'] = glueArrayOfStrings($media);
-        $queryParameters['offsetms'] = $offsetms;
-        $queryParameters['skipms'] = $skipms;
-        if (!is_null($lang)) {
-            $queryParameters['lang'] = $lang;
-        }
-        if (!is_null($playbackId)) {
-            $queryParameters['playbackId'] = $playbackId;
-        }
-
-        return mapJsonToAriObject(
-            $this->postRequest("/bridges/{$bridgeId}/play", $queryParameters),
-            'AriStasisApp\models\Playback',
-            $this->jsonMapper,
-            $this->logger
+    function play(string $bridgeId, array $media, array $options = []): Playback
+    {
+        return $this->postRequest(
+            "/bridges/{$bridgeId}/play",
+            ['media' => glueArrayOfStrings($media)] + $options,
+            [],
+            ['returnType' => 'model', 'modelClassName' => 'Playback']
         );
     }
 
@@ -275,34 +218,22 @@ class Bridges extends AriRestClient
      * @param string $bridgeId Bridge's id
      * @param string $playbackId Playback id
      * @param array $media List of media URI's to play
-     * @param string $lang For sounds, selects language for sound.
-     * @param int $offsetms Number of milliseconds to skip before playing.
-     * Only applies to the first URI if multiple media URIs are specified.
-     * @param int $skipms Number of milliseconds to skip for forward/reverse operations.
+     * @param array $options
+     * lang: string - For sounds, selects language for sound.
+     * offsetms: int - Number of milliseconds to skip before playing.
+     *      Only applies to the first URI if multiple media URIs are specified. Allowed range: Min: 0; Max: None
+     * skipms: int - Number of milliseconds to skip for forward/reverse operations.
+     *      Default: 3000. Allowed range: Min: 0; Max: None
      * @return Playback|object
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function playWithId(
-        string $bridgeId,
-        string $playbackId,
-        array $media,
-        ?string $lang,
-        int $offsetms = 0,
-        int $skipms = 3000
-    ): Playback {
-        $queryParameters = [];
-        $queryParameters['media'] = glueArrayOfStrings($media);
-        $queryParameters['offsetms'] = $offsetms;
-        $queryParameters['skipms'] = $skipms;
-        if (!is_null($lang)) {
-            $queryParameters['lang'] = $lang;
-        }
-
-        return mapJsonToAriObject(
-            $this->postRequest("/bridges/{$bridgeId}/play/{$playbackId}", $queryParameters),
-            'AriStasisApp\models\Playback',
-            $this->jsonMapper,
-            $this->logger
+    function playWithId(string $bridgeId, string $playbackId, array $media, array $options = []): Playback
+    {
+        return $this->postRequest(
+            "/bridges/{$bridgeId}/play/{$playbackId}",
+            ['media' => glueArrayOfStrings($media)] + $options,
+            [],
+            ['returnType' => 'model', 'modelClassName' => 'Playback']
         );
     }
 
@@ -313,43 +244,25 @@ class Bridges extends AriRestClient
      * @param string $bridgeId Bridge's id.
      * @param string $name Recording's filename.
      * @param string $format Format to encode audio in.
-     * @param int $maxDurationSeconds Maximum duration of the recording, in seconds. 0 for no limit.
-     * @param int $maxSilenceSeconds Maximum duration of silence, in seconds. 0 for no limit.
-     * @param string $ifExists Action to take if a recording with the same name already exists
-     * (fail | overwrite | append).
-     * @param bool $beep Play beep when recording begins
-     * @param string $terminateOn DTMF input to terminate recording (none | any | * | #).
+     * @param array $options
+     * maxDurationSeconds: int - Maximum duration of the recording, in seconds. 0 for no limit.
+     *      Allowed range: Min: 0; Max: None
+     * maxSilenceSeconds: int - Maximum duration of silence, in seconds. 0 for no limit.
+     *      Allowed range: Min: 0; Max: None
+     * ifExists: string - Action to take if a recording with the same name already exists.
+     *      Default: fail. Allowed values: fail, overwrite, append
+     * beep: boolean - Play beep when recording begins
+     * terminateOn: string - DTMF input to terminate recording. Default: none. Allowed values: none, any, *, #
      * @return LiveRecording|object
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function record(
-        string $bridgeId,
-        string $name,
-        string $format,
-        ?string $ifExists,
-        ?string $terminateOn,
-        int $maxDurationSeconds = 0,
-        int $maxSilenceSeconds = 0,
-        bool $beep = false
-    ): LiveRecording {
-        $queryParameters = [];
-        $queryParameters['name'] = $name;
-        $queryParameters['format'] = $format;
-        $queryParameters['maxDurationSeconds'] = $maxDurationSeconds;
-        $queryParameters['maxSilenceSeconds'] = $maxSilenceSeconds;
-        $queryParameters['beep'] = $beep;
-        if (!is_null($ifExists)) {
-            $queryParameters['ifExists'] = $ifExists;
-        }
-        if (!is_null($terminateOn)) {
-            $queryParameters['terminateOn'] = $terminateOn;
-        }
-
-        return mapJsonToAriObject(
-            $this->postRequest("/bridges/{$bridgeId}/record", $queryParameters),
-            'AriStasisApp\models\LiveRecording',
-            $this->jsonMapper,
-            $this->logger
+    function record(string $bridgeId, string $name, string $format, array $options): LiveRecording
+    {
+        return $this->postRequest(
+            "/bridges/{$bridgeId}/record",
+            ['name' => $name, 'format' => $format] + $options,
+            [],
+            ['returnType' => 'model', 'modelClassName' => 'LiveRecording']
         );
     }
 }
