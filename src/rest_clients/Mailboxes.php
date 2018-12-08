@@ -18,41 +18,46 @@ use AriStasisApp\models\Mailbox;
 class Mailboxes extends AriRestClient
 {
     /**
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface TODO: List[Mailbox]
+     * List all mailboxes.
+     *
+     * @return Mailbox[]
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     function list(): array
     {
-        return $this->getRequest('/mailboxes');
+        return $this->getRequest('/mailboxes', [], 'array', 'Mailbox');
     }
 
     /**
-     * @param string $mailboxName
+     * Retrieve the current state of a mailbox.
+     *
+     * @param string $mailboxName Name of the mailbox.
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface
      * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \JsonMapper_Exception
      */
     function get(string $mailboxName): Mailbox
     {
-        $response = $this->getRequest("/mailboxes/{$mailboxName}");
-        return $this->jsonMapper->map(json_decode($response->getBody()), new Mailbox());
+        return $this->getRequest("/mailboxes/{$mailboxName}", [], 'model', 'Mailbox');
 
     }
 
     /**
-     * @param string $mailboxName
-     * @param int $oldMessages
-     * @param int $newMessages
+     * Change the state of a mailbox. (Note - implicitly creates the mailbox).
+     *
+     * @param string $mailboxName Name of the mailbox.
+     * @param int $oldMessages Count of old messages in the mailbox.
+     * @param int $newMessages Count of new messages in the mailbox.
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     function update(string $mailboxName, int $oldMessages, int $newMessages): void
     {
-        $this->putRequest("/mailboxes/{$mailboxName}",
-            ['oldMessages' => $oldMessages, 'newMessages' => $newMessages]);
+        $this->putRequest("/mailboxes/{$mailboxName}", ['oldMessages' => $oldMessages, 'newMessages' => $newMessages]);
     }
 
     /**
-     * @param string $mailboxName
+     * Destroy a mailbox.
+     *
+     * @param string $mailboxName Name of the mailbox
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     function delete(string $mailboxName): void
