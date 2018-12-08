@@ -57,9 +57,9 @@ final class AsteriskTest extends TestCase
     {
         $asteriskInfo = $asteriskClient->getInfo(['build', 'config']);
         $this->assertInstanceOf(AsteriskInfo::class, $asteriskInfo);
-        $this->assertAttributeInstanceOf(BuildInfo::class,'build', $asteriskInfo);
+        $this->assertAttributeInstanceOf(BuildInfo::class, 'build', $asteriskInfo);
         $this->assertAttributeInstanceOf(ConfigInfo::class, 'config', $asteriskInfo);
         $this->assertAttributeEquals(null, 'system', $asteriskInfo);
-        $this->assertAttributeEquals(null,'status', $asteriskInfo);
+        $this->assertAttributeEquals(null, 'status', $asteriskInfo);
     }
 }

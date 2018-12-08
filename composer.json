@@ -2,7 +2,16 @@
   "name": "ng-voice/asterisk-ari-client",
   "type": "library",
   "description": "A smart PHP RESTClient for Asterisk using the Asterisk RESTful Interface (ARI).",
-  "keywords": ["ari", "asterisk", "rest", "stasis", "client", "stasisapp", "telephone", "pbx"],
+  "keywords": [
+    "ari",
+    "asterisk",
+    "rest",
+    "stasis",
+    "client",
+    "stasisapp",
+    "telephone",
+    "pbx"
+  ],
   "homepage": "https://bitbucket.org/lukas-ng-voice/asterisk_ari_amqp_lib",
   "license": "MIT",
   "authors": [
@@ -12,7 +21,7 @@
       "homepage": "https://ng-voice.com"
     }
   ],
-  "require" : {
+  "require": {
     "php": ">=7.2.11",
     "monolog/monolog": "1.24.0",
     "guzzlehttp/guzzle": "6.3.3",
@@ -31,7 +40,9 @@
     "psr-4": {
       "AriStasisApp\\": "src/"
     },
-    "files": ["src/helping_functions.php"]
+    "files": [
+      "src/helping_functions.php"
+    ]
   },
   "autoload-dev": {
     "psr-4": {

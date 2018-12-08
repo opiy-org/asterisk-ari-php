@@ -44,7 +44,7 @@ class Playbacks extends AriRestClient
      * Control a playback.
      *
      * @param string $playbackId Playback's id.
-     * @param string $operation  Operation to perform on the playback.
+     * @param string $operation Operation to perform on the playback.
      * Allowed: restart, pause, unpause, reverse, forward
      * @throws \GuzzleHttp\Exception\GuzzleException
      */

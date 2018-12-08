@@ -6,8 +6,8 @@
  */
 
 use AriStasisApp\BasicStasisApp;
-use GuzzleHttp\Exception\GuzzleException;
 use AriStasisApp\models\messages\{ChannelUserevent, StasisStart};
+use GuzzleHttp\Exception\GuzzleException;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -27,7 +27,8 @@ require_once __DIR__ . '/../vendor/autoload.php';
  * If you find any bugs, feel free to open an issue in the repository or send us an email :)
  * ==============================================================================================
  */
-class ExampleLocalApp extends BasicStasisApp {
+class ExampleLocalApp extends BasicStasisApp
+{
 
     /**
      * 'StasisStart' is the first event that is triggered by Asterisk, when a call enters your application.
@@ -44,8 +45,7 @@ class ExampleLocalApp extends BasicStasisApp {
          */
         try {
             $this->eventsClient->userEvent('customEventExample', 'ExampleLocalApp');
-        }
-        catch (GuzzleException $guzzleException) {
+        } catch (GuzzleException $guzzleException) {
             // Handle 4XX/5XX HTTP status codes. They will throw exceptions!
             $this->logger->error($guzzleException->getMessage());
         }
@@ -61,11 +61,10 @@ class ExampleLocalApp extends BasicStasisApp {
         $this->logger->info($channelUserevent->getEventname());
 
         // How about fetching your asterisk settings and receiving the returning AsteriskInfo object?
-        try{
+        try {
             $asteriskInfo = $this->asteriskClient->getInfo();
             $this->logger->info($asteriskInfo->getBuild());
-        }
-        catch (GuzzleException $guzzleException) {
+        } catch (GuzzleException $guzzleException) {
             $this->logger->error($guzzleException->getMessage());
         }
     }

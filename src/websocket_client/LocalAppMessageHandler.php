@@ -8,10 +8,10 @@
 namespace AriStasisApp\websocket_client;
 
 
+use AriStasisApp\BasicStasisApp;
 use JsonMapper;
 use JsonMapper_Exception;
 use Monolog\Logger;
-use AriStasisApp\BasicStasisApp;
 use Nekland\Woketo\Core\AbstractConnection;
 use Nekland\Woketo\Exception\WebsocketException;
 use Nekland\Woketo\Message\TextMessageHandler;
@@ -70,16 +70,14 @@ class LocalAppMessageHandler extends TextMessageHandler
 
         try {
             $jsonEvent = $this->jsonMapper->map($decodedJson, new $ariEventType);
-        }
-        catch (JsonMapper_Exception $jsonMapper_Exception) {
+        } catch (JsonMapper_Exception $jsonMapper_Exception) {
             $this->logger->error($jsonMapper_Exception->getMessage());
             exit;
         }
 
         $functionName = lcfirst($ariEventType);
 
-        if (method_exists($this->myApp, $functionName))
-        {
+        if (method_exists($this->myApp, $functionName)) {
             $this->myApp->$functionName($jsonEvent);
             $this->logger->debug("Message successfully handled.");
         }

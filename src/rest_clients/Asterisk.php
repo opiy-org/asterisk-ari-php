@@ -7,8 +7,8 @@
 
 namespace AriStasisApp\rest_clients;
 
-use function AriStasisApp\glueArrayOfStrings;
 use AriStasisApp\models\{AsteriskInfo, ConfigTuple, LogChannel, Module, Variable};
+use function AriStasisApp\glueArrayOfStrings;
 
 /**
  * Class Asterisk
@@ -50,10 +50,8 @@ class Asterisk extends AriRestClient
     function updateObject(string $configClass, string $objectType, string $id, array $fields = []): array
     {
         $body = ['fields' => []];
-        if ($fields !== [])
-        {
-            foreach ($fields as $attribute => $value)
-            {
+        if ($fields !== []) {
+            foreach ($fields as $attribute => $value) {
                 $parsedBody['fields'] = $body['fields'] + [['attribute' => $attribute, 'value' => $value]];
             }
         }

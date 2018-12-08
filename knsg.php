@@ -16,8 +16,7 @@ try {
     $variable = $asteriskClient->getGlobalVar('exampleVariable');
 
     $pjsipModule = $asteriskClient->getModule('pjsip');
-}
-catch (GuzzleException $guzzleException) {
+} catch (GuzzleException $guzzleException) {
     syslog(LOG_ERR, $guzzleException->getMessage());
 }
 

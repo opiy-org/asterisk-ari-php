@@ -95,7 +95,8 @@ class WebSocketClient
      *
      * @param array $myApiSettings
      */
-    function runWithWebHook(array $myApiSettings) {
+    function runWithWebHook(array $myApiSettings)
+    {
         try {
             $this->woketoWebSocketClient->start(new WebHookMessageHandler($myApiSettings));
         } catch (\Exception $e) {
