@@ -8,8 +8,8 @@
 namespace AriStasisApp\rest_clients;
 
 
-use function AriStasisApp\{mapJsonArrayToAriObjects, mapJsonToAriObject, glueArrayOfStrings};
 use AriStasisApp\models\Application;
+use function AriStasisApp\glueArrayOfStrings;
 
 /**
  * Class Applications
@@ -26,35 +26,26 @@ class Applications extends AriRestClient
      */
     function list(): array
     {
-        return mapJsonArrayToAriObjects(
-            $this->getRequest('/applications'),
-            'AriStasisApp\models\Application',
-            $this->jsonMapper,
-            $this->logger);
+        return $this->getRequest('/applications', [], 'array', 'Application');
     }
 
     /**
      * Get details of the application.
      *
-     * @param string $applicationName
+     * @param string $applicationName Application's name.
      * @return Application|object
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     function get(string $applicationName): Application
     {
-        return mapJsonToAriObject(
-            $this->getRequest("/applications/{$applicationName}"),
-            'AriStasisApp\models\Application',
-            $this->jsonMapper,
-            $this->logger
-        );
+        return $this->getRequest("/applications/{$applicationName}", [], 'model', 'Application');
     }
 
     /**
      * Subscribe an application to a events source.
      * Returns the state of the application after the subscriptions have changed.
      *
-     * @param string $applicationName
+     * @param string $applicationName Application's name.
      * @param array $eventSource URI for events source
      * (channel:{channelId}, bridge:{bridgeId}, endpoint:{tech}[/{resource}], deviceState:{deviceName}
      * @return Application|object
@@ -62,15 +53,12 @@ class Applications extends AriRestClient
      */
     function subscribe(string $applicationName, array $eventSource): Application
     {
-        $response = $this->postRequest(
+        return $this->postRequest(
             "/applications/{$applicationName}/subscription",
-            ['eventSource' => glueArrayOfStrings($eventSource)]
-        );
-        return mapJsonToAriObject(
-            $response,
-            'AriStasisApp\models\Application',
-            $this->jsonMapper,
-            $this->logger
+            ['eventSource' => glueArrayOfStrings($eventSource)],
+            [],
+            'model',
+            'Application'
         );
     }
 
@@ -86,15 +74,11 @@ class Applications extends AriRestClient
      */
     function unsubscribe(string $applicationName, array $eventSource): Application
     {
-        $response = $this->deleteRequest(
+        return $this->deleteRequest(
             "/applications/{$applicationName}/subscription",
-            ['eventSource' => glueArrayOfStrings($eventSource)]
-        );
-        return mapJsonToAriObject(
-            $response,
-            'AriStasisApp\models\Application',
-            $this->jsonMapper,
-            $this->logger
+            ['eventSource' => glueArrayOfStrings($eventSource)],
+            'model',
+            'modelClassName'
         );
     }
 }

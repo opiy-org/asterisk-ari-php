@@ -26,7 +26,7 @@ class Channels extends AriRestClient
      */
     function list(): array
     {
-        return $this->getRequest('/channels', [], ['returnType' => 'array', 'modelClassName' => 'Channel']);
+        return $this->getRequest('/channels', [], 'array', 'Channel');
     }
 
     /**
@@ -66,7 +66,9 @@ class Channels extends AriRestClient
             '/channels',
             ['endpoint' => $endpoint] + $options,
             ['variables' => $channelVariables],
-            ['returnType' => 'model', 'modelClassName' => 'Channel']);
+            'model',
+            'Channel'
+        );
     }
 
     /**
@@ -91,7 +93,8 @@ class Channels extends AriRestClient
             '/channels/create',
             ['endpoint' => $endpoint, 'app' => $app] + $options,
             [],
-            ['returnType' => 'model', 'modelClassName' => 'Channel']
+            'model',
+            'Channel'
         );
     }
 
@@ -107,7 +110,8 @@ class Channels extends AriRestClient
         return $this->getRequest(
             "/channels/{$channelId}",
             [],
-            ['returnType' => 'model', 'modelClassName' => 'Channel']
+            'model',
+            'Channel'
         );
     }
 
@@ -152,7 +156,8 @@ class Channels extends AriRestClient
             "/channels/{$channelId}",
             ['endpoint' => $endpoint] + $options,
             ['variables' => $channelVariables],
-            ['returnType' => 'model', 'modelClassName' => 'Channel']
+            'model',
+            'Channel'
         );
     }
 
@@ -375,7 +380,8 @@ class Channels extends AriRestClient
             "/channels/{$channelId}/play",
             ['media' => glueArrayOfStrings($media)] + $options,
             [],
-            ['returnType' => 'model', 'modelClassName' => 'Playback']
+            'model',
+            'Playback'
         );
     }
 
@@ -403,7 +409,8 @@ class Channels extends AriRestClient
             "/channels/{$channelId}/play/{$playbackId}",
             ['media' => glueArrayOfStrings($media)] + $options,
             [],
-            ['returnType' => 'model', 'modelClassName' => 'Playback']
+            'model',
+            'Playback'
         );
     }
 
@@ -433,7 +440,8 @@ class Channels extends AriRestClient
             "/channels/{$channelId}/record",
             ['name' => $name, 'format' => $format] + $options,
             [],
-            ['returnType' => 'model', 'modelClassName' => 'LiveRecording']
+            'model',
+            'LiveRecording'
         );
     }
 
@@ -450,7 +458,8 @@ class Channels extends AriRestClient
         return $this->getRequest(
             "/channels/{$channelId}/variable",
             ['variable' => $variable],
-            ['returnType' => 'model', 'modelClassName' => 'Variable']
+            'model',
+            'Variable'
         );
     }
 
@@ -486,7 +495,8 @@ class Channels extends AriRestClient
             "/channels/{$channelId}/snoop",
             ['app' => $app] + $options,
             [],
-            ['returnType' => 'model', 'modelClassName' => 'Channel']
+            'model',
+            'Channel'
         );
     }
 
@@ -509,7 +519,8 @@ class Channels extends AriRestClient
             "/channels/{$channelId}/snoop/{$snoopId}",
             ['app' => $app] + $options,
             [],
-            ['returnType' => 'model', 'modelClassName' => 'Channel']
+            'model',
+            'Channel'
         );
     }
 

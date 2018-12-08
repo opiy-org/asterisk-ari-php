@@ -123,12 +123,12 @@ class AriRestClient
      *
      * @param string $uri
      * @param array $queryParameters
-     * @param string[] $returnFormat Contains Type and Class of the return value:
-     * ['type' => 'array'|'model', 'modelClassName' => e.g. 'Playback']
+     * @param string $returnType
+     * @param string $returnModelClassName
      * @return array|Response|object
      * @throws GuzzleException
      */
-    protected function getRequest(string $uri, array $queryParameters = [], array $returnFormat = [])
+    protected function getRequest(string $uri, array $queryParameters = [], string $returnType = '', string $returnModelClassName = '')
     {
         $method = 'GET';
         $uri = $this->rootUri . $uri;
@@ -140,7 +140,7 @@ class AriRestClient
             $this->logException($guzzleException, $method, $uri, $queryParameters);
             throw $guzzleException;
         }
-        return $this->formatResponse($response, $returnFormat);
+        return $this->formatResponse($response, $returnType, $returnModelClassName);
     }
 
     /**
@@ -149,12 +149,12 @@ class AriRestClient
      * @param string $uri
      * @param array $queryParameters
      * @param array $body
-     * @param string[] $returnFormat Contains Type and Class of the return value:
-     * ['type' => 'array'|'model', 'modelClassName' => e.g. 'Playback']
+     * @param string $returnType
+     * @param string $returnModelClassName
      * @return array|Response|object
      * @throws GuzzleException
      */
-    protected function postRequest(string $uri, array $queryParameters = [], array $body = [], array $returnFormat = [])
+    protected function postRequest(string $uri, array $queryParameters = [], array $body = [], string $returnType = '', string $returnModelClassName = '')
     {
         $method = 'POST';
         $uri = $this->rootUri . $uri;
@@ -168,7 +168,7 @@ class AriRestClient
             $this->logException($guzzleException, $method, $uri, $queryParameters, $body);
             throw $guzzleException;
         }
-        return $this->formatResponse($response, $returnFormat);
+        return $this->formatResponse($response, $returnType, $returnModelClassName);
     }
 
 
@@ -177,12 +177,12 @@ class AriRestClient
      *
      * @param string $uri
      * @param array $body
-     * @param string[] $returnFormat Contains Type and Class of the return value:
-     * ['type' => 'array'|'model', 'modelClassName' => e.g. 'Playback']
+     * @param string $returnType
+     * @param string $returnModelClassName
      * @return array|Response|object
      * @throws GuzzleException
      */
-    protected function putRequest(string $uri, array $body = [], array $returnFormat = [])
+    protected function putRequest(string $uri, array $body = [], string $returnType = '', string $returnModelClassName = '')
     {
         $method = 'PUT';
         $uri = $this->rootUri . $uri;
@@ -194,7 +194,7 @@ class AriRestClient
             $this->logException($guzzleException, $method, $uri, [], $body);
             throw $guzzleException;
         }
-        return $this->formatResponse($response, $returnFormat);
+        return $this->formatResponse($response, $returnType, $returnModelClassName);
     }
 
 
@@ -203,10 +203,12 @@ class AriRestClient
      *
      * @param string $uri
      * @param array $queryParameters
+     * @param string $returnType
+     * @param string $returnModelClassName
      * @return array|Response|object
      * @throws GuzzleException
      */
-    protected function deleteRequest(string $uri, array $queryParameters = [])
+    protected function deleteRequest(string $uri, array $queryParameters = [], string $returnType = '', string $returnModelClassName = '')
     {
         $method = 'DELETE';
         $uri = $this->rootUri . $uri;
@@ -218,7 +220,7 @@ class AriRestClient
             $this->logException($guzzleException, $method, $uri);
             throw $guzzleException;
         }
-        return $response;
+        return $this->formatResponse($response, $returnType, $returnModelClassName);
     }
 
     /**
@@ -261,19 +263,20 @@ class AriRestClient
 
     /**
      * @param Response $response
-     * @param string[] $returnFormat
+     * @param string $returnType
+     * @param string $returnModelClassName
      * @return array|Response|object
      */
-    private function formatResponse(Response $response, array $returnFormat)
+    private function formatResponse(Response $response, string $returnType, string $returnModelClassName)
     {
-        if ($returnFormat !== [])
+        if (($returnType !== '') && ($returnModelClassName !== ''))
         {
-            $modelClassName = "AriStasisApp\\models\\" . $returnFormat['modelClassName'];
-            if ($returnFormat['returnType'] === 'array')
+            $modelClassName = "AriStasisApp\\models\\" . $returnModelClassName;
+            if ($returnType === 'array')
             {
                 return $this->mapJsonArrayToAriObjects($response, $modelClassName);
             }
-            else if ($returnFormat['returnType'] === 'model')
+            else if ($returnType === 'model')
             {
                 return $this->mapJsonToAriObject($response, $modelClassName);
             }

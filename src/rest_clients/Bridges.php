@@ -26,7 +26,7 @@ class Bridges extends AriRestClient
      */
     function list(): array
     {
-        return $this->getRequest('/bridges', [], ['returnType' => 'array', 'modelClassName' => 'Bridge']);
+        return $this->getRequest('/bridges', [], 'array', 'Bridge');
     }
 
     /**
@@ -43,7 +43,7 @@ class Bridges extends AriRestClient
      */
     function create(array $options = []): Bridge
     {
-        return $this->postRequest('/bridges', $options, [], ['returnType' => 'model', 'modelClassName' => 'Bridge']);
+        return $this->postRequest('/bridges', $options, [], 'model', 'Bridge');
     }
 
     /**
@@ -60,12 +60,7 @@ class Bridges extends AriRestClient
      */
     function createWithId(string $bridgeId, array $options = []): Bridge
     {
-        return $this->postRequest(
-            "/bridges/{$bridgeId}",
-            $options,
-            [],
-            ['returnType' => 'model', 'modelClassName' => 'Bridge']
-        );
+        return $this->postRequest("/bridges/{$bridgeId}", $options, [], 'model', 'Bridge');
     }
 
     /**
@@ -77,11 +72,7 @@ class Bridges extends AriRestClient
      */
     function get(string $bridgeId): Bridge
     {
-        return $this->getRequest(
-            "/bridges/{$bridgeId}",
-            [],
-            ['returnType' => 'model', 'modelClassName' => 'Bridge']
-        );
+        return $this->getRequest("/bridges/{$bridgeId}", [], 'model', 'Bridge');
     }
 
     /**
@@ -204,7 +195,8 @@ class Bridges extends AriRestClient
             "/bridges/{$bridgeId}/play",
             ['media' => glueArrayOfStrings($media)] + $options,
             [],
-            ['returnType' => 'model', 'modelClassName' => 'Playback']
+            'model',
+            'Playback'
         );
     }
 
@@ -233,7 +225,8 @@ class Bridges extends AriRestClient
             "/bridges/{$bridgeId}/play/{$playbackId}",
             ['media' => glueArrayOfStrings($media)] + $options,
             [],
-            ['returnType' => 'model', 'modelClassName' => 'Playback']
+            'model',
+            'Playback'
         );
     }
 
@@ -262,7 +255,8 @@ class Bridges extends AriRestClient
             "/bridges/{$bridgeId}/record",
             ['name' => $name, 'format' => $format] + $options,
             [],
-            ['returnType' => 'model', 'modelClassName' => 'LiveRecording']
+            'model',
+            'LiveRecording'
         );
     }
 }
