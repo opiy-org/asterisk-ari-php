@@ -7,9 +7,7 @@
 
 namespace AriStasisApp;
 
-use GuzzleHttp\Psr7\Response;
-use JsonMapper;
-use JsonMapper_Exception;
+
 use Monolog\Handler\{NullHandler, StreamHandler};
 use Monolog\Logger;
 use ReflectionClass;
@@ -100,50 +98,6 @@ function getShortClassName($object): string
     }
 
 }
-
-/**
- * @param Response $response
- * @param string $targetObjectType
- * @param JsonMapper $jsonMapper
- * @param Logger $logger
- * @return array
- */
-function mapJsonArrayToAriObjects(Response $response, string $targetObjectType, JsonMapper $jsonMapper, Logger $logger): array
-{
-    $decodedBody = json_decode($response->getBody());
-    try {
-        $mappedElements = [];
-        for ($i = 0; $i < sizeof($decodedBody); $i++)
-        {
-            $mappedElements[$i] = $jsonMapper->map($decodedBody[$i], new $targetObjectType);
-        }
-        return $mappedElements;
-    }
-    catch (JsonMapper_Exception $jsonMapper_Exception) {
-        $logger->error($jsonMapper_Exception->getMessage());
-        exit;
-    }
-}
-
-
-/**
- * @param Response $response
- * @param string $targetObjectType
- * @param JsonMapper $jsonMapper
- * @param Logger $logger
- * @return object
- */
-function mapJsonToAriObject(Response $response, string $targetObjectType, JsonMapper $jsonMapper, Logger $logger)
-{
-    try {
-        return $jsonMapper->map(json_decode($response->getBody()), new $targetObjectType);
-    }
-    catch (JsonMapper_Exception $jsonMapper_Exception) {
-        $logger->error($jsonMapper_Exception->getMessage());
-        exit;
-    }
-}
-
 
 /**
  * Create a log channel and set it up.

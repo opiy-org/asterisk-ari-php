@@ -7,7 +7,7 @@
 
 namespace AriStasisApp\rest_clients;
 
-use function AriStasisApp\{mapJsonArrayToAriObjects, glueArrayOfStrings, mapJsonToAriObject};
+use function AriStasisApp\glueArrayOfStrings;
 use AriStasisApp\models\{AsteriskInfo, ConfigTuple, LogChannel, Module, Variable};
 
 /**
@@ -26,11 +26,10 @@ class Asterisk extends AriRestClient
      */
     function getObject(string $configClass, string $objectType, string $id): array
     {
-        return mapJsonArrayToAriObjects(
-            $this->getRequest("/asterisk/config/dynamic/{$configClass}/{$objectType}/{$id}"),
-            'AriStasisApp\models\ConfigTuple',
-            $this->jsonMapper,
-            $this->logger
+        return $this->getRequest(
+            "/asterisk/config/dynamic/{$configClass}/{$objectType}/{$id}",
+            [],
+            ['returnType' => 'array', 'modelClassName' => 'ConfigTuple']
         );
     }
 
@@ -38,27 +37,25 @@ class Asterisk extends AriRestClient
      * @param string $configClass
      * @param string $objectType
      * @param string $id
-     * @param array $body The body object should have a value that is a list of ConfigTuples,
-     * which provide the fields to update. Ex. [ { "attribute": "directmedia", "value": "false" } ]
+     * @param string[] $body The body object should have a value that is a list of ConfigTuples,
+     * which provide the fields to update.
      * @return ConfigTuple[]|object
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function createOrUpdateObject(string $configClass, string $objectType, string $id, ?array $body): array
+    function updateObject(string $configClass, string $objectType, string $id, array $body = []): array
     {
         $parsedBody = ['fields' => []];
-        if (!is_null($body))
+        if ($body !== [])
         {
-            foreach ($body as $key => $value)
+            foreach ($body as $attribute => $value)
             {
-                $parsedBody['fields'] = $parsedBody['fields'] + [['attribute' => $key, 'value' => $value]];
+                $parsedBody['fields'] = $parsedBody['fields'] + [['attribute' => $attribute, 'value' => $value]];
             }
         }
 
-        return mapJsonArrayToAriObjects(
-            $this->putRequest("/asterisk/config/dynamic/{$configClass}/{$objectType}/{$id}", $parsedBody),
-            'AriStasisApp\models\ConfigTuple',
-            $this->jsonMapper,
-            $this->logger
+        return $this->putRequest("/asterisk/config/dynamic/{$configClass}/{$objectType}/{$id}",
+            $body,
+            ['returnType' => 'array', 'modelClassName' => 'ConfigTuple']
         );
     }
 
@@ -77,24 +74,21 @@ class Asterisk extends AriRestClient
      * Filter information returned
      * Allowed values: build, system, config, status
      * Allows comma separated values.
+     *
      * @param array $only
      * @return AsteriskInfo|object
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     function getInfo(array $only = []): AsteriskInfo
     {
-        if ($only === []) {
-            $response = $this->getRequest('/asterisk/info');
-        } else {
-            $only = glueArrayOfStrings($only);
-            $response = $this->getRequest('/asterisk/info', ['only' => $only]);
+        $queryParameters = [];
+        if ($only !== []) {
+            $queryParameters = ['only' => glueArrayOfStrings($only)];
         }
-
-        return mapJsonToAriObject(
-            $response,
-            'AriStasisApp\models\AsteriskInfo',
-            $this->jsonMapper,
-            $this->logger
+        return $this->getRequest(
+            '/asterisk/info',
+            $queryParameters,
+            ['returnType' => 'model', 'modelClassName' => 'AsteriskInfo']
         );
     }
 
@@ -104,11 +98,10 @@ class Asterisk extends AriRestClient
      */
     function listModules(): array
     {
-        return mapJsonArrayToAriObjects(
-            $this->getRequest('/asterisk/modules'),
-            'AriStasisApp\models\Module',
-            $this->jsonMapper,
-            $this->logger
+        return $this->getRequest(
+            '/asterisk/modules',
+            [],
+            ['returnType' => 'array', 'modelClassName' => 'Module']
         );
     }
 
@@ -119,11 +112,10 @@ class Asterisk extends AriRestClient
      */
     function getModule(string $moduleName): Module
     {
-        return mapJsonToAriObject(
-            $this->getRequest("/asterisk/modules/{$moduleName}"),
-            'AriStasisApp\models\Module',
-            $this->jsonMapper,
-            $this->logger
+        return $this->getRequest(
+            "/asterisk/modules/{$moduleName}",
+            [],
+            ['returnType' => 'model', 'modelClassName' => 'Module']
         );
 
     }
@@ -161,11 +153,10 @@ class Asterisk extends AriRestClient
      */
     function listLogChannels(): array
     {
-        return mapJsonArrayToAriObjects(
-            $this->getRequest('asterisk/logging'),
-            'AriStasisApp\models\LogChannel',
-            $this->jsonMapper,
-            $this->logger
+        return $this->getRequest(
+            'asterisk/logging',
+            [],
+            ['returnType' => 'array', 'modelClassName' => 'LogChannel']
         );
     }
 
@@ -204,11 +195,10 @@ class Asterisk extends AriRestClient
      */
     function getGlobalVar(string $variable): Variable
     {
-        return mapJsonToAriObject(
-            $this->getRequest('/asterisk/variable', ['variable' => $variable]),
-            'AriStasisApp\models\Variable',
-            $this->jsonMapper,
-            $this->logger
+        return $this->getRequest(
+            '/asterisk/variable',
+            ['variable' => $variable],
+            ['returnType' => 'model', 'modelClassName' => 'Variable']
         );
     }
 

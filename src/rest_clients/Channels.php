@@ -7,13 +7,9 @@
 
 namespace AriStasisApp\rest_clients;
 
-use AriStasisApp\models\Channel;
-use AriStasisApp\models\LiveRecording;
-use AriStasisApp\models\Playback;
-use AriStasisApp\models\Variable;
+use AriStasisApp\models\{Channel, LiveRecording, Playback, Variable};
+use http\Exception\InvalidArgumentException;
 use function AriStasisApp\glueArrayOfStrings;
-use function AriStasisApp\mapJsonArrayToAriObjects;
-use function AriStasisApp\mapJsonToAriObject;
 
 /**
  * A specific communication connection between Asterisk and an Endpoint.
@@ -23,130 +19,174 @@ use function AriStasisApp\mapJsonToAriObject;
 class Channels extends AriRestClient
 {
     /**
+     * List all active channels in Asterisk.
+     *
      * @return Channel[]|object
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function list()
+    function list(): array
     {
-        return mapJsonArrayToAriObjects(
-            $this->getRequest('/channels'),
-            'AriStasisApp\models\Channel',
-            $this->jsonMapper,
-            $this->logger
-        );
+        return $this->getRequest('/channels', [], ['returnType' => 'array', 'modelClassName' => 'Channel']);
     }
 
     /**
+     * Create a new channel (originate).
+     * The new channel is created immediately and a snapshot of it returned.
+     * If a Stasis application is provided it will be automatically subscribe
+     * to the originated channel for further events and updates.
+     *
      * @param string $endpoint e.g. SIP/alice
      * @param array $options
-     * @param array $channelVariables
+     * extension: string - The extension to dial after the endpoint answers. Mutually exclusive with 'app'.
+     * context: string - The context to dial after the endpoint answers. If omitted, uses 'default'.
+     *      Mutually exclusive with 'app'.
+     * priority: long - The priority to dial after the endpoint answers.
+     *      If omitted, uses 1. Mutually exclusive with 'app'.
+     * label: string - The label to dial after the endpoint answers.
+     *      Will supersede 'priority' if provided. Mutually exclusive with 'app'.
+     * app: string - The application that is subscribed to the originated channel.
+     *      When the channel is answered, it will be passed to this Stasis application.
+     *      Mutually exclusive with 'context', 'extension', 'priority', and 'label'.
+     * appArgs: string - The application arguments to pass to the Stasis application provided by 'app'.
+     *      Mutually exclusive with 'context', 'extension', 'priority', and 'label'.
+     * callerId: string - CallerID to use when dialing the endpoint or extension.
+     * timeout: int - Timeout (in seconds) before giving up dialing, or -1 for no timeout. Default: 30
+     * channelId: string - The unique id to assign the channel on creation.
+     * otherChannelId: string - The unique id to assign the second channel when using local channels.
+     * originator: string - The unique id of the channel which is originating this one.
+     * formats: string - The format name capability list to use if originator is not specified.
+     *      Ex. "ulaw,slin16". Format names can be found with "core show codecs".
+     * @param string[] $channelVariables
      * @return Channel|object
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     function originate(string $endpoint, array $options = [], array $channelVariables = []): Channel
     {
-        $body = array_merge(['endpoint' => $endpoint, 'variables' => $channelVariables], $options);
-        return mapJsonToAriObject(
-            $this->postRequest('/channels', [], $body),
-            'AriStasisApp\models\Channel',
-            $this->jsonMapper,
-            $this->logger
-        );
+        return $this->postRequest(
+            '/channels',
+            ['endpoint' => $endpoint] + $options,
+            ['variables' => $channelVariables],
+            ['returnType' => 'model', 'modelClassName' => 'Channel']);
     }
 
     /**
-     * @param string $endpoint
-     * @param string $stasisApp
-     * @param array $options
-     * @return Channel|object
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     */
-    function create(string $endpoint, string $stasisApp, array $options = []): Channel
-    {
-        return mapJsonToAriObject(
-            $this->postRequest('/channels/create', array_merge([$endpoint, $stasisApp], $options)),
-            'AriStasisApp\models\Channel',
-            $this->jsonMapper,
-            $this->logger
-        );
-    }
-
-    /**
-     * @param string $id
-     * @return Channel|object
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     */
-    function get(string $id): Channel
-    {
-        return mapJsonToAriObject(
-            $this->getRequest("/channels/{$id}"),
-            'AriStasisApp\models\Channel',
-            $this->jsonMapper,
-            $this->logger
-        );
-    }
-
-    /**
-     * @param string $channelId
-     * @param string $endpoint
-     * @param array $options
-     * @param array $channelVariables
-     * @return Channel|object
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     */
-    function originateWithId(string $channelId, string $endpoint, array $options = [], $channelVariables = []): Channel
-    {
-        $body = array_merge(['endpoint' => $endpoint, 'variables' => $channelVariables], $options);
-        return mapJsonToAriObject(
-            $this->postRequest("/channels/{$channelId}", [], $body),
-            'AriStasisApp\models\Channel',
-            $this->jsonMapper,
-            $this->logger
-        );
-    }
-
-    /**
+     * Create channel.
      *
-     *
-     * @param string $channelId
+     * @param string $endpoint Endpoint for channel communication
+     * @param string $app Stasis Application to place channel into
+     * @param string[] $options
+     * appArgs: string - The application arguments to pass to the Stasis application provided by 'app'.
+     *      Mutually exclusive with 'context', 'extension', 'priority', and 'label'.
+     * channelId: string - The unique id to assign the channel on creation.
+     * otherChannelId: string - The unique id to assign the second channel when using local channels.
+     * originator: string - Unique ID of the calling channel
+     * formats: string - The format name capability list to use if originator is not specified.
+     *      Ex. "ulaw,slin16". Format names can be found with "core show codecs".
+     * @return Channel|object
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function hangup(string $channelId): void
+    function create(string $endpoint, string $app, array $options = []): Channel
     {
-        $this->deleteRequest("/channels/{$channelId}");
+        return $this->postRequest(
+            '/channels/create',
+            ['endpoint' => $endpoint, 'app' => $app] + $options,
+            [],
+            ['returnType' => 'model', 'modelClassName' => 'Channel']
+        );
+    }
+
+    /**
+     * Channel details.
+     *
+     * @param string $channelId Channel's id.
+     * @return Channel|object
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    function get(string $channelId): Channel
+    {
+        return $this->getRequest(
+            "/channels/{$channelId}",
+            [],
+            ['returnType' => 'model', 'modelClassName' => 'Channel']
+        );
+    }
+
+    /**
+     * Create a new channel (originate with id).
+     * The new channel is created immediately and a snapshot of it returned.
+     * If a Stasis application is provided it will be automatically subscribed
+     * to the originated channel for further events and updates.
+     *
+     * @param string $channelId The unique id to assign the channel on creation.
+     * @param string $endpoint Endpoint to call.
+     * @param array $options
+     * extension: string - The extension to dial after the endpoint answers. Mutually exclusive with 'app'.
+     * context: string - The context to dial after the endpoint answers. If omitted, uses 'default'.
+     *      Mutually exclusive with 'app'.
+     * priority: long - The priority to dial after the endpoint answers. If omitted, uses 1.
+     *      Mutually exclusive with 'app'.
+     * label: string - The label to dial after the endpoint answers. Will supersede 'priority' if provided.
+     *      Mutually exclusive with 'app'.
+     * app: string - The application that is subscribed to the originated channel.
+     *      When the channel is answered, it will be passed to this Stasis application.
+     *      Mutually exclusive with 'context', 'extension', 'priority', and 'label'.
+     * appArgs: string - The application arguments to pass to the Stasis application provided by 'app'.
+     *      Mutually exclusive with 'context', 'extension', 'priority', and 'label'.
+     * callerId: string - CallerID to use when dialing the endpoint or extension.
+     * timeout: int - Timeout (in seconds) before giving up dialing, or -1 for no timeout. Default: 30
+     * otherChannelId: string - The unique id to assign the second channel when using local channels.
+     * originator: string - The unique id of the channel which is originating this one.
+     * formats: string - The format name capability list to use if originator is not specified.
+     *      Ex. "ulaw,slin16". Format names can be found with "core show codecs" in Asterisk.
+     * @param string[] $channelVariables
+     * @return Channel|object
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    function originateWithId(
+        string $channelId,
+        string $endpoint,
+        array $options = [],
+        array $channelVariables = []
+    ): Channel {
+        return $this->postRequest(
+            "/channels/{$channelId}",
+            ['endpoint' => $endpoint] + $options,
+            ['variables' => $channelVariables],
+            ['returnType' => 'model', 'modelClassName' => 'Channel']
+        );
+    }
+
+    /**
+     * Delete (i.e. hangup) a channel.
+     *
+     * @param string $channelId Channel's id.
+     * @param string $reason Reason for hanging up the channel.
+     * Allowed values: normal, busy, congestion, no_answer, answered_elsewhere
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    function hangup(string $channelId, string $reason = ''): void
+    {
+        $queryParameters = [];
+        if ($reason !== '') {
+            $queryParameters['reason'] = $reason;
+        }
+        $this->deleteRequest("/channels/{$channelId}", $queryParameters);
     }
 
     /**
      * Exit application; continue execution in the dialplan.
      *
      * @param string $channelId Channel's id.
-     * @param string|null $context The context to continue to.
-     * @param string|null $extension The extension to continue to.
-     * @param string|null $priority The priority to continue to.
-     * @param string|null $label The label to continue to - will supersede 'priority' if both are provided.
+     * @param string[] $options
+     * context: string - The context to continue to.
+     * extension: string - The extension to continue to.
+     * priority: int - The priority to continue to.
+     * label: string - The label to continue to - will supersede 'priority' if both are provided.
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function continueInDialPlan(
-        string $channelId,
-        ?string $context,
-        ?string $extension,
-        ?string $priority,
-        ?string $label
-    ): void {
-        $queryParameters = [];
-        if (!is_null($context)) {
-            $queryParameters['context'] = $context;
-        }
-        if (!is_null($extension)) {
-            $queryParameters['extension'] = $extension;
-        }
-        if (!is_null($priority)) {
-            $queryParameters['priority'] = $priority;
-        }
-        if (!is_null($label)) {
-            $queryParameters['label'] = $label;
-        }
-        $this->postRequest("/channels/{$channelId}/continue", $queryParameters);
+    function continueInDialPlan(string $channelId, array $options): void
+    {
+        $this->postRequest("/channels/{$channelId}/continue", $options);
     }
 
     /**
@@ -199,23 +239,18 @@ class Channels extends AriRestClient
      *
      * @param string $channelId Channel's id.
      * @param string $dtmf DTMF To send.
-     * @param int $before Amount of time to wait before DTMF digits (specified in milliseconds) start.
-     * @param int $between Amount of time in between DTMF digits (specified in milliseconds).
-     * @param int $duration Length of each DTMF digit (specified in milliseconds).
-     * @param int $after Amount of time to wait after DTMF digits (specified in milliseconds) end.
+     * @param array $options
+     * before: int - Amount of time to wait before DTMF digits (specified in milliseconds) start.
+     * between: int - Amount of time in between DTMF digits (specified in milliseconds). Default: 100
+     * duration: int - Length of each DTMF digit (specified in milliseconds). Default: 100
+     * after: int - Amount of time to wait after DTMF digits (specified in milliseconds) end.
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function sendDtmf(
-        string $channelId,
-        string $dtmf,
-        int $before = 0,
-        int $between = 100,
-        int $duration = 100,
-        int $after = 0
-    ): void {
+    function sendDtmf(string $channelId, string $dtmf, array $options = []): void
+    {
         $this->postRequest(
             "/channels/{$channelId}/dtmf",
-            ['dtmf' => $dtmf, 'before' => $before, 'between' => $between, 'duration' => $duration, 'after' => $after]
+            ['dtmf' => $dtmf] + $options
         );
     }
 
@@ -322,35 +357,25 @@ class Channels extends AriRestClient
      *
      * @param string $channelId Channel's id.
      * @param string[] $media Media URIs to play.
-     * @param string|null $lang For sounds, selects language for sound.
-     * @param int $offsetms Number of milliseconds to skip before playing.
-     * Only applies to the first URI if multiple media URIs are specified.
-     * @param int $skipms Number of milliseconds to skip for forward/reverse operations.
-     * @param string|null $playbackId Playback ID.
+     * @param array $options
+     * lang: string - For sounds, selects language for sound.
+     * offsetms: int - Number of milliseconds to skip before playing.
+     *      Only applies to the first URI if multiple media URIs are specified.
+     * skipms: int - Number of milliseconds to skip for forward/reverse operations. Default: 3000
+     * playbackId: string - Playback ID.
      * @return Playback|object
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function play(
-        string $channelId,
-        array $media,
-        ?string $lang,
-        ?string $playbackId,
-        int $offsetms = 0,
-        int $skipms = 3000
-    ): Playback {
-        $media = glueArrayOfStrings($media);
-        $queryParameters = ['media' => $media, 'offsetms' => $offsetms, 'skipms' => $skipms];
-        if (!is_null($lang)) {
-            $queryParameters['lang'] = $lang;
+    function play(string $channelId, array $media, array $options = []): Playback
+    {
+        if ($media === []) {
+            throw new InvalidArgumentException('$media must contain at least one media URI.');
         }
-        if (!is_null($playbackId)) {
-            $queryParameters['playbackId'] = $playbackId;
-        }
-        return mapJsonToAriObject(
-            $this->postRequest("/channels/{$channelId}/play", $queryParameters),
-            'AriStasisApp\models\Playback',
-            $this->jsonMapper,
-            $this->logger
+        return $this->postRequest(
+            "/channels/{$channelId}/play",
+            ['media' => glueArrayOfStrings($media)] + $options,
+            [],
+            ['returnType' => 'model', 'modelClassName' => 'Playback']
         );
     }
 
@@ -364,31 +389,21 @@ class Channels extends AriRestClient
      * @param string $channelId Channel's id.
      * @param string $playbackId Playback ID.
      * @param string[] $media Media URIs to play.
-     * @param string $lang For sounds, selects language for sound.
-     * @param int $offsetms Number of milliseconds to skip before playing.
-     * Only applies to the first URI if multiple media URIs are specified.
-     * @param int $skipms Number of milliseconds to skip for forward/reverse operations.
+     * @param array $options
+     * lang: string - For sounds, selects language for sound.
+     * offsetms: int - Number of milliseconds to skip before playing.
+     *      Only applies to the first URI if multiple media URIs are specified.
+     * skipms: int - Number of milliseconds to skip for forward/reverse operations. Default: 3000
      * @return Playback|object
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function playWithId(
-        string $channelId,
-        string $playbackId,
-        array $media,
-        ?string $lang,
-        int $offsetms = 0,
-        int $skipms = 3000
-    ): Playback {
-        $media = glueArrayOfStrings($media);
-        $queryParameters = ['media' => $media, 'offsetms' => $offsetms, 'skipms' => $skipms];
-        if (!is_null($lang)) {
-            $queryParameters['lang'] = $lang;
-        }
-        return mapJsonToAriObject(
-            $this->postRequest("/channels/{$channelId}/play/{$playbackId}", $queryParameters),
-            'AriStasisApp\models\Playback',
-            $this->jsonMapper,
-            $this->logger
+    function playWithId(string $channelId, string $playbackId, array $media, array $options = []): Playback
+    {
+        return $this->postRequest(
+            "/channels/{$channelId}/play/{$playbackId}",
+            ['media' => glueArrayOfStrings($media)] + $options,
+            [],
+            ['returnType' => 'model', 'modelClassName' => 'Playback']
         );
     }
 
@@ -400,42 +415,25 @@ class Channels extends AriRestClient
      * @param string $channelId Channel's id.
      * @param string $name Recording's filename.
      * @param string $format Format to encode audio in.
-     * @param int $maxDurationSeconds Maximum duration of the recording, in seconds. 0 for no limit.
-     * Allowed range: Min: 0; Max: None
-     * @param int $maxSilenceSeconds Maximum duration of silence, in seconds. 0 for no limit.
-     * Allowed range: Min: 0; Max: None
-     * @param string $ifExists Action to take if a recording with the same name already exists.
-     * Allowed values: fail, overwrite, append
-     * @param bool $beep Play beep when recording begins
-     * @param string $terminateOn DTMF input to terminate recording (Allowed values: none, any, *, #).
+     * @param array $options
+     * maxDurationSeconds: int - Maximum duration of the recording, in seconds. 0 for no limit.
+     *      Allowed range: Min: 0; Max: None
+     * maxSilenceSeconds: int - Maximum duration of silence, in seconds. 0 for no limit.
+     *      Allowed range: Min: 0; Max: None
+     * ifExists: string - Action to take if a recording with the same name already exists. Default: fail
+     *      Allowed values: fail, overwrite, append
+     * beep: boolean - Play beep when recording begins
+     * terminateOn: string - DTMF input to terminate recording. Default: none. Allowed values: none, any, *, #
      * @return LiveRecording|object
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function record(
-        string $channelId,
-        string $name,
-        string $format,
-        int $maxDurationSeconds = 0,
-        int $maxSilenceSeconds = 0,
-        string $ifExists = 'fail',
-        bool $beep = true,
-        string $terminateOn = 'none'
-    ): LiveRecording {
-        $queryParameters =
-            [
-                'name' => $name,
-                'format' => $format,
-                'maxDurationSeconds' => $maxDurationSeconds,
-                'maxSilenceSeconds' => $maxSilenceSeconds,
-                'ifExists' => $ifExists,
-                'beep' => $beep,
-                'terminateOn' => $terminateOn
-            ];
-        return mapJsonToAriObject(
-            $this->postRequest("/channels/{$channelId}/record", $queryParameters),
-            'AriStasisApp\models\LiveRecording',
-            $this->jsonMapper,
-            $this->logger
+    function record(string $channelId, string $name, string $format, array $options = []): LiveRecording
+    {
+        return $this->postRequest(
+            "/channels/{$channelId}/record",
+            ['name' => $name, 'format' => $format] + $options,
+            [],
+            ['returnType' => 'model', 'modelClassName' => 'LiveRecording']
         );
     }
 
@@ -447,13 +445,12 @@ class Channels extends AriRestClient
      * @return Variable|object
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function getVariable(string $channelId, string $variable): Variable
+    function getChannelVar(string $channelId, string $variable): Variable
     {
-        return mapJsonToAriObject(
-            $this->getRequest("/channels/{$channelId}/variable", ['variable' => $variable]),
-            'AriStasisApp\models\Variable',
-            $this->jsonMapper,
-            $this->logger
+        return $this->getRequest(
+            "/channels/{$channelId}/variable",
+            ['variable' => $variable],
+            ['returnType' => 'model', 'modelClassName' => 'Variable']
         );
     }
 
@@ -462,10 +459,10 @@ class Channels extends AriRestClient
      *
      * @param string $channelId Channel's id.
      * @param string $variable The channel variable or function to set
-     * @param int|string $value The value to set the variable to
+     * @param string $value The value to set the variable to
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function setVariable(string $channelId, string $variable, $value): void
+    function setChannelVar(string $channelId, string $variable, string $value): void
     {
         $this->postRequest("/channels/{$channelId}/variable", [], ['variable' => $variable, 'value' => $value]);
     }
@@ -475,39 +472,21 @@ class Channels extends AriRestClient
      *
      * @param string $channelId Channel's id.
      * @param string $app Application the snooping channel is placed into.
-     * @param array|null $appArgs The application arguments to pass to the Stasis application.
-     * @param string|null $snoopId Unique ID to assign to snooping channel.
-     * @param string|null $spy Direction of audio to spy on (none, both, out, in).
-     * @param string|null $whisper Direction of audio to whisper into (none, both, out, in).
+     * @param string[] $options
+     * spy: string - Direction of audio to spy on. Default: none. Allowed values: none, both, out, in
+     * whisper: string - Direction of audio to whisper into. Default: none. Allowed values: none, both, out, in
+     * appArgs: string - The application arguments to pass to the Stasis application
+     * snoopId: string - Unique ID to assign to snooping channel
      * @return Channel|object
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function snoopChannel(
-        string $channelId,
-        string $app,
-        ?array $appArgs,
-        ?string $snoopId,
-        ?string $spy,
-        ?string $whisper
-    ): Channel {
-        $queryParameters = ['app' => $app];
-        if (!is_null($appArgs)) {
-            $queryParameters['appArgs'] = glueArrayOfStrings($appArgs);
-        }
-        if (!is_null($snoopId)) {
-            $queryParameters['snoopId'] = $snoopId;
-        }
-        if (!is_null($spy)) {
-            $queryParameters['spy'] = $spy;
-        }
-        if (!is_null($whisper)) {
-            $queryParameters['whisper'] = $whisper;
-        }
-        return mapJsonToAriObject(
-            $this->postRequest("/channels/{$channelId}/snoop", $queryParameters),
-            'AriStasisApp\models\Channel',
-            $this->jsonMapper,
-            $this->logger
+    function snoopChannel(string $channelId, string $app, array $options = []): Channel
+    {
+        return $this->postRequest(
+            "/channels/{$channelId}/snoop",
+            ['app' => $app] + $options,
+            [],
+            ['returnType' => 'model', 'modelClassName' => 'Channel']
         );
     }
 
@@ -517,35 +496,20 @@ class Channels extends AriRestClient
      * @param string $channelId Channel's id.
      * @param string $snoopId Unique ID to assign to snooping channel.
      * @param string $app Application the snooping channel is placed into.
-     * @param array|null $appArgs The application arguments to pass to the Stasis application.
-     * @param string|null $spy Direction of audio to spy on (none, both, out, in).
-     * @param string|null $whisper Direction of audio to whisper into (none, both, out, in).
+     * @param string[] $options
+     * spy: string - Direction of audio to spy on. Default: 'none'. Allowed values: none, both, out, in
+     * whisper: string - Direction of audio to whisper into. Default: none. Allowed values: none, both, out, in
+     * appArgs: string - The application arguments to pass to the Stasis application
      * @return Channel|object
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function snoopChannelWithId(
-        string $channelId,
-        string $snoopId,
-        string $app,
-        ?array $appArgs,
-        ?string $spy,
-        ?string $whisper
-    ): Channel {
-        $queryParameters = ['app' => $app];
-        if (!is_null($appArgs)) {
-            $queryParameters['appArgs'] = glueArrayOfStrings($appArgs);
-        }
-        if (!is_null($spy)) {
-            $queryParameters['spy'] = $spy;
-        }
-        if (!is_null($whisper)) {
-            $queryParameters['whisper'] = $whisper;
-        }
-        return mapJsonToAriObject(
-            $this->postRequest("/channels/{$channelId}/snoop/{$snoopId}", $queryParameters),
-            'AriStasisApp\models\Channel',
-            $this->jsonMapper,
-            $this->logger
+    function snoopChannelWithId(string $channelId, string $snoopId, string $app, array $options = []): Channel
+    {
+        return $this->postRequest(
+            "/channels/{$channelId}/snoop/{$snoopId}",
+            ['app' => $app] + $options,
+            [],
+            ['returnType' => 'model', 'modelClassName' => 'Channel']
         );
     }
 

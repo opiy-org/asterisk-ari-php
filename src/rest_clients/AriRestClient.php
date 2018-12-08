@@ -11,6 +11,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Response;
 use JsonMapper;
+use JsonMapper_Exception;
 use Monolog\Logger;
 use function AriStasisApp\{getShortClassName, initLogger, parseAriSettings};
 
@@ -61,30 +62,6 @@ class AriRestClient
         $this->jsonMapper = new JsonMapper();
         $this->jsonMapper->bIgnoreVisibility = true;
         $this->jsonMapper->bExceptionOnUndefinedProperty = true;
-    }
-
-    /**
-     * Sends a POST request via a GuzzleClient to Asterisk.
-     *
-     * @param string $uri
-     * @param array $queryParameters
-     * @param array $body
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
-     * @throws GuzzleException
-     */
-    protected function postRequest(string $uri, array $queryParameters = [], array $body = [])
-    {
-        $method = 'POST';
-        $uri = $this->rootUri . $uri;
-        try {
-            $this->logRequest($method, $uri, $queryParameters, $body);
-            $response = $this->guzzleClient->request($method, $uri, ['json' => $body, 'query' => $queryParameters]);
-            $this->logResponse($response, $method, $uri);
-            return $response;
-        } catch (GuzzleException $guzzleException) {
-            $this->logException($guzzleException, $method, $uri, $queryParameters, $body);
-            throw $guzzleException;
-        }
     }
 
     /**
@@ -146,10 +123,12 @@ class AriRestClient
      *
      * @param string $uri
      * @param array $queryParameters
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @param string[] $returnFormat Contains Type and Class of the return value:
+     * ['type' => 'array'|'model', 'modelClassName' => e.g. 'Playback']
+     * @return array|Response|object
      * @throws GuzzleException
      */
-    protected function getRequest(string $uri, array $queryParameters = [])
+    protected function getRequest(string $uri, array $queryParameters = [], array $returnFormat = [])
     {
         $method = 'GET';
         $uri = $this->rootUri . $uri;
@@ -157,12 +136,65 @@ class AriRestClient
             $this->logRequest($method, $uri, $queryParameters);
             $response = $this->guzzleClient->request($method, $uri, ['query' => $queryParameters]);
             $this->logResponse($response, $method, $uri);
-
-            return $response;
         } catch (GuzzleException $guzzleException) {
             $this->logException($guzzleException, $method, $uri, $queryParameters);
             throw $guzzleException;
         }
+        return $this->formatResponse($response, $returnFormat);
+    }
+
+    /**
+     * Sends a POST request via a GuzzleClient to Asterisk.
+     *
+     * @param string $uri
+     * @param array $queryParameters
+     * @param array $body
+     * @param string[] $returnFormat Contains Type and Class of the return value:
+     * ['type' => 'array'|'model', 'modelClassName' => e.g. 'Playback']
+     * @return array|Response|object
+     * @throws GuzzleException
+     */
+    protected function postRequest(string $uri, array $queryParameters = [], array $body = [], array $returnFormat = [])
+    {
+        $method = 'POST';
+        $uri = $this->rootUri . $uri;
+        try
+        {
+            $this->logRequest($method, $uri, $queryParameters, $body);
+            $response = $this->guzzleClient->request($method, $uri, ['json' => $body, 'query' => $queryParameters]);
+            $this->logResponse($response, $method, $uri);
+        }
+        catch (GuzzleException $guzzleException) {
+            $this->logException($guzzleException, $method, $uri, $queryParameters, $body);
+            throw $guzzleException;
+        }
+        return $this->formatResponse($response, $returnFormat);
+    }
+
+
+    /**
+     * Sends a PUT request via a GuzzleClient to Asterisk.
+     *
+     * @param string $uri
+     * @param array $body
+     * @param string[] $returnFormat Contains Type and Class of the return value:
+     * ['type' => 'array'|'model', 'modelClassName' => e.g. 'Playback']
+     * @return array|Response|object
+     * @throws GuzzleException
+     */
+    protected function putRequest(string $uri, array $body = [], array $returnFormat = [])
+    {
+        $method = 'PUT';
+        $uri = $this->rootUri . $uri;
+        try {
+            $this->logRequest($method, $uri, [], $body);
+            $response = $this->guzzleClient->request($method, $uri, ['json' => $body]);
+            $this->logResponse($response, $method, $uri);
+        } catch (GuzzleException $guzzleException) {
+            $this->logException($guzzleException, $method, $uri, [], $body);
+            throw $guzzleException;
+        }
+        return $this->formatResponse($response, $returnFormat);
     }
 
 
@@ -171,7 +203,7 @@ class AriRestClient
      *
      * @param string $uri
      * @param array $queryParameters
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @return array|Response|object
      * @throws GuzzleException
      */
     protected function deleteRequest(string $uri, array $queryParameters = [])
@@ -182,34 +214,75 @@ class AriRestClient
             $this->logRequest($method, $uri, $queryParameters);
             $response = $this->guzzleClient->request($method, $uri, ['query' => $queryParameters]);
             $this->logResponse($response, $method, $uri);
-            return $response;
         } catch (GuzzleException $guzzleException) {
             $this->logException($guzzleException, $method, $uri);
             throw $guzzleException;
         }
+        return $response;
     }
 
+    /**
+     * @param Response $response
+     * @param string $targetObjectType
+     * @return array
+     */
+    private function mapJsonArrayToAriObjects(Response $response, string $targetObjectType): array
+    {
+        $decodedBody = json_decode($response->getBody());
+        try {
+            $mappedElements = [];
+            for ($i = 0; $i < sizeof($decodedBody); $i++)
+            {
+                $mappedElements[$i] = $this->jsonMapper->map($decodedBody[$i], new $targetObjectType);
+            }
+            return $mappedElements;
+        }
+        catch (JsonMapper_Exception $jsonMapper_Exception) {
+            $this->logger->error($jsonMapper_Exception->getMessage());
+            exit;
+        }
+    }
 
     /**
-     * Sends a PUT request via a GuzzleClient to Asterisk.
-     *
-     * @param string $uri
-     * @param array $body
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
-     * @throws GuzzleException
+     * @param Response $response
+     * @param string $targetObjectType
+     * @return object
      */
-    protected function putRequest(string $uri, array $body = [])
+    private function mapJsonToAriObject(Response $response, string $targetObjectType)
     {
-        $method = 'PUT';
-        $uri = $this->rootUri . $uri;
         try {
-            $this->logRequest($method, $uri, [], $body);
-            $response = $this->guzzleClient->request($method, $uri, ['json' => $body]);
-            $this->logResponse($response, $method, $uri);
+            return $this->jsonMapper->map(json_decode($response->getBody()), new $targetObjectType);
+        }
+        catch (JsonMapper_Exception $jsonMapper_Exception) {
+            $this->logger->error($jsonMapper_Exception->getMessage());
+            exit;
+        }
+    }
+
+    /**
+     * @param Response $response
+     * @param string[] $returnFormat
+     * @return array|Response|object
+     */
+    private function formatResponse(Response $response, array $returnFormat)
+    {
+        if ($returnFormat !== [])
+        {
+            $modelClassName = "AriStasisApp\\models\\" . $returnFormat['modelClassName'];
+            if ($returnFormat['returnType'] === 'array')
+            {
+                return $this->mapJsonArrayToAriObjects($response, $modelClassName);
+            }
+            else if ($returnFormat['returnType'] === 'model')
+            {
+                return $this->mapJsonToAriObject($response, $modelClassName);
+            }
+            else
+            {
+                return $response;
+            }
+        } else {
             return $response;
-        } catch (GuzzleException $guzzleException) {
-            $this->logException($guzzleException, $method, $uri, [], $body);
-            throw $guzzleException;
         }
     }
 }
