@@ -9,7 +9,6 @@ namespace AriStasisApp\rest_clients;
 
 
 use AriStasisApp\models\DeviceState;
-use JsonMapper_Exception;
 
 /**
  * Class DeviceStates
@@ -19,28 +18,32 @@ use JsonMapper_Exception;
 class DeviceStates extends AriRestClient
 {
     /**
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface TODO: List[DeviceState]
+     * List all ARI controlled device states.
+     *
+     * @return DeviceState[]
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function list()
+    function list(): array
     {
-        return $this->getRequest('/deviceStates');
+        return $this->getRequest('/deviceStates', [], 'array', 'DeviceState');
     }
 
     /**
-     * @param string $deviceName
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * Retrieve the current state of a device.
+     *
+     * @param string $deviceName Name of the device
+     * @return DeviceState|object
      * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws JsonMapper_Exception
      */
     function get(string $deviceName): DeviceState
     {
-        $response = $this->getRequest("/deviceStates/{$deviceName}");
-        return $this->jsonMapper->map(json_decode($response->getBody()), new DeviceState());
+        return $this->getRequest("/deviceStates/{$deviceName}", [], 'model', 'DeviceState');
     }
 
     /**
-     * @param string $deviceName
+     * Change the state of a device controlled by ARI. (Note - implicitly creates the device state).
+     *
+     * @param string $deviceName Name of the device
      * @param string $deviceState Allowed: NOT_INUSE, INUSE, BUSY, INVALID, UNAVAILABLE, RINGING, RINGINUSE, ONHOLD
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
@@ -50,7 +53,9 @@ class DeviceStates extends AriRestClient
     }
 
     /**
-     * @param string $deviceName
+     * Destroy a device-state controlled by ARI.
+     *
+     * @param string $deviceName Name of the device
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     function delete(string $deviceName): void
