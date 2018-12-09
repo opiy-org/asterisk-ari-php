@@ -24,16 +24,14 @@ $webSocketSettings = [
     'password' => $settings['tests']['asteriskPassword']
 ];
 
-$myApiSettings = [
+$remoteApiSettings = [
     'httpsEnabled' => false,
     'host' => 'localhost',
     'port' => 8000,
-    'webHookUri' => '/api/asteriskEvents'
-    // TODO: Not implemented yet
-    // 'user' => 'myUserName',
-    // 'password' => 'myPassword',
-    // 'apiKey' => 'myApiKey'
+    'rootUri' => '/api/asteriskEvents',
+    'user' => 'myUserName',
+    'password' => 'myPassword',
 ];
 
 $ariWebSocket = new WebSocketClient($webSocketSettings);
-$ariWebSocket->runWithWebHook($myApiSettings);
+$ariWebSocket->runWithRemoteApp($remoteApiSettings);

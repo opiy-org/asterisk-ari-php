@@ -18,6 +18,8 @@ use function AriStasisApp\glueArrayOfStrings;
  */
 class Applications extends AriRestClient
 {
+    private const APPLICATION = 'Application';
+
     /**
      * List all applications on the asterisk.
      *
@@ -26,7 +28,7 @@ class Applications extends AriRestClient
      */
     function list(): array
     {
-        return $this->getRequest('/applications', [], 'array', 'Application');
+        return $this->getRequest('/applications', [], 'array', self::APPLICATION);
     }
 
     /**
@@ -38,7 +40,7 @@ class Applications extends AriRestClient
      */
     function get(string $applicationName): Application
     {
-        return $this->getRequest("/applications/{$applicationName}", [], 'model', 'Application');
+        return $this->getRequest("/applications/{$applicationName}", [], self::MODEL, self::APPLICATION);
     }
 
     /**
@@ -57,8 +59,8 @@ class Applications extends AriRestClient
             "/applications/{$applicationName}/subscription",
             ['eventSource' => glueArrayOfStrings($eventSource)],
             [],
-            'model',
-            'Application'
+            self::MODEL,
+            self::APPLICATION
         );
     }
 
@@ -77,8 +79,8 @@ class Applications extends AriRestClient
         return $this->deleteRequest(
             "/applications/{$applicationName}/subscription",
             ['eventSource' => glueArrayOfStrings($eventSource)],
-            'model',
-            'modelClassName'
+            self::MODEL,
+            self::APPLICATION
         );
     }
 }

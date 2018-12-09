@@ -13,7 +13,12 @@ use Symfony\Component\Yaml\Yaml;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-// User credentials
+/**
+ * You will need to run a worker script like this one in the background to
+ * keep the WebSocketClient connection up.
+ * I prefer using 'supervisor' to monitor my worker processes.
+ */
+
 $settings = Yaml::parseFile(__DIR__ . '/../../environment.yaml');
 
 $webSocketSettings = [

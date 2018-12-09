@@ -18,6 +18,8 @@ use function AriStasisApp\glueArrayOfStrings;
  */
 class Bridges extends AriRestClient
 {
+    private const BRIDGE = 'Bridge';
+
     /**
      * List all active bridges in Asterisk.
      *
@@ -26,7 +28,7 @@ class Bridges extends AriRestClient
      */
     function list(): array
     {
-        return $this->getRequest('/bridges', [], 'array', 'Bridge');
+        return $this->getRequest('/bridges', [], 'array', self::BRIDGE);
     }
 
     /**
@@ -43,7 +45,7 @@ class Bridges extends AriRestClient
      */
     function create(array $options = []): Bridge
     {
-        return $this->postRequest('/bridges', $options, [], 'model', 'Bridge');
+        return $this->postRequest('/bridges', $options, [], self::MODEL, self::BRIDGE);
     }
 
     /**
@@ -60,7 +62,7 @@ class Bridges extends AriRestClient
      */
     function createWithId(string $bridgeId, array $options = []): Bridge
     {
-        return $this->postRequest("/bridges/{$bridgeId}", $options, [], 'model', 'Bridge');
+        return $this->postRequest("/bridges/{$bridgeId}", $options, [], self::MODEL, self::BRIDGE);
     }
 
     /**
@@ -72,7 +74,7 @@ class Bridges extends AriRestClient
      */
     function get(string $bridgeId): Bridge
     {
-        return $this->getRequest("/bridges/{$bridgeId}", [], 'model', 'Bridge');
+        return $this->getRequest("/bridges/{$bridgeId}", [], self::MODEL, self::BRIDGE);
     }
 
     /**
@@ -195,7 +197,7 @@ class Bridges extends AriRestClient
             "/bridges/{$bridgeId}/play",
             ['media' => glueArrayOfStrings($media)] + $options,
             [],
-            'model',
+            self::MODEL,
             'Playback'
         );
     }
@@ -225,7 +227,7 @@ class Bridges extends AriRestClient
             "/bridges/{$bridgeId}/play/{$playbackId}",
             ['media' => glueArrayOfStrings($media)] + $options,
             [],
-            'model',
+            self::MODEL,
             'Playback'
         );
     }
@@ -255,7 +257,7 @@ class Bridges extends AriRestClient
             "/bridges/{$bridgeId}/record",
             ['name' => $name, 'format' => $format] + $options,
             [],
-            'model',
+            self::MODEL,
             'LiveRecording'
         );
     }

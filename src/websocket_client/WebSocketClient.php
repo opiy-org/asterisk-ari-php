@@ -8,6 +8,7 @@
 namespace AriStasisApp\websocket_client;
 
 use AriStasisApp\BasicStasisApp;
+use Exception;
 use Monolog\Logger;
 use Nekland\Woketo\Client\WebSocketClient as WoketoWebSocketClient;
 use function AriStasisApp\{getShortClassName, initLogger, parseWebSocketSettings};
@@ -84,7 +85,7 @@ class WebSocketClient
     {
         try {
             $this->woketoWebSocketClient->start(new LocalAppMessageHandler($myApp));
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->logger->error($e->getMessage());
             exit(1);
         }
@@ -93,13 +94,13 @@ class WebSocketClient
     /**
      * Subscribe to the WebSocket of your Asterisk instance and pass the events to another API of yours.
      *
-     * @param array $myApiSettings
+     * @param array $remoteApiSettings
      */
-    function runWithWebHook(array $myApiSettings)
+    function runWithRemoteApp(array $remoteApiSettings)
     {
         try {
-            $this->woketoWebSocketClient->start(new WebHookMessageHandler($myApiSettings));
-        } catch (\Exception $e) {
+            $this->woketoWebSocketClient->start(new RemoteAppMessageHandler($remoteApiSettings));
+        } catch (Exception $e) {
             $this->logger->error($e->getMessage());
             exit(1);
         }

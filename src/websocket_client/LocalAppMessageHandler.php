@@ -39,7 +39,7 @@ class LocalAppMessageHandler extends TextMessageHandler
     private $jsonMapper;
 
     /**
-     * WebHookMessageHandler constructor.
+     * RemoteAppMessageHandler constructor.
      * @param BasicStasisApp $myApp
      */
     function __construct(BasicStasisApp $myApp)

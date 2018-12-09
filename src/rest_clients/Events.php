@@ -21,6 +21,8 @@ use function AriStasisApp\glueArrayOfStrings;
  */
 class Events extends AriRestClient
 {
+    private const VARIABLES = 'variables';
+
     /**
      * Generate a stasis application user events.
      *
@@ -39,9 +41,9 @@ class Events extends AriRestClient
             $queryParameters = $queryParameters + ['source' => glueArrayOfStrings($source)];
         }
 
-        $body = ['variables' => []];
+        $body = [self::VARIABLES => []];
         foreach ($variables as $key => $value) {
-            $body['variables'] = $body['variables'] + [$key => $value];
+            $body[self::VARIABLES] = $body[self::VARIABLES] + [$key => $value];
         }
 
         $this->postRequest("/events/user/{$eventName}", $queryParameters, $body);

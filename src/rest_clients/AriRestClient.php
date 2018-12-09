@@ -22,6 +22,10 @@ use function AriStasisApp\{getShortClassName, initLogger, parseAriSettings};
  */
 class AriRestClient
 {
+    protected const MODEL = 'model';
+    protected const ARRAY = 'array';
+    private const QUERY = 'query';
+
     /**
      * @var JsonMapper
      */
@@ -84,7 +88,7 @@ class AriRestClient
         $uri = $this->rootUri . $uri;
         try {
             $this->logRequest($method, $uri, $queryParameters);
-            $response = $this->guzzleClient->request($method, $uri, ['query' => $queryParameters]);
+            $response = $this->guzzleClient->request($method, $uri, [self::QUERY => $queryParameters]);
             $this->logResponse($response, $method, $uri);
         } catch (GuzzleException $guzzleException) {
             $this->logException($guzzleException, $method, $uri, $queryParameters);
@@ -159,16 +163,11 @@ class AriRestClient
             $modelClassName = "AriStasisApp\\models\\" . $returnModelClassName;
             if ($returnType === 'array') {
                 return $this->mapJsonArrayToAriObjects($response, $modelClassName);
-            } else {
-                if ($returnType === 'model') {
-                    return $this->mapJsonToAriObject($response, $modelClassName);
-                } else {
-                    return $response;
-                }
+            } elseif ($returnType === 'model') {
+                return $this->mapJsonToAriObject($response, $modelClassName);
             }
-        } else {
-            return $response;
         }
+        return $response;
     }
 
     /**
@@ -228,7 +227,7 @@ class AriRestClient
         $uri = $this->rootUri . $uri;
         try {
             $this->logRequest($method, $uri, $queryParameters, $body);
-            $response = $this->guzzleClient->request($method, $uri, ['json' => $body, 'query' => $queryParameters]);
+            $response = $this->guzzleClient->request($method, $uri, ['json' => $body, self::QUERY => $queryParameters]);
             $this->logResponse($response, $method, $uri);
         } catch (GuzzleException $guzzleException) {
             $this->logException($guzzleException, $method, $uri, $queryParameters, $body);
@@ -286,7 +285,7 @@ class AriRestClient
         $uri = $this->rootUri . $uri;
         try {
             $this->logRequest($method, $uri, $queryParameters);
-            $response = $this->guzzleClient->request($method, $uri, ['query' => $queryParameters]);
+            $response = $this->guzzleClient->request($method, $uri, [self::QUERY => $queryParameters]);
             $this->logResponse($response, $method, $uri);
         } catch (GuzzleException $guzzleException) {
             $this->logException($guzzleException, $method, $uri);

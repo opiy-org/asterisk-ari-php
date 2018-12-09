@@ -19,6 +19,8 @@ use GuzzleHttp\Psr7\Response;
  */
 class Recordings extends AriRestClient
 {
+    private const STORED_RECORDING = 'StoredRecording';
+
     /**
      * List recordings that are complete.
      *
@@ -27,7 +29,7 @@ class Recordings extends AriRestClient
      */
     function listStored(): array
     {
-        return $this->getRequest('/recordings/stored', [], 'array', 'StoredRecording');
+        return $this->getRequest('/recordings/stored', [], 'array', self::STORED_RECORDING);
     }
 
     /**
@@ -39,7 +41,7 @@ class Recordings extends AriRestClient
      */
     function getStored(string $recordingName): StoredRecording
     {
-        return $this->getRequest("/recordings/stored/{$recordingName}", [], 'model', 'StoredRecording');
+        return $this->getRequest("/recordings/stored/{$recordingName}", [], self::MODEL, self::STORED_RECORDING);
     }
 
     /**
@@ -77,7 +79,7 @@ class Recordings extends AriRestClient
     function copyStored(string $recordingName, string $destinationRecordingName): StoredRecording
     {
         return $this->postRequest("/recordings/stored/{$recordingName}/copy",
-            ['destinationRecordingName' => $destinationRecordingName], [], 'model', 'StoredRecording');
+            ['destinationRecordingName' => $destinationRecordingName], [], self::MODEL, self::STORED_RECORDING);
     }
 
     /**
@@ -89,7 +91,7 @@ class Recordings extends AriRestClient
      */
     function getLive(string $recordingName): LiveRecording
     {
-        return $this->getRequest("/recordings/live/{$recordingName}", [], 'model', 'LiveRecording');
+        return $this->getRequest("/recordings/live/{$recordingName}", [], self::MODEL, 'LiveRecording');
     }
 
     /**

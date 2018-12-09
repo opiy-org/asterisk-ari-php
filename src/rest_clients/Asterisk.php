@@ -17,6 +17,8 @@ use function AriStasisApp\glueArrayOfStrings;
  */
 class Asterisk extends AriRestClient
 {
+    private const FIELDS = 'fields';
+
     /**
      * Retrieve a dynamic configuration object.
      *
@@ -31,7 +33,7 @@ class Asterisk extends AriRestClient
         return $this->getRequest(
             "/asterisk/config/dynamic/{$configClass}/{$objectType}/{$id}",
             [],
-            'array',
+            self::ARRAY,
             'ConfigTuple'
         );
     }
@@ -49,16 +51,16 @@ class Asterisk extends AriRestClient
      */
     function updateObject(string $configClass, string $objectType, string $id, array $fields = []): array
     {
-        $body = ['fields' => []];
+        $body = [self::FIELDS => []];
         if ($fields !== []) {
             foreach ($fields as $attribute => $value) {
-                $parsedBody['fields'] = $body['fields'] + [['attribute' => $attribute, 'value' => $value]];
+                $parsedBody[self::FIELDS] = $body[self::FIELDS] + [['attribute' => $attribute, 'value' => $value]];
             }
         }
 
         return $this->putRequest("/asterisk/config/dynamic/{$configClass}/{$objectType}/{$id}",
             $body,
-            'array',
+            self::ARRAY,
             'ConfigTuple'
         );
     }
@@ -89,7 +91,7 @@ class Asterisk extends AriRestClient
         if ($only !== []) {
             $queryParameters = ['only' => glueArrayOfStrings($only)];
         }
-        return $this->getRequest('/asterisk/info', $queryParameters, 'model', 'AsteriskInfo');
+        return $this->getRequest('/asterisk/info', $queryParameters, self::MODEL, 'AsteriskInfo');
     }
 
     /**
@@ -100,7 +102,7 @@ class Asterisk extends AriRestClient
      */
     function listModules(): array
     {
-        return $this->getRequest('/asterisk/modules', [], 'array', 'Module');
+        return $this->getRequest('/asterisk/modules', [], self::ARRAY, 'Module');
     }
 
     /**
@@ -112,7 +114,7 @@ class Asterisk extends AriRestClient
      */
     function getModule(string $moduleName): Module
     {
-        return $this->getRequest("/asterisk/modules/{$moduleName}", [], 'model', 'Module');
+        return $this->getRequest("/asterisk/modules/{$moduleName}", [], self::MODEL, 'Module');
     }
 
     /**
@@ -156,7 +158,7 @@ class Asterisk extends AriRestClient
      */
     function listLogChannels(): array
     {
-        return $this->getRequest('asterisk/logging', [], 'array', 'LogChannel');
+        return $this->getRequest('asterisk/logging', [], self::ARRAY, 'LogChannel');
     }
 
     /**
@@ -202,7 +204,7 @@ class Asterisk extends AriRestClient
      */
     function getGlobalVar(string $variable): Variable
     {
-        return $this->getRequest('/asterisk/variable', ['variable' => $variable], 'model', 'Variable');
+        return $this->getRequest('/asterisk/variable', ['variable' => $variable], self::MODEL, 'Variable');
     }
 
     /**

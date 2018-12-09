@@ -18,20 +18,18 @@ require_once __DIR__ . '/../vendor/autoload.php';
  * Open a terminal and start the example WebSocketClient worker script to receive Asterisk events.
  * 'php example_worker_local_app.php'
  *
- * Define functions named after the events you want to handle (lowerCamelCase!).
- * Other events will be ignored.
+ * Define functions in your app class, named after the events you want to handle (lowerCamelCase!).
+ * Other events received by the WebSocketClient will be ignored.
  *
  * For a list of all available events, have a look at the /src/models/messages
- * folder in this library. Alternatively look at the official Asterisk documentation.
- *
- * If you find any bugs, feel free to open an issue in the repository or send us an email :)
+ * folder in this library. Alternatively you can look them up in the official Asterisk documentation:
+ * https://wiki.asterisk.org/wiki/display/AST/Asterisk+16+REST+Data+Models#Asterisk16RESTDataModels-Event
  * ==============================================================================================
  */
 class ExampleLocalApp extends BasicStasisApp
 {
-
     /**
-     * 'StasisStart' is the first event that is triggered by Asterisk, when a call enters your application.
+     * 'StasisStart' is the first event that is triggered by Asterisk when a channel enters your application.
      *
      * @param StasisStart $stasisStart
      */
@@ -39,7 +37,7 @@ class ExampleLocalApp extends BasicStasisApp
     {
         $this->logger->info($stasisStart->getChannel());
 
-        /**
+        /*
          * Asterisk provides the possibility to generate user events for specific applications.
          * Nice and simple to test your setup :)
          */

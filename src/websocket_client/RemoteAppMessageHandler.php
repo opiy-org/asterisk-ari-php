@@ -16,11 +16,11 @@ use Nekland\Woketo\Message\TextMessageHandler;
 use function AriStasisApp\{getShortClassName, initLogger, parseMyApiSettings};
 
 /**
- * Class WebHookMessageHandler
+ * Class RemoteAppMessageHandler
  *
  * @package AriStasisApp\rabbitmq
  */
-class WebHookMessageHandler extends TextMessageHandler
+class RemoteAppMessageHandler extends TextMessageHandler
 {
     /**
      * @var Logger
@@ -35,37 +35,29 @@ class WebHookMessageHandler extends TextMessageHandler
     /**
      * @var string
      */
-    private $webHookUri;
+    private $rootUri;
 
     /**
-     * WebHookMessageHandler constructor.
-     * @param array $myApiSettings
+     * RemoteAppMessageHandler constructor.
+     * @param array $remoteApiSettings
      */
-    function __construct(array $myApiSettings)
+    function __construct(array $remoteApiSettings)
     {
         $this->logger = initLogger(getShortClassName($this));
-        $myApiSettings = parseMyApiSettings($myApiSettings);
+        $remoteApiSettings = parseMyApiSettings($remoteApiSettings);
 
-        if ($myApiSettings['httpsEnabled'] === true) {
+        if ($remoteApiSettings['httpsEnabled'] === true) {
             $httpType = 'https';
         } else {
             $httpType = 'http';
         }
 
-        $baseUri = "{$httpType}://{$myApiSettings['host']}:{$myApiSettings['port']}";
-        $this->webHookUri = $myApiSettings['webHookUri'];
-
-        $guzzleClientSettings = ['base_uri' => $baseUri];
-
-        /*
-         * TODO: Add authentication methods (user+pass or/and APIkey)
-         * if (isset($myApiSettings['user']) && isset($myApiSettings['password'])) {
-         *      $guzzleClientSettings = $guzzleClientSettings + ['auth' =>....];
-         * }
-         */
-        $this->guzzleClient = new GuzzleClient($guzzleClientSettings);
+        $baseUri = "{$httpType}://{$remoteApiSettings['host']}:{$remoteApiSettings['port']}";
+        $this->rootUri = $remoteApiSettings['rootUri'];
+        $this->guzzleClient = new GuzzleClient(
+            ['base_uri' => $baseUri, 'auth' => [$remoteApiSettings['user'], $remoteApiSettings['password']]]
+        );
     }
-
 
     /**
      * @param AbstractConnection $connection
@@ -75,24 +67,22 @@ class WebHookMessageHandler extends TextMessageHandler
         $this->logger->debug('Connection to asterisk successfully. Waiting for messages...');
     }
 
-
     /**
      * @param string $data
      * @param AbstractConnection $connection
      */
     public function onMessage(string $data, AbstractConnection $connection)
     {
-        $this->logger->debug("Received raw message from asterisk WebSocket server: {$data}");
-
         try {
-            $this->guzzleClient->request('PUT', $this->webHookUri, ['json' => json_decode($data)]);
+            $this->logger->debug("Received raw message from asterisk WebSocket server: {$data}");
+            // TODO: Will I have to decode $data first? Also: What about
+            $this->guzzleClient->request('POST', $this->rootUri, ['json' => $data]);
+            $this->logger->debug("Message successfully sent to {$this->rootUri} on local application");
         } catch (GuzzleException $exception) {
             $this->logger->error($exception->getMessage());
         }
 
-        $this->logger->debug("Message successfully sent to {$this->webHookUri} on local application");
     }
-
 
     /**
      * @param AbstractConnection $connection
@@ -101,7 +91,6 @@ class WebHookMessageHandler extends TextMessageHandler
     {
         $this->logger->info('Connection to Asterisk was closed.');
     }
-
 
     /**
      * @param WebsocketException $websocketException

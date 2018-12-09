@@ -11,7 +11,6 @@ namespace AriStasisApp\Tests\rest_clients;
 
 
 use AriStasisApp\models\Application;
-use AriStasisApp\models\FormatLangPair;
 use AriStasisApp\rest_clients\Applications;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Yaml\Yaml;
@@ -51,22 +50,10 @@ final class ApplicationsTest extends TestCase
     {
         $mockApplication = $this->getMockBuilder(Application::class)->getMock();
         $mockApplication->method('getEndpointIds')->willReturn(['123', '456']);
-        print_r($mockApplication);
 
         //$applicationsList = $applicationsClient->list();
         $applicationsList = [$mockApplication];
         $this->assertInstanceOf(Application::class, $applicationsList[0]);
-        $this->assertInstanceOf(FormatLangPair::class, $applicationsList[0]->getEndpointIds()[0]);
-    }
-
-    /**
-     * @dataProvider applicationsInstanceProvider
-     * @param Applications $applicationsClient
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     */
-    public function test(Applications $applicationsClient): void
-    {
-        $application = $applicationsClient->get('exampleStasisApp');
-        $this->assertInstanceOf(Application::class, $application);
+        //$this->assertInstanceOf(FormatLangPair::class, $applicationsList[0]->getEndpointIds()[0]);
     }
 }

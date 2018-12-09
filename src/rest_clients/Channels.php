@@ -11,6 +11,7 @@ use AriStasisApp\models\{Channel, LiveRecording, Playback, Variable};
 use http\Exception\InvalidArgumentException;
 use function AriStasisApp\glueArrayOfStrings;
 
+
 /**
  * A specific communication connection between Asterisk and an Endpoint.
  *
@@ -18,6 +19,9 @@ use function AriStasisApp\glueArrayOfStrings;
  */
 class Channels extends AriRestClient
 {
+    private const CHANNEL = 'Channel';
+    private const ENDPOINT = 'endpoint';
+
     /**
      * List all active channels in Asterisk.
      *
@@ -26,7 +30,7 @@ class Channels extends AriRestClient
      */
     function list(): array
     {
-        return $this->getRequest('/channels', [], 'array', 'Channel');
+        return $this->getRequest('/channels', [], 'array', self::CHANNEL);
     }
 
     /**
@@ -64,10 +68,10 @@ class Channels extends AriRestClient
     {
         return $this->postRequest(
             '/channels',
-            ['endpoint' => $endpoint] + $options,
+            [self::ENDPOINT => $endpoint] + $options,
             ['variables' => $channelVariables],
-            'model',
-            'Channel'
+            self::MODEL,
+            self::CHANNEL
         );
     }
 
@@ -91,10 +95,10 @@ class Channels extends AriRestClient
     {
         return $this->postRequest(
             '/channels/create',
-            ['endpoint' => $endpoint, 'app' => $app] + $options,
+            [self::ENDPOINT => $endpoint, 'app' => $app] + $options,
             [],
-            'model',
-            'Channel'
+            self::MODEL,
+            self::CHANNEL
         );
     }
 
@@ -110,8 +114,8 @@ class Channels extends AriRestClient
         return $this->getRequest(
             "/channels/{$channelId}",
             [],
-            'model',
-            'Channel'
+            self::MODEL,
+            self::CHANNEL
         );
     }
 
@@ -154,10 +158,10 @@ class Channels extends AriRestClient
     ): Channel {
         return $this->postRequest(
             "/channels/{$channelId}",
-            ['endpoint' => $endpoint] + $options,
+            [self::ENDPOINT => $endpoint] + $options,
             ['variables' => $channelVariables],
-            'model',
-            'Channel'
+            self::MODEL,
+            self::CHANNEL
         );
     }
 
@@ -203,7 +207,7 @@ class Channels extends AriRestClient
      */
     function redirect(string $channelId, string $endpoint): void
     {
-        $this->postRequest("/channels/{$channelId}/redirect", ['endpoint' => $endpoint]);
+        $this->postRequest("/channels/{$channelId}/redirect", [self::ENDPOINT => $endpoint]);
     }
 
     /**
@@ -253,10 +257,7 @@ class Channels extends AriRestClient
      */
     function sendDtmf(string $channelId, string $dtmf, array $options = []): void
     {
-        $this->postRequest(
-            "/channels/{$channelId}/dtmf",
-            ['dtmf' => $dtmf] + $options
-        );
+        $this->postRequest("/channels/{$channelId}/dtmf", ['dtmf' => $dtmf] + $options);
     }
 
     /**
@@ -380,7 +381,7 @@ class Channels extends AriRestClient
             "/channels/{$channelId}/play",
             ['media' => glueArrayOfStrings($media)] + $options,
             [],
-            'model',
+            self::MODEL,
             'Playback'
         );
     }
@@ -409,7 +410,7 @@ class Channels extends AriRestClient
             "/channels/{$channelId}/play/{$playbackId}",
             ['media' => glueArrayOfStrings($media)] + $options,
             [],
-            'model',
+            self::MODEL,
             'Playback'
         );
     }
@@ -440,7 +441,7 @@ class Channels extends AriRestClient
             "/channels/{$channelId}/record",
             ['name' => $name, 'format' => $format] + $options,
             [],
-            'model',
+            self::MODEL,
             'LiveRecording'
         );
     }
@@ -458,7 +459,7 @@ class Channels extends AriRestClient
         return $this->getRequest(
             "/channels/{$channelId}/variable",
             ['variable' => $variable],
-            'model',
+            self::MODEL,
             'Variable'
         );
     }
@@ -495,8 +496,8 @@ class Channels extends AriRestClient
             "/channels/{$channelId}/snoop",
             ['app' => $app] + $options,
             [],
-            'model',
-            'Channel'
+            self::MODEL,
+            self::CHANNEL
         );
     }
 
@@ -519,8 +520,8 @@ class Channels extends AriRestClient
             "/channels/{$channelId}/snoop/{$snoopId}",
             ['app' => $app] + $options,
             [],
-            'model',
-            'Channel'
+            self::MODEL,
+            self::CHANNEL
         );
     }
 

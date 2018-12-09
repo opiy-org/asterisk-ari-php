@@ -17,6 +17,8 @@ use AriStasisApp\models\Endpoint;
  */
 class Endpoints extends AriRestClient
 {
+    private const ENDPOINT = 'Endpoint';
+
     /**
      * List all endpoints.
      *
@@ -25,7 +27,7 @@ class Endpoints extends AriRestClient
      */
     function list(): array
     {
-        return $this->getRequest('/endpoints', [], 'array', 'Endpoint');
+        return $this->getRequest('/endpoints', [], 'array', self::ENDPOINT);
     }
 
     /**
@@ -52,7 +54,7 @@ class Endpoints extends AriRestClient
      */
     function listByTech(string $tech): array
     {
-        return $this->getRequest("/endpoints/{$tech}", [], 'array', 'Endpoint');
+        return $this->getRequest("/endpoints/{$tech}", [], 'array', self::ENDPOINT);
     }
 
     /**
@@ -65,7 +67,7 @@ class Endpoints extends AriRestClient
      */
     function get(string $tech, string $resource): Endpoint
     {
-        return $this->getRequest("/endpoints/{$tech}/{$resource}", [], 'model', 'Endpoint');
+        return $this->getRequest("/endpoints/{$tech}/{$resource}", [], 'model', self::ENDPOINT);
     }
 
     /**
