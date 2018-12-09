@@ -1,12 +1,14 @@
-# Asterisk RESTful Interface (ARI) Client Library
+# Asterisk RESTful Interface (ARI) Client
 
-Object oriented REST calls, handling Asterisk events like a piece of cake.
+Keep your code nice and clean and save yourself some time while developing your Stasis apps with 
+this object oriented ARI client. Making RESTful calls to your Asterisk and handle incoming 
+events easy and safe.
 
-`Implemented with php7.2 and tested for Asterisk 16!`
+`Implemented with php7.2 and tested for Asterisk 16!` :tada:
 
 ## Installation
 Use this library with composer and include it into your composer.json by using the terminal command
-`composer require ng-voice/ari-client-lib`
+`composer require ng-voice/ari-client`
 
 ##### PHP extensions
 You might run into troubles with missing php extensions. The following are required:
