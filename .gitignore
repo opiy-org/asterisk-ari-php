@@ -10,8 +10,5 @@ vendor
 # Own composer specific files
 composer.phar
 
-# logfiles
-log
-
 # Sonarqube Properties File
 sonar-project.properties

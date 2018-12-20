@@ -18,7 +18,7 @@ use AriStasisApp\models\Channel;
 class StasisStart extends Event
 {
     /**
-     * @var array Arguments to the application TODO List[string]
+     * @var string[] Arguments to the application.
      */
     private $args;
 
@@ -33,7 +33,7 @@ class StasisStart extends Event
     private $channel;
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getArgs(): array
     {
@@ -41,7 +41,7 @@ class StasisStart extends Event
     }
 
     /**
-     * @param array $args
+     * @param string[] $args
      */
     public function setArgs(array $args): void
     {

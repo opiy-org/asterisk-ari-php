@@ -13,7 +13,7 @@ use Symfony\Component\Yaml\Yaml;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$settings = Yaml::parseFile(__DIR__ . '/../../environment.yaml');
+$settings = Yaml::parseFile(__DIR__ . '/../environment.yaml');
 
 $webSocketSettings = [
     'wssEnabled' => false,

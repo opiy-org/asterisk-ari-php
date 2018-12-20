@@ -67,19 +67,23 @@ class LocalAppMessageHandler extends TextMessageHandler
 
         $decodedJson = json_decode($data);
         $ariEventType = $decodedJson->type;
+        $eventPath = "AriStasisApp\\models\\messages\\" . $ariEventType;
 
         try {
-            $jsonEvent = $this->jsonMapper->map($decodedJson, new $ariEventType);
+            $mappedEventObject = $this->jsonMapper->map($decodedJson, new $eventPath);
         } catch (JsonMapper_Exception $jsonMapper_Exception) {
             $this->logger->error($jsonMapper_Exception->getMessage());
             exit;
         }
-
+        $this->logger->debug(print_r($mappedEventObject, true));
         $functionName = lcfirst($ariEventType);
+        $this->logger->debug("Message successfully handled by app.");
 
         if (method_exists($this->myApp, $functionName)) {
-            $this->myApp->$functionName($jsonEvent);
-            $this->logger->debug("Message successfully handled.");
+            $this->myApp->$functionName($mappedEventObject);
+            $this->logger->debug("Message successfully handled by your app.");
+        } else {
+            $this->logger->debug("Message was ignored by your app.");
         }
     }
 

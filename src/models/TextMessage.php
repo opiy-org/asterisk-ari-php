@@ -27,7 +27,7 @@ class TextMessage
     private $to;
 
     /**
-     * @var array Technology specific key/value pairs associated with the message. TODO: List[TextMessageVariable]
+     * @var TextMessageVariable[] Technology specific key/value pairs associated with the message.
      */
     private $variables;
 
@@ -71,7 +71,7 @@ class TextMessage
     }
 
     /**
-     * @return array
+     * @return TextMessageVariable[]
      */
     public function getVariables(): array
     {
@@ -79,7 +79,7 @@ class TextMessage
     }
 
     /**
-     * @param array $variables
+     * @param TextMessageVariable[] $variables
      */
     public function setVariables(array $variables): void
     {

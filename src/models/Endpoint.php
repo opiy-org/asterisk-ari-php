@@ -33,7 +33,7 @@ class Endpoint
     private $technology;
 
     /**
-     * @var array Id's of channels associated with this endpoint. TODO
+     * @var string[] Id's of channels associated with this endpoint.
      */
     private $channelIds;
 
@@ -86,7 +86,7 @@ class Endpoint
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getChannelIds(): array
     {
@@ -94,7 +94,7 @@ class Endpoint
     }
 
     /**
-     * @param array $channelIds
+     * @param string[] $channelIds
      */
     public function setChannelIds(array $channelIds): void
     {

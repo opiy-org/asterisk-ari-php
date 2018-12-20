@@ -52,10 +52,9 @@ function parseMyApiSettings(array $myApiSettings): array
         'httpsEnabled' => false,
         'host' => 'localhost',
         'port' => 8000,
-        'webHookUri' => '/api/asteriskEvents'
-        // 'user' => 'myUserName', // Optional TODO: Implement this possibilites
-        // 'password' => 'myPassword', // Optional
-        // 'apiKey' => 'myApiKey' // Optional
+        'rootUri' => '/api/asteriskEvents',
+        'user' => '',
+        'password' => '',
     ], $myApiSettings);
 }
 

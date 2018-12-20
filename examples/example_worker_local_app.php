@@ -12,6 +12,7 @@ use AriStasisApp\websocket_client\WebSocketClient;
 use Symfony\Component\Yaml\Yaml;
 
 require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/ExampleLocalApp.php';
 
 /**
  * You will need to run a worker script like this one in the background to
@@ -19,7 +20,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
  * I prefer using 'supervisor' to monitor my worker processes.
  */
 
-$settings = Yaml::parseFile(__DIR__ . '/../../environment.yaml');
+$settings = Yaml::parseFile(__DIR__ . '/../environment.yaml');
 
 $webSocketSettings = [
     'wssEnabled' => false,

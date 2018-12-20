@@ -6,6 +6,9 @@ events easy and safe.
 
 `Implemented with php7.2 and tested for Asterisk 16!`
 
+If you like it, please star this project :) thanks!
+Donations are welcome, for I put a lot of work into this.
+
 ## Installation
 Use this library with composer and include it into your composer.json by using the terminal command
 `composer require ng-voice/ari-client`
@@ -90,7 +93,7 @@ sonar-scanner
 ng-voice is happy to help! Feel free to send us a message! :) 
 We'd also love to hear about your application ideas and use cases.
 
-- Lukas Stermann lukas@ng-voice.com
+Lukas Stermann (lukas@ng-voice.com)
 
 ##Licence
 MIT

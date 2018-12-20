@@ -18,7 +18,8 @@ require_once __DIR__ . '/../vendor/autoload.php';
  * Open a terminal and start the example WebSocketClient worker script to receive Asterisk events.
  * 'php example_worker_local_app.php'
  *
- * Define functions in your app class, named after the events you want to handle (lowerCamelCase!).
+ * Define public functions in your app class, named after the events you want to handle (lowerCamelCase!).
+ * e.g. function someEvent(SomeEvent $someEvent){...}
  * Other events received by the WebSocketClient will be ignored.
  *
  * For a list of all available events, have a look at the /src/models/messages
@@ -36,7 +37,8 @@ class ExampleLocalApp extends BasicStasisApp
      */
     function stasisStart(StasisStart $stasisStart): void
     {
-        $this->logger->info($stasisStart->getChannel()->getId() . ' has entered your example app.');
+        $channelId = $stasisStart->getChannel()->getId();
+        $this->logger->info("The channel {$channelId} has entered the ExampleLocalApp.");
 
         /*
          * Asterisk provides the possibility to trigger user events for specific applications.
@@ -45,13 +47,13 @@ class ExampleLocalApp extends BasicStasisApp
         $userEventName = 'customEventExample';
 
         try {
-            $this->eventsClient->userEvent($userEventName, 'ExampleLocalApp');
+            $this->eventsClient->userEvent($userEventName, 'ExampleLocalApp', ['channel' => $channelId]);
         } catch (GuzzleException $guzzleException) {
             // Handle 4XX/5XX HTTP status codes. They will throw exceptions!
             $this->logger->error($guzzleException->getMessage());
         }
 
-        $this->logger->info($userEventName . ' event triggered in Asterisk.');
+        $this->logger->info("{$userEventName} event triggered in Asterisk.");
     }
 
     /**
@@ -62,25 +64,27 @@ class ExampleLocalApp extends BasicStasisApp
      */
     function channelUserevent(ChannelUserevent $channelUserevent): void
     {
-        $this->logger->info($channelUserevent->getEventname() . ' event received.');
+        $this->logger->info("ChannelUserevent received: {$channelUserevent->getEventname()}");
+        $this->logger->info("Timestamp of the event: {$channelUserevent->getTimestamp()}");
 
         // How about fetching your asterisk settings and receiving the returning AsteriskInfo object?
         try {
             $asteriskInfo = $this->asteriskClient->getInfo();
-            $this->logger->info($asteriskInfo->getBuild());
+            $this->logger->info($asteriskInfo->getBuild()->getOs());
         } catch (GuzzleException $guzzleException) {
+            // Handle 4XX/5XX HTTP status codes. They will throw exceptions!
             $this->logger->error($guzzleException->getMessage());
         }
     }
 
     /**
      * Notification that a channel has left your Stasis application.
+     * Do some clean ups in your database here for example.
      *
      * @param StasisEnd $stasisEnd
      */
     function stasisEnd(StasisEnd $stasisEnd): void
     {
-        // Do some clean ups in your database here for example.
-        $this->logger->info($stasisEnd->getChannel()->getId() . ' has left your example app.');
+        $this->logger->info("The channel {$stasisEnd->getChannel()->getId()} has left your example app.");
     }
 }

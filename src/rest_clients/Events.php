@@ -9,8 +9,6 @@
 namespace AriStasisApp\rest_clients;
 
 
-use function AriStasisApp\glueArrayOfStrings;
-
 /**
  * Class Events
  *
@@ -38,14 +36,20 @@ class Events extends AriRestClient
     {
         $queryParameters = ['application' => $application];
         if ($source !== []) {
-            $queryParameters = $queryParameters + ['source' => glueArrayOfStrings($source)];
+            $sourceString = '';
+            foreach ($source as $sourceType => $sourceValue) {
+                $sourceString = "{$sourceString},{$sourceType}:{$sourceValue}";
+            }
+            $queryParameters = $queryParameters + ['source' => ltrim($sourceString, ',')];
         }
 
-        $body = [self::VARIABLES => []];
-        foreach ($variables as $key => $value) {
-            $body[self::VARIABLES] = $body[self::VARIABLES] + [$key => $value];
+        $body = [];
+        if ($variables !== []) {
+            $body = [self::VARIABLES => []];
+            foreach ($variables as $key => $value) {
+                $body[self::VARIABLES] = $body[self::VARIABLES] + [$key => $value];
+            }
         }
-
         $this->postRequest("/events/user/{$eventName}", $queryParameters, $body);
     }
 }

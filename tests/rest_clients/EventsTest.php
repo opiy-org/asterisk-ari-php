@@ -33,9 +33,17 @@ final class EventsTest extends TestCase
     /**
      * @dataProvider eventsInstanceProvider
      * @param Events $eventsClient
+     *
+     * @expectedException \GuzzleHttp\Exception\GuzzleException
+     * @expectedExceptionCode 404
+     * @expectedExceptionMessage Application not found
      */
-    public function testCreateInstance(Events $eventsClient): void
+    public function testCreateChannelUserevent(Events $eventsClient): void
     {
-        $this->assertInstanceOf(Events::class, $eventsClient);
+        $eventsClient->userEvent(
+            'customUserEvent',
+            'ExampleLocalApp',
+            ['channel' => 'xxxxxx', 'endpoint' => 'sip/alice'],
+            ["bla" => 'okay', 'ng' => 'voice']);
     }
 }

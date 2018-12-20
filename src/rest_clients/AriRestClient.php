@@ -63,8 +63,12 @@ class AriRestClient
         $this->rootUri = $ariSettings['rootUri'];
         $this->guzzleClient =
             new Client(['base_uri' => $baseUri, 'auth' => [$ariUser, $ariPassword]]);
+
         $this->jsonMapper = new JsonMapper();
+        // Allow mapping to private and protected properties and setter methods
         $this->jsonMapper->bIgnoreVisibility = true;
+        // Throw exceptions when there is
+        $this->jsonMapper->bExceptionOnMissingData = true;
         $this->jsonMapper->bExceptionOnUndefinedProperty = true;
     }
 

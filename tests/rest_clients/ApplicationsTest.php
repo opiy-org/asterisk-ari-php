@@ -34,10 +34,24 @@ final class ApplicationsTest extends TestCase
     /**
      * @dataProvider applicationsInstanceProvider
      * @param Applications $applicationsClient
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    function testInstanceMappable(Applications $applicationsClient)
+    {
+        $allApplications = $applicationsClient->list();
+        $this->assertInstanceOf(Application::class, $allApplications[0]);
+    }
+
+    /**
+     * @dataProvider applicationsInstanceProvider
+     * @param Applications $applicationsClient
+     *
      * @expectedException \GuzzleHttp\Exception\GuzzleException
      * @expectedExceptionCode 404
+     * @expectedExceptionMessage Application not found
      */
-    public function testNameNotFoundThrowsException(Applications $applicationsClient): void
+    public function testApplicationFinder(Applications $applicationsClient): void
     {
         $applicationsClient->get('xxxxxxxxx');
     }

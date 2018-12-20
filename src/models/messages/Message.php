@@ -28,7 +28,7 @@ class Message
     /**
      * @return string
      */
-    protected function getType(): string
+    function getType(): string
     {
         return $this->type;
     }
@@ -36,7 +36,7 @@ class Message
     /**
      * @param string $type
      */
-    protected function setType(string $type): void
+    function setType(string $type): void
     {
         $this->type = $type;
     }
@@ -44,7 +44,7 @@ class Message
     /**
      * @return string
      */
-    protected function getAsteriskId(): string
+    function getAsteriskId(): string
     {
         return $this->asteriskId;
     }
@@ -52,7 +52,7 @@ class Message
     /**
      * @param string $asteriskId
      */
-    protected function setAsteriskId(string $asteriskId): void
+    function setAsteriskId(string $asteriskId): void
     {
         $this->asteriskId = $asteriskId;
     }

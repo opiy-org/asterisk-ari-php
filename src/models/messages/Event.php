@@ -28,7 +28,7 @@ class Event extends Message
     /**
      * @return string
      */
-    protected function getApplication(): string
+    function getApplication(): string
     {
         return $this->application;
     }
@@ -36,7 +36,7 @@ class Event extends Message
     /**
      * @param string $application
      */
-    protected function setApplication(string $application): void
+    function setApplication(string $application): void
     {
         $this->application = $application;
     }
@@ -44,7 +44,7 @@ class Event extends Message
     /**
      * @return string
      */
-    protected function getTimestamp(): string
+    function getTimestamp(): string
     {
         return $this->timestamp;
     }
@@ -52,7 +52,7 @@ class Event extends Message
     /**
      * @param string $timestamp
      */
-    protected function setTimestamp(string $timestamp): void
+    function setTimestamp(string $timestamp): void
     {
         $this->timestamp = $timestamp;
     }
