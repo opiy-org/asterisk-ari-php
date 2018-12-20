@@ -15,7 +15,7 @@ pipelines:
           - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
           - composer install
           - cd docker/asterisk_16
-          - docker build -t asterisk:16.0.1 .
-          - docker run -t -d --name some-asterisk -p 8088:8088 asterisk:16.0.1
+          - docker build -t asterisk:16.1.0 .
+          - docker run -d --name some-asterisk -p 8088:8088 asterisk:16.1.0
           - cd ../..
           - vendor/bin/phpunit

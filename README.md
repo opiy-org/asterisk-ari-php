@@ -6,129 +6,69 @@ events easy and safe.
 
 `Implemented with php7.2 and tested for Asterisk 16!`
 
-If you like it, please star this project :) thanks!
-Donations are welcome, for I put a lot of work into this.
+If you like what you see, please star this project :) thanks!
 
 ## Installation
 Use this library with composer and include it into your composer.json by using the terminal command
-`composer require ng-voice/ari-client`
+`composer require ng-voice/asterisk_ari_client`
 
 ##### PHP extensions
 You might run into troubles with missing php extensions. The following are required:
-   
-   - mbstring
-    
-   - json
-  
-We recommend to install them with terminal commands.
+We recommend to install them with terminal commands. E.g. for Debian: `apt install php7.2-mbstring` 
+(may differ depending on your underlying operating system. Don't forget to restart your apache 
+server with `service apache2 restart`
 
-E.g. for Debian: `apt install php7.2-mbstring` (may differ depending on your underlying operating system. Don't forget 
-to restart your apache server with `service apache2 restart`
 ##### Asterisk
 You will have to start a running asterisk instance first and configure it to use it's light http server and the 
 "Asterisk RESTful Interface" (ARI). The official Asterisk documentation shows you how to configure http.conf and 
-ari.conf in order to use ARI.
-
-Preferably use the provided Dockerfile in this library to compile your own asterisk container.
-
-    docker build -t asterisk:16.0.1 .
-    docker run -t -d --name some-asterisk -p 8088:8088 asterisk:16.0.1
-
-##### Tests
-Before you start developing your application around your asterisk, make shure everything is up and running nicely. 
-Run the `execute_tests.sh` script from the /tests directory. If everything is green, you are ready to go!
+ari.conf in order to use ARI. Alternatively use the provided Dockerfile. Ready to use!
 
 ## Features
 #### ARI Clients
 To build your own stasis applications, talk to your asterisk instance by using the given http clients.
-That's about it!
-We believe that today microservices can easily scale with your needs. And so should your asterisk instances.
-So of couse it is possible to use the asterisk rest api directly. But why, if we communicate through amqp
-in our microservice universe anyway?
+extend the BasicStasisApp class from this library and enjoy delevoping Stasis apps in no time!
 
-#### ARI WebsocketClient
-Basically connects to asterisk via `GET /events` and listens for either for one, many or all stasis application events.
+#### ARI web socket event model mapping
+A WebSocketClient connects to asterisk via `GET /events` and subscribes either to one, many or all 
+stasis application events.
 
-## How to use this library
+#### Ready to use Asterisk ARI Docker container
+Preferably use the provided Dockerfile in this library to compile your own asterisk container.
+    
+    cd docker/asterisk_16
+    docker build -t asterisk:16.1.0 .
+    docker run -d --name some-asterisk -p 8088:8088 asterisk:16.1.0
 
-Starts a WebSocketClient process and handles incoming events within your own local app.
-```php
-<?php
+If you choose to write a local app (see examples/ExampleLocalApp), Events will be mapped onto ARI specific 
+message objects and are easy to access/handle. No need to touch any JSON! I already did the work for you :)
 
-use AriStasisApp\websocket_client\WebSocketClient;
+## How to use
+Two examples can be found in the example directory.
 
-require_once __DIR__ . '/vendor/autoload.php';
+Basically there are two possibilities to handle incoming events from Asterisk, depending on what you would like to do 
+with them:
 
-$webSocketSettings = [
-    'wssEnabled' => false,
-    'host' => 'localhost',
-    'port' => 8088,
-    'rootUri' => '/ari',
-    'user' => 'myUser',
-    'password' => 'myPass'
-];
-
-$ariWebSocket = new WebSocketClient($webSocketSettings, 'ExampleLocalApp');
-$ariWebSocket->runWithLocalApp(new ExampleLocalApp('myUser', 'myPass'));
-```
-
-Simple ARI request to send an event
-```php
-
-```
+* In a local standalone script for simple event handling (ExampleLocalApp)
+* Pass them to a remote app, e.g. if you are wrapping Asterisk with a framework based app.
 
 Now, how should we handle events, that are sent to our WebSocketClient workers?
 
 Out of the box you can use the `LocalAppMessageHandler` (handling event objects in a local App) 
 or the `WebHookMessageHandler` (sending events to another API) but of course you can write your own.
 
-## Testing
-You can run the tests as follows:
+
+## Tests
+They won't work for you (because some of them depend on active channels and bridges).
+The following commands are only a reminder for me cause I keep forgetting them ;)
 
     ./vendor/bin/phpunit
-
-sonar-scanner
-
-##Contact
-ng-voice is happy to help! Feel free to send us a message! :) 
-We'd also love to hear about your application ideas and use cases.
-
-Lukas Stermann (lukas@ng-voice.com)
+    sonar-scanner 
 
 ##Licence
 MIT
 
-## Contribute
-We are happy to hear about your improvement ideas. Please use PSR-2 if you want to contribute.
+##Contact
+ng-voice is happy to help! Feel free to send me a message! :) 
+I'd also love to hear about your application ideas and use cases.
 
-Possible TODO's if you want to contribute but don't have an own idea:
-
-[composer.json]
-
-- Rename "autoload" namespace from "AriStasisApp" to something better 
-
-
-[ARIClients]
-
-- Test the clients!
-
-[Asterisk]
-
-- Restrict origin of ARI to localhost.
-  
-  - Add 'origin' header in WebSocketClient requests
-  
-
-[DEVELOPEMENT]
-
-- Mockery
-
-- Pact
-
-- TESTING!!!!
-
-- JSON Validation with justinrainbow/json-schema
-
-- Add a MissingParams model to /messages? This is only required when the WebSocketClient fails during Startup so wayne?!
-
-- @required annotation for models
+Lukas Stermann (lukas@ng-voice.com)
