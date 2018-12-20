@@ -110,11 +110,7 @@ Possible TODO's if you want to contribute but don't have an own idea:
 
 [ARIClients]
 
-- Go through every single client class and compare to Asterisk Documentation
-
 - Test the clients!
-
-- Responsetypes Check in every Client!
 
 [Asterisk]
 
@@ -133,14 +129,6 @@ Possible TODO's if you want to contribute but don't have an own idea:
 
 - JSON Validation with justinrainbow/json-schema
 
-- Get rid of JSON Mapper exceptions for Client. Not his fault!
-
-- Rename GuzzleExceptions to something from the own library.
-
-- Subtypes Getter/setter public and class that was extended from no getter/setter and protected attributes!?
-
 - Add a MissingParams model to /messages? This is only required when the WebSocketClient fails during Startup so wayne?!
-
-- Take care of Lists in models!!!! Not yet implemented
 
 - @required annotation for models
