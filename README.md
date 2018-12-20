@@ -1,6 +1,13 @@
 # Asterisk RESTful Interface (ARI) Client :tada:
-Sonarqube says:
+Keep your code nice and clean and save yourself some time while developing your Stasis apps with 
+this object oriented ARI client. Making RESTful calls to your Asterisk and handle incoming 
+events easy and safe.
 
+`Implemented with php7.2 and tested for Asterisk 16!`
+
+If you like what you see, please star this project :) thanks!
+
+Sonarqube says:
 
 ![Security](https://img.shields.io/badge/security-A-brightgreen.svg)
 ![Bugs](https://img.shields.io/badge/bugs-0-brightgreen.svg)
@@ -11,17 +18,6 @@ ng-voice says:
 ![My Character](https://img.shields.io/badge/programmer-nice%20guy-green.svg)
 ![Licence](https://img.shields.io/badge/licence-MIT-blue.svg)
 ![Donations](https://img.shields.io/badge/donations-welcome-blue.svg)
-
-
-Keep your code nice and clean and save yourself some time while developing your Stasis apps with 
-this object oriented ARI client. Making RESTful calls to your Asterisk and handle incoming 
-events easy and safe.
-
-`Implemented with php7.2 and tested for Asterisk 16!`
-
-If you like what you see, please star this project :) thanks!
-
-
 
 ## Installation
 Use this library with composer and include it into your composer.json by using the terminal command
