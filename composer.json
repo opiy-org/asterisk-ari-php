@@ -1,7 +1,7 @@
 {
   "name": "ng-voice/asterisk-ari-client",
   "type": "library",
-  "description": "A smart PHP RESTClient for Asterisk using the Asterisk RESTful Interface (ARI).",
+  "description": "A smart client for the Asterisk RESTful Interface (ARI). Smart handling of ARI calls and events.",
   "keywords": [
     "ari",
     "asterisk",
@@ -12,7 +12,7 @@
     "telephone",
     "pbx"
   ],
-  "homepage": "https://bitbucket.org/lukas-ng-voice/asterisk_ari_amqp_lib",
+  "homepage": "https://bitbucket.org/lukas-ng-voice/asterisk_ari_client",
   "license": "MIT",
   "authors": [
     {
