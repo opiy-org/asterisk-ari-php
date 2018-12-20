@@ -1,6 +1,6 @@
 # Asterisk RESTful Interface (ARI) Client :tada:
 Keep your code nice and clean and save yourself some time while developing your Stasis apps with 
-this object oriented ARI client. Making RESTful calls to your Asterisk and handle incoming 
+this object oriented ARI client library. Making RESTful calls to your Asterisk and handle incoming 
 events easy and safe.
 
 `Implemented with php7.2 and tested for Asterisk 16!`
@@ -19,6 +19,8 @@ ng-voice says:
 ![Licence](https://img.shields.io/badge/licence-MIT-blue.svg)
 ![Donations](https://img.shields.io/badge/donations-welcome-blue.svg)
 
+![What this library is about](AriClientLibSkizze.png)
+
 ## Installation
 Use this library with composer and include it into your composer.json by using the terminal command
 `composer require ng-voice/asterisk_ari_client`
@@ -36,12 +38,15 @@ ari.conf in order to use ARI. Alternatively use the provided Dockerfile. Ready t
 
 ## Features
 #### ARI Clients
-To build your own stasis applications, talk to your asterisk instance by using the given http clients.
-extend the BasicStasisApp class from this library and enjoy delevoping Stasis apps in no time!
+Talk to your asterisk instance by using the given well documented http clients.
 
 #### ARI web socket event model mapping
 A WebSocketClient connects to asterisk via `GET /events` and subscribes either to one, many or all 
 stasis application events.
+
+#### Build your own apps
+Using this library for your own asynchronous applications is a piece of cake.
+Simply extend the BasisStasisApp and design your Stasis app as you wish. Say goodbye to boilerplate code!
 
 #### Ready to use Asterisk ARI Docker container
 Preferably use the provided Dockerfile in this library to compile your own asterisk container.
