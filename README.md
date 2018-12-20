@@ -10,7 +10,7 @@ ng-voice says:
 
 ![My Character](https://img.shields.io/badge/programmer-nice%20guy-green.svg)
 ![Licence](https://img.shields.io/badge/licence-MIT-blue.svg)
-![Donations](https://img.shields.io/badge/donactions-welcome-blue.svg)
+![Donations](https://img.shields.io/badge/donations-welcome-blue.svg)
 
 
 Keep your code nice and clean and save yourself some time while developing your Stasis apps with 
