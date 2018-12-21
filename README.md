@@ -1,5 +1,5 @@
 # Asterisk RESTful Interface (ARI) Client :tada:
-Keep your code nice and clean and save yourself some time while developing your Stasis apps with 
+> Keep your code nice and clean and save yourself some time while developing your Stasis apps with 
 this object oriented ARI client library. Making RESTful calls to your Asterisk and handle incoming 
 events easy and safe.
 
@@ -65,7 +65,7 @@ Basically there are two possibilities to handle incoming events from Asterisk, d
 with them:
 
 * In a local standalone script for simple event handling (ExampleLocalApp)
-* Pass them to a remote app, e.g. if you are wrapping Asterisk with a framework based app.
+* Pass events to a remote app, e.g. if you are wrapping Asterisk with a framework based app.
 
 Now, how should we handle events, that are sent to our WebSocketClient workers?
 
