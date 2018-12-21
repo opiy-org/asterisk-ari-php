@@ -1,6 +1,8 @@
 # Asterisk RESTful Interface (ARI) Client :tada:
 > Keep your code nice and clean and save yourself some time with this object oriented ARI client library. 
-Make RESTful calls to your Asterisk and handle incoming events easy and safe while developing your Stasis apps.
+Make RESTful calls to your Asterisk and handle incoming events easy and safe while developing your 
+Stasis apps.
+
 
 `Implemented with php7.2 and tested for Asterisk 16!`
 
