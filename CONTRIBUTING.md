@@ -3,14 +3,9 @@ I am happy to hear about your ideas. Please use PSR-2 if you want to contribute.
 
 Possible TODO's:
 
-[composer.json]
+[Asterisk Docker container]
 
-- Rename "autoload" namespace from "AriStasisApp" to something better?!
-
-
-[Docker container]
-
-- Restrict origin of ARI to localhost.
+- Restrict origin of ARI to localhost?
   
   - Add 'origin' header in WebSocketClient requests
  
@@ -22,6 +17,10 @@ Asterisk... Maybe use Mockery?
 
 - JSON Validation with justinrainbow/json-schema
 
-- Add a MissingParams model to /messages? This is only required when the WebSocketClient fails during Startup so wayne?!
+[Models]
 
-- @required annotation for models
+- Add a MissingParams model to /messages? This is only required when the WebSocketClient fails during Startup,
+so will we really need it?!
+
+- Check for correct @required annotation in model attributes. Compare them to the .json files in the 
+doc/ directory
