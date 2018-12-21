@@ -22,7 +22,7 @@ ng-voice says:
 
 ## Installation
 Use this library with composer and include it into your composer.json by using the terminal command
-`composer require ng-voice/asterisk_ari_client`
+`composer require ng-voice/asterisk-ari-client`
 
 ##### PHP extensions
 You might run into troubles with missing php extensions. The following are required:
