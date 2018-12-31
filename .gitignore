@@ -1,0 +1,14 @@
+# Intellij Files
+.idea
+
+# Sonarcube hidden folders
+.scannerwork
+
+# Dependencies
+vendor
+
+# Own composer specific files
+composer.phar
+
+# Sonarqube Properties File
+sonar-project.properties

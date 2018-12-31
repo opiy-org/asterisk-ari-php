@@ -1,0 +1,52 @@
+{
+  "name": "ng-voice/asterisk-ari-client",
+  "type": "library",
+  "description": "A smart client for the Asterisk RESTful Interface (ARI). Smart handling of ARI calls and events.",
+  "keywords": [
+    "ari",
+    "asterisk",
+    "rest",
+    "stasis",
+    "client",
+    "stasisapp",
+    "telephone",
+    "pbx"
+  ],
+  "homepage": "https://bitbucket.org/lukas-ng-voice/asterisk-ari-client",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Lukas Stermann",
+      "email": "lukas@ng-voice.com",
+      "homepage": "https://ng-voice.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.2.11",
+    "monolog/monolog": "1.24.0",
+    "guzzlehttp/guzzle": "6.3.3",
+    "symfony/yaml": "v4.1.7",
+    "nekland/woketo": "2.2.0",
+    "netresearch/jsonmapper": "v1.4.0",
+    "justinrainbow/json-schema": "^5.2",
+    "ext-http": "*",
+    "ext-json": "*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "7.4.3",
+    "phpunit/php-code-coverage": "6.1.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "AriStasisApp\\": "src/"
+    },
+    "files": [
+      "src/helping_functions.php"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "AriStasisApp\\Tests\\": "tests/"
+    }
+  }
+}

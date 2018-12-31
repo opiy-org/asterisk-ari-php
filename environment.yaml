@@ -1,0 +1,13 @@
+#
+# Applications environment
+#
+# @author Lukas Stermann
+# @copyright ng-voice GmbH (2018)
+#
+
+app:
+  debugmode: false
+
+tests:
+  asteriskUser: 'asterisk'
+  asteriskPassword: 'asterisk'
