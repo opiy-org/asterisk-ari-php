@@ -30,7 +30,6 @@
     "symfony/yaml": "v4.1.7",
     "nekland/woketo": "2.2.0",
     "netresearch/jsonmapper": "v1.4.0",
-    "justinrainbow/json-schema": "^5.2",
     "ext-http": "*",
     "ext-json": "*"
   },
