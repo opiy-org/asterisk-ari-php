@@ -71,13 +71,14 @@ Two examples can be found in the example directory.
 Basically there are two possibilities to handle incoming events from Asterisk, depending on what you would like to do 
 with them:
 
-* In a local standalone script for simple event handling (ExampleLocalApp)
-* Pass events to a remote app, e.g. if you are wrapping Asterisk with a framework based app.
+* To write a local standalone script for simple event handling (like in ExampleLocalApp)
+* Pass events to a remote app, e.g. if you are wrapping Asterisk with an own RESTful Interface
+(like with example_worker_remote_app)
 
 Now, how should we handle events, that are sent to our WebSocketClient workers?
 
 Out of the box you can use the `LocalAppMessageHandler` (handling event objects in a local App) 
-or the `WebHookMessageHandler` (sending events to another API) but of course you can write your own.
+or the `RemoteAppMessageHandler` (sending events to another API) but of course you can write your own.
 
 ## Tests
 They won't work for you (because some of them depend on active channels and bridges).
