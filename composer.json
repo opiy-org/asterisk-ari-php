@@ -1,7 +1,7 @@
 {
   "name": "ng-voice/asterisk-ari-client",
   "type": "library",
-  "description": "A object oriented client for the Asterisk RESTful Interface (ARI). Handles ARI calls and events for you.",
+  "description": "An object oriented client for the Asterisk REST Interface (ARI). Handles ARI calls and events for you.",
   "keywords": [
     "ari",
     "asterisk",
