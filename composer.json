@@ -18,7 +18,8 @@
     {
       "name": "Lukas Stermann",
       "email": "lukas@ng-voice.com",
-      "homepage": "https://ng-voice.com"
+      "homepage": "https://ng-voice.com",
+      "role": "Developer"
     }
   ],
   "require": {
