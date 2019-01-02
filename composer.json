@@ -14,6 +14,7 @@
   ],
   "homepage": "https://bitbucket.org/lukas-ng-voice/asterisk-ari-client",
   "license": "MIT",
+  "version": "1.0.0",
   "authors": [
     {
       "name": "Lukas Stermann",
