@@ -56,11 +56,14 @@ Preferably use the provided Dockerfile in this library to compile your own aster
     cd docker/asterisk_16
     docker build -t asterisk:16.1.0 .
     docker run -d --name some-asterisk -p 8088:8088 asterisk:16.1.0
-    
+
     !!! PLEASE NOTE !!!
     Compiling Asterisk sometimes is bound to the hardware you are compiling it on.
     Right now we compile an own container for every machine we run Asterisk on,
     to make sure it will work.
+
+If you choose to write a local app (see examples/ExampleLocalApp), Events will be mapped onto ARI specific 
+message objects and are easy to access/handle. No need to touch any JSON! I already did the work for you :)
 
 ## How to use
 Two examples can be found in the example directory.
@@ -75,7 +78,6 @@ Now, how should we handle events, that are sent to our WebSocketClient workers?
 
 Out of the box you can use the `LocalAppMessageHandler` (handling event objects in a local App) 
 or the `WebHookMessageHandler` (sending events to another API) but of course you can write your own.
-
 
 ## Tests
 They won't work for you (because some of them depend on active channels and bridges).
