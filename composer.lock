@@ -4,7 +4,7 @@
     "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
     "This file is @generated automatically"
   ],
-  "content-hash": "8d2a107e28e0e622ac003bbbe56f959f",
+  "content-hash": "7a9566744740dc0815a073c6c5533989",
   "packages": [
     {
       "name": "evenement/evenement",
@@ -378,16 +378,16 @@
     },
     {
       "name": "nekland/tools",
-      "version": "2.2.0",
+      "version": "2.3.0",
       "source": {
         "type": "git",
         "url": "https://github.com/Nekland/Tools.git",
-        "reference": "af408fe39d2ef27061b229b1ec423f94a156ba66"
+        "reference": "1d8dbfa4b625eb452a2cf7f74c40196c69322ae7"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/Nekland/Tools/zipball/af408fe39d2ef27061b229b1ec423f94a156ba66",
-        "reference": "af408fe39d2ef27061b229b1ec423f94a156ba66",
+        "url": "https://api.github.com/repos/Nekland/Tools/zipball/1d8dbfa4b625eb452a2cf7f74c40196c69322ae7",
+        "reference": "1d8dbfa4b625eb452a2cf7f74c40196c69322ae7",
         "shasum": ""
       },
       "require": {
@@ -404,8 +404,11 @@
         }
       },
       "notification-url": "https://packagist.org/downloads/",
+      "license": [
+        "MIT"
+      ],
       "description": "Just some tools to work better with PHP",
-      "time": "2018-07-13T07:29:16+00:00"
+      "time": "2018-12-18T10:20:32+00:00"
     },
     {
       "name": "nekland/woketo",
@@ -898,16 +901,16 @@
     },
     {
       "name": "react/stream",
-      "version": "v1.0.0",
+      "version": "v1.1.0",
       "source": {
         "type": "git",
         "url": "https://github.com/reactphp/stream.git",
-        "reference": "fdd0140f42805d65bf9687636503db0b326d2244"
+        "reference": "50426855f7a77ddf43b9266c22320df5bf6c6ce6"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/reactphp/stream/zipball/fdd0140f42805d65bf9687636503db0b326d2244",
-        "reference": "fdd0140f42805d65bf9687636503db0b326d2244",
+        "url": "https://api.github.com/repos/reactphp/stream/zipball/50426855f7a77ddf43b9266c22320df5bf6c6ce6",
+        "reference": "50426855f7a77ddf43b9266c22320df5bf6c6ce6",
         "shasum": ""
       },
       "require": {
@@ -940,7 +943,7 @@
         "stream",
         "writable"
       ],
-      "time": "2018-07-11T14:38:16+00:00"
+      "time": "2019-01-01T16:15:09+00:00"
     },
     {
       "name": "symfony/polyfill-ctype",
@@ -2421,20 +2424,21 @@
     },
     {
       "name": "webmozart/assert",
-      "version": "1.3.0",
+      "version": "1.4.0",
       "source": {
         "type": "git",
         "url": "https://github.com/webmozart/assert.git",
-        "reference": "0df1908962e7a3071564e857d86874dad1ef204a"
+        "reference": "83e253c8e0be5b0257b881e1827274667c5c17a9"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/webmozart/assert/zipball/0df1908962e7a3071564e857d86874dad1ef204a",
-        "reference": "0df1908962e7a3071564e857d86874dad1ef204a",
+        "url": "https://api.github.com/repos/webmozart/assert/zipball/83e253c8e0be5b0257b881e1827274667c5c17a9",
+        "reference": "83e253c8e0be5b0257b881e1827274667c5c17a9",
         "shasum": ""
       },
       "require": {
-        "php": "^5.3.3 || ^7.0"
+        "php": "^5.3.3 || ^7.0",
+        "symfony/polyfill-ctype": "^1.8"
       },
       "require-dev": {
         "phpunit/phpunit": "^4.6",
@@ -2467,7 +2471,7 @@
         "check",
         "validate"
       ],
-      "time": "2018-01-29T19:49:41+00:00"
+      "time": "2018-12-25T11:19:39+00:00"
     }
   ],
   "aliases": [],
@@ -2477,8 +2481,8 @@
   "prefer-lowest": false,
   "platform": {
     "php": ">=7.2.11",
-    "ext-json": "*",
-    "ext-http": "*"
+    "ext-http": "*",
+    "ext-json": "*"
   },
   "platform-dev": []
 }
