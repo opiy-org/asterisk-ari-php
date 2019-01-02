@@ -3,9 +3,7 @@
 Keeping your code nice and clean, taking care of easy RESTful calls to Asterisk and incoming events 
 while you focus on developing your Stasis apps.
 
-`Implemented with php7.2 and tested for Asterisk 16!`
-
-If you like what you see, please pay some respect and donate. Cheers! :beer:
+`Implemented with php7.2 and tested for Asterisk 16!` :beer:
 
 Sonarqube says:
 
