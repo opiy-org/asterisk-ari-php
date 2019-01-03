@@ -89,6 +89,102 @@ class BasicStasisApp
     protected $deviceStatesClient;
 
     /**
+     * @return Logger
+     */
+    public function getLogger(): Logger
+    {
+        return $this->logger;
+    }
+
+    /**
+     * @return Events
+     */
+    public function getEventsClient(): Events
+    {
+        return $this->eventsClient;
+    }
+
+    /**
+     * @return Sounds
+     */
+    public function getSoundsClient(): Sounds
+    {
+        return $this->soundsClient;
+    }
+
+    /**
+     * @return Bridges
+     */
+    public function getBridgesClient(): Bridges
+    {
+        return $this->bridgesClient;
+    }
+
+    /**
+     * @return Asterisk
+     */
+    public function getAsteriskClient(): Asterisk
+    {
+        return $this->asteriskClient;
+    }
+
+    /**
+     * @return Channels
+     */
+    public function getChannelsClient(): Channels
+    {
+        return $this->channelsClient;
+    }
+
+    /**
+     * @return Endpoints
+     */
+    public function getEndpointsClient(): Endpoints
+    {
+        return $this->endpointsClient;
+    }
+
+    /**
+     * @return Mailboxes
+     */
+    public function getMailboxesClient(): Mailboxes
+    {
+        return $this->mailboxesClient;
+    }
+
+    /**
+     * @return Playbacks
+     */
+    public function getPlaybacksClient(): Playbacks
+    {
+        return $this->playbacksClient;
+    }
+
+    /**
+     * @return Recordings
+     */
+    public function getRecordingsClient(): Recordings
+    {
+        return $this->recordingsClient;
+    }
+
+    /**
+     * @return Applications
+     */
+    public function getApplicationsClient(): Applications
+    {
+        return $this->applicationsClient;
+    }
+
+    /**
+     * @return DeviceStates
+     */
+    public function getDeviceStatesClient(): DeviceStates
+    {
+        return $this->deviceStatesClient;
+    }
+
+    /**
      * BasicStasisApp constructor.
      *
      * @param string $ariUser
