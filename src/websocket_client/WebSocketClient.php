@@ -9,9 +9,10 @@ namespace AriStasisApp\websocket_client;
 
 use AriStasisApp\BasicStasisApp;
 use Exception;
+use http\Exception\RuntimeException;
 use Monolog\Logger;
 use Nekland\Woketo\Client\WebSocketClient as WoketoWebSocketClient;
-use function AriStasisApp\{getShortClassName, initLogger, parseWebSocketSettings};
+use function AriStasisApp\{getShortClassName, glueArrayOfStrings, initLogger, parseWebSocketSettings};
 
 /**
  * Class WebSocketClient
@@ -38,13 +39,14 @@ class WebSocketClient
     /**
      * WebSocketClient constructor.
      *
-     * @param array $webSocketSettings
-     * @param string $subscribingAppName Leave this empty if you want to listen for all events in asterisk
-     * (not app specific events).
-     *
+     * @param String[] $app Applications to subscribe to. Allows more than one value.
+     * @param array $webSocketSettings The settings for the asterisk web socket.
+     * @param bool $subscribeAll Subscribe to all Asterisk events.
+     * If provided, the applications listed will be subscribed to all events,
+     * effectively disabling the application specific subscriptions. Default is 'false'.
      * TODO: We can see in the logs of asterisk that the application is activated twice. This should not happen
      */
-    function __construct(array $webSocketSettings = [], string $subscribingAppName = '')
+    function __construct(array $app, array $webSocketSettings = [], $subscribeAll = false)
     {
         $this->logger = initLogger(getShortClassName($this));
 
@@ -54,10 +56,17 @@ class WebSocketClient
          * you are running, so your code doesn't get messy.
          */
 
+        if ($app === []) {
+            throw new RuntimeException('You have to provide at least one app name.');
+        }
+
+        foreach ($app as $name) {
+            if ($name === '') {
+                throw new RuntimeException('App names cannot be empty.');
+            }
+        }
 
         // Initialize the WebSocket
-        $webSocketSettings = parseWebSocketSettings($webSocketSettings);
-
         [
             'wssEnabled' => $wssEnabled,
             'host' => $host,
@@ -65,13 +74,13 @@ class WebSocketClient
             'rootUri' => $rootUri,
             'user' => $user,
             'password' => $password
-        ] = $webSocketSettings;
+        ] = parseWebSocketSettings($webSocketSettings);
 
         $wsType = $wssEnabled ? 'wss' : 'ws';
         $wsUrl = "{$wsType}://{$host}:{$port}{$rootUri}";
-        $wsQuerySpecificApp = "/events?api_key={$user}:{$password}&app={$subscribingAppName}";
-        $wsQuery = ($subscribingAppName === '') ? "{$wsQuerySpecificApp}&subscribeAll=true" : $wsQuerySpecificApp;
-        $uri = "{$wsUrl}{$wsQuery}";
+        $app = glueArrayOfStrings($app);
+        $subscribeAllParameter = ($subscribeAll) ? '&subscribeAll=true' : '&subscribeAll=false';
+        $uri = "{$wsUrl}/events?api_key={$user}:{$password}&app={$app}{$subscribeAllParameter}";
         $this->logger->debug("URI to asterisk: '{$uri}'");
         $this->woketoWebSocketClient = new WoketoWebSocketClient($uri);
     }
