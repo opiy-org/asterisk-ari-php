@@ -33,5 +33,5 @@ $remoteApiSettings = [
     'password' => 'myPassword',
 ];
 
-$ariWebSocket = new WebSocketClient($webSocketSettings);
+$ariWebSocket = new WebSocketClient(['ExampleRemoteApp'], $webSocketSettings, true);
 $ariWebSocket->runWithRemoteApp($remoteApiSettings);

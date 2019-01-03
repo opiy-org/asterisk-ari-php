@@ -31,7 +31,7 @@ $webSocketSettings = [
     'password' => $settings['tests']['asteriskPassword']
 ];
 
-$ariWebSocket = new WebSocketClient($webSocketSettings, 'ExampleLocalApp');
+$ariWebSocket = new WebSocketClient(['ExampleLocalApp'], $webSocketSettings);
 $ariWebSocket->runWithLocalApp(
     new ExampleLocalApp($settings['tests']['asteriskUser'], $settings['tests']['asteriskPassword'])
 );
