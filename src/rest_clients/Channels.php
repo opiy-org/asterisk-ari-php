@@ -315,9 +315,13 @@ class Channels extends AriRestClient
      * @param string $mohClass Music on hold class to use.
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function startMoh(string $channelId, string $mohClass): void
+    function startMoh(string $channelId, string $mohClass = ''): void
     {
-        $this->postRequest("/channels/{$channelId}/moh", [$mohClass]);
+        $queryParameters = [];
+        if ($mohClass !== '') {
+            $queryParameters['mohClass'] = $mohClass;
+        }
+        $this->postRequest("/channels/{$channelId}/moh", $queryParameters);
     }
 
     /**
