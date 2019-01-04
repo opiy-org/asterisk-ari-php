@@ -76,8 +76,9 @@ class RemoteAppMessageHandler extends TextMessageHandler
         try {
             $this->logger->debug("Received raw message from asterisk WebSocket server: {$data}");
             // TODO: Will I have to decode $data first? TEUEEER!
-            $ariEventType = lcfirst(json_decode($data)->type);
-            $this->guzzleClient->request('PUT', $this->rootUri . "/{$ariEventType}", ['json' => $data]);
+            $jsonData = json_decode($data);
+            $ariEventType = lcfirst($jsonData['type']);
+            $this->guzzleClient->request('PUT', $this->rootUri . "/{$ariEventType}", ['json' => $jsonData]);
             $this->logger->debug("Message successfully sent to {$this->rootUri} on local application");
         } catch (GuzzleException $exception) {
             $this->logger->error($exception->getMessage());
