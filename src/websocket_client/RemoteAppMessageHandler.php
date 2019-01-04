@@ -78,7 +78,9 @@ class RemoteAppMessageHandler extends TextMessageHandler
             // TODO: Will I have to decode $data first? TEUEEER!
             $decodedJson = json_decode($data);
             $ariEventType = lcfirst($decodedJson->type);
-            $this->guzzleClient->request('PUT', $this->rootUri . "/{$ariEventType}", ['json' => $decodedJson]);
+            $this->guzzleClient->request('PUT', $this->rootUri . "/{$ariEventType}",
+                ['content-type' => 'application/json', 'body' => $data]
+            );
             $this->logger->debug("Message successfully sent to {$this->rootUri} on local application");
         } catch (GuzzleException $exception) {
             $this->logger->error($exception->getMessage());
