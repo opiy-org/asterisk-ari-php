@@ -79,7 +79,7 @@ class RemoteAppMessageHandler extends TextMessageHandler
             $decodedJson = json_decode($data);
             $ariEventType = lcfirst($decodedJson->type);
             $this->guzzleClient->request('PUT', $this->rootUri . "/{$ariEventType}",
-                ['headers' => ['content-type' => 'application/json'], 'body' => $data]
+                ['headers' => ['Content-Type' => 'application/json'], 'body' => $data]
             );
             $this->logger->debug("Message successfully sent to {$this->rootUri} on local application");
         } catch (GuzzleException $exception) {
