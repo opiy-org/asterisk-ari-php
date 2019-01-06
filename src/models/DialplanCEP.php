@@ -16,9 +16,9 @@ namespace AriStasisApp\models;
 class DialplanCEP
 {
     /**
-     * @var string Context in the dialplan
+     * @var string Priority in the dialplan
      */
-    private $context;
+    private $priority;
 
     /**
      * @var string Extension in the dialplan
@@ -26,19 +26,24 @@ class DialplanCEP
     private $exten;
 
     /**
+     * @var string Context in the dialplan
+     */
+    private $context;
+
+    /**
      * @return string
      */
-    public function getContext(): string
+    public function getPriority(): string
     {
-        return $this->context;
+        return $this->priority;
     }
 
     /**
-     * @param string $context
+     * @param string $priority
      */
-    public function setContext(string $context): void
+    public function setPriority(string $priority): void
     {
-        $this->context = $context;
+        $this->priority = $priority;
     }
 
     /**
@@ -60,22 +65,17 @@ class DialplanCEP
     /**
      * @return string
      */
-    public function getPriority(): string
+    public function getContext(): string
     {
-        return $this->priority;
+        return $this->context;
     }
 
     /**
-     * @param string $priority
+     * @param string $context
      */
-    public function setPriority(string $priority): void
+    public function setContext(string $context): void
     {
-        $this->priority = $priority;
+        $this->context = $context;
     }
-
-    /**
-     * @var string Priority in the dialplan
-     */
-    private $priority;
 
 }

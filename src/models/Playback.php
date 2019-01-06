@@ -18,12 +18,12 @@ class Playback
     /**
      * @var string If a list of URIs is being played, the next media URI to be played back.
      */
-    private $nextMediaUri;
+    private $next_media_uri;
 
     /**
      * @var string URI for the channel or bridge to play the media on.
      */
-    private $targetUri;
+    private $target_uri;
 
     /**
      * @var string For media types that support multiple languages, the language requested for playback.
@@ -38,7 +38,7 @@ class Playback
     /**
      * @var string The URI for the media currently being played back.
      */
-    private $mediaUri;
+    private $media_uri;
 
     /**
      * @var string ID for this playback operation.
@@ -50,15 +50,15 @@ class Playback
      */
     public function getNextMediaUri(): string
     {
-        return $this->nextMediaUri;
+        return $this->next_media_uri;
     }
 
     /**
-     * @param string $nextMediaUri
+     * @param string $next_media_uri
      */
-    public function setNextMediaUri(string $nextMediaUri): void
+    public function setNextMediaUri(string $next_media_uri): void
     {
-        $this->nextMediaUri = $nextMediaUri;
+        $this->next_media_uri = $next_media_uri;
     }
 
     /**
@@ -66,15 +66,15 @@ class Playback
      */
     public function getTargetUri(): string
     {
-        return $this->targetUri;
+        return $this->target_uri;
     }
 
     /**
-     * @param string $targetUri
+     * @param string $target_uri
      */
-    public function setTargetUri(string $targetUri): void
+    public function setTargetUri(string $target_uri): void
     {
-        $this->targetUri = $targetUri;
+        $this->target_uri = $target_uri;
     }
 
     /**
@@ -114,15 +114,15 @@ class Playback
      */
     public function getMediaUri(): string
     {
-        return $this->mediaUri;
+        return $this->media_uri;
     }
 
     /**
-     * @param string $mediaUri
+     * @param string $media_uri
      */
-    public function setMediaUri(string $mediaUri): void
+    public function setMediaUri(string $media_uri): void
     {
-        $this->mediaUri = $mediaUri;
+        $this->media_uri = $media_uri;
     }
 
     /**

@@ -24,7 +24,7 @@ class ContactInfo
      * @var string The current status of the contact.
      * Either ("Unreachable", "Reachable", "Unknown", "NonQualified", "Removed")
      */
-    private $contactStatus;
+    private $contact_status;
 
     /**
      * @var string The Address of Record this contact belongs to.
@@ -34,22 +34,70 @@ class ContactInfo
     /**
      * @var string Current round trip time, in microseconds, for the contact.
      */
-    private $roundtripUsec;
-
+    private $roundtrip_usec;
 
     /**
-     * ContactInfo constructor.
-     *
-     * @param string $uri
-     * @param string $contactStatus
-     * @param string $aor
-     * @param string $roundtripUsec
+     * @return string
      */
-    function __construct(string $uri, string $contactStatus, string $aor, string $roundtripUsec)
+    public function getUri(): string
+    {
+        return $this->uri;
+    }
+
+    /**
+     * @param string $uri
+     */
+    public function setUri(string $uri): void
     {
         $this->uri = $uri;
-        $this->contactStatus = $contactStatus;
-        $this->aor = $aor;
-        $this->roundtripUsec = $roundtripUsec;
     }
+
+    /**
+     * @return string
+     */
+    public function getContactStatus(): string
+    {
+        return $this->contact_status;
+    }
+
+    /**
+     * @param string $contact_status
+     */
+    public function setContactStatus(string $contact_status): void
+    {
+        $this->contact_status = $contact_status;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAor(): string
+    {
+        return $this->aor;
+    }
+
+    /**
+     * @param string $aor
+     */
+    public function setAor(string $aor): void
+    {
+        $this->aor = $aor;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRoundtripUsec(): string
+    {
+        return $this->roundtrip_usec;
+    }
+
+    /**
+     * @param string $roundtrip_usec
+     */
+    public function setRoundtripUsec(string $roundtrip_usec): void
+    {
+        $this->roundtrip_usec = $roundtrip_usec;
+    }
+
 }

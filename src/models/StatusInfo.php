@@ -18,27 +18,27 @@ class StatusInfo
     /**
      * @var string Time when Asterisk was last reloaded.
      */
-    private $lastReloadTime;
+    private $last_reload_time;
 
     /**
      * @var string Time when Asterisk was started.
      */
-    private $startupTime;
+    private $startup_time;
 
     /**
      * @return string
      */
     public function getLastReloadTime(): string
     {
-        return $this->lastReloadTime;
+        return $this->last_reload_time;
     }
 
     /**
-     * @param string $lastReloadTime
+     * @param string $last_reload_time
      */
-    public function setLastReloadTime(string $lastReloadTime): void
+    public function setLastReloadTime(string $last_reload_time): void
     {
-        $this->lastReloadTime = $lastReloadTime;
+        $this->last_reload_time = $last_reload_time;
     }
 
     /**
@@ -46,14 +46,14 @@ class StatusInfo
      */
     public function getStartupTime(): string
     {
-        return $this->startupTime;
+        return $this->startup_time;
     }
 
     /**
-     * @param string $startupTime
+     * @param string $startup_time
      */
-    public function setStartupTime(string $startupTime): void
+    public function setStartupTime(string $startup_time): void
     {
-        $this->startupTime = $startupTime;
+        $this->startup_time = $startup_time;
     }
 }

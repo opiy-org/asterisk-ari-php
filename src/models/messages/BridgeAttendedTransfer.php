@@ -21,42 +21,42 @@ class BridgeAttendedTransfer extends Event
     /**
      * @var Channel The channel that is replacing transferer_first_leg in the swap.
      */
-    private $replaceChannel;
+    private $replace_channel;
 
     /**
      * @var boolean Whether the transfer was externally initiated or not.
      */
-    private $isExternal;
+    private $is_external;
 
     /**
      * @var Bridge Bridge the transferer second leg is in.
      */
-    private $transfererSecondLegBridge;
+    private $transferer_second_leg_bridge;
 
     /**
      * @var string Bridge that survived the merge result.
      */
-    private $destinationBridge;
+    private $destination_bridge;
 
     /**
      * @var Channel Second leg of the transferer.
      */
-    private $transfererSecondLeg;
+    private $transferer_second_leg;
 
     /**
      * @var Channel Second leg of a link transfer result.
      */
-    private $destinationLinkSecondLeg;
+    private $destination_link_second_leg;
 
     /**
      * @var Channel Transferer channel that survived the threeway result.
      */
-    private $destinationThreewayChannel;
+    private $destination_threeway_channel;
 
     /**
      * @var Channel The channel that is being transferred to.
      */
-    private $transferTarget;
+    private $transfer_target;
 
     /**
      * @var string The result of the transfer attempt.
@@ -66,22 +66,22 @@ class BridgeAttendedTransfer extends Event
     /**
      * @var string How the transfer was accomplished.
      */
-    private $destinationType;
+    private $destination_type;
 
     /**
      * @var string Application that has been transferred into.
      */
-    private $destinationApplication;
+    private $destination_application;
 
     /**
      * @var Bridge Bridge that survived the threeway result.
      */
-    private $destinationThreewayBridge;
+    private $destination_threeway_bridge;
 
     /**
      * @var Channel First leg of a link transfer result.
      */
-    private $destinationLinkFirstLeg;
+    private $destination_link_first_leg;
 
     /**
      * @var Channel The channel that is being transferred.
@@ -91,27 +91,27 @@ class BridgeAttendedTransfer extends Event
     /**
      * @var Channel First leg of the transferer.
      */
-    private $transfererFirstLeg;
+    private $transferer_first_leg;
 
     /**
      * @var Bridge Bridge the transferer first leg is in.
      */
-    private $transfererFirstLegBridge;
+    private $transferer_first_leg_bridge;
 
     /**
      * @return Channel
      */
     public function getReplaceChannel(): Channel
     {
-        return $this->replaceChannel;
+        return $this->replace_channel;
     }
 
     /**
-     * @param Channel $replaceChannel
+     * @param Channel $replace_channel
      */
-    public function setReplaceChannel(Channel $replaceChannel): void
+    public function setReplaceChannel(Channel $replace_channel): void
     {
-        $this->replaceChannel = $replaceChannel;
+        $this->replace_channel = $replace_channel;
     }
 
     /**
@@ -119,15 +119,15 @@ class BridgeAttendedTransfer extends Event
      */
     public function isExternal(): bool
     {
-        return $this->isExternal;
+        return $this->is_external;
     }
 
     /**
-     * @param bool $isExternal
+     * @param bool $is_external
      */
-    public function setIsExternal(bool $isExternal): void
+    public function setIsExternal(bool $is_external): void
     {
-        $this->isExternal = $isExternal;
+        $this->is_external = $is_external;
     }
 
     /**
@@ -135,15 +135,15 @@ class BridgeAttendedTransfer extends Event
      */
     public function getTransfererSecondLegBridge(): Bridge
     {
-        return $this->transfererSecondLegBridge;
+        return $this->transferer_second_leg_bridge;
     }
 
     /**
-     * @param Bridge $transfererSecondLegBridge
+     * @param Bridge $transferer_second_leg_bridge
      */
-    public function setTransfererSecondLegBridge(Bridge $transfererSecondLegBridge): void
+    public function setTransfererSecondLegBridge(Bridge $transferer_second_leg_bridge): void
     {
-        $this->transfererSecondLegBridge = $transfererSecondLegBridge;
+        $this->transferer_second_leg_bridge = $transferer_second_leg_bridge;
     }
 
     /**
@@ -151,15 +151,15 @@ class BridgeAttendedTransfer extends Event
      */
     public function getDestinationBridge(): string
     {
-        return $this->destinationBridge;
+        return $this->destination_bridge;
     }
 
     /**
-     * @param string $destinationBridge
+     * @param string $destination_bridge
      */
-    public function setDestinationBridge(string $destinationBridge): void
+    public function setDestinationBridge(string $destination_bridge): void
     {
-        $this->destinationBridge = $destinationBridge;
+        $this->destination_bridge = $destination_bridge;
     }
 
     /**
@@ -167,15 +167,15 @@ class BridgeAttendedTransfer extends Event
      */
     public function getTransfererSecondLeg(): Channel
     {
-        return $this->transfererSecondLeg;
+        return $this->transferer_second_leg;
     }
 
     /**
-     * @param Channel $transfererSecondLeg
+     * @param Channel $transferer_second_leg
      */
-    public function setTransfererSecondLeg(Channel $transfererSecondLeg): void
+    public function setTransfererSecondLeg(Channel $transferer_second_leg): void
     {
-        $this->transfererSecondLeg = $transfererSecondLeg;
+        $this->transferer_second_leg = $transferer_second_leg;
     }
 
     /**
@@ -183,15 +183,15 @@ class BridgeAttendedTransfer extends Event
      */
     public function getDestinationLinkSecondLeg(): Channel
     {
-        return $this->destinationLinkSecondLeg;
+        return $this->destination_link_second_leg;
     }
 
     /**
-     * @param Channel $destinationLinkSecondLeg
+     * @param Channel $destination_link_second_leg
      */
-    public function setDestinationLinkSecondLeg(Channel $destinationLinkSecondLeg): void
+    public function setDestinationLinkSecondLeg(Channel $destination_link_second_leg): void
     {
-        $this->destinationLinkSecondLeg = $destinationLinkSecondLeg;
+        $this->destination_link_second_leg = $destination_link_second_leg;
     }
 
     /**
@@ -199,15 +199,15 @@ class BridgeAttendedTransfer extends Event
      */
     public function getDestinationThreewayChannel(): Channel
     {
-        return $this->destinationThreewayChannel;
+        return $this->destination_threeway_channel;
     }
 
     /**
-     * @param Channel $destinationThreewayChannel
+     * @param Channel $destination_threeway_channel
      */
-    public function setDestinationThreewayChannel(Channel $destinationThreewayChannel): void
+    public function setDestinationThreewayChannel(Channel $destination_threeway_channel): void
     {
-        $this->destinationThreewayChannel = $destinationThreewayChannel;
+        $this->destination_threeway_channel = $destination_threeway_channel;
     }
 
     /**
@@ -215,15 +215,15 @@ class BridgeAttendedTransfer extends Event
      */
     public function getTransferTarget(): Channel
     {
-        return $this->transferTarget;
+        return $this->transfer_target;
     }
 
     /**
-     * @param Channel $transferTarget
+     * @param Channel $transfer_target
      */
-    public function setTransferTarget(Channel $transferTarget): void
+    public function setTransferTarget(Channel $transfer_target): void
     {
-        $this->transferTarget = $transferTarget;
+        $this->transfer_target = $transfer_target;
     }
 
     /**
@@ -247,15 +247,15 @@ class BridgeAttendedTransfer extends Event
      */
     public function getDestinationType(): string
     {
-        return $this->destinationType;
+        return $this->destination_type;
     }
 
     /**
-     * @param string $destinationType
+     * @param string $destination_type
      */
-    public function setDestinationType(string $destinationType): void
+    public function setDestinationType(string $destination_type): void
     {
-        $this->destinationType = $destinationType;
+        $this->destination_type = $destination_type;
     }
 
     /**
@@ -263,15 +263,15 @@ class BridgeAttendedTransfer extends Event
      */
     public function getDestinationApplication(): string
     {
-        return $this->destinationApplication;
+        return $this->destination_application;
     }
 
     /**
-     * @param string $destinationApplication
+     * @param string $destination_application
      */
-    public function setDestinationApplication(string $destinationApplication): void
+    public function setDestinationApplication(string $destination_application): void
     {
-        $this->destinationApplication = $destinationApplication;
+        $this->destination_application = $destination_application;
     }
 
     /**
@@ -279,15 +279,15 @@ class BridgeAttendedTransfer extends Event
      */
     public function getDestinationThreewayBridge(): Bridge
     {
-        return $this->destinationThreewayBridge;
+        return $this->destination_threeway_bridge;
     }
 
     /**
-     * @param Bridge $destinationThreewayBridge
+     * @param Bridge $destination_threeway_bridge
      */
-    public function setDestinationThreewayBridge(Bridge $destinationThreewayBridge): void
+    public function setDestinationThreewayBridge(Bridge $destination_threeway_bridge): void
     {
-        $this->destinationThreewayBridge = $destinationThreewayBridge;
+        $this->destination_threeway_bridge = $destination_threeway_bridge;
     }
 
     /**
@@ -295,15 +295,15 @@ class BridgeAttendedTransfer extends Event
      */
     public function getDestinationLinkFirstLeg(): Channel
     {
-        return $this->destinationLinkFirstLeg;
+        return $this->destination_link_first_leg;
     }
 
     /**
-     * @param Channel $destinationLinkFirstLeg
+     * @param Channel $destination_link_first_leg
      */
-    public function setDestinationLinkFirstLeg(Channel $destinationLinkFirstLeg): void
+    public function setDestinationLinkFirstLeg(Channel $destination_link_first_leg): void
     {
-        $this->destinationLinkFirstLeg = $destinationLinkFirstLeg;
+        $this->destination_link_first_leg = $destination_link_first_leg;
     }
 
     /**
@@ -327,15 +327,15 @@ class BridgeAttendedTransfer extends Event
      */
     public function getTransfererFirstLeg(): Channel
     {
-        return $this->transfererFirstLeg;
+        return $this->transferer_first_leg;
     }
 
     /**
-     * @param Channel $transfererFirstLeg
+     * @param Channel $transferer_first_leg
      */
-    public function setTransfererFirstLeg(Channel $transfererFirstLeg): void
+    public function setTransfererFirstLeg(Channel $transferer_first_leg): void
     {
-        $this->transfererFirstLeg = $transfererFirstLeg;
+        $this->transferer_first_leg = $transferer_first_leg;
     }
 
     /**
@@ -343,14 +343,14 @@ class BridgeAttendedTransfer extends Event
      */
     public function getTransfererFirstLegBridge(): Bridge
     {
-        return $this->transfererFirstLegBridge;
+        return $this->transferer_first_leg_bridge;
     }
 
     /**
-     * @param Bridge $transfererFirstLegBridge
+     * @param Bridge $transferer_first_leg_bridge
      */
-    public function setTransfererFirstLegBridge(Bridge $transfererFirstLegBridge): void
+    public function setTransfererFirstLegBridge(Bridge $transferer_first_leg_bridge): void
     {
-        $this->transfererFirstLegBridge = $transfererFirstLegBridge;
+        $this->transferer_first_leg_bridge = $transferer_first_leg_bridge;
     }
 }

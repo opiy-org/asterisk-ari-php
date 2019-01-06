@@ -25,7 +25,7 @@ class ChannelDestroyed extends Event
     /**
      * @var string Text representation of the cause of the hangup.
      */
-    private $causeTxt;
+    private $cause_txt;
 
     /**
      * @var Channel
@@ -53,15 +53,15 @@ class ChannelDestroyed extends Event
      */
     public function getCauseTxt(): string
     {
-        return $this->causeTxt;
+        return $this->cause_txt;
     }
 
     /**
-     * @param string $causeTxt
+     * @param string $cause_txt
      */
-    public function setCauseTxt(string $causeTxt): void
+    public function setCauseTxt(string $cause_txt): void
     {
-        $this->causeTxt = $causeTxt;
+        $this->cause_txt = $cause_txt;
     }
 
     /**

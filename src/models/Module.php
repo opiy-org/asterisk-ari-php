@@ -19,7 +19,7 @@ class Module
      * @var int The number of times this module is being used.
      * @required
      */
-    private $useCount;
+    private $use_count;
 
     /**
      * @var string The running status of this module.
@@ -31,7 +31,7 @@ class Module
      * @var string The support state of this module.
      * @required
      */
-    private $supportLevel;
+    private $support_level;
 
     /**
      * @var string The name of this module.
@@ -50,7 +50,15 @@ class Module
      */
     public function getUseCount(): int
     {
-        return $this->useCount;
+        return $this->use_count;
+    }
+
+    /**
+     * @param int $use_count
+     */
+    public function setUseCount(int $use_count): void
+    {
+        $this->use_count = $use_count;
     }
 
     /**
@@ -74,15 +82,15 @@ class Module
      */
     public function getSupportLevel(): string
     {
-        return $this->supportLevel;
+        return $this->support_level;
     }
 
     /**
-     * @param string $supportLevel
+     * @param string $support_level
      */
-    public function setSupportLevel(string $supportLevel): void
+    public function setSupportLevel(string $support_level): void
     {
-        $this->supportLevel = $supportLevel;
+        $this->support_level = $support_level;
     }
 
     /**

@@ -19,7 +19,7 @@ class Bridge
      * @var string Type of bridge technology (mixing | holding).
      * @required
      */
-    private $bridgeType;
+    private $bridge_type;
 
     /**
      * @var string Name the creator gave the bridge
@@ -36,7 +36,7 @@ class Bridge
     /**
      * @var string The video mode the bridge is using. One of 'none', 'talker', or 'single'.
      */
-    private $videoMode;
+    private $video_mode;
 
     /**
      * @var string[] Ids of channels participating in this bridge
@@ -47,13 +47,13 @@ class Bridge
     /**
      * @var string The ID of the channel that is the source of video in this bridge, if one exists.
      */
-    private $videoSourceId;
+    private $video_source_id;
 
     /**
      * @var string Bridging class.
      * @required
      */
-    private $bridgeClass;
+    private $bridge_class;
 
     /**
      * @var string Name of the current bridging technology.
@@ -72,7 +72,7 @@ class Bridge
      */
     public function getBridgeType(): string
     {
-        return $this->bridgeType;
+        return $this->bridge_type;
     }
 
     /**
@@ -80,7 +80,7 @@ class Bridge
      */
     public function setBridgeType(string $bridgeType): void
     {
-        $this->bridgeType = $bridgeType;
+        $this->bridge_type = $bridgeType;
     }
 
     /**
@@ -120,7 +120,7 @@ class Bridge
      */
     public function getVideoMode(): string
     {
-        return $this->videoMode;
+        return $this->video_mode;
     }
 
     /**
@@ -128,7 +128,7 @@ class Bridge
      */
     public function setVideoMode(string $videoMode): void
     {
-        $this->videoMode = $videoMode;
+        $this->video_mode = $videoMode;
     }
 
     /**
@@ -152,7 +152,7 @@ class Bridge
      */
     public function getVideoSourceId(): string
     {
-        return $this->videoSourceId;
+        return $this->video_source_id;
     }
 
     /**
@@ -160,7 +160,7 @@ class Bridge
      */
     public function setVideoSourceId(string $videoSourceId): void
     {
-        $this->videoSourceId = $videoSourceId;
+        $this->video_source_id = $videoSourceId;
     }
 
     /**
@@ -168,7 +168,7 @@ class Bridge
      */
     public function getBridgeClass(): string
     {
-        return $this->bridgeClass;
+        return $this->bridge_class;
     }
 
     /**
@@ -176,7 +176,7 @@ class Bridge
      */
     public function setBridgeClass(string $bridgeClass): void
     {
-        $this->bridgeClass = $bridgeClass;
+        $this->bridge_class = $bridgeClass;
     }
 
     /**

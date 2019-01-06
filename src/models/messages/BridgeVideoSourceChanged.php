@@ -20,7 +20,7 @@ class BridgeVideoSourceChanged extends Event
     /**
      * @var string
      */
-    private $oldVideoSourceId;
+    private $old_video_source_id;
 
     /**
      * @var Bridge
@@ -32,15 +32,15 @@ class BridgeVideoSourceChanged extends Event
      */
     public function getOldVideoSourceId(): string
     {
-        return $this->oldVideoSourceId;
+        return $this->old_video_source_id;
     }
 
     /**
-     * @param string $oldVideoSourceId
+     * @param string $old_video_source_id
      */
-    public function setOldVideoSourceId(string $oldVideoSourceId): void
+    public function setOldVideoSourceId(string $old_video_source_id): void
     {
-        $this->oldVideoSourceId = $oldVideoSourceId;
+        $this->old_video_source_id = $old_video_source_id;
     }
 
     /**

@@ -26,7 +26,7 @@ class ContactStatusChange extends Event
     /**
      * @var ContactInfo
      */
-    private $contactInfo;
+    private $contact_info;
 
     /**
      * @return Endpoint
@@ -49,7 +49,7 @@ class ContactStatusChange extends Event
      */
     public function getContactInfo(): ContactInfo
     {
-        return $this->contactInfo;
+        return $this->contact_info;
     }
 
     /**
@@ -57,6 +57,6 @@ class ContactStatusChange extends Event
      */
     public function setContactInfo(ContactInfo $contactInfo): void
     {
-        $this->contactInfo = $contactInfo;
+        $this->contact_info = $contactInfo;
     }
 }

@@ -25,7 +25,7 @@ class BridgeMerged extends Event
     /**
      * @var Bridge
      */
-    private $bridgeFrom;
+    private $bridge_from;
 
     /**
      * @return Bridge
@@ -48,7 +48,7 @@ class BridgeMerged extends Event
      */
     public function getBridgeFrom(): Bridge
     {
-        return $this->bridgeFrom;
+        return $this->bridge_from;
     }
 
     /**
@@ -56,6 +56,6 @@ class BridgeMerged extends Event
      */
     public function setBridgeFrom(Bridge $bridgeFrom): void
     {
-        $this->bridgeFrom = $bridgeFrom;
+        $this->bridge_from = $bridgeFrom;
     }
 }

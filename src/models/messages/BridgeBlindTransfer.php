@@ -26,12 +26,12 @@ class BridgeBlindTransfer extends Event
     /**
      * @var Channel The channel that is replacing transferer when the transferee(s) can not be transferred directly.
      */
-    private $replaceChannel;
+    private $replace_channel;
 
     /**
      * @var boolean Whether the transfer was externally initiated or not.
      */
-    private $isExternal;
+    private $is_external;
 
     /**
      * @var string The extension transferred to.
@@ -79,15 +79,15 @@ class BridgeBlindTransfer extends Event
      */
     public function getReplaceChannel(): Channel
     {
-        return $this->replaceChannel;
+        return $this->replace_channel;
     }
 
     /**
-     * @param Channel $replaceChannel
+     * @param Channel $replace_channel
      */
-    public function setReplaceChannel(Channel $replaceChannel): void
+    public function setReplaceChannel(Channel $replace_channel): void
     {
-        $this->replaceChannel = $replaceChannel;
+        $this->replace_channel = $replace_channel;
     }
 
     /**
@@ -95,15 +95,15 @@ class BridgeBlindTransfer extends Event
      */
     public function isExternal(): bool
     {
-        return $this->isExternal;
+        return $this->is_external;
     }
 
     /**
-     * @param bool $isExternal
+     * @param bool $is_external
      */
-    public function setIsExternal(bool $isExternal): void
+    public function setIsExternal(bool $is_external): void
     {
-        $this->isExternal = $isExternal;
+        $this->is_external = $is_external;
     }
 
     /**
@@ -185,4 +185,5 @@ class BridgeBlindTransfer extends Event
     {
         $this->channel = $channel;
     }
+
 }

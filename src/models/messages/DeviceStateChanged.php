@@ -20,14 +20,14 @@ class DeviceStateChanged extends Event
     /**
      * @var DeviceState Device state object.
      */
-    private $deviceState;
+    private $device_state;
 
     /**
      * @return DeviceState
      */
     public function getDeviceState(): DeviceState
     {
-        return $this->deviceState;
+        return $this->device_state;
     }
 
     /**
@@ -35,6 +35,6 @@ class DeviceStateChanged extends Event
      */
     public function setDeviceState(DeviceState $deviceState): void
     {
-        $this->deviceState = $deviceState;
+        $this->device_state = $deviceState;
     }
 }

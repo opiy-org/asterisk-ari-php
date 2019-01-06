@@ -18,7 +18,7 @@ class SystemInfo
     /**
      * @var string
      */
-    private $entityId;
+    private $entity_id;
 
     /**
      * @var string Asterisk version.
@@ -30,7 +30,7 @@ class SystemInfo
      */
     public function getEntityId(): string
     {
-        return $this->entityId;
+        return $this->entity_id;
     }
 
     /**
@@ -38,7 +38,7 @@ class SystemInfo
      */
     public function setEntityId(string $entityId): void
     {
-        $this->entityId = $entityId;
+        $this->entity_id = $entityId;
     }
 
     /**

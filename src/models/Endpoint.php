@@ -35,7 +35,7 @@ class Endpoint
     /**
      * @var string[] Id's of channels associated with this endpoint.
      */
-    private $channelIds;
+    private $channel_ids;
 
     /**
      * @return string
@@ -90,7 +90,7 @@ class Endpoint
      */
     public function getChannelIds(): array
     {
-        return $this->channelIds;
+        return $this->channel_ids;
     }
 
     /**
@@ -98,6 +98,6 @@ class Endpoint
      */
     public function setChannelIds(array $channelIds): void
     {
-        $this->channelIds = $channelIds;
+        $this->channel_ids = $channelIds;
     }
 }

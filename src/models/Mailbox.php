@@ -18,7 +18,7 @@ class Mailbox
     /**
      * @var int Count of old messages in the mailbox.
      */
-    private $oldMessages;
+    private $old_messages;
 
     /**
      * @var string Name of the mailbox.
@@ -28,14 +28,14 @@ class Mailbox
     /**
      * @var int Count of new messages in the mailbox.
      */
-    private $newMessages;
+    private $new_messages;
 
     /**
      * @return int
      */
     public function getOldMessages(): int
     {
-        return $this->oldMessages;
+        return $this->old_messages;
     }
 
     /**
@@ -43,7 +43,7 @@ class Mailbox
      */
     public function setOldMessages(int $oldMessages): void
     {
-        $this->oldMessages = $oldMessages;
+        $this->old_messages = $oldMessages;
     }
 
     /**
@@ -67,7 +67,7 @@ class Mailbox
      */
     public function getNewMessages(): int
     {
-        return $this->newMessages;
+        return $this->new_messages;
     }
 
     /**
@@ -75,6 +75,6 @@ class Mailbox
      */
     public function setNewMessages(int $newMessages): void
     {
-        $this->newMessages = $newMessages;
+        $this->new_messages = $newMessages;
     }
 }

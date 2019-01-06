@@ -21,7 +21,7 @@ class ChannelDtmfReceived extends Event
     /**
      * @var int Number of milliseconds DTMF was received.
      */
-    private $durationMs;
+    private $duration_ms;
 
     /**
      * @var string DTMF digit received (0-9, A-E, # or *).
@@ -38,7 +38,7 @@ class ChannelDtmfReceived extends Event
      */
     public function getDurationMs(): int
     {
-        return $this->durationMs;
+        return $this->duration_ms;
     }
 
     /**
@@ -46,7 +46,7 @@ class ChannelDtmfReceived extends Event
      */
     public function setDurationMs(int $durationMs): void
     {
-        $this->durationMs = $durationMs;
+        $this->duration_ms = $durationMs;
     }
 
     /**

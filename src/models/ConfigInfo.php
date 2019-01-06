@@ -23,12 +23,12 @@ class ConfigInfo
     /**
      * @var string Default language for media playback.
      */
-    private $defaultLanguage;
+    private $default_language;
 
     /**
      * @var double Maximum load avg on system.
      */
-    private $maxLoad;
+    private $max_load;
 
     /**
      * @var SetId Effective user/group id for running Asterisk.
@@ -38,12 +38,12 @@ class ConfigInfo
     /**
      * @var int Maximum number of open file handles (files, sockets).
      */
-    private $maxOpenFiles;
+    private $max_open_files;
 
     /**
      * @var int Maximum number of simultaneous channels.
      */
-    private $maxChannels;
+    private $max_channels;
 
     /**
      * @return string
@@ -66,7 +66,7 @@ class ConfigInfo
      */
     public function getDefaultLanguage(): string
     {
-        return $this->defaultLanguage;
+        return $this->default_language;
     }
 
     /**
@@ -74,7 +74,7 @@ class ConfigInfo
      */
     public function setDefaultLanguage(string $defaultLanguage): void
     {
-        $this->defaultLanguage = $defaultLanguage;
+        $this->default_language = $defaultLanguage;
     }
 
     /**
@@ -82,7 +82,7 @@ class ConfigInfo
      */
     public function getMaxLoad(): float
     {
-        return $this->maxLoad;
+        return $this->max_load;
     }
 
     /**
@@ -90,7 +90,7 @@ class ConfigInfo
      */
     public function setMaxLoad(float $maxLoad): void
     {
-        $this->maxLoad = $maxLoad;
+        $this->max_load = $maxLoad;
     }
 
     /**
@@ -114,7 +114,7 @@ class ConfigInfo
      */
     public function getMaxOpenFiles(): int
     {
-        return $this->maxOpenFiles;
+        return $this->max_open_files;
     }
 
     /**
@@ -122,7 +122,7 @@ class ConfigInfo
      */
     public function setMaxOpenFiles(int $maxOpenFiles): void
     {
-        $this->maxOpenFiles = $maxOpenFiles;
+        $this->max_open_files = $maxOpenFiles;
     }
 
     /**
@@ -130,7 +130,7 @@ class ConfigInfo
      */
     public function getMaxChannels(): int
     {
-        return $this->maxChannels;
+        return $this->max_channels;
     }
 
     /**
@@ -138,6 +138,6 @@ class ConfigInfo
      */
     public function setMaxChannels(int $maxChannels): void
     {
-        $this->maxChannels = $maxChannels;
+        $this->max_channels = $maxChannels;
     }
 }

@@ -20,7 +20,7 @@ class ChannelDialplan extends Event
     /**
      * @var string The data to be passed to the application.
      */
-    private $dialplanAppData;
+    private $dialplan_app_data;
 
     /**
      * @var Channel The channel that changed dialplan location.
@@ -30,22 +30,22 @@ class ChannelDialplan extends Event
     /**
      * @var string The application about to be executed.
      */
-    private $dialplanApp;
+    private $dialplan_app;
 
     /**
      * @return string
      */
     public function getDialplanAppData(): string
     {
-        return $this->dialplanAppData;
+        return $this->dialplan_app_data;
     }
 
     /**
-     * @param string $dialplanAppData
+     * @param string $dialplan_app_data
      */
-    public function setDialplanAppData(string $dialplanAppData): void
+    public function setDialplanAppData(string $dialplan_app_data): void
     {
-        $this->dialplanAppData = $dialplanAppData;
+        $this->dialplan_app_data = $dialplan_app_data;
     }
 
     /**
@@ -69,14 +69,14 @@ class ChannelDialplan extends Event
      */
     public function getDialplanApp(): string
     {
-        return $this->dialplanApp;
+        return $this->dialplan_app;
     }
 
     /**
-     * @param string $dialplanApp
+     * @param string $dialplan_app
      */
-    public function setDialplanApp(string $dialplanApp): void
+    public function setDialplanApp(string $dialplan_app): void
     {
-        $this->dialplanApp = $dialplanApp;
+        $this->dialplan_app = $dialplan_app;
     }
 }

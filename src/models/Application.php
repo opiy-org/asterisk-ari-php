@@ -19,25 +19,25 @@ class Application
      * @var string[] {tech}/{resource} for endpoints subscribed to.
      * @required
      */
-    private $endpointIds;
+    private $endpoint_ids;
 
     /**
      * @var string[] Id's for channels subscribed to.
      * @required
      */
-    private $channelIds;
+    private $channel_ids;
 
     /**
      * @var string[] Id's for bridges subscribed to.
      * @required
      */
-    private $bridgeIds;
+    private $bridge_ids;
 
     /**
      * @var string[] Names of the devices subscribed to.
      * @required
      */
-    private $deviceNames;
+    private $device_names;
 
     /**
      * @var string Name of this application
@@ -50,7 +50,7 @@ class Application
      */
     public function getEndpointIds(): array
     {
-        return $this->endpointIds;
+        return $this->endpoint_ids;
     }
 
     /**
@@ -58,7 +58,7 @@ class Application
      */
     public function setEndpointIds(array $endpointIds): void
     {
-        $this->endpointIds = $endpointIds;
+        $this->endpoint_ids = $endpointIds;
     }
 
     /**
@@ -66,7 +66,7 @@ class Application
      */
     public function getChannelIds(): array
     {
-        return $this->channelIds;
+        return $this->channel_ids;
     }
 
     /**
@@ -74,7 +74,7 @@ class Application
      */
     public function setChannelIds(array $channelIds): void
     {
-        $this->channelIds = $channelIds;
+        $this->channel_ids = $channelIds;
     }
 
     /**
@@ -82,7 +82,7 @@ class Application
      */
     public function getBridgeIds(): array
     {
-        return $this->bridgeIds;
+        return $this->bridge_ids;
     }
 
     /**
@@ -90,7 +90,7 @@ class Application
      */
     public function setBridgeIds(array $bridgeIds): void
     {
-        $this->bridgeIds = $bridgeIds;
+        $this->bridge_ids = $bridgeIds;
     }
 
     /**
@@ -98,7 +98,7 @@ class Application
      */
     public function getDeviceNames(): array
     {
-        return $this->deviceNames;
+        return $this->device_names;
     }
 
     /**
@@ -106,7 +106,7 @@ class Application
      */
     public function setDeviceNames(array $deviceNames): void
     {
-        $this->deviceNames = $deviceNames;
+        $this->device_names = $deviceNames;
     }
 
     /**

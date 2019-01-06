@@ -25,7 +25,7 @@ class StasisStart extends Event
     /**
      * @var Channel
      */
-    private $replaceChannel;
+    private $replace_channel;
 
     /**
      * @var Channel
@@ -53,7 +53,7 @@ class StasisStart extends Event
      */
     public function getReplaceChannel(): Channel
     {
-        return $this->replaceChannel;
+        return $this->replace_channel;
     }
 
     /**
@@ -61,7 +61,7 @@ class StasisStart extends Event
      */
     public function setReplaceChannel(Channel $replaceChannel): void
     {
-        $this->replaceChannel = $replaceChannel;
+        $this->replace_channel = $replaceChannel;
     }
 
     /**

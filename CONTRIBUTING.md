@@ -23,4 +23,13 @@ Asterisk... Maybe use Mockery?
 so will we really need it?!
 
 - Check for correct @required annotation in model attributes. Compare them to the .json files in the 
-doc/ directory
+doc/ directory.
+    - Also handle 'null' return values in code, not covered yet! (e.g. $channel->getChannelvars()).
+    They throw exceptions right now.
+        
+- Check lowerCamelCase attributes and switch to lower snake case, otherwithe jsonmapping won't work!
+
+[Bugreport to Asterisk]
+- Bridges Client -> createWithId returns a 200 OK when a bridge with the given ID already exists and
+is updated through this request. We need to handle this!
+

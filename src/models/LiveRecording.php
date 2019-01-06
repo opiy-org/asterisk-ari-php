@@ -19,7 +19,7 @@ class LiveRecording
      * @var int Duration of talking, in seconds, detected in the recording.
      * This is only available if the recording was initiated with a non-zero maxSilenceSeconds.
      */
-    private $talkingDuration;
+    private $talking_duration;
 
     /**
      * @var string Base name for the recording.
@@ -31,7 +31,7 @@ class LiveRecording
      * @var string URI for the channel or bridge being recorded.
      * @required
      */
-    private $targetUri;
+    private $target_uri;
 
     /**
      * @var string Recording format (wav, gsm, etc.).
@@ -59,22 +59,22 @@ class LiveRecording
      * @var int Duration of silence, in seconds, detected in the recording.
      * This is only available if the recording was initiated with a non-zero maxSilenceSeconds.
      */
-    private $silenceDuration;
+    private $silence_duration;
 
     /**
      * @return int
      */
     public function getTalkingDuration(): int
     {
-        return $this->talkingDuration;
+        return $this->talking_duration;
     }
 
     /**
-     * @param int $talkingDuration
+     * @param int $talking_duration
      */
-    public function setTalkingDuration(int $talkingDuration): void
+    public function setTalkingDuration(int $talking_duration): void
     {
-        $this->talkingDuration = $talkingDuration;
+        $this->talking_duration = $talking_duration;
     }
 
     /**
@@ -98,15 +98,15 @@ class LiveRecording
      */
     public function getTargetUri(): string
     {
-        return $this->targetUri;
+        return $this->target_uri;
     }
 
     /**
-     * @param string $targetUri
+     * @param string $target_uri
      */
-    public function setTargetUri(string $targetUri): void
+    public function setTargetUri(string $target_uri): void
     {
-        $this->targetUri = $targetUri;
+        $this->target_uri = $target_uri;
     }
 
     /**
@@ -178,14 +178,15 @@ class LiveRecording
      */
     public function getSilenceDuration(): int
     {
-        return $this->silenceDuration;
+        return $this->silence_duration;
     }
 
     /**
-     * @param int $silenceDuration
+     * @param int $silence_duration
      */
-    public function setSilenceDuration(int $silenceDuration): void
+    public function setSilenceDuration(int $silence_duration): void
     {
-        $this->silenceDuration = $silenceDuration;
+        $this->silence_duration = $silence_duration;
     }
+
 }

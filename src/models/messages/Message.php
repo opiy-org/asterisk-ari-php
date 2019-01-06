@@ -23,7 +23,7 @@ class Message
     /**
      * @var string The unique ID for the Asterisk instance that raised this event.
      */
-    private $asteriskId;
+    private $asterisk_id;
 
     /**
      * @return string
@@ -46,7 +46,7 @@ class Message
      */
     function getAsteriskId(): string
     {
-        return $this->asteriskId;
+        return $this->asterisk_id;
     }
 
     /**
@@ -54,7 +54,7 @@ class Message
      */
     function setAsteriskId(string $asteriskId): void
     {
-        $this->asteriskId = $asteriskId;
+        $this->asterisk_id = $asteriskId;
     }
 
 }

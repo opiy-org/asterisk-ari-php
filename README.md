@@ -59,6 +59,7 @@ Preferably use the provided Dockerfile in this library to compile your own aster
     Compiling Asterisk sometimes is bound to the hardware you are compiling it on.
     Right now we compile an own container for every machine we run Asterisk on,
     to make sure it will work.
+    Alternatively you can set generic compiler flags at your own risk.
 
 If you choose to write a local app (see examples/ExampleLocalApp), Events will be mapped onto ARI specific 
 message objects and are easy to access/handle. No need to touch any JSON! I already did the work for you :)

@@ -129,7 +129,7 @@ class Channel
     }
 
     /**
-     * @return object
+     * @return null|object
      */
     public function getChannelvars(): object
     {

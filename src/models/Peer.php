@@ -19,7 +19,7 @@ class Peer
      * @var string The current state of the peer.
      * Note that the values of the status are dependent on the underlying peer technology.
      */
-    private $peerStatus;
+    private $peer_status;
 
     /**
      * @var string The last known time the peer was contacted.
@@ -46,7 +46,7 @@ class Peer
      */
     public function getPeerStatus(): string
     {
-        return $this->peerStatus;
+        return $this->peer_status;
     }
 
     /**
@@ -54,7 +54,7 @@ class Peer
      */
     public function setPeerStatus(string $peerStatus): void
     {
-        $this->peerStatus = $peerStatus;
+        $this->peer_status = $peerStatus;
     }
 
     /**
