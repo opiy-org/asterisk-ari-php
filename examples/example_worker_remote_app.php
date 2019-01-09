@@ -28,7 +28,7 @@ $remoteApiSettings = [
     'httpsEnabled' => false,
     'host' => 'localhost',
     'port' => 8000,
-    'rootUri' => '/api/asteriskEvents',
+    'rootUri' => '/api/asteriskEvents', // Sends events as JSON via 'PUT' to $rootUri."/{$ariAppName}/{$ariEventType}",
     'user' => 'myUserName',
     'password' => 'myPassword',
 ];
