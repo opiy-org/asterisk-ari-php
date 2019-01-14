@@ -15,7 +15,6 @@ ng-voice says:
 
 ![My Character](https://img.shields.io/badge/programmer-nice%20guy-green.svg)
 ![Licence](https://img.shields.io/badge/licence-MIT-blue.svg)
-![Donations](https://img.shields.io/badge/donations-welcome-blue.svg)
 
 ![What this library is about](AriClientLibSkizze.png)
 
