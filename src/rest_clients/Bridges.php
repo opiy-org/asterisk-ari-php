@@ -251,7 +251,7 @@ class Bridges extends AriRestClient
      * @return LiveRecording|object
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    function record(string $bridgeId, string $name, string $format, array $options): LiveRecording
+    function record(string $bridgeId, string $name, string $format, array $options = []): LiveRecording
     {
         return $this->postRequest(
             "/bridges/{$bridgeId}/record",
