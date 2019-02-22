@@ -170,7 +170,8 @@ class Channels extends AriRestClient
      *
      * @param string $channelId Channel's id.
      * @param string $reason Reason for hanging up the channel.
-     * Allowed values: normal, busy, congestion, no_answer, answered_elsewhere
+     * Allowed values: normal, busy, congestion, no_answer, timeout, rejected, unallocated, normal_unspecified,
+     * number_incomplete, codec_mismatch, interworking, failure, answered_elsewhere
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     function hangup(string $channelId, string $reason = ''): void

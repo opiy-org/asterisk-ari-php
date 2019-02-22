@@ -7,7 +7,7 @@
 
 namespace AriStasisApp\rest_clients;
 
-use AriStasisApp\models\{AsteriskInfo, ConfigTuple, LogChannel, Module, Variable};
+use AriStasisApp\models\{AsteriskInfo, AsteriskPing, ConfigTuple, LogChannel, Module, Variable};
 use function AriStasisApp\glueArrayOfStrings;
 
 /**
@@ -92,6 +92,17 @@ class Asterisk extends AriRestClient
             $queryParameters = ['only' => glueArrayOfStrings($only)];
         }
         return $this->getRequest('/asterisk/info', $queryParameters, self::MODEL, 'AsteriskInfo');
+    }
+
+    /**
+     * Response pong message.
+     *
+     * @return AsteriskPing|object
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    function ping(): AsteriskPing
+    {
+        return $this->getRequest('/asterisk/ping', [], self::MODEL, 'AsteriskPing');
     }
 
     /**

@@ -64,7 +64,6 @@ class LocalAppMessageHandler extends TextMessageHandler
     public function onMessage(string $data, AbstractConnection $connection): void
     {
         $this->logger->debug("Received raw message from asterisk WebSocket server: {$data}");
-
         $decodedJson = json_decode($data);
         $ariEventType = $decodedJson->type;
         $eventPath = "AriStasisApp\\models\\messages\\" . $ariEventType;

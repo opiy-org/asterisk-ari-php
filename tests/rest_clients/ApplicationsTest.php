@@ -18,7 +18,7 @@ use Symfony\Component\Yaml\Yaml;
 /**
  * Class ApplicationsTest
  *
- * @package AriStasisApp\Tests\http_client
+ * @package AriStasisApp\Tests\rest_clients
  */
 final class ApplicationsTest extends TestCase
 {

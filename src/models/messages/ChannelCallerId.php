@@ -20,7 +20,7 @@ class ChannelCallerId extends Event
     /**
      * @var string The text representation of the Caller Presentation value.
      */
-    private $caller_presentation_text;
+    private $caller_presentation_txt;
 
     /**
      * @var int The integer representation of the Caller Presentation value.
@@ -35,17 +35,17 @@ class ChannelCallerId extends Event
     /**
      * @return string
      */
-    public function getCallerPresentationText(): string
+    public function getCallerPresentationTxt(): string
     {
-        return $this->caller_presentation_text;
+        return $this->caller_presentation_txt;
     }
 
     /**
-     * @param string $caller_presentation_text
+     * @param string $caller_presentation_txt
      */
-    public function setCallerPresentationText(string $caller_presentation_text): void
+    public function setCallerPresentationTxt(string $caller_presentation_txt): void
     {
-        $this->caller_presentation_text = $caller_presentation_text;
+        $this->caller_presentation_txt = $caller_presentation_txt;
     }
 
     /**

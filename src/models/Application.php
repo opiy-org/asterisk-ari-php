@@ -16,98 +16,39 @@ namespace AriStasisApp\models;
 class Application
 {
     /**
+     * @var string Name of this application
+     */
+    private $name;
+
+    /**
      * @var string[] {tech}/{resource} for endpoints subscribed to.
-     * @required
      */
     private $endpoint_ids;
 
     /**
      * @var string[] Id's for channels subscribed to.
-     * @required
      */
     private $channel_ids;
 
     /**
-     * @var string[] Id's for bridges subscribed to.
-     * @required
-     */
-    private $bridge_ids;
-
-    /**
      * @var string[] Names of the devices subscribed to.
-     * @required
      */
     private $device_names;
 
     /**
-     * @var string Name of this application
-     * @required
+     * @var object[] Event types not sent to the application.
      */
-    private $name;
+    private $events_disallowed;
 
     /**
-     * @return string[]
+     * @var string[] Id's for bridges subscribed to.
      */
-    public function getEndpointIds(): array
-    {
-        return $this->endpoint_ids;
-    }
+    private $bridge_ids;
 
     /**
-     * @param string[] $endpointIds
+     * @var object[] Event types sent to the application.
      */
-    public function setEndpointIds(array $endpointIds): void
-    {
-        $this->endpoint_ids = $endpointIds;
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getChannelIds(): array
-    {
-        return $this->channel_ids;
-    }
-
-    /**
-     * @param string[] $channelIds
-     */
-    public function setChannelIds(array $channelIds): void
-    {
-        $this->channel_ids = $channelIds;
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getBridgeIds(): array
-    {
-        return $this->bridge_ids;
-    }
-
-    /**
-     * @param string[] $bridgeIds
-     */
-    public function setBridgeIds(array $bridgeIds): void
-    {
-        $this->bridge_ids = $bridgeIds;
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getDeviceNames(): array
-    {
-        return $this->device_names;
-    }
-
-    /**
-     * @param string[] $deviceNames
-     */
-    public function setDeviceNames(array $deviceNames): void
-    {
-        $this->device_names = $deviceNames;
-    }
+    private $events_allowed;
 
     /**
      * @return string
@@ -123,5 +64,101 @@ class Application
     public function setName(string $name): void
     {
         $this->name = $name;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getEndpointIds(): array
+    {
+        return $this->endpoint_ids;
+    }
+
+    /**
+     * @param string[] $endpoint_ids
+     */
+    public function setEndpointIds(array $endpoint_ids): void
+    {
+        $this->endpoint_ids = $endpoint_ids;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getChannelIds(): array
+    {
+        return $this->channel_ids;
+    }
+
+    /**
+     * @param string[] $channel_ids
+     */
+    public function setChannelIds(array $channel_ids): void
+    {
+        $this->channel_ids = $channel_ids;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getDeviceNames(): array
+    {
+        return $this->device_names;
+    }
+
+    /**
+     * @param string[] $device_names
+     */
+    public function setDeviceNames(array $device_names): void
+    {
+        $this->device_names = $device_names;
+    }
+
+    /**
+     * @return object[]
+     */
+    public function getEventsDisallowed(): array
+    {
+        return $this->events_disallowed;
+    }
+
+    /**
+     * @param object[] $events_disallowed
+     */
+    public function setEventsDisallowed(array $events_disallowed): void
+    {
+        $this->events_disallowed = $events_disallowed;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getBridgeIds(): array
+    {
+        return $this->bridge_ids;
+    }
+
+    /**
+     * @param string[] $bridge_ids
+     */
+    public function setBridgeIds(array $bridge_ids): void
+    {
+        $this->bridge_ids = $bridge_ids;
+    }
+
+    /**
+     * @return object[]
+     */
+    public function getEventsAllowed(): array
+    {
+        return $this->events_allowed;
+    }
+
+    /**
+     * @param object[] $events_allowed
+     */
+    public function setEventsAllowed(array $events_allowed): void
+    {
+        $this->events_allowed = $events_allowed;
     }
 }

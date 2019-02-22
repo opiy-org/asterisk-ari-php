@@ -83,7 +83,7 @@ They won't work for you (because some of them depend on active channels and brid
 The following commands are only a reminder for me cause I keep forgetting them ;)
 
     ./vendor/bin/phpunit
-    sonar-scanner 
+    sonar-scanner
 
 ##Licence
 MIT

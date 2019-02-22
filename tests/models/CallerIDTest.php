@@ -12,16 +12,16 @@ namespace AriStasisApp\Tests\models;
 
 require_once __DIR__ . '/../shared_test_functions.php';
 
-use AriStasisApp\models\SystemInfo;
+use AriStasisApp\models\{CallerID};
 use PHPUnit\Framework\TestCase;
 use function AriStasisApp\Tests\mapAriResponseParametersToAriObject;
 
 /**
- * Class SystemInfoTest
+ * Class CallerIDTest
  *
  * @package AriStasisApp\Tests\models
  */
-final class SystemInfoTest extends TestCase
+final class CallerIDTest extends TestCase
 {
     /**
      * @throws \JsonMapper_Exception
@@ -29,17 +29,16 @@ final class SystemInfoTest extends TestCase
     public function testParametersMappedCorrectly(): void
     {
         /**
-         * @var SystemInfo $systemInfo
+         * @var CallerID $callerId
          */
-        $systemInfo = mapAriResponseParametersToAriObject(
-            'SystemInfo',
+        $callerId = mapAriResponseParametersToAriObject(
+            'CallerID',
             [
-                'version' => '16.1.0',
-                'entity_id' => '02:42:ac:11:00:01'
+                'name' => 'ExampleName',
+                'number' => 'ExampleNumber'
             ]
         );
-        $this->assertInstanceOf(SystemInfo::class, $systemInfo);
-        $this->assertSame('02:42:ac:11:00:01', $systemInfo->getEntityId());
-        $this->assertSame('16.1.0', $systemInfo->getVersion());
+        $this->assertSame('ExampleName', $callerId->getName());
+        $this->assertSame('ExampleNumber', $callerId->getNumber());
     }
 }

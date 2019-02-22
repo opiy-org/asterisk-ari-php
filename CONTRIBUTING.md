@@ -33,3 +33,7 @@ doc/ directory.
 - Bridges Client -> createWithId returns a 200 OK when a bridge with the given ID already exists and
 is updated through this request. We need to handle this!
 
+
+[Testing]
+- We expect the JSONs to look like the mocked ones. Including Lists ob Objects. But do they really look like this?
+Prove it!
