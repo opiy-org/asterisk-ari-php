@@ -63,4 +63,12 @@ final class BasicStasisAppTest extends TestCase
         $this->assertInstanceOf(Recordings::class, $basicStasisApp->getRecordingsClient());
         $this->assertInstanceOf(Sounds::class, $basicStasisApp->getSoundsClient());
     }
+
+    public function testConstructor(): void
+    {
+        $settings = Yaml::parseFile(__DIR__ . '/../environment.yaml');
+        $this->assertInstanceOf(BasicStasisApp::class,
+            new BasicStasisApp($settings['tests']['asteriskUser'], $settings['tests']['asteriskPassword'])
+        );
+    }
 }
