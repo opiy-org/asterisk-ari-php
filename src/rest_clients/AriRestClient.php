@@ -52,8 +52,14 @@ class AriRestClient
      * @param string $ariUser
      * @param string $ariPassword
      * @param array $otherAriSettings
+     * @param Client|null $guzzleClient
      */
-    function __construct(string $ariUser, string $ariPassword, array $otherAriSettings = [])
+    function __construct(
+        string $ariUser,
+        string $ariPassword,
+        array $otherAriSettings = [],
+        Client $guzzleClient = null
+    )
     {
         $ariSettings = parseAriSettings($otherAriSettings);
         $this->logger = initLogger(getShortClassName($this));
@@ -61,8 +67,13 @@ class AriRestClient
         $httpType = $ariSettings['httpsEnabled'] ? 'https' : 'http';
         $baseUri = "{$httpType}://{$ariSettings['host']}:{$ariSettings['port']}/";
         $this->rootUri = $ariSettings['rootUri'];
-        $this->guzzleClient =
-            new Client(['base_uri' => $baseUri, 'auth' => [$ariUser, $ariPassword]]);
+
+        if (is_null($guzzleClient)) {
+            $this->guzzleClient =
+                new Client(['base_uri' => $baseUri, 'auth' => [$ariUser, $ariPassword]]);
+        } else {
+            $this->guzzleClient = $guzzleClient;
+        }
 
         $this->jsonMapper = new JsonMapper();
         // Allow mapping to private and protected properties and setter methods

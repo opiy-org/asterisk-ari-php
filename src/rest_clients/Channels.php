@@ -8,7 +8,6 @@
 namespace AriStasisApp\rest_clients;
 
 use AriStasisApp\models\{Channel, LiveRecording, Playback, Variable};
-use http\Exception\InvalidArgumentException;
 use function AriStasisApp\glueArrayOfStrings;
 
 
@@ -379,9 +378,6 @@ class Channels extends AriRestClient
      */
     function play(string $channelId, array $media, array $options = []): Playback
     {
-        if ($media === []) {
-            throw new InvalidArgumentException('$media must contain at least one media URI.');
-        }
         return $this->postRequest(
             "/channels/{$channelId}/play",
             ['media' => glueArrayOfStrings($media)] + $options,
