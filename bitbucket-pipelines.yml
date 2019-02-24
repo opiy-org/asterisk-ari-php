@@ -3,7 +3,7 @@
 # Only use spaces to indent your .yml configuration.
 # -----
 # You can specify a custom docker image from Docker Hub as your build environment.
-image: php:7.2.11
+image: php:7.3.2
 
 pipelines:
   default:
@@ -11,9 +11,8 @@ pipelines:
         caches:
           - composer
         script:
-          - apt-get update && apt-get install -y unzip php7.2-http
-          - docker-php-ext-install http
-          - docker-php-ext-enable http
+          - apt-get update && apt-get install -y unzip
+          - pecl install http && docker-php-ext-enable http
           - php -m
           - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
           - composer install

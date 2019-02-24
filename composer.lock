@@ -4,7 +4,7 @@
     "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
     "This file is @generated automatically"
   ],
-  "content-hash": "659e9aa000296855064696f838afb830",
+  "content-hash": "e4a0bcf2a06789dcc31149199f9c113d",
   "packages": [
     {
       "name": "evenement/evenement",
@@ -348,16 +348,16 @@
     },
     {
       "name": "nekland/woketo",
-      "version": "2.2.0",
+      "version": "2.2.1",
       "source": {
         "type": "git",
         "url": "https://github.com/Nekland/Woketo.git",
-        "reference": "57a2c7d75043b303b27d3324ae72142209e21dc5"
+        "reference": "490139ce82d6fbab42116795b93d4ac64050e164"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/Nekland/Woketo/zipball/57a2c7d75043b303b27d3324ae72142209e21dc5",
-        "reference": "57a2c7d75043b303b27d3324ae72142209e21dc5",
+        "url": "https://api.github.com/repos/Nekland/Woketo/zipball/490139ce82d6fbab42116795b93d4ac64050e164",
+        "reference": "490139ce82d6fbab42116795b93d4ac64050e164",
         "shasum": ""
       },
       "require": {
@@ -382,7 +382,7 @@
         "MIT"
       ],
       "description": "A WebSocket library for PHP",
-      "time": "2018-10-04T21:57:00+00:00"
+      "time": "2018-12-06T09:56:58+00:00"
     },
     {
       "name": "netresearch/jsonmapper",
@@ -942,16 +942,16 @@
     },
     {
       "name": "symfony/yaml",
-      "version": "v4.1.7",
+      "version": "v4.2.3",
       "source": {
         "type": "git",
         "url": "https://github.com/symfony/yaml.git",
-        "reference": "367e689b2fdc19965be435337b50bc8adf2746c9"
+        "reference": "d461670ee145092b7e2a56c1da7118f19cadadb0"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/symfony/yaml/zipball/367e689b2fdc19965be435337b50bc8adf2746c9",
-        "reference": "367e689b2fdc19965be435337b50bc8adf2746c9",
+        "url": "https://api.github.com/repos/symfony/yaml/zipball/d461670ee145092b7e2a56c1da7118f19cadadb0",
+        "reference": "d461670ee145092b7e2a56c1da7118f19cadadb0",
         "shasum": ""
       },
       "require": {
@@ -970,7 +970,7 @@
       "type": "library",
       "extra": {
         "branch-alias": {
-          "dev-master": "4.1-dev"
+          "dev-master": "4.2-dev"
         }
       },
       "autoload": {
@@ -997,7 +997,7 @@
       ],
       "description": "Symfony Yaml Component",
       "homepage": "https://symfony.com",
-      "time": "2018-10-02T16:36:10+00:00"
+      "time": "2019-01-16T20:35:37+00:00"
     }
   ],
   "packages-dev": [
@@ -1576,16 +1576,16 @@
     },
     {
       "name": "phpunit/php-timer",
-      "version": "2.0.0",
+      "version": "2.1.1",
       "source": {
         "type": "git",
         "url": "https://github.com/sebastianbergmann/php-timer.git",
-        "reference": "8b8454ea6958c3dee38453d3bd571e023108c91f"
+        "reference": "8b389aebe1b8b0578430bda0c7c95a829608e059"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/sebastianbergmann/php-timer/zipball/8b8454ea6958c3dee38453d3bd571e023108c91f",
-        "reference": "8b8454ea6958c3dee38453d3bd571e023108c91f",
+        "url": "https://api.github.com/repos/sebastianbergmann/php-timer/zipball/8b389aebe1b8b0578430bda0c7c95a829608e059",
+        "reference": "8b389aebe1b8b0578430bda0c7c95a829608e059",
         "shasum": ""
       },
       "require": {
@@ -1597,7 +1597,7 @@
       "type": "library",
       "extra": {
         "branch-alias": {
-          "dev-master": "2.0-dev"
+          "dev-master": "2.1-dev"
         }
       },
       "autoload": {
@@ -1621,7 +1621,7 @@
       "keywords": [
         "timer"
       ],
-      "time": "2018-02-01T13:07:23+00:00"
+      "time": "2019-02-20T10:12:59+00:00"
     },
     {
       "name": "phpunit/php-token-stream",
@@ -2421,7 +2421,7 @@
   "prefer-stable": false,
   "prefer-lowest": false,
   "platform": {
-    "php": ">=7.2.11",
+    "php": ">=7.2",
     "ext-http": "*",
     "ext-json": "*"
   },
