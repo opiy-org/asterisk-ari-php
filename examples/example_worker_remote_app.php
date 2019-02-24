@@ -8,7 +8,7 @@
  * We recommend using supervisor to monitor this process in the background.
  */
 
-use AriStasisApp\websocket_client\WebSocketClient;
+use AriStasisApp\websocket_client\{RemoteAppMessageHandler, WebSocketClient};
 use Symfony\Component\Yaml\Yaml;
 
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -33,5 +33,15 @@ $remoteApiSettings = [
     'password' => 'myPassword',
 ];
 
-$ariWebSocket = new WebSocketClient(['ExampleRemoteApp'], $webSocketSettings, false);
-$ariWebSocket->runWithRemoteApp($remoteApiSettings);
+$exampleLocalApp = new ExampleLocalApp(
+    $settings['tests']['asteriskUser'],
+    $settings['tests']['asteriskPassword']
+);
+
+$ariWebSocket = new WebSocketClient(
+    ['ExampleLocalApp'],
+    new RemoteAppMessageHandler($remoteApiSettings),
+    $webSocketSettings
+);
+
+$ariWebSocket->start();

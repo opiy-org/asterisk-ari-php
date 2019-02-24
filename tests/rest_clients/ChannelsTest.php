@@ -1,14 +1,24 @@
 <?php
 
+/**
+ * @author Lukas Stermann
+ * @copyright ng-voice GmbH (2018)
+ */
 
 namespace AriStasisApp\Tests\rest_clients;
 
 use AriStasisApp\models\{Channel, LiveRecording, Playback, Variable};
 use AriStasisApp\rest_clients\Channels;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ServerException;
+use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Class ChannelsTest
+ * @package AriStasisApp\Tests\rest_clients
+ */
 class ChannelsTest extends TestCase
 {
     /**
@@ -54,7 +64,7 @@ class ChannelsTest extends TestCase
      */
     public function testContinueInDialPlan()
     {
-        $channelsClient = $this->createChannelsClientWithGuzzleClientStub([]);
+        $channelsClient = $this->createChannelsClient([]);
         $channelsClient->continueInDialPlan('SomeChannelId', []);
         $this->assertTrue(true, true);
     }
@@ -65,7 +75,7 @@ class ChannelsTest extends TestCase
      */
     public function testRecord()
     {
-        $channelsClient = $this->createChannelsClientWithGuzzleClientStub([
+        $channelsClient = $this->createChannelsClient([
             'talking_duration' => '3',
             'name' => 'ExampleName',
             'target_uri' => 'ExampleUri',
@@ -86,7 +96,7 @@ class ChannelsTest extends TestCase
      */
     public function testSetChannelVar()
     {
-        $channelsClient = $this->createChannelsClientWithGuzzleClientStub([]);
+        $channelsClient = $this->createChannelsClient([]);
         $channelsClient->setChannelVar('SomeChannelId', 'SomeVar', 'SomeVal');
         $this->assertTrue(true, true);
     }
@@ -99,7 +109,7 @@ class ChannelsTest extends TestCase
      */
     public function testSnoopChannel(array $exampleChannel)
     {
-        $channelsClient = $this->createChannelsClientWithGuzzleClientStub($exampleChannel);
+        $channelsClient = $this->createChannelsClient($exampleChannel);
         $resultChannel = $channelsClient->snoopChannel('12345', 'TestApp');
 
         $this->assertInstanceOf(Channel::class, $resultChannel);
@@ -111,7 +121,7 @@ class ChannelsTest extends TestCase
      */
     public function testRedirect()
     {
-        $channelsClient = $this->createChannelsClientWithGuzzleClientStub([]);
+        $channelsClient = $this->createChannelsClient([]);
         $channelsClient->redirect('SomeChannelId', 'SomeEndpoint');
         $this->assertTrue(true, true);
     }
@@ -124,7 +134,7 @@ class ChannelsTest extends TestCase
      */
     public function testList(array $exampleChannel)
     {
-        $channelsClient = $this->createChannelsClientWithGuzzleClientStub(
+        $channelsClient = $this->createChannelsClient(
             [$exampleChannel, $exampleChannel, $exampleChannel]
         );
         $resultList = $channelsClient->list();
@@ -141,7 +151,7 @@ class ChannelsTest extends TestCase
      */
     public function testGetChannelVar()
     {
-        $channelsClient = $this->createChannelsClientWithGuzzleClientStub(['value' => 'testValue']);
+        $channelsClient = $this->createChannelsClient(['value' => 'testValue']);
         $resultVariable = $channelsClient->getChannelVar('12345', 'TestVar');
 
         $this->assertInstanceOf(Variable::class, $resultVariable);
@@ -153,7 +163,7 @@ class ChannelsTest extends TestCase
      */
     public function testMute()
     {
-        $channelsClient = $this->createChannelsClientWithGuzzleClientStub([]);
+        $channelsClient = $this->createChannelsClient([]);
         $channelsClient->mute('SomeChannelId');
         $this->assertTrue(true, true);
     }
@@ -164,7 +174,7 @@ class ChannelsTest extends TestCase
      */
     public function testStartSilence()
     {
-        $channelsClient = $this->createChannelsClientWithGuzzleClientStub([]);
+        $channelsClient = $this->createChannelsClient([]);
         $channelsClient->startSilence('SomeChannelId');
         $this->assertTrue(true, true);
     }
@@ -175,7 +185,7 @@ class ChannelsTest extends TestCase
      */
     public function testDial()
     {
-        $channelsClient = $this->createChannelsClientWithGuzzleClientStub([]);
+        $channelsClient = $this->createChannelsClient([]);
         $channelsClient->dial('SomeChannelId', 'callerId', 500);
         $this->assertTrue(true, true);
     }
@@ -188,7 +198,7 @@ class ChannelsTest extends TestCase
      */
     public function testGet(array $exampleChannel)
     {
-        $channelsClient = $this->createChannelsClientWithGuzzleClientStub($exampleChannel);
+        $channelsClient = $this->createChannelsClient($exampleChannel);
         $resultChannel = $channelsClient->get('12345');
 
         $this->assertInstanceOf(Channel::class, $resultChannel);
@@ -200,7 +210,7 @@ class ChannelsTest extends TestCase
      */
     public function testSendDtmf()
     {
-        $channelsClient = $this->createChannelsClientWithGuzzleClientStub([]);
+        $channelsClient = $this->createChannelsClient([]);
         $channelsClient->sendDtmf('SomeChannelId', '1234');
         $this->assertTrue(true, true);
     }
@@ -211,7 +221,7 @@ class ChannelsTest extends TestCase
      */
     public function testUnHold()
     {
-        $channelsClient = $this->createChannelsClientWithGuzzleClientStub([]);
+        $channelsClient = $this->createChannelsClient([]);
         $channelsClient->unHold('SomeChannelId');
         $this->assertTrue(true, true);
     }
@@ -224,7 +234,7 @@ class ChannelsTest extends TestCase
      */
     public function testCreate(array $exampleChannel)
     {
-        $channelsClient = $this->createChannelsClientWithGuzzleClientStub($exampleChannel);
+        $channelsClient = $this->createChannelsClient($exampleChannel);
         $resultChannel = $channelsClient->create('SomeEndpoint', 'SomeApp');
 
         $this->assertInstanceOf(Channel::class, $resultChannel);
@@ -236,7 +246,7 @@ class ChannelsTest extends TestCase
      */
     public function testStartMoh()
     {
-        $channelsClient = $this->createChannelsClientWithGuzzleClientStub([]);
+        $channelsClient = $this->createChannelsClient([]);
         $channelsClient->startMoh('SomeChannelId', 'SomeMohClass');
         $this->assertTrue(true, true);
     }
@@ -248,7 +258,7 @@ class ChannelsTest extends TestCase
      */
     public function testRing()
     {
-        $channelsClient = $this->createChannelsClientWithGuzzleClientStub([]);
+        $channelsClient = $this->createChannelsClient([]);
         $channelsClient->ring('SomeChannelId');
         $this->assertTrue(true, true);
     }
@@ -261,7 +271,7 @@ class ChannelsTest extends TestCase
      */
     public function testOriginate(array $exampleChannel)
     {
-        $channelsClient = $this->createChannelsClientWithGuzzleClientStub($exampleChannel);
+        $channelsClient = $this->createChannelsClient($exampleChannel);
         $resultChannel = $channelsClient->originate('SomeEndpoint');
 
         $this->assertInstanceOf(Channel::class, $resultChannel);
@@ -273,7 +283,7 @@ class ChannelsTest extends TestCase
      */
     public function testPlayWithId()
     {
-        $channelsClient = $this->createChannelsClientWithGuzzleClientStub([
+        $channelsClient = $this->createChannelsClient([
             'next_media_uri' => 'ExampleUri',
             'target_uri' => 'ExampleTargetUri',
             'language' => 'en',
@@ -292,7 +302,7 @@ class ChannelsTest extends TestCase
      */
     public function testHold()
     {
-        $channelsClient = $this->createChannelsClientWithGuzzleClientStub([]);
+        $channelsClient = $this->createChannelsClient([]);
         $channelsClient->hold('SomeChannelId');
         $this->assertTrue(true, true);
     }
@@ -303,7 +313,7 @@ class ChannelsTest extends TestCase
      */
     public function testUnMute()
     {
-        $channelsClient = $this->createChannelsClientWithGuzzleClientStub([]);
+        $channelsClient = $this->createChannelsClient([]);
         $channelsClient->unMute('SomeChannelId');
         $this->assertTrue(true, true);
     }
@@ -314,7 +324,7 @@ class ChannelsTest extends TestCase
      */
     public function testPlay()
     {
-        $channelsClient = $this->createChannelsClientWithGuzzleClientStub([
+        $channelsClient = $this->createChannelsClient([
             'next_media_uri' => 'ExampleUri',
             'target_uri' => 'ExampleTargetUri',
             'language' => 'en',
@@ -335,7 +345,7 @@ class ChannelsTest extends TestCase
      */
     public function testOriginateWithId(array $exampleChannel)
     {
-        $channelsClient = $this->createChannelsClientWithGuzzleClientStub($exampleChannel);
+        $channelsClient = $this->createChannelsClient($exampleChannel);
         $resultChannel = $channelsClient->originateWithId('SomeChannelId', 'SomeEndpoint');
 
         $this->assertInstanceOf(Channel::class, $resultChannel);
@@ -347,7 +357,7 @@ class ChannelsTest extends TestCase
      */
     public function testStopSilence()
     {
-        $channelsClient = $this->createChannelsClientWithGuzzleClientStub([]);
+        $channelsClient = $this->createChannelsClient([]);
         $channelsClient->stopSilence('SomeChannelId');
         $this->assertTrue(true, true);
     }
@@ -358,7 +368,7 @@ class ChannelsTest extends TestCase
      */
     public function testStopMoh()
     {
-        $channelsClient = $this->createChannelsClientWithGuzzleClientStub([]);
+        $channelsClient = $this->createChannelsClient([]);
         $channelsClient->stopMoh('SomeChannelId');
         $this->assertTrue(true, true);
     }
@@ -369,7 +379,7 @@ class ChannelsTest extends TestCase
      */
     public function testRingStop()
     {
-        $channelsClient = $this->createChannelsClientWithGuzzleClientStub([]);
+        $channelsClient = $this->createChannelsClient([]);
         $channelsClient->ringStop('SomeChannelId');
         $this->assertTrue(true, true);
     }
@@ -382,7 +392,7 @@ class ChannelsTest extends TestCase
      */
     public function testSnoopChannelWithId(array $exampleChannel)
     {
-        $channelsClient = $this->createChannelsClientWithGuzzleClientStub($exampleChannel);
+        $channelsClient = $this->createChannelsClient($exampleChannel);
         $resultChannel = $channelsClient->snoopChannelWithId('12345', 'SnoopId', 'TestApp');
 
         $this->assertInstanceOf(Channel::class, $resultChannel);
@@ -394,7 +404,7 @@ class ChannelsTest extends TestCase
      */
     public function testHangup()
     {
-        $channelsClient = $this->createChannelsClientWithGuzzleClientStub([]);
+        $channelsClient = $this->createChannelsClient([]);
         $channelsClient->hangup('SomeChannelId', 'SomeReason');
         $this->assertTrue(true, true);
     }
@@ -406,7 +416,7 @@ class ChannelsTest extends TestCase
      */
     public function testAnswer()
     {
-        $channelsClient = $this->createChannelsClientWithGuzzleClientStub([]);
+        $channelsClient = $this->createChannelsClient([]);
         $channelsClient->answer('SomeChannelId');
         $this->assertTrue(true, true);
     }
@@ -416,7 +426,7 @@ class ChannelsTest extends TestCase
      * @return Channels
      * @throws \ReflectionException
      */
-    private function createChannelsClientWithGuzzleClientStub($expectedResponse)
+    private function createChannelsClient($expectedResponse)
     {
         $guzzleClientStub = $this->createMock(Client::class);
         $guzzleClientStub->method('request')
@@ -430,5 +440,63 @@ class ChannelsTest extends TestCase
          * @var Client $guzzleClientStub
          */
         return new Channels('SomeUser', 'SomePw', [], $guzzleClientStub);
+    }
+
+    /**
+     * @return Channels
+     * @throws \ReflectionException
+     */
+    private function createChannelsClientThatThrowsException()
+    {
+        $guzzleClientStub = $this->createMock(Client::class);
+        $guzzleClientStub->method('request')
+            // TODO: Test for correct parameter translation via with() method here?
+            //  ->with()
+            ->willThrowException(
+                new ServerException('Internal Server Error',
+                    new Request('POST', '/channels/test')
+                )
+            );
+
+        /**
+         * @var Client $guzzleClientStub
+         */
+        return new Channels('SomeUser', 'SomePw', [], $guzzleClientStub);
+    }
+
+    /**
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \ReflectionException
+     */
+    public function testPostException()
+    {
+        $channelsClient = $this->createChannelsClientThatThrowsException();
+        $this->expectException('GuzzleHttp\Exception\ServerException');
+        $channelsClient->sendDtmf('SomeChannelId', '1234');
+        $this->assertTrue(true, true);
+    }
+
+    /**
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \ReflectionException
+     */
+    public function testGetException()
+    {
+        $channelsClient = $this->createChannelsClientThatThrowsException();
+        $this->expectException('GuzzleHttp\Exception\ServerException');
+        $channelsClient->get('SomeChannelId');
+        $this->assertTrue(true, true);
+    }
+
+    /**
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \ReflectionException
+     */
+    public function testDeleteException()
+    {
+        $channelsClient = $this->createChannelsClientThatThrowsException();
+        $this->expectException('GuzzleHttp\Exception\ServerException');
+        $channelsClient->unHold('SomeChannelId');
+        $this->assertTrue(true, true);
     }
 }

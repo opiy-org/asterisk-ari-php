@@ -7,6 +7,7 @@
 
 namespace AriStasisApp\websocket_client;
 
+use GuzzleHttp\Client;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\GuzzleException;
 use Monolog\Logger;
@@ -40,8 +41,9 @@ class RemoteAppMessageHandler extends TextMessageHandler
     /**
      * RemoteAppMessageHandler constructor.
      * @param array $remoteApiSettings
+     * @param Client $guzzleClient
      */
-    function __construct(array $remoteApiSettings)
+    function __construct(array $remoteApiSettings, Client $guzzleClient = null)
     {
         $this->logger = initLogger(getShortClassName($this));
         $remoteApiSettings = parseMyApiSettings($remoteApiSettings);
@@ -54,9 +56,13 @@ class RemoteAppMessageHandler extends TextMessageHandler
 
         $baseUri = "{$httpType}://{$remoteApiSettings['host']}:{$remoteApiSettings['port']}";
         $this->rootUri = $remoteApiSettings['rootUri'];
-        $this->guzzleClient = new GuzzleClient(
-            ['base_uri' => $baseUri, 'auth' => [$remoteApiSettings['user'], $remoteApiSettings['password']]]
-        );
+        if (is_null($guzzleClient)) {
+            $this->guzzleClient = new GuzzleClient(
+                ['base_uri' => $baseUri, 'auth' => [$remoteApiSettings['user'], $remoteApiSettings['password']]]
+            );
+        } else {
+            $this->guzzleClient = $guzzleClient;
+        }
     }
 
     /**

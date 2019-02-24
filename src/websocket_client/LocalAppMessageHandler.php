@@ -41,11 +41,16 @@ class LocalAppMessageHandler extends TextMessageHandler
     /**
      * RemoteAppMessageHandler constructor.
      * @param BasicStasisApp $myApp
+     * @param JsonMapper|null $jsonMapper
      */
-    function __construct(BasicStasisApp $myApp)
+    function __construct(BasicStasisApp $myApp, JsonMapper $jsonMapper = null)
     {
         $this->myApp = $myApp;
-        $this->jsonMapper = new JsonMapper();
+        if (is_null($jsonMapper)) {
+            $this->jsonMapper = new JsonMapper();
+        } else {
+            $this->jsonMapper = $jsonMapper;
+        }
         $this->logger = initLogger(getShortClassName($this));
     }
 
@@ -54,7 +59,7 @@ class LocalAppMessageHandler extends TextMessageHandler
      */
     public function onConnection(AbstractConnection $connection): void
     {
-        $this->logger->debug('Connection to asterisk successfully. Waiting for messages...');
+        $this->logger->debug('Connection to asterisk successful. Waiting for messages...');
     }
 
     /**

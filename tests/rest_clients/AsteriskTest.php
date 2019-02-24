@@ -10,6 +10,8 @@ namespace AriStasisApp\Tests\rest_clients;
 use AriStasisApp\models\{AsteriskInfo, AsteriskPing, ConfigTuple, LogChannel, Module, Variable};
 use AriStasisApp\rest_clients\Asterisk;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ServerException;
+use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 
@@ -300,5 +302,43 @@ class AsteriskTest extends TestCase
          * @var Client $guzzleClientStub
          */
         return new Asterisk('SomeUser', 'SomePw', [], $guzzleClientStub);
+    }
+
+    /**
+     * @return Asterisk
+     * @throws \ReflectionException
+     */
+    private function createAsteriskClientThatThrowsException()
+    {
+        $guzzleClientStub = $this->createMock(Client::class);
+        $guzzleClientStub->method('request')
+            // TODO: Test for correct parameter translation via with() method here?
+            //  ->with()
+            ->willThrowException(
+                new ServerException('Internal Server Error',
+                    new Request('PUT', '/asterisk/test')
+                )
+            );
+
+        /**
+         * @var Client $guzzleClientStub
+         */
+        return new Asterisk('SomeUser', 'SomePw', [], $guzzleClientStub);
+    }
+
+    /**
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \ReflectionException
+     */
+    public function testPutRequestException()
+    {
+        $asteriskClient = $this->createAsteriskClientThatThrowsException();
+        $this->expectException('GuzzleHttp\Exception\ServerException');
+        $asteriskClient->updateObject(
+            'SomeConfigClass',
+            'SomeObjectType',
+            'SomeId',
+            ['SomeAttribute' => 'SomeValue', 'SomeAttribute1' => 'SomeValue1', 'SomeAttribute2' => 'SomeValue2']
+        );
     }
 }
