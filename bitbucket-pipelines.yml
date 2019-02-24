@@ -11,8 +11,8 @@ pipelines:
         caches:
           - composer
         script:
-          - apt-get update && apt-get install -y unzip php7.2-http
-          - phpenmod -v 7.2 http
+          - apt-get update && apt-get install -y unzip
+          - php -m
           - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
           - composer install
           - cd docker/asterisk_16
