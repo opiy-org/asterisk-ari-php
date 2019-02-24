@@ -11,7 +11,7 @@ pipelines:
         caches:
           - composer
         script:
-          - apt-get update && apt-get install -y unzip php7.3-http
+          - apt-get update && apt-get install -y unzip php-http
           - pecl install pecl_http && docker-php-ext-enable http
           - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
           - composer install
