@@ -12,6 +12,7 @@ pipelines:
           - composer
         script:
           - apt-get update && apt-get install -y unzip
+          - php -i
           - docker-php-ext-install http
           - docker-php-ext-enable http
           - php -m
