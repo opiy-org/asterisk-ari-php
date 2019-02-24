@@ -11,14 +11,12 @@ pipelines:
         caches:
           - composer
         script:
-          - apt-get update && apt-get install -y unzip
-          - phpenmod http
+          - apt-get update && apt-get install -y unzip php7.2-http
+          - phpenmod -v 7.2 http
           - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
           - composer install
           - cd docker/asterisk_16
           - docker build -t asterisk:16.1.0 .
           - docker run -d --name some-asterisk -p 8088:8088 asterisk:16.1.0
           - cd ../..
-          - phpenmod xdebug
           - vendor/bin/phpunit
-          - phpdismod xdebug
