@@ -3,13 +3,20 @@
 Keeping your code nice and clean, taking care of easy RESTful calls to Asterisk and incoming events 
 while you focus on developing your Stasis apps.
 
-`Implemented with php7.2 and tested for Asterisk 16!` :beer:
+`Implemented and tested for Asterisk 16!` :beer:
 
-Sonarqube says:
+[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-white.svg)](https://sonarcloud.io/dashboard?id=lukas-ng-voice_asterisk-ari-client)
 
-![Security](https://img.shields.io/badge/security-A-brightgreen.svg)
-![Bugs](https://img.shields.io/badge/bugs-0-brightgreen.svg)
-![Vulnerabilities](https://img.shields.io/badge/vulnerabilities-0-brightgreen.svg)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=lukas-ng-voice_asterisk-ari-client&metric=alert_status)](https://sonarcloud.io/dashboard?id=lukas-ng-voice_asterisk-ari-client)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=lukas-ng-voice_asterisk-ari-client&metric=security_rating)](https://sonarcloud.io/dashboard?id=lukas-ng-voice_asterisk-ari-client)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=lukas-ng-voice_asterisk-ari-client&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=lukas-ng-voice_asterisk-ari-client)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=lukas-ng-voice_asterisk-ari-client&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=lukas-ng-voice_asterisk-ari-client)
+
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=lukas-ng-voice_asterisk-ari-client&metric=bugs)](https://sonarcloud.io/dashboard?id=lukas-ng-voice_asterisk-ari-client)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=lukas-ng-voice_asterisk-ari-client&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=lukas-ng-voice_asterisk-ari-client)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=lukas-ng-voice_asterisk-ari-client&metric=sqale_index)](https://sonarcloud.io/dashboard?id=lukas-ng-voice_asterisk-ari-client)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=lukas-ng-voice_asterisk-ari-client&metric=ncloc)](https://sonarcloud.io/dashboard?id=lukas-ng-voice_asterisk-ari-client)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=lukas-ng-voice_asterisk-ari-client&metric=coverage)](https://sonarcloud.io/dashboard?id=lukas-ng-voice_asterisk-ari-client)
 
 ng-voice says:
 
