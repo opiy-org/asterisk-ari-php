@@ -38,7 +38,7 @@ class RecordingsTest extends TestCase
                     'duration' => '4',
                     'silence_duration' => '2'
                 ]
-            ],
+            ]
         ];
     }
 
@@ -50,10 +50,26 @@ class RecordingsTest extends TestCase
      */
     public function testGetLive(array $exampleLiveRecording)
     {
-        $applicationsClient = $this->createRecordingsClientWithGuzzleClientStub($exampleLiveRecording);
-        $resultChannel = $applicationsClient->getLive('12345');
+        $recordingsClient = $this->createRecordingsClientWithGuzzleClientStub($exampleLiveRecording);
+        $resultChannel = $recordingsClient->getLive('12345');
 
         $this->assertInstanceOf(LiveRecording::class, $resultChannel);
+    }
+
+    /**
+     * @throws \ReflectionException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function testCopyStored()
+    {
+        $exampleStoredRecording = [
+            'format' => 'ExampleFormat',
+            'name' => 'ExampleName'
+        ];
+        $recordingsClient = $this->createRecordingsClientWithGuzzleClientStub($exampleStoredRecording);
+        $resultRecording = $recordingsClient->copyStored('ExampeRecordingName', 'ExampleDestinationRecordingName');
+
+        $this->assertInstanceOf(StoredRecording::class, $resultRecording);
     }
 
     /**
@@ -66,10 +82,10 @@ class RecordingsTest extends TestCase
             'format' => 'ExampleFormat',
             'name' => 'ExampleName'
         ];
-        $applicationsClient = $this->createRecordingsClientWithGuzzleClientStub($exampleStoredRecording);
-        $resultChannel = $applicationsClient->getStored('12345');
+        $recordingsClient = $this->createRecordingsClientWithGuzzleClientStub($exampleStoredRecording);
+        $resultRecording = $recordingsClient->getStored('12345');
 
-        $this->assertInstanceOf(StoredRecording::class, $resultChannel);
+        $this->assertInstanceOf(StoredRecording::class, $resultRecording);
     }
 
     /**

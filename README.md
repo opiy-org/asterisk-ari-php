@@ -3,9 +3,7 @@
 Keeping your code nice and clean, taking care of easy RESTful calls to Asterisk and incoming events 
 while you focus on developing your Stasis apps.
 
-`Implemented and tested for Asterisk 16!` :beer:
-
-[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-white.svg)](https://sonarcloud.io/dashboard?id=lukas-ng-voice_asterisk-ari-client)
+`Implemented and tested for Asterisk 16!` :phone:
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=lukas-ng-voice_asterisk-ari-client&metric=alert_status)](https://sonarcloud.io/dashboard?id=lukas-ng-voice_asterisk-ari-client)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=lukas-ng-voice_asterisk-ari-client&metric=security_rating)](https://sonarcloud.io/dashboard?id=lukas-ng-voice_asterisk-ari-client)
@@ -18,9 +16,6 @@ while you focus on developing your Stasis apps.
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=lukas-ng-voice_asterisk-ari-client&metric=ncloc)](https://sonarcloud.io/dashboard?id=lukas-ng-voice_asterisk-ari-client)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=lukas-ng-voice_asterisk-ari-client&metric=coverage)](https://sonarcloud.io/dashboard?id=lukas-ng-voice_asterisk-ari-client)
 
-ng-voice says:
-
-![My Character](https://img.shields.io/badge/programmer-nice%20guy-green.svg)
 ![Licence](https://img.shields.io/badge/licence-MIT-blue.svg)
 
 ![What this library is about](AriClientLibSkizze.png)
@@ -86,17 +81,15 @@ Out of the box you can use the `LocalAppMessageHandler` (handling event objects 
 or the `RemoteAppMessageHandler` (sending events to another API) but of course you can write your own.
 
 ## Tests
-They won't work for you (because some of them depend on active channels and bridges).
-The following commands are only a reminder for me cause I keep forgetting them ;)
+Execute the following command in the downloaded repository:
 
     ./vendor/bin/phpunit
-    sonar-scanner
 
 ##Licence
 MIT
 
 ##Contact
-ng-voice is happy to help! Feel free to send me a message! :) 
-I'd also love to hear about your application ideas and use cases.
+ng-voice is happy to help! Feel free to send me a message.
+I'd also love to hear about your application ideas and use cases :)
 
 Lukas Stermann (lukas@ng-voice.com)

@@ -95,7 +95,6 @@ function getShortClassName($object): string
         print_r($e->getMessage(), true);
         exit(1);
     }
-
 }
 
 /**
