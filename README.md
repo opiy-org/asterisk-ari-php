@@ -1,9 +1,9 @@
-# Asterisk RESTful Interface (ARI) Client :tada:
+# Asterisk RESTful Interface (ARI) Client :telephone:
 > Grab yourself some coffee and save plenty of time by using this object oriented ARI client library. 
 Keeping your code nice and clean, taking care of easy RESTful calls to Asterisk and incoming events 
 while you focus on developing your Stasis apps.
 
-`Implemented and tested for Asterisk 16!` :telephone:
+`Implemented and tested for Asterisk 16!`
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=lukas-ng-voice_asterisk-ari-client&metric=alert_status)](https://sonarcloud.io/dashboard?id=lukas-ng-voice_asterisk-ari-client)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=lukas-ng-voice_asterisk-ari-client&metric=security_rating)](https://sonarcloud.io/dashboard?id=lukas-ng-voice_asterisk-ari-client)
