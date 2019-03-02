@@ -3,7 +3,7 @@
 Keeping your code nice and clean, taking care of easy RESTful calls to Asterisk and incoming events 
 while you focus on developing your Stasis apps.
 
-`Implemented and tested for Asterisk 16!` :phone:
+`Implemented and tested for Asterisk 16!` :telephone:
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=lukas-ng-voice_asterisk-ari-client&metric=alert_status)](https://sonarcloud.io/dashboard?id=lukas-ng-voice_asterisk-ari-client)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=lukas-ng-voice_asterisk-ari-client&metric=security_rating)](https://sonarcloud.io/dashboard?id=lukas-ng-voice_asterisk-ari-client)
