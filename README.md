@@ -1,20 +1,19 @@
-# Asterisk RESTful Interface (ARI) Client :telephone:
+# Asterisk REST Interface (ARI) Client :telephone:
 > Grab yourself some coffee and save plenty of time by using this object oriented ARI client library. 
 Keeping your code nice and clean, taking care of easy RESTful calls to Asterisk and incoming events 
 while you focus on developing your Stasis apps.
 
 `Implemented and tested for Asterisk 16!`
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=lukas-ng-voice_asterisk-ari-client&metric=alert_status)](https://sonarcloud.io/dashboard?id=lukas-ng-voice_asterisk-ari-client)
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=lukas-ng-voice_asterisk-ari-client&metric=security_rating)](https://sonarcloud.io/dashboard?id=lukas-ng-voice_asterisk-ari-client)
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=lukas-ng-voice_asterisk-ari-client&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=lukas-ng-voice_asterisk-ari-client)
-[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=lukas-ng-voice_asterisk-ari-client&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=lukas-ng-voice_asterisk-ari-client)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ngvoice_asterisk-ari-client&metric=alert_status)](https://sonarcloud.io/dashboard?id=ngvoice_asterisk-ari-client)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=ngvoice_asterisk-ari-client&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=ngvoice_asterisk-ari-client)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=ngvoice_asterisk-ari-client&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=ngvoice_asterisk-ari-client)
 
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=lukas-ng-voice_asterisk-ari-client&metric=bugs)](https://sonarcloud.io/dashboard?id=lukas-ng-voice_asterisk-ari-client)
-[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=lukas-ng-voice_asterisk-ari-client&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=lukas-ng-voice_asterisk-ari-client)
-[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=lukas-ng-voice_asterisk-ari-client&metric=sqale_index)](https://sonarcloud.io/dashboard?id=lukas-ng-voice_asterisk-ari-client)
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=lukas-ng-voice_asterisk-ari-client&metric=ncloc)](https://sonarcloud.io/dashboard?id=lukas-ng-voice_asterisk-ari-client)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=lukas-ng-voice_asterisk-ari-client&metric=coverage)](https://sonarcloud.io/dashboard?id=lukas-ng-voice_asterisk-ari-client)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=ngvoice_asterisk-ari-client&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=ngvoice_asterisk-ari-client)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=ngvoice_asterisk-ari-client&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=ngvoice_asterisk-ari-client)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=ngvoice_asterisk-ari-client&metric=sqale_index)](https://sonarcloud.io/dashboard?id=ngvoice_asterisk-ari-client)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=ngvoice_asterisk-ari-client&metric=ncloc)](https://sonarcloud.io/dashboard?id=ngvoice_asterisk-ari-client)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=ngvoice_asterisk-ari-client&metric=coverage)](https://sonarcloud.io/dashboard?id=ngvoice_asterisk-ari-client)
 
 ![Licence](https://img.shields.io/badge/licence-MIT-blue.svg)
 
@@ -30,6 +29,8 @@ We recommend to install them with terminal commands. E.g. for Debian: `apt insta
 (may differ depending on your underlying operating system. Don't forget to restart your apache 
 server with `service apache2 restart`
 
+For performance increase also install the PECL extension libevent. It makes the WebSocketClient faster!
+
 ##### Asterisk
 You will have to start a running asterisk instance first and configure it to use it's light http server and the 
 "Asterisk RESTful Interface" (ARI). The official Asterisk documentation shows you how to configure http.conf and 
@@ -39,8 +40,8 @@ ari.conf in order to use ARI. Alternatively use the provided Dockerfile. Ready t
 #### ARI Clients
 Talk to your asterisk instance by using the given well documented http clients.
 
-#### ARI web socket event model mapping
-A WebSocketClient connects to asterisk via `GET /events` and subscribes either to one, many or all 
+#### ARI web socket message model mapping
+A WebSocketClient connects to Asterisk via `GET /events` and subscribes either to one, many or all 
 stasis application events. 
 If you choose to write a local app (see examples/ExampleLocalApp), events will be mapped onto objects and are 
 therefore easy to access/handle. No need to touch any JSON! I already did the work for you :)
@@ -53,8 +54,8 @@ Simply extend the BasicStasisApp and design your Stasis app as you wish. Say goo
 Preferably use the provided Dockerfile in this library to compile your own asterisk container.
     
     cd docker/asterisk_16
-    docker build -t asterisk:16.1.0 .
-    docker run -d --name some-asterisk -p 8088:8088 asterisk:16.1.0
+    docker build -t asterisk:16.2.1 .
+    docker run -d --name some-asterisk -p 8088:8088 asterisk:16.2.1
 
     !!! PLEASE NOTE !!!
     Compiling Asterisk sometimes is bound to the hardware you are compiling it on.
@@ -62,8 +63,8 @@ Preferably use the provided Dockerfile in this library to compile your own aster
     to make sure it will work.
     Alternatively you can set generic compiler flags at your own risk.
 
-If you choose to write a local app (see examples/ExampleLocalApp), Events will be mapped onto ARI specific 
-message objects and are easy to access/handle. No need to touch any JSON! I already did the work for you :)
+If you choose to write a local app (see examples/ExampleLocalApp), Messages from Asterisk will be mapped onto 
+ARI specific message objects and are easy to access/handle. No need to touch any JSON! I already did the work for you :)
 
 ## How to use
 Two examples can be found in the example directory.

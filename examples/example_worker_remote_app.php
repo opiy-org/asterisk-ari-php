@@ -14,14 +14,16 @@ use Symfony\Component\Yaml\Yaml;
 require_once __DIR__ . '/../vendor/autoload.php';
 
 $settings = Yaml::parseFile(__DIR__ . '/../environment.yaml');
+$user = $settings['tests']['asteriskUser'];
+$password = $settings['tests']['asteriskPassword'];
 
 $webSocketSettings = [
     'wssEnabled' => false,
     'host' => 'localhost',
     'port' => 8088,
     'rootUri' => '/ari',
-    'user' => $settings['tests']['asteriskUser'],
-    'password' => $settings['tests']['asteriskPassword']
+    'user' => $user,
+    'password' => $password
 ];
 
 $remoteApiSettings = [
@@ -33,10 +35,7 @@ $remoteApiSettings = [
     'password' => 'myPassword',
 ];
 
-$exampleLocalApp = new ExampleLocalApp(
-    $settings['tests']['asteriskUser'],
-    $settings['tests']['asteriskPassword']
-);
+$exampleLocalApp = new ExampleLocalApp($user, $password);
 
 $ariWebSocket = new WebSocketClient(
     ['ExampleLocalApp'],

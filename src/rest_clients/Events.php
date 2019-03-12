@@ -47,6 +47,7 @@ class Events extends AriRestClient
         if ($variables !== []) {
             $body = [self::VARIABLES => []];
             foreach ($variables as $key => $value) {
+                // TODO: Is this really working? might switch to array_merge()
                 $body[self::VARIABLES] = $body[self::VARIABLES] + [$key => $value];
             }
         }

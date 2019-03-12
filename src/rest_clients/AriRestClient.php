@@ -68,7 +68,7 @@ class AriRestClient
         $baseUri = "{$httpType}://{$ariSettings['host']}:{$ariSettings['port']}/";
         $this->rootUri = $ariSettings['rootUri'];
 
-        if (is_null($guzzleClient)) {
+        if ($guzzleClient === null) {
             $this->guzzleClient =
                 new Client(['base_uri' => $baseUri, 'auth' => [$ariUser, $ariPassword]]);
         } else {
@@ -78,8 +78,6 @@ class AriRestClient
         $this->jsonMapper = new JsonMapper();
         // Allow mapping to private and protected properties and setter methods
         $this->jsonMapper->bIgnoreVisibility = true;
-        // Throw exceptions when there is
-        $this->jsonMapper->bExceptionOnMissingData = true;
         $this->jsonMapper->bExceptionOnUndefinedProperty = true;
     }
 
@@ -101,14 +99,9 @@ class AriRestClient
     ) {
         $method = 'GET';
         $uri = $this->rootUri . $uri;
-        try {
-            $this->logRequest($method, $uri, $queryParameters);
-            $response = $this->guzzleClient->request($method, $uri, [self::QUERY => $queryParameters]);
-            $this->logResponse($response, $method, $uri);
-        } catch (GuzzleException $guzzleException) {
-            $this->logException($guzzleException, $method, $uri, $queryParameters);
-            throw $guzzleException;
-        }
+        $this->logRequest($method, $uri, $queryParameters);
+        $response = $this->guzzleClient->request($method, $uri, [self::QUERY => $queryParameters]);
+        $this->logResponse($response, $method, $uri);
         return $this->formatResponse($response, $returnType, $returnModelClassName);
     }
 
@@ -125,7 +118,8 @@ class AriRestClient
         $queryParameters = print_r($queryParameters, true);
         $body = print_r($body, true);
         $this->logger->debug("Sending Request... Method: {$method} | URI: {$uri} | "
-            . "QueryParameters: {$queryParameters} | Body: {$body}");
+            . "QueryParameters: {$queryParameters} | Body: {$body}"
+        );
     }
 
     /**
@@ -139,30 +133,7 @@ class AriRestClient
     {
         $this->logger->debug("Received Response... Method: {$method} | URI: {$uri} | "
             . "ResponseCode: {$response->getStatusCode()} | Reason: {$response->getReasonPhrase()} | "
-            . "Body: {$response->getBody()}");
-    }
-
-    /**
-     * Logs Exceptions in case of an error.
-     *
-     * @param \Exception $e
-     * @param string $method
-     * @param string $uri
-     * @param array $queryParameters
-     * @param array $body
-     */
-    private function logException(
-        \Exception $e,
-        string $method,
-        string $uri,
-        array $queryParameters = [],
-        array $body = []
-    ) {
-        $queryParameters = print_r($queryParameters, true);
-        $body = print_r($body, true);
-        $this->logger->error("Failed Request... ResponseCode: {$e->getCode()} | "
-            . "Reason: {$e->getMessage()} | Method: {$method} | URI: {$uri} | "
-            . "QueryParameters: {$queryParameters} | RequestBody: {$body}"
+            . "Body: {$response->getBody()}"
         );
     }
 
@@ -201,7 +172,8 @@ class AriRestClient
             return $mappedElements;
         } catch (JsonMapper_Exception $jsonMapper_Exception) {
             $this->logger->error($jsonMapper_Exception->getMessage());
-            exit;
+            exit(1);
+
         }
     }
 
@@ -216,7 +188,7 @@ class AriRestClient
             return $this->jsonMapper->map(json_decode($response->getBody()), new $targetObjectType);
         } catch (JsonMapper_Exception $jsonMapper_Exception) {
             $this->logger->error($jsonMapper_Exception->getMessage());
-            exit;
+            exit(1);
         }
     }
 
@@ -240,14 +212,9 @@ class AriRestClient
     ) {
         $method = 'POST';
         $uri = $this->rootUri . $uri;
-        try {
-            $this->logRequest($method, $uri, $queryParameters, $body);
-            $response = $this->guzzleClient->request($method, $uri, ['json' => $body, self::QUERY => $queryParameters]);
-            $this->logResponse($response, $method, $uri);
-        } catch (GuzzleException $guzzleException) {
-            $this->logException($guzzleException, $method, $uri, $queryParameters, $body);
-            throw $guzzleException;
-        }
+        $this->logRequest($method, $uri, $queryParameters, $body);
+        $response = $this->guzzleClient->request($method, $uri, ['json' => $body, self::QUERY => $queryParameters]);
+        $this->logResponse($response, $method, $uri);
         return $this->formatResponse($response, $returnType, $returnModelClassName);
     }
 
@@ -269,14 +236,9 @@ class AriRestClient
     ) {
         $method = 'PUT';
         $uri = $this->rootUri . $uri;
-        try {
-            $this->logRequest($method, $uri, [], $body);
-            $response = $this->guzzleClient->request($method, $uri, ['json' => $body]);
-            $this->logResponse($response, $method, $uri);
-        } catch (GuzzleException $guzzleException) {
-            $this->logException($guzzleException, $method, $uri, [], $body);
-            throw $guzzleException;
-        }
+        $this->logRequest($method, $uri, [], $body);
+        $response = $this->guzzleClient->request($method, $uri, ['json' => $body]);
+        $this->logResponse($response, $method, $uri);
         return $this->formatResponse($response, $returnType, $returnModelClassName);
     }
 
@@ -298,14 +260,9 @@ class AriRestClient
     ) {
         $method = 'DELETE';
         $uri = $this->rootUri . $uri;
-        try {
-            $this->logRequest($method, $uri, $queryParameters);
-            $response = $this->guzzleClient->request($method, $uri, [self::QUERY => $queryParameters]);
-            $this->logResponse($response, $method, $uri);
-        } catch (GuzzleException $guzzleException) {
-            $this->logException($guzzleException, $method, $uri);
-            throw $guzzleException;
-        }
+        $this->logRequest($method, $uri, $queryParameters);
+        $response = $this->guzzleClient->request($method, $uri, [self::QUERY => $queryParameters]);
+        $this->logResponse($response, $method, $uri);
         return $this->formatResponse($response, $returnType, $returnModelClassName);
     }
 }

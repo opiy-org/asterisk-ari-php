@@ -121,25 +121,30 @@ class Applications extends AriRestClient
     function filter(string $applicationName, array $allowed = null, array $disallowed = null): Application
     {
         $body = [];
+
         if ($allowed !== null) {
-            $body['allowed'] = $this->formatEventTypesArray($allowed);
+            $body['allowed'] = $this->formatMessageTypesArray($allowed);
         }
+
         if ($disallowed !== null) {
-            $body['disallowed'] = $this->formatEventTypesArray($disallowed);
+            $body['disallowed'] = $this->formatMessageTypesArray($disallowed);
         }
+
         return $this->putRequest("/applications/{$applicationName}/eventFilter", $body, self::MODEL, self::APPLICATION);
     }
 
     /**
-     * @param array $eventTypes
+     * @param array $messageTypes
      * @return array
      */
-    private function formatEventTypesArray(array $eventTypes)
+    private function formatMessageTypesArray(array $messageTypes)
     {
-        $eventTypesList = [];
-        foreach ($eventTypes as $eventType) {
-            $eventTypesList = $eventTypesList + [['type' => $eventType]];
+        $messageTypesList = [];
+
+        for ($i = 0; $i < sizeof($messageTypes); $i++) {
+            $messageTypesList[$i] = ['type' => $messageTypes[$i]];
         }
-        return $eventTypesList;
+
+        return $messageTypesList;
     }
 }

@@ -7,7 +7,6 @@
 
 namespace AriStasisApp\websocket_client;
 
-use AriStasisApp\BasicStasisApp;
 use Exception;
 use http\Exception\RuntimeException;
 use Monolog\Logger;
@@ -54,7 +53,7 @@ class WebSocketClient
      * effectively disabling the application specific subscriptions. Default is 'false'.
      * @param WoketoWebSocketClient|null $woketoWebSocketClient Optional webSocketClient to make this class testable
      * @throws \RuntimeException
-     * TODO: We can see in the logs of asterisk that the application is activated twice. This should not happen
+     * TODO: We can see in the logs of asterisk that the application is activated twice. This should not happen.
      */
     function __construct(
         array $app,
@@ -109,8 +108,6 @@ class WebSocketClient
     /**
      * Subscribe to the WebSocket of your Asterisk instance and handle Events in a message handler.
      * Look at LocalAppMessageHandler and RemoteAppMessageHandler for example.
-     *
-     * @param BasicStasisApp $myApp
      */
     function start(): void
     {

@@ -81,7 +81,7 @@ class RemoteAppMessageHandler extends TextMessageHandler
     {
         try {
             $this->logger->debug("Received raw message from asterisk WebSocket server: {$data}");
-            // TODO: Will I have to decode $data first? TEUEEER!
+            // TODO: Will I have to decode $data first? This would take a lot of resources...
             $decodedJson = json_decode($data);
             $ariEventType = lcfirst($decodedJson->type);
             $ariAppName = lcfirst($decodedJson->application);
@@ -92,7 +92,6 @@ class RemoteAppMessageHandler extends TextMessageHandler
         } catch (GuzzleException $exception) {
             $this->logger->error($exception->getMessage());
         }
-
     }
 
     /**

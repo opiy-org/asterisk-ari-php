@@ -5,14 +5,46 @@
 # You can specify a custom docker image from Docker Hub as your build environment.
 image: php:7.3.2
 
+clone:
+  depth: full              # SonarCloud scanner needs the full history to assign issues properly
+
+definitions:
+  caches:
+    sonar: ~/.sonar/cache  # Caching SonarCloud artifacts will speed up your build
+  steps:
+    - step: &build-test-sonarcloud
+        name: Build, test and analyze on SonarCloud
+        caches:
+          - sonar
+        script:
+          - curl --insecure -OL https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.2.0.1227-linux.zip
+          - unzip sonar-scanner-cli-3.2.0.1227-linux.zip
+          - ./sonar-scanner-3.2.0.1227-linux/bin/sonar-scanner \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.login=$SONAR_TOKEN \
+            -Dsonar.projectKey=ngvoice_asterisk-ari-client \     # maybe use $BITBUCKET_REPO_SLUG in the future
+            -Dsonar.organization=ngvoice
+            -Dsonar.projectVersion=1.0
+            -Dsonar.projectName=ARI Library
+            -Dsonar.sources=./src
+            -Dsonar.php.coverage.reportPaths=./tests/code-coverage-report.xml
 pipelines:
   default:
     - step:
         caches:
           - composer
         script:
-          - apt-get update && apt-get install -y unzip
-          - pecl install pecl_http && docker-php-ext-enable pecl_http
+          - apt update && apt -y install lsb-release apt-transport-https ca-certificates
+          - wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
+          - echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php7.3.list
+          - apt update && apt install -y unzip php7.3-http
+          - docker-php-ext-enable http
           - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
           - composer install
+          - docker-php-ext-enable xdebug
           - vendor/bin/phpunit
+          - docker-php-ext-disable xdebug
+    - step: *build-test-sonarcloud
+  pull-requests:
+    '**':
+      - step: *build-test-sonarcloud

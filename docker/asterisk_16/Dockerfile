@@ -2,7 +2,7 @@ FROM debian:latest
 LABEL maintainer="Lukas Stermann <lukas@ng-voice.com>"
 LABEL Description="This is an Asterisk 16 image, configured to work with ARI"
 LABEL Vendor="ng-voice"
-LABEL Version="16.1.0"
+LABEL Version="16.2.1"
 
 # Make debian frontend noninteractive, so we don't get errors while building
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
@@ -14,10 +14,10 @@ RUN apt-get update
 RUN echo 'Y' | apt-get upgrade
 RUN apt-get install wget -y
 
-RUN wget http://downloads.asterisk.org/pub/telephony/asterisk/asterisk-16.1.0.tar.gz
-RUN tar -zxvf asterisk-16.1.0.tar.gz && rm asterisk-16.1.0.tar.gz
+RUN wget http://downloads.asterisk.org/pub/telephony/asterisk/asterisk-16.2.1.tar.gz
+RUN tar -zxvf asterisk-16.2.1.tar.gz && rm asterisk-16.2.1.tar.gz
 
-WORKDIR /tmp/asterisk-16.1.0/contrib/scripts
+WORKDIR /tmp/asterisk-16.2.1/contrib/scripts
 RUN echo 'Y' | ./install_prereq test
 RUN echo 'Y' | ./install_prereq install
 RUN echo 'Y' | ./install_prereq install-unpackaged
@@ -26,7 +26,7 @@ RUN echo 'Y' | ./install_prereq install-unpackaged
 #RUN echo 'Y' | ./ast_tls_cert
 
 # Asterisk modifications to use WebRTC
-WORKDIR /tmp/asterisk-16.1.0
+WORKDIR /tmp/asterisk-16.2.1
 RUN ./configure --with-jansson-bundled
 # TODO: Hand over some compiling flags, because right now this container has to be built locally
 #  and depends on the hardware on which Asterisk is compiled.
@@ -44,7 +44,7 @@ RUN make install-logrotate
 # Default configurations are copied into the container
 COPY ari.conf /etc/asterisk/
 COPY http.conf /etc/asterisk/
-# TODO: This two operations are not working at the moment!
+# TODO: These two operations are not working at the moment!
 #COPY modules.conf /etc/asterisk/
 #COPY pjsip.conf /etc/asterisk/
 COPY docker-entrypoint.sh /tmp

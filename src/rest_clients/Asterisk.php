@@ -54,7 +54,8 @@ class Asterisk extends AriRestClient
         $body = [self::FIELDS => []];
         if ($fields !== []) {
             foreach ($fields as $attribute => $value) {
-                $parsedBody[self::FIELDS] = $body[self::FIELDS] + [['attribute' => $attribute, 'value' => $value]];
+                $body[self::FIELDS] =
+                    array_merge($body[self::FIELDS], [['attribute' => $attribute, 'value' => $value]]);
             }
         }
 

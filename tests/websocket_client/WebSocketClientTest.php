@@ -33,7 +33,6 @@ class WebSocketClientTest extends TestCase
             WebSocketClient::class,
             new WebSocketClient(['SomeApp'], $localAppMessageHandler, [], false, $woketoWebSocketClientStub)
         );
-
     }
 
     /**
@@ -50,5 +49,41 @@ class WebSocketClientTest extends TestCase
         (new WebSocketClient(['SomeApp'], $localAppMessageHandler, [], false, $woketoWebSocketClientStub))
             ->start();
         $this->assertTrue(true, true);
+    }
+
+    /**
+     * @throws \ReflectionException
+     */
+    public function test__constructEmptyAppArrayThrowsException()
+    {
+        $woketoWebSocketClientStub = $this->createMock(\Nekland\Woketo\Client\WebSocketClient::class);
+        $localAppMessageHandler = $this->createMock(LocalAppMessageHandler::class);
+        $this->expectException('RuntimeException');
+        /**
+         * @var \Nekland\Woketo\Client\WebSocketClient $woketoWebSocketClientStub
+         * @var LocalAppMessageHandler $localAppMessageHandler
+         */
+        $this->assertInstanceOf(
+            WebSocketClient::class,
+            new WebSocketClient([], $localAppMessageHandler, [], false, $woketoWebSocketClientStub)
+        );
+    }
+
+    /**
+     * @throws \ReflectionException
+     */
+    public function test__constructEmptyAppNameStringThrowsException()
+    {
+        $woketoWebSocketClientStub = $this->createMock(\Nekland\Woketo\Client\WebSocketClient::class);
+        $localAppMessageHandler = $this->createMock(LocalAppMessageHandler::class);
+        $this->expectException('RuntimeException');
+        /**
+         * @var \Nekland\Woketo\Client\WebSocketClient $woketoWebSocketClientStub
+         * @var LocalAppMessageHandler $localAppMessageHandler
+         */
+        $this->assertInstanceOf(
+            WebSocketClient::class,
+            new WebSocketClient(['SomeApp', ''], $localAppMessageHandler, [], false, $woketoWebSocketClientStub)
+        );
     }
 }

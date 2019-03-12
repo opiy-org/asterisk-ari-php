@@ -10,6 +10,7 @@ namespace AriStasisApp\Tests\websocket_client;
 use AriStasisApp\BasicStasisApp;
 use AriStasisApp\models\messages\MissingParams;
 use AriStasisApp\websocket_client\LocalAppMessageHandler;
+use JsonMapper;
 use Nekland\Woketo\Core\AbstractConnection;
 use Nekland\Woketo\Exception\WebsocketException;
 use PHPUnit\Framework\TestCase;
@@ -73,14 +74,19 @@ class LocalAppMessageHandlerTest extends TestCase
      */
     public function testOnMessage(BasicStasisApp $basicStasisAppStub)
     {
-        $jsonMapperStub = $this->createMock(\JsonMapper::class);
+        $jsonMapperStub = $this->createMock(JsonMapper::class);
         $jsonMapperStub->method('map')->willReturn(new MissingParams());
         /**
-         * @var \JsonMapper $jsonMapperStub
+         * @var JsonMapper $jsonMapperStub
          */
         $localAppMessageHandler = new LocalAppMessageHandler($basicStasisAppStub, $jsonMapperStub);
         $abstractConnectionStub = $this->createMock(AbstractConnection::class);
 
+        /*
+         * TODO: We expect an error exception here,because we did not mock a fake class that contains
+         *  the missingParams() method. We should though in the future.
+         */
+        $this->expectException(\Error::class);
         /**
          * @var AbstractConnection $abstractConnectionStub
          */
@@ -88,7 +94,6 @@ class LocalAppMessageHandlerTest extends TestCase
             json_encode(['asterisk_id' => '12345', 'type' => 'MissingParams', ['param1', 'param2']]),
             $abstractConnectionStub
         );
-        $this->assertTrue(true, true);
     }
 
     /**
@@ -126,7 +131,32 @@ class LocalAppMessageHandlerTest extends TestCase
          * @var AbstractConnection $abstractConnectionStub
          * @var WebsocketException $webSocketException
          */
-        $this->expectException('\Nekland\Woketo\Exception\WebsocketException');
+        $this->expectException(WebsocketException::class);
         $localAppMessageHandler->onError($webSocketException, $abstractConnectionStub);
+    }
+
+    /**
+     * @dataProvider localAppMessageHandlerStubProvider
+     * @param BasicStasisApp $basicStasisAppStub
+     * @throws \ReflectionException
+     */
+    public function testJSONMapperThrowsException(BasicStasisApp $basicStasisAppStub)
+    {
+        $jsonMapperStub = $this->createMock(\JsonMapper::class);
+        $jsonMapperStub->method('map')->willThrowException(new \JsonMapper_Exception('Test exception'));
+        /**
+         * @var \JsonMapper $jsonMapperStub
+         */
+        $localAppMessageHandler = new LocalAppMessageHandler($basicStasisAppStub, $jsonMapperStub);
+        $abstractConnectionStub = $this->createMock(AbstractConnection::class);
+
+        /**
+         * @var AbstractConnection $abstractConnectionStub
+         */
+        $localAppMessageHandler->onMessage(
+            json_encode(['asterisk_id' => '12345', 'type' => 'MissingParams', ['param1', 'param2']]),
+            $abstractConnectionStub
+        );
+        $this->assertTrue(true, true);
     }
 }
