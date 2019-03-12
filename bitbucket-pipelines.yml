@@ -11,10 +11,10 @@ pipelines:
         caches:
           - composer
         script:
-          - apt update && apt install -y lsb-release apt-transport-https ca-certificates wget
+          - apt update && apt install -y lsb-release apt-transport-https ca-certificates wget unzip curl
           - wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
           - echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php7.3.list
-          - apt update && apt install -y unzip php7.3-http php7.3-xdebug
+          - apt update && apt install -y php7.3-http php7.3-xdebug
           - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
           - composer install
           - phpenmod xdebug
