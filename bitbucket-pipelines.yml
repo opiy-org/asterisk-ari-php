@@ -27,4 +27,3 @@ pipelines:
             variables:
               SONAR_TOKEN: ${SONAR_TOKEN} # Use a secure repository or account variable
               EXTRA_ARGS: -Dsonar.projectKey=ngvoice_asterisk-ari-client -Dsonar.organization=ngvoice -Dsonar.sources=./src -Dsonar.php.coverage.reportPaths=./tests/code-coverage-report.xml
-              DEBUG: "false"
