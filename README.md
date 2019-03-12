@@ -53,9 +53,9 @@ Simply extend the BasicStasisApp and design your Stasis app as you wish. Say goo
 #### Ready to use Asterisk ARI Docker container
 Preferably use the provided Dockerfile in this library to compile your own asterisk container.
     
-    cd docker/asterisk_16
-    docker build -t asterisk:16.2.1 .
-    docker run -d --name some-asterisk -p 8088:8088 asterisk:16.2.1
+    cd docker/asterisk
+    docker build -t --build-arg asterisk_version=16.2.1 asterisk:latest .
+    docker run -d --name some-asterisk -p 8088:8088 -p 5060:5060 -p 5060:5060/udp asterisk:latest
 
     !!! PLEASE NOTE !!!
     Compiling Asterisk sometimes is bound to the hardware you are compiling it on.

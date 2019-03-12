@@ -12,16 +12,16 @@ namespace AriStasisApp\Tests\models;
 
 require_once __DIR__ . '/../../shared_test_functions.php';
 
-use AriStasisApp\models\{Channel, messages\ChannelVarSet};
+use AriStasisApp\models\{Channel, messages\ChannelVarset};
 use PHPUnit\Framework\TestCase;
 use function AriStasisApp\Tests\mapMessageParametersToAriObject;
 
 /**
- * Class ChannelVarSetTest
+ * Class ChannelVarsetTest
  *
  * @package AriStasisApp\Tests\models\messages
  */
-final class ChannelVarSetTest extends TestCase
+final class ChannelVarsetTest extends TestCase
 {
     /**
      * @throws \JsonMapper_Exception
@@ -55,10 +55,10 @@ final class ChannelVarSetTest extends TestCase
         ];
 
         /**
-         * @var ChannelVarSet $channelVarSet
+         * @var ChannelVarset $channelVarSet
          */
         $channelVarSet = mapMessageParametersToAriObject(
-            'ChannelVarSet',
+            'ChannelVarset',
             [
                 'variable' => 'TestVar',
                 'value' => 'TestValue',

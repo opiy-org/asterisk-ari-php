@@ -57,18 +57,17 @@ class LocalAppMessageHandler extends TextMessageHandler
     }
 
     /**
-     * @param AbstractConnection $connection
+     * @inheritdoc
+     *
+     * On connection to the web socket, we tell Asterisk only to send messages we are
+     * actually handling in our application. This will increase performance.
      */
     public function onConnection(AbstractConnection $connection): void
     {
-        $this->logger->info('Connection to asterisk successful...', [__FUNCTION__]);
+        $this->logger->info('Connection to asterisk successful...');
 
-        /*
-         * We tell asterisk only to send messages we are actually handling in our application.
-         * This will increase performance.
-         */
         $allowedMessages = array_diff(get_class_methods($this->myApp), get_class_methods(BasicStasisApp::class));
-        // Reindex the array so we can loop through it
+        // Reindex the allowedMessages array so we can loop through it
         $allowedMessages = array_values($allowedMessages);
 
         for ($i = 0; $i < sizeof($allowedMessages); $i++) {
@@ -87,12 +86,14 @@ class LocalAppMessageHandler extends TextMessageHandler
     }
 
     /**
-     * @param string $data
-     * @param AbstractConnection $connection
+     * @inheritdoc
+     *
+     * Every incoming message from Asterisk will be handled within
+     * the provided BasicStasisApp classes function
      */
     public function onMessage(string $data, AbstractConnection $connection): void
     {
-        $this->logger->debug("Received raw message from asterisk WebSocket server: {$data}");
+        $this->logger->debug("Received raw message from asterisk WebSocket server: {$data}", [__FUNCTION__]);
         $decodedJson = json_decode($data);
         $ariEventType = $decodedJson->type;
         $eventPath = "AriStasisApp\\models\\messages\\" . $ariEventType;
@@ -101,28 +102,27 @@ class LocalAppMessageHandler extends TextMessageHandler
             $mappedEventObject = $this->jsonMapper->map($decodedJson, new $eventPath);
             $functionName = lcfirst($ariEventType);
             $this->myApp->$functionName($mappedEventObject);
-            $this->logger->debug("Message successfully handled by your app: {$data}");
+            $this->logger->debug("Message successfully handled by your app: {$data}", [__FUNCTION__]);
         } catch (JsonMapper_Exception $jsonMapper_Exception) {
             $this->logger->error($jsonMapper_Exception->getMessage(), [__FUNCTION__]);
         }
     }
 
     /**
-     * @param AbstractConnection $connection
+     * @inheritdoc
      */
     public function onDisconnect(AbstractConnection $connection): void
     {
-        $this->logger->warning('Connection to Asterisk was closed.');
+        $this->logger->warning('Connection to Asterisk was closed.', [__FUNCTION__]);
     }
 
     /**
-     * @param WebsocketException $websocketException
-     * @param AbstractConnection $connection
+     * @inheritdoc
      * @throws WebsocketException
      */
     public function onError(WebsocketException $websocketException, AbstractConnection $connection): void
     {
-        $this->logger->error($websocketException->getMessage());
+        $this->logger->error($websocketException->getMessage(), [__FUNCTION__]);
         throw $websocketException;
     }
 }

@@ -66,7 +66,7 @@ class RemoteAppMessageHandler extends TextMessageHandler
     }
 
     /**
-     * @param AbstractConnection $connection
+     * @inheritdoc
      */
     public function onConnection(AbstractConnection $connection)
     {
@@ -74,8 +74,7 @@ class RemoteAppMessageHandler extends TextMessageHandler
     }
 
     /**
-     * @param string $data
-     * @param AbstractConnection $connection
+     * @inheritdoc
      */
     public function onMessage(string $data, AbstractConnection $connection)
     {
@@ -95,7 +94,7 @@ class RemoteAppMessageHandler extends TextMessageHandler
     }
 
     /**
-     * @param AbstractConnection $connection
+     * @inheritdoc
      */
     public function onDisconnect(AbstractConnection $connection)
     {
@@ -103,8 +102,7 @@ class RemoteAppMessageHandler extends TextMessageHandler
     }
 
     /**
-     * @param WebsocketException $websocketException
-     * @param AbstractConnection $connection
+     * @inheritdoc
      * @throws WebsocketException
      */
     public function onError(WebsocketException $websocketException, AbstractConnection $connection)

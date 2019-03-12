@@ -15,7 +15,7 @@ use AriStasisApp\models\Channel;
  *
  * @package AriStasisApp\models\messages
  */
-class ChannelVarSet extends Event
+class ChannelVarset extends Event
 {
     /**
      * @var string The variable that changed.

@@ -1,8 +1,10 @@
 FROM debian:latest
+ARG asterisk_version=16.2.1
+
 LABEL maintainer="Lukas Stermann <lukas@ng-voice.com>"
 LABEL Description="This is an Asterisk 16 image, configured to work with ARI"
 LABEL Vendor="ng-voice"
-LABEL Version="16.2.1"
+LABEL Version="${asterisk_version}"
 
 # Make debian frontend noninteractive, so we don't get errors while building
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
@@ -14,10 +16,10 @@ RUN apt-get update
 RUN echo 'Y' | apt-get upgrade
 RUN apt-get install wget -y
 
-RUN wget http://downloads.asterisk.org/pub/telephony/asterisk/asterisk-16.2.1.tar.gz
-RUN tar -zxvf asterisk-16.2.1.tar.gz && rm asterisk-16.2.1.tar.gz
+RUN wget http://downloads.asterisk.org/pub/telephony/asterisk/asterisk-${asterisk_version}.tar.gz
+RUN tar -zxvf asterisk-${asterisk_version}.tar.gz && rm asterisk-${asterisk_version}.tar.gz
 
-WORKDIR /tmp/asterisk-16.2.1/contrib/scripts
+WORKDIR /tmp/asterisk-${asterisk_version}/contrib/scripts
 RUN echo 'Y' | ./install_prereq test
 RUN echo 'Y' | ./install_prereq install
 RUN echo 'Y' | ./install_prereq install-unpackaged
@@ -26,7 +28,7 @@ RUN echo 'Y' | ./install_prereq install-unpackaged
 #RUN echo 'Y' | ./ast_tls_cert
 
 # Asterisk modifications to use WebRTC
-WORKDIR /tmp/asterisk-16.2.1
+WORKDIR /tmp/asterisk-${asterisk_version}
 RUN ./configure --with-jansson-bundled
 # TODO: Hand over some compiling flags, because right now this container has to be built locally
 #  and depends on the hardware on which Asterisk is compiled.
@@ -44,15 +46,18 @@ RUN make install-logrotate
 # Default configurations are copied into the container
 COPY ari.conf /etc/asterisk/
 COPY http.conf /etc/asterisk/
-# TODO: These two operations are not working at the moment!
+COPY pjsip.conf /etc/asterisk/
+COPY extensions.conf /etc/asterisk/
+COPY sorcery.conf /etc/asterisk/
+# TODO: This operation is not working at the moment!
 #COPY modules.conf /etc/asterisk/
-#COPY pjsip.conf /etc/asterisk/
 COPY docker-entrypoint.sh /tmp
 WORKDIR /tmp
 RUN chmod +x docker-entrypoint.sh
 
 # Exposing the default ARI HTTP Port
 EXPOSE 8088
+EXPOSE 5060
 
 # TODO: Healthcheck doesn't work. Has to be edited.
 HEALTHCHECK CMD pidof asterisk || exit 1
