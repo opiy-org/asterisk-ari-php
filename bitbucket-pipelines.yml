@@ -6,7 +6,7 @@ clone:
 pipelines:
   default:
     - step:
-        size: 2x
+        size: 2x # Adding more memory to the building docker container so it doesn't exceed memory
         caches:
           - composer
         script:
