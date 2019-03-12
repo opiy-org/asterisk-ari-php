@@ -6,6 +6,7 @@ clone:
 pipelines:
   default:
     - step:
+        size: 2x
         caches:
           - composer
         script:
