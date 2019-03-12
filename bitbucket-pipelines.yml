@@ -3,7 +3,7 @@
 # Only use spaces to indent your .yml configuration.
 # -----
 # You can specify a custom docker image from Docker Hub as your build environment.
-image: php:7.3.2
+image: debian:latest
 
 pipelines:
   default:
@@ -11,18 +11,15 @@ pipelines:
         caches:
           - composer
         script:
-          - apt-get update && apt-get install -y lsb-release apt-transport-https ca-certificates wget
+          - apt update && apt install -y lsb-release apt-transport-https ca-certificates wget
           - wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
           - echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php7.3.list
-          - apt-get update
-          - apt-cache search php
-          - apt-get install -y unzip php7.3-http
-          - docker-php-ext-enable http
+          - apt update && apt install -y unzip php7.3-http php7.3-xdebug
           - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
           - composer install
-          - docker-php-ext-enable xdebug
+          - phpenmod xdebug
           - vendor/bin/phpunit
-          - docker-php-ext-disable xdebug
+          - phpdismod xdebug
           - pipe: sonarsource/sonarcloud-scan:0.1.5
             variables:
               SONAR_TOKEN: ${SONAR_TOKEN} # Use a secure repository or account variable
