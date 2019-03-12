@@ -5,29 +5,6 @@
 # You can specify a custom docker image from Docker Hub as your build environment.
 image: php:7.3.2
 
-clone:
-  depth: full              # SonarCloud scanner needs the full history to assign issues properly
-
-definitions:
-  caches:
-    sonar: ~/.sonar/cache  # Caching SonarCloud artifacts will speed up your build
-  steps:
-    - step: &build-test-sonarcloud
-        name: Build, test and analyze on SonarCloud
-        caches:
-          - sonar
-        script:
-          - curl --insecure -OL https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.2.0.1227-linux.zip
-          - unzip sonar-scanner-cli-3.2.0.1227-linux.zip
-          - ./sonar-scanner-3.2.0.1227-linux/bin/sonar-scanner \
-            -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.login=$SONAR_TOKEN \
-            -Dsonar.projectKey=ngvoice_asterisk-ari-client \     # maybe use $BITBUCKET_REPO_SLUG in the future
-            -Dsonar.organization=ngvoice \
-            -Dsonar.projectVersion=1.0 \
-            -Dsonar.projectName=ARI Library \
-            -Dsonar.sources=./src \
-            -Dsonar.php.coverage.reportPaths=./tests/code-coverage-report.xml
 pipelines:
   default:
     - step:
@@ -44,7 +21,8 @@ pipelines:
           - docker-php-ext-enable xdebug
           - vendor/bin/phpunit
           - docker-php-ext-disable xdebug
-    - step: *build-test-sonarcloud
-  pull-requests:
-    '**':
-      - step: *build-test-sonarcloud
+          - pipe: sonarsource/sonarcloud-scan:0.1.5
+            variables:
+              SONAR_TOKEN: ${SONAR_TOKEN} # Use a secure repository or account variable
+              EXTRA_ARGS: -Dsonar.projectKey=ngvoice_asterisk-ari-client -Dsonar.organization=ngvoice -Dsonar.sources=./src -Dsonar.php.coverage.reportPaths=./tests/code-coverage-report.xml
+              DEBUG: "false"
