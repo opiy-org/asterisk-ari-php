@@ -8,7 +8,7 @@
  * We recommend using supervisor to monitor this process in the background.
  */
 
-use AriStasisApp\websocket_client\{RemoteAppMessageHandler, WebSocketClient};
+use AriStasisApp\WebSocketClient\{RemoteAppMessageHandler, WebSocketClient};
 use Symfony\Component\Yaml\Yaml;
 
 require_once __DIR__ . '/../vendor/autoload.php';

@@ -7,13 +7,13 @@
 
 declare(strict_types=1);
 
-namespace AriStasisApp\Tests\models;
+namespace AriStasisApp\Tests\Model;
 
 
 require_once __DIR__ . '/shared_test_functions.php';
 
 use AriStasisApp\BasicStasisApp;
-use AriStasisApp\rest_clients\{Applications,
+use AriStasisApp\RestClient\{Applications,
     Asterisk,
     Bridges,
     Channels,

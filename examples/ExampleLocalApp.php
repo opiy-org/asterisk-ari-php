@@ -6,7 +6,7 @@
  */
 
 use AriStasisApp\BasicStasisApp;
-use AriStasisApp\models\messages\{ChannelUserevent, StasisEnd, StasisStart};
+use AriStasisApp\Model\Message\{ChannelUserevent, StasisEnd, StasisStart};
 use GuzzleHttp\Exception\GuzzleException;
 
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -18,11 +18,11 @@ require_once __DIR__ . '/../vendor/autoload.php';
  * Open a terminal and start the example WebSocketClient worker script to receive Asterisk events:
  * 'php example_worker_local_app.php'
  *
- * Define public functions in your app class, named after the messages you want to handle (lowerCamelCase!).
+ * Define public functions in your app class, named after the Message you want to handle (lowerCamelCase!).
  * e.g. function someMessage(SomeMessage $someMessage){...}
- * Other asterisk messages received by the WebSocketClient will be ignored.
+ * Other asterisk Message received by the WebSocketClient will be ignored.
  *
- * For a list of all supported messages, have a look at the /src/models/messages
+ * For a list of all supported Message, have a look at the /src/Model/Message
  * folder in this library. Alternatively you can look them up in the official Asterisk documentation:
  * https://wiki.asterisk.org/wiki/display/AST/Asterisk+16+REST+Data+Models#Asterisk16RESTDataModels-Event
  * ==============================================================================================

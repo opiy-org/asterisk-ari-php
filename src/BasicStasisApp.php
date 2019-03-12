@@ -8,7 +8,7 @@
 namespace AriStasisApp;
 
 
-use AriStasisApp\rest_clients\{Applications,
+use AriStasisApp\RestClient\{Applications,
     Asterisk,
     Bridges,
     Channels,

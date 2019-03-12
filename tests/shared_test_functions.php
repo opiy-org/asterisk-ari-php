@@ -15,7 +15,7 @@ function mapMessageParametersToAriObject(string $modelName, array $parameters)
 {
     $parameters = $parameters + mockAsteriskId() + mockEventParameters() + ['type' => $modelName];
     $decodedJson = json_decode(json_encode($parameters));
-    $eventPath = "AriStasisApp\\models\\messages\\" . $modelName;
+    $eventPath = "AriStasisApp\\Model\\Message\\" . $modelName;
     $jsonMapper = new JsonMapper();
     $jsonMapper->bExceptionOnUndefinedProperty = true;
     $jsonMapper->bIgnoreVisibility = true;
@@ -30,7 +30,7 @@ function mapMessage()
 {
     $parameters = ['type' => 'ExampleType'] + mockAsteriskId();
     $decodedJson = json_decode(json_encode($parameters));
-    $eventPath = "AriStasisApp\\models\\messages\\Message";
+    $eventPath = "AriStasisApp\\Model\\Message\\Message";
     $jsonMapper = new JsonMapper();
     $jsonMapper->bExceptionOnUndefinedProperty = true;
     $jsonMapper->bIgnoreVisibility = true;
@@ -49,7 +49,7 @@ function mapMissingParams()
             'type' => 'MissingParams'
         ] + mockAsteriskId();
     $decodedJson = json_decode(json_encode($parameters));
-    $eventPath = "AriStasisApp\\models\\messages\\MissingParams";
+    $eventPath = "AriStasisApp\\Model\\Message\\MissingParams";
     $jsonMapper = new JsonMapper();
     $jsonMapper->bExceptionOnUndefinedProperty = true;
     $jsonMapper->bIgnoreVisibility = true;
@@ -65,7 +65,7 @@ function mapMissingParams()
 function mapAriResponseParametersToAriObject(string $modelName, array $parameters)
 {
     $decodedJson = json_decode(json_encode($parameters));
-    $eventPath = "AriStasisApp\\models\\" . $modelName;
+    $eventPath = "AriStasisApp\\Model\\" . $modelName;
     $jsonMapper = new JsonMapper();
     $jsonMapper->bExceptionOnUndefinedProperty = true;
     $jsonMapper->bIgnoreVisibility = true;

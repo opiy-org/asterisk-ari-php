@@ -13,7 +13,7 @@ namespace AriStasisApp\Tests;
 require_once __DIR__ . '/shared_test_functions.php';
 require_once __DIR__ . '/../src/helping_functions.php';
 
-use AriStasisApp\models\Application;
+use AriStasisApp\Model\Application;
 use Monolog\Logger;
 use PHPUnit\Framework\TestCase;
 use function AriStasisApp\getAsteriskDefaultSettings;
