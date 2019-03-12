@@ -1,12 +1,7 @@
-# This is a sample build configuration for PHP.
-# Check our guides at https://confluence.atlassian.com/x/e8YWN for more examples.
-# Only use spaces to indent your .yml configuration.
-# -----
-# You can specify a custom docker image from Docker Hub as your build environment.
 image: debian:latest
 
 clone:
-  depth: "full"
+  depth: "full" # Prevents sonarcloud from showing a warning about shallow clone.
 
 pipelines:
   default:
@@ -25,5 +20,5 @@ pipelines:
           - phpdismod xdebug
           - pipe: sonarsource/sonarcloud-scan:0.1.5
             variables:
-              SONAR_TOKEN: ${SONAR_TOKEN} # Use a secure repository or account variable
+              SONAR_TOKEN: ${SONAR_TOKEN} # Use a secure repository variable
               EXTRA_ARGS: -Dsonar.projectKey=ngvoice_asterisk-ari-client -Dsonar.organization=ngvoice -Dsonar.sources=./src -Dsonar.php.coverage.reportPaths=./tests/code-coverage-report.xml
