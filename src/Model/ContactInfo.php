@@ -11,7 +11,7 @@ namespace NgVoice\AriClient\Model;
 /**
  * Detailed information about a contact on an endpoint.
  *
- * @package AriStasisApp\Model
+ * @package NgVoice\AriClient\Model
  */
 class ContactInfo
 {

@@ -11,7 +11,7 @@ namespace NgVoice\AriClient\Model;
 /**
  * The merging of media from one or more channels. Everyone on the bridge receives the same audio.
  *
- * @package AriStasisApp\Model
+ * @package NgVoice\AriClient\Model
  */
 class Bridge
 {

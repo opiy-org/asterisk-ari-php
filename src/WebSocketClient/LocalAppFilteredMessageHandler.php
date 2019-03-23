@@ -83,8 +83,7 @@ class LocalAppFilteredMessageHandler extends TextMessageHandler
             for ($i = 0; $i < $sizeAllowedMessages; $i++) {
                 $allowedMessages[$i] = ucfirst($allowedMessages[$i]);
             }
-            $applicationsClient = $this->myApp->getApplicationsClient();
-            $applicationsClient->filter(getShortClassName($this->myApp), $allowedMessages);
+            $this->myApp->getApplicationsClient()->filter(getShortClassName($this->myApp), $allowedMessages);
         } catch (GuzzleException $e) {
             $this->logger->error($e->getMessage(), [__FUNCTION__]);
         }
@@ -135,13 +134,13 @@ class LocalAppFilteredMessageHandler extends TextMessageHandler
     }
 
     /**
-     * @param string $classPath
+     * @param string|object $classObjectOrPath
      * @return string[]
      */
-    private function getPublicClassMethodNames(string $classPath): array
+    private function getPublicClassMethodNames($classObjectOrPath): array
     {
         try {
-            $reflectionClass = new ReflectionClass($classPath);
+            $reflectionClass = new ReflectionClass($classObjectOrPath);
             $publicReflectionMethods =
                 $reflectionClass->getMethods(ReflectionMethod::IS_PUBLIC & ~ReflectionMethod::IS_STATIC);
 

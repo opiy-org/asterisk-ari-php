@@ -11,7 +11,7 @@ namespace NgVoice\AriClient\Model;
 /**
  * A media file that may be played back.
  *
- * @package AriStasisApp\Model
+ * @package NgVoice\AriClient\Model
  */
 class Sound
 {
@@ -21,13 +21,11 @@ class Sound
     private $text;
 
     /**
-     * @required
      * @var string Sound's identifier.
      */
     private $id;
 
     /**
-     * @required
      * @var FormatLangPair[] The formats and languages in which this sound is available.
      */
     private $formats;

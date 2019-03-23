@@ -11,7 +11,7 @@ namespace NgVoice\AriClient\Model;
 /**
  * Detailed information about a remote peer that communicates with Asterisk.
  *
- * @package AriStasisApp\Model
+ * @package NgVoice\AriClient\Model
  */
 class Peer
 {

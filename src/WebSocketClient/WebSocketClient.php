@@ -52,7 +52,7 @@ class WebSocketClient
      * If provided, the applications listed will be subscribed to all events,
      * effectively disabling the application specific subscriptions. Default is 'false'.
      * @param WoketoWebSocketClient|null $woketoWebSocketClient Optional webSocketClient to make this class testable
-     * @throws \RuntimeException
+     * @throws RuntimeException
      * TODO: We can see in the logs of asterisk that the application is activated twice. This should not happen.
      */
     public function __construct(
@@ -114,7 +114,7 @@ class WebSocketClient
         try {
             $this->woketoWebSocketClient->start($this->messageHandler);
         } catch (Exception $e) {
-            $this->logger->error($e->getMessage());
+            $this->logger->error($e->getMessage(), [__FUNCTION__]);
             exit(1);
         }
     }

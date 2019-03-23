@@ -11,7 +11,7 @@ namespace NgVoice\AriClient\Model;
 /**
  * Details of an Asterisk log channel
  *
- * @package AriStasisApp\Model
+ * @package NgVoice\AriClient\Model
  */
 class LogChannel
 {

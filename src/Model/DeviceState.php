@@ -11,7 +11,7 @@ namespace NgVoice\AriClient\Model;
 /**
  * Represents the state of a device.
  *
- * @package AriStasisApp\Model
+ * @package NgVoice\AriClient\Model
  */
 class DeviceState
 {

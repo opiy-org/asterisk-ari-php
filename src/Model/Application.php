@@ -8,10 +8,12 @@
 namespace NgVoice\AriClient\Model;
 
 
+use NgVoice\AriClient\Model\Message\Message;
+
 /**
  * Details of a Stasis application"
  *
- * @package AriStasisApp\Model
+ * @package NgVoice\AriClient\Model
  */
 class Application
 {
@@ -36,7 +38,7 @@ class Application
     private $device_names;
 
     /**
-     * @var object[] Event types not sent to the application.
+     * @var Message[] Event types not sent to the application.
      */
     private $events_disallowed;
 
@@ -46,7 +48,7 @@ class Application
     private $bridge_ids;
 
     /**
-     * @var object[] Event types sent to the application.
+     * @var Message[] Event types sent to the application.
      */
     private $events_allowed;
 
@@ -115,7 +117,7 @@ class Application
     }
 
     /**
-     * @return object[]
+     * @return Message[]
      */
     public function getEventsDisallowed(): array
     {
@@ -123,7 +125,7 @@ class Application
     }
 
     /**
-     * @param object[] $events_disallowed
+     * @param Message[] $events_disallowed
      */
     public function setEventsDisallowed(array $events_disallowed): void
     {
@@ -147,7 +149,7 @@ class Application
     }
 
     /**
-     * @return object[]
+     * @return Message[]
      */
     public function getEventsAllowed(): array
     {
@@ -155,7 +157,7 @@ class Application
     }
 
     /**
-     * @param object[] $events_allowed
+     * @param Message[] $events_allowed
      */
     public function setEventsAllowed(array $events_allowed): void
     {

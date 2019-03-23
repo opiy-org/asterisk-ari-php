@@ -11,7 +11,7 @@ namespace NgVoice\AriClient\Model;
 /**
  * A key/value pair that makes up part of a configuration object.
  *
- * @package AriStasisApp\Model
+ * @package NgVoice\AriClient\Model
  */
 class ConfigTuple
 {

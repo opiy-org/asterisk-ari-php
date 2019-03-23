@@ -11,7 +11,7 @@ namespace NgVoice\AriClient\Model;
 /**
  * A specific communication connection between Asterisk and an Endpoint.
  *
- * @package AriStasisApp\Model
+ * @package NgVoice\AriClient\Model
  */
 class Channel
 {

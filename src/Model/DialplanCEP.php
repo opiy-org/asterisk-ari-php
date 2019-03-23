@@ -11,7 +11,7 @@ namespace NgVoice\AriClient\Model;
 /**
  * Dialplan location (context/extension/priority)
  *
- * @package AriStasisApp\Model
+ * @package NgVoice\AriClient\Model
  */
 class DialplanCEP
 {

@@ -11,7 +11,7 @@ namespace NgVoice\AriClient\Model;
 /**
  * Caller identification
  *
- * @package AriStasisApp\Model
+ * @package NgVoice\AriClient\Model
  */
 class CallerID
 {

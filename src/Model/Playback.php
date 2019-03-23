@@ -11,7 +11,7 @@ namespace NgVoice\AriClient\Model;
 /**
  * Object representing the playback of media to a channel
  *
- * @package AriStasisApp\Model
+ * @package NgVoice\AriClient\Model
  */
 class Playback
 {

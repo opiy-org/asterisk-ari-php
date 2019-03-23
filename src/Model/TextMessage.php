@@ -11,7 +11,7 @@ namespace NgVoice\AriClient\Model;
 /**
  * A text message.
  *
- * @package AriStasisApp\Model
+ * @package NgVoice\AriClient\Model
  */
 class TextMessage
 {

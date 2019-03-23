@@ -11,7 +11,7 @@ namespace NgVoice\AriClient\Model;
 /**
  * A past recording that may be played back.
  *
- * @package AriStasisApp\Model
+ * @package NgVoice\AriClient\Model
  */
 class StoredRecording
 {

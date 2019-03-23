@@ -10,7 +10,7 @@ namespace NgVoice\AriClient\Model;
 
 /**
  * Class AsteriskPing
- * @package AriStasisApp\Model
+ * @package NgVoice\AriClient\Model
  */
 class AsteriskPing
 {

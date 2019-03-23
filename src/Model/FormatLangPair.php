@@ -11,7 +11,7 @@ namespace NgVoice\AriClient\Model;
 /**
  * Identifies the format and language of a sound file.
  *
- * @package AriStasisApp\Model
+ * @package NgVoice\AriClient\Model
  */
 class FormatLangPair
 {

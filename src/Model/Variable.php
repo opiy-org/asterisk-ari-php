@@ -11,7 +11,7 @@ namespace NgVoice\AriClient\Model;
 /**
  * Effective user/group id
  *
- * @package AriStasisApp\Model
+ * @package NgVoice\AriClient\Model
  */
 class Variable
 {

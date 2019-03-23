@@ -11,7 +11,7 @@ namespace NgVoice\AriClient\Model;
 /**
  * Info about how Asterisk was built.
  *
- * @package AriStasisApp\Model
+ * @package NgVoice\AriClient\Model
  */
 class BuildInfo
 {

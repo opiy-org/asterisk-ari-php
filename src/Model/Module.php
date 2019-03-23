@@ -11,7 +11,7 @@ namespace NgVoice\AriClient\Model;
 /**
  * Details of an Asterisk module
  *
- * @package AriStasisApp\Model
+ * @package NgVoice\AriClient\Model
  */
 class Module
 {

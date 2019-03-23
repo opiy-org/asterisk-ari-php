@@ -11,7 +11,7 @@ namespace NgVoice\AriClient\Model;
 /**
  * A recording that is in progress
  *
- * @package AriStasisApp\Model
+ * @package NgVoice\AriClient\Model
  */
 class LiveRecording
 {

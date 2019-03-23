@@ -13,7 +13,7 @@ namespace NgVoice\AriClient\Model;
  * Unlike most resources, which have a single unique identifier,
  * an endpoint is uniquely identified by the technology/resource pair.
  *
- * @package AriStasisApp\Model
+ * @package NgVoice\AriClient\Model
  */
 class Endpoint
 {

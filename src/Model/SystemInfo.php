@@ -11,7 +11,7 @@ namespace NgVoice\AriClient\Model;
 /**
  * Info about Asterisk.
  *
- * @package AriStasisApp\Model
+ * @package NgVoice\AriClient\Model
  */
 class SystemInfo
 {

@@ -11,7 +11,7 @@ namespace NgVoice\AriClient\Model;
 /**
  * Dialed channel information.
  *
- * @package AriStasisApp\Model
+ * @package NgVoice\AriClient\Model
  */
 class Dialed
 {
