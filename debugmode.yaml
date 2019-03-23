@@ -6,4 +6,4 @@
 # @copyright ng-voice GmbH (2018)
 #
 
-debugmode: false
+debug_mode: false

@@ -11,6 +11,7 @@ namespace NgVoice\AriClient;
 use Monolog\Handler\{NullHandler, StreamHandler};
 use Monolog\Logger;
 use ReflectionClass;
+use ReflectionException;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -90,7 +91,7 @@ function getShortClassName($object): string
     try {
         $reflect = new ReflectionClass($object);
         return $reflect->getShortName();
-    } catch (\ReflectionException $e) {
+    } catch (ReflectionException $e) {
         print_r("Reflection of class {$object} failed. Terminating...", true);
         print_r($e->getMessage(), true);
         exit(1);
@@ -111,7 +112,7 @@ function initLogger(string $name): Logger
 
     try {
         $stdOutPath = 'php://stdout';
-        $settings['app']['debugmode'] ?
+        $settings['debug_mode'] ?
             $logger->pushHandler(new StreamHandler($stdOutPath, Logger::DEBUG))
             : $logger->pushHandler(new NullHandler(Logger::DEBUG));
         $logger->pushHandler(
