@@ -9,6 +9,3 @@ vendor
 
 # Own composer specific files
 composer.phar
-
-# Sonarqube Properties File
-sonar-project.properties

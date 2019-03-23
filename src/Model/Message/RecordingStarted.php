@@ -5,15 +5,15 @@
  * @copyright ng-voice GmbH (2018)
  */
 
-namespace AriStasisApp\Model\Message;
+namespace NgVoice\AriClient\Model\Message;
 
 
-use AriStasisApp\Model\LiveRecording;
+use NgVoice\AriClient\Model\LiveRecording;
 
 /**
  * Event showing the start of a recording operation.
  *
- * @package AriStasisApp\Model\Message
+ * @package NgVoice\AriClient\Model\Message
  */
 class RecordingStarted extends Event
 {

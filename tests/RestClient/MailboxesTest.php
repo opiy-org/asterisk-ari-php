@@ -5,21 +5,27 @@
  * @copyright ng-voice GmbH (2018)
  */
 
-namespace AriStasisApp\Tests\RestClient;
+namespace NgVoice\AriClient\Tests\RestClient;
 
-use AriStasisApp\Model\Mailbox;
-use AriStasisApp\RestClient\Mailboxes;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Response;
+use NgVoice\AriClient\Model\Mailbox;
+use NgVoice\AriClient\RestClient\Mailboxes;
 use PHPUnit\Framework\TestCase;
+use ReflectionException;
 
+/**
+ * Class MailboxesTest
+ * @package NgVoice\AriClient\Tests\RestClient
+ */
 class MailboxesTest extends TestCase
 {
 
     /**
      * @return array
      */
-    public function mailboxInstanceProvider()
+    public function mailboxInstanceProvider(): array
     {
         return [
             'example mailbox' => [
@@ -35,10 +41,10 @@ class MailboxesTest extends TestCase
     /**
      * @dataProvider mailboxInstanceProvider
      * @param array $exampleMailbox
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testList(array $exampleMailbox)
+    public function testList(array $exampleMailbox): void
     {
         $soundsClient = $this->createMailboxesClient(
             [$exampleMailbox, $exampleMailbox, $exampleMailbox]
@@ -55,9 +61,9 @@ class MailboxesTest extends TestCase
      * @dataProvider mailboxInstanceProvider
      * @param string[] $exampleMailbox
      * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
-    public function testGet(array $exampleMailbox)
+    public function testGet(array $exampleMailbox): void
     {
         $mailboxesClient = $this->createMailboxesClient($exampleMailbox);
         $resultSound = $mailboxesClient->get('12345');
@@ -66,10 +72,10 @@ class MailboxesTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testUpdate()
+    public function testUpdate(): void
     {
         $mailboxesClient = $this->createMailboxesClient([]);
         $mailboxesClient->update('SomeMailbox', '3', '2');
@@ -77,10 +83,10 @@ class MailboxesTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testDelete()
+    public function testDelete(): void
     {
         $mailboxesClient = $this->createMailboxesClient([]);
         $mailboxesClient->delete('SomeMailbox');
@@ -90,9 +96,9 @@ class MailboxesTest extends TestCase
     /**
      * @param $expectedResponse
      * @return Mailboxes
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
-    private function createMailboxesClient($expectedResponse)
+    private function createMailboxesClient($expectedResponse): Mailboxes
     {
         $guzzleClientStub = $this->createMock(Client::class);
         $guzzleClientStub->method('request')

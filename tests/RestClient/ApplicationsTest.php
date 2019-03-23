@@ -6,24 +6,26 @@
  */
 
 
-namespace AriStasisApp\Tests\RestClient;
+namespace NgVoice\AriClient\Tests\RestClient;
 
-use AriStasisApp\Model\Application;
-use AriStasisApp\RestClient\Applications;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Response;
+use NgVoice\AriClient\Model\Application;
+use NgVoice\AriClient\RestClient\Applications;
 use PHPUnit\Framework\TestCase;
+use ReflectionException;
 
 /**
  * Class ApplicationsTest
- * @package AriStasisApp\Tests\RestClient
+ * @package NgVoice\AriClient\Tests\RestClient
  */
 class ApplicationsTest extends TestCase
 {
     /**
      * @return array
      */
-    public function applicationInstanceProvider()
+    public function applicationInstanceProvider(): array
     {
         return [
             'example application' => [
@@ -43,10 +45,10 @@ class ApplicationsTest extends TestCase
     /**
      * @dataProvider applicationInstanceProvider
      * @param array $exampleApplication
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testGet(array $exampleApplication)
+    public function testGet(array $exampleApplication): void
     {
         $applicationsClient = $this->createApplicationsClientWithGuzzleClientStub($exampleApplication);
         $resultChannel = $applicationsClient->get('12345');
@@ -57,10 +59,10 @@ class ApplicationsTest extends TestCase
     /**
      * @dataProvider applicationInstanceProvider
      * @param array $exampleApplication
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testUnsubscribe(array $exampleApplication)
+    public function testUnsubscribe(array $exampleApplication): void
     {
         $applicationsClient = $this->createApplicationsClientWithGuzzleClientStub($exampleApplication);
         $resultApplication = $applicationsClient->unsubscribe('12345', []);
@@ -71,10 +73,10 @@ class ApplicationsTest extends TestCase
     /**
      * @dataProvider applicationInstanceProvider
      * @param array $exampleApplication
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testSubscribe(array $exampleApplication)
+    public function testSubscribe(array $exampleApplication): void
     {
         $applicationsClient = $this->createApplicationsClientWithGuzzleClientStub($exampleApplication);
         $resultApplication = $applicationsClient->subscribe('12345', []);
@@ -85,10 +87,10 @@ class ApplicationsTest extends TestCase
     /**
      * @dataProvider applicationInstanceProvider
      * @param string[] $exampleApplication
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testList(array $exampleApplication)
+    public function testList(array $exampleApplication): void
     {
         $applicationsClient = $this->createApplicationsClientWithGuzzleClientStub(
             [$exampleApplication, $exampleApplication, $exampleApplication]
@@ -107,7 +109,7 @@ class ApplicationsTest extends TestCase
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \ReflectionException
      */
-    public function testFilter(array $exampleApplication)
+    public function testFilter(array $exampleApplication): void
     {
         $applicationsClient = $this->createApplicationsClientWithGuzzleClientStub($exampleApplication);
         $resultApplication = $applicationsClient->filter('12345');
@@ -127,7 +129,7 @@ class ApplicationsTest extends TestCase
      * @return Applications
      * @throws \ReflectionException
      */
-    private function createApplicationsClientWithGuzzleClientStub($expectedResponse)
+    private function createApplicationsClientWithGuzzleClientStub($expectedResponse): Applications
     {
         $guzzleClientStub = $this->createMock(Client::class);
         $guzzleClientStub->method('request')

@@ -7,14 +7,13 @@
 
 declare(strict_types=1);
 
-namespace AriStasisApp\Tests\Model;
+namespace NgVoice\AriClient\Tests\Model;
 
 
-require_once __DIR__ . '/../shared_test_functions.php';
-
-use AriStasisApp\Model\{Sound};
+use JsonMapper_Exception;
+use NgVoice\AriClient\Model\Sound;
 use PHPUnit\Framework\TestCase;
-use function AriStasisApp\Tests\mapAriResponseParametersToAriObject;
+use function NgVoice\AriClient\Tests\mapAriResponseParametersToAriObject;
 
 /**
  * Class SoundTest
@@ -24,7 +23,7 @@ use function AriStasisApp\Tests\mapAriResponseParametersToAriObject;
 final class SoundTest extends TestCase
 {
     /**
-     * @throws \JsonMapper_Exception
+     * @throws JsonMapper_Exception
      */
     public function testParametersMappedCorrectly(): void
     {
@@ -45,7 +44,7 @@ final class SoundTest extends TestCase
             ]
         );
         $this->assertSame('ExampleId', $sound->getId());
-        $this->assertSame(1, sizeof($sound->getFormats()));
+        $this->assertCount(1, $sound->getFormats());
         $this->assertSame('X', $sound->getFormats()[0]->getFormat());
         $this->assertSame('ExampleText', $sound->getText());
     }

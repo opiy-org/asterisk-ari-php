@@ -5,17 +5,15 @@
  * @copyright ng-voice GmbH (2018)
  */
 
-namespace AriStasisApp\Model\Message;
+namespace NgVoice\AriClient\Model\Message;
 
 
-use AriStasisApp\Model\Bridge;
-use AriStasisApp\Model\Channel;
-use AriStasisApp\Model\Endpoint;
+use NgVoice\AriClient\Model\{Bridge, Channel, Endpoint};
 
 /**
  * User-generated event with additional user-defined fields in the object.
  *
- * @package AriStasisApp\Model\Message
+ * @package NgVoice\AriClient\Model\Message
  */
 class ChannelUserevent extends Event
 {

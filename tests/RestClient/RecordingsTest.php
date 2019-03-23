@@ -5,26 +5,27 @@
  * @copyright ng-voice GmbH (2018)
  */
 
+namespace NgVoice\AriClient\Tests\RestClient;
 
-namespace AriStasisApp\Tests\RestClient;
 
-use AriStasisApp\Model\LiveRecording;
-use AriStasisApp\Model\StoredRecording;
-use AriStasisApp\RestClient\Recordings;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Response;
+use NgVoice\AriClient\Model\{LiveRecording, StoredRecording};
+use NgVoice\AriClient\RestClient\Recordings;
 use PHPUnit\Framework\TestCase;
+use ReflectionException;
 
 /**
  * Class RecordingsTest
- * @package AriStasisApp\Tests\RestClient
+ * @package NgVoice\AriClient\Tests\RestClient
  */
 class RecordingsTest extends TestCase
 {
     /**
      * @return array
      */
-    public function recordingInstanceProvider()
+    public function recordingInstanceProvider(): array
     {
         return [
             'example live recording' => [
@@ -45,10 +46,10 @@ class RecordingsTest extends TestCase
     /**
      * @dataProvider recordingInstanceProvider
      * @param array $exampleLiveRecording
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testGetLive(array $exampleLiveRecording)
+    public function testGetLive(array $exampleLiveRecording): void
     {
         $recordingsClient = $this->createRecordingsClientWithGuzzleClientStub($exampleLiveRecording);
         $resultChannel = $recordingsClient->getLive('12345');
@@ -57,10 +58,10 @@ class RecordingsTest extends TestCase
     }
 
     /**
-     * @throws \ReflectionException
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws ReflectionException
+     * @throws GuzzleException
      */
-    public function testCopyStored()
+    public function testCopyStored(): void
     {
         $exampleStoredRecording = [
             'format' => 'ExampleFormat',
@@ -73,10 +74,10 @@ class RecordingsTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testGetStored()
+    public function testGetStored(): void
     {
         $exampleStoredRecording = [
             'format' => 'ExampleFormat',
@@ -89,10 +90,10 @@ class RecordingsTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testListStored()
+    public function testListStored(): void
     {
         $exampleStoredRecording = [
             'format' => 'ExampleFormat',
@@ -110,10 +111,10 @@ class RecordingsTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testDeleteStored()
+    public function testDeleteStored(): void
     {
         $recordingsClient = $this->createRecordingsClientWithGuzzleClientStub([]);
         $recordingsClient->deleteStored('ExampleRecordingName');
@@ -121,10 +122,10 @@ class RecordingsTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testCancel()
+    public function testCancel(): void
     {
         $recordingsClient = $this->createRecordingsClientWithGuzzleClientStub([]);
         $recordingsClient->cancel('ExampleRecordingName');
@@ -132,10 +133,10 @@ class RecordingsTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testStop()
+    public function testStop(): void
     {
         $recordingsClient = $this->createRecordingsClientWithGuzzleClientStub([]);
         $recordingsClient->stop('ExampleRecordingName');
@@ -143,10 +144,10 @@ class RecordingsTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testPause()
+    public function testPause(): void
     {
         $recordingsClient = $this->createRecordingsClientWithGuzzleClientStub([]);
         $recordingsClient->pause('ExampleRecordingName');
@@ -154,10 +155,10 @@ class RecordingsTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testUnpause()
+    public function testUnpause(): void
     {
         $recordingsClient = $this->createRecordingsClientWithGuzzleClientStub([]);
         $recordingsClient->unpause('ExampleRecordingName');
@@ -165,10 +166,10 @@ class RecordingsTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testMute()
+    public function testMute(): void
     {
         $recordingsClient = $this->createRecordingsClientWithGuzzleClientStub([]);
         $recordingsClient->mute('ExampleRecordingName');
@@ -176,10 +177,10 @@ class RecordingsTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testUnmute()
+    public function testUnmute(): void
     {
         $recordingsClient = $this->createRecordingsClientWithGuzzleClientStub([]);
         $recordingsClient->unmute('ExampleRecordingName');
@@ -189,9 +190,9 @@ class RecordingsTest extends TestCase
     /**
      * @param $expectedResponse
      * @return Recordings
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
-    private function createRecordingsClientWithGuzzleClientStub($expectedResponse)
+    private function createRecordingsClientWithGuzzleClientStub($expectedResponse): Recordings
     {
         $guzzleClientStub = $this->createMock(Client::class);
         $guzzleClientStub->method('request')

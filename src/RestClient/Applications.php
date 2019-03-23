@@ -5,30 +5,28 @@
  * @copyright ng-voice GmbH (2018)
  */
 
-namespace AriStasisApp\RestClient;
+namespace NgVoice\AriClient\RestClient;
 
 
-use AriStasisApp\Model\Application;
-use function AriStasisApp\glueArrayOfStrings;
+use GuzzleHttp\Exception\GuzzleException;
+use NgVoice\AriClient\Model\Application;
+use function NgVoice\AriClient\glueArrayOfStrings;
 
 /**
  * Class Applications
- *
- * @package AriStasisApp\ariclients
+ * @package NgVoice\AriClient\RestClient
  */
 class Applications extends AriRestClient
 {
-    private const APPLICATION = 'Application';
-
     /**
      * List all applications on the asterisk.
      *
      * @return Application[]
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function list(): array
+    public function list(): array
     {
-        return $this->getRequest('/applications', [], 'array', self::APPLICATION);
+        return $this->getRequest('/applications', [], parent::ARRAY, Application::class);
     }
 
     /**
@@ -36,11 +34,11 @@ class Applications extends AriRestClient
      *
      * @param string $applicationName Application's name.
      * @return Application|object
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function get(string $applicationName): Application
+    public function get(string $applicationName): Application
     {
-        return $this->getRequest("/applications/{$applicationName}", [], self::MODEL, self::APPLICATION);
+        return $this->getRequest("/applications/{$applicationName}", [], parent::MODEL, Application::class);
     }
 
     /**
@@ -51,16 +49,16 @@ class Applications extends AriRestClient
      * @param array $eventSource URI for events source
      * (channel:{channelId}, bridge:{bridgeId}, endpoint:{tech}[/{resource}], deviceState:{deviceName}
      * @return Application|object
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function subscribe(string $applicationName, array $eventSource): Application
+    public function subscribe(string $applicationName, array $eventSource): Application
     {
         return $this->postRequest(
             "/applications/{$applicationName}/subscription",
             ['eventSource' => glueArrayOfStrings($eventSource)],
             [],
-            self::MODEL,
-            self::APPLICATION
+            parent::MODEL,
+            Application::class
         );
     }
 
@@ -72,15 +70,15 @@ class Applications extends AriRestClient
      * @param array $eventSource URI for events source
      * (channel:{channelId}, bridge:{bridgeId}, endpoint:{tech}[/{resource}], deviceState:{deviceName}
      * @return Application|object
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function unsubscribe(string $applicationName, array $eventSource): Application
+    public function unsubscribe(string $applicationName, array $eventSource): Application
     {
         return $this->deleteRequest(
             "/applications/{$applicationName}/subscription",
             ['eventSource' => glueArrayOfStrings($eventSource)],
-            self::MODEL,
-            self::APPLICATION
+            parent::MODEL,
+            Application::class
         );
     }
 
@@ -116,9 +114,9 @@ class Applications extends AriRestClient
      * @param array $disallowed Specifies a disallowed list of event types
      *
      * @return Application|object
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function filter(string $applicationName, array $allowed = null, array $disallowed = null): Application
+    public function filter(string $applicationName, array $allowed = null, array $disallowed = null): Application
     {
         $body = [];
 
@@ -130,19 +128,24 @@ class Applications extends AriRestClient
             $body['disallowed'] = $this->formatMessageTypesArray($disallowed);
         }
 
-        return $this->putRequest("/applications/{$applicationName}/eventFilter", $body, self::MODEL, self::APPLICATION);
+        return $this->putRequest(
+            "/applications/{$applicationName}/eventFilter",
+            $body,
+            parent::MODEL,
+            Application::class
+        );
     }
 
     /**
      * @param array $messageTypes
      * @return array
      */
-    private function formatMessageTypesArray(array $messageTypes)
+    private function formatMessageTypesArray(array $messageTypes): array
     {
         $messageTypesList = [];
 
-        for ($i = 0; $i < sizeof($messageTypes); $i++) {
-            $messageTypesList[$i] = ['type' => $messageTypes[$i]];
+        foreach ($messageTypes as $messageType) {
+            $messageTypesList[] = ['type' => $messageType];
         }
 
         return $messageTypesList;

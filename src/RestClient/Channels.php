@@ -5,31 +5,30 @@
  * @copyright ng-voice GmbH (2018)
  */
 
-namespace AriStasisApp\RestClient;
+namespace NgVoice\AriClient\RestClient;
 
-use AriStasisApp\Model\{Channel, LiveRecording, Playback, Variable};
-use function AriStasisApp\glueArrayOfStrings;
+use GuzzleHttp\Exception\GuzzleException;
+use NgVoice\AriClient\Model\{Channel, LiveRecording, Playback, Variable};
+use function NgVoice\AriClient\glueArrayOfStrings;
 
 
 /**
- * A specific communication connection between Asterisk and an Endpoint.
- *
- * @package AriStasisApp\RestClient
+ * Class Channels
+ * @package NgVoice\AriClient\RestClient
  */
 class Channels extends AriRestClient
 {
-    private const CHANNEL = 'Channel';
     private const ENDPOINT = 'endpoint';
 
     /**
      * List all active channels in Asterisk.
      *
      * @return Channel[]|object
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function list(): array
+    public function list(): array
     {
-        return $this->getRequest('/channels', [], 'array', self::CHANNEL);
+        return $this->getRequest('/channels', [], parent::ARRAY, Channel::class);
     }
 
     /**
@@ -61,16 +60,16 @@ class Channels extends AriRestClient
      *      Ex. "ulaw,slin16". Format names can be found with "core show codecs".
      * @param string[] $channelVariables
      * @return Channel|object
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function originate(string $endpoint, array $options = [], array $channelVariables = []): Channel
+    public function originate(string $endpoint, array $options = [], array $channelVariables = []): Channel
     {
         return $this->postRequest(
             '/channels',
             [self::ENDPOINT => $endpoint] + $options,
             ['variables' => $channelVariables],
-            self::MODEL,
-            self::CHANNEL
+            parent::MODEL,
+            Channel::class
         );
     }
 
@@ -88,16 +87,16 @@ class Channels extends AriRestClient
      * formats: string - The format name capability list to use if originator is not specified.
      *      Ex. "ulaw,slin16". Format names can be found with "core show codecs".
      * @return Channel|object
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function create(string $endpoint, string $app, array $options = []): Channel
+    public function create(string $endpoint, string $app, array $options = []): Channel
     {
         return $this->postRequest(
             '/channels/create',
             [self::ENDPOINT => $endpoint, 'app' => $app] + $options,
             [],
-            self::MODEL,
-            self::CHANNEL
+            parent::MODEL,
+            Channel::class
         );
     }
 
@@ -106,15 +105,15 @@ class Channels extends AriRestClient
      *
      * @param string $channelId Channel's id.
      * @return Channel|object
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function get(string $channelId): Channel
+    public function get(string $channelId): Channel
     {
         return $this->getRequest(
             "/channels/{$channelId}",
             [],
-            self::MODEL,
-            self::CHANNEL
+            parent::MODEL,
+            Channel::class
         );
     }
 
@@ -147,9 +146,9 @@ class Channels extends AriRestClient
      *      Ex. "ulaw,slin16". Format names can be found with "core show codecs" in Asterisk.
      * @param string[] $channelVariables
      * @return Channel|object
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function originateWithId(
+    public function originateWithId(
         string $channelId,
         string $endpoint,
         array $options = [],
@@ -159,8 +158,8 @@ class Channels extends AriRestClient
             "/channels/{$channelId}",
             [self::ENDPOINT => $endpoint] + $options,
             ['variables' => $channelVariables],
-            self::MODEL,
-            self::CHANNEL
+            parent::MODEL,
+            Channel::class
         );
     }
 
@@ -171,14 +170,16 @@ class Channels extends AriRestClient
      * @param string $reason Reason for hanging up the channel.
      * Allowed values: normal, busy, congestion, no_answer, timeout, rejected, unallocated, normal_unspecified,
      * number_incomplete, codec_mismatch, interworking, failure, answered_elsewhere
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function hangup(string $channelId, string $reason = ''): void
+    public function hangup(string $channelId, string $reason = ''): void
     {
         $queryParameters = [];
+
         if ($reason !== '') {
             $queryParameters['reason'] = $reason;
         }
+
         $this->deleteRequest("/channels/{$channelId}", $queryParameters);
     }
 
@@ -191,11 +192,30 @@ class Channels extends AriRestClient
      * extension: string - The extension to continue to.
      * priority: int - The priority to continue to.
      * label: string - The label to continue to - will supersede 'priority' if both are provided.
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function continueInDialPlan(string $channelId, array $options): void
+    public function continueInDialPlan(string $channelId, array $options): void
     {
         $this->postRequest("/channels/{$channelId}/continue", $options);
+    }
+
+    /**
+     * Move the channel from one Stasis application to another.
+     *
+     * @param string $channelId Channel's id
+     * @param string $app The channel will be passed to this Stasis application.
+     * @param string[] $appArgs The application arguments to pass to the Stasis application provided by 'app'.
+     * @throws GuzzleException
+     */
+    public function move(string $channelId, string $app, array $appArgs = []): void
+    {
+        $queryParameters = ['app' => $app];
+
+        if ($appArgs !== []) {
+            $queryParameters['appArgs'] = glueArrayOfStrings($appArgs);
+        }
+
+        $this->postRequest("/channels/{$channelId}/move", $queryParameters);
     }
 
     /**
@@ -203,9 +223,9 @@ class Channels extends AriRestClient
      *
      * @param string $channelId Channel's id.
      * @param string $endpoint The endpoint to redirect the channel to.
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function redirect(string $channelId, string $endpoint): void
+    public function redirect(string $channelId, string $endpoint): void
     {
         $this->postRequest("/channels/{$channelId}/redirect", [self::ENDPOINT => $endpoint]);
     }
@@ -214,9 +234,9 @@ class Channels extends AriRestClient
      * Answer a channel.
      *
      * @param string $channelId Channel's id.
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function answer(string $channelId): void
+    public function answer(string $channelId): void
     {
         $this->postRequest("/channels/{$channelId}/answer");
     }
@@ -225,9 +245,9 @@ class Channels extends AriRestClient
      * Indicate ringing to a channel.
      *
      * @param string $channelId Channel's id.
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function ring(string $channelId): void
+    public function ring(string $channelId): void
     {
         $this->postRequest("/channels/{$channelId}/ring");
     }
@@ -236,9 +256,9 @@ class Channels extends AriRestClient
      * Stop ringing indication on a channel if locally generated.
      *
      * @param string $channelId Channel's id.
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function ringStop(string $channelId): void
+    public function ringStop(string $channelId): void
     {
         $this->deleteRequest("/channels/{$channelId}/ring");
     }
@@ -253,9 +273,9 @@ class Channels extends AriRestClient
      * between: int - Amount of time in between DTMF digits (specified in milliseconds). Default: 100
      * duration: int - Length of each DTMF digit (specified in milliseconds). Default: 100
      * after: int - Amount of time to wait after DTMF digits (specified in milliseconds) end.
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function sendDtmf(string $channelId, string $dtmf, array $options = []): void
+    public function sendDtmf(string $channelId, string $dtmf, array $options = []): void
     {
         $this->postRequest("/channels/{$channelId}/dtmf", ['dtmf' => $dtmf] + $options);
     }
@@ -265,9 +285,9 @@ class Channels extends AriRestClient
      *
      * @param string $channelId Channel's id.
      * @param string $direction Direction in which to mute audio (both, in, out).
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function mute(string $channelId, string $direction = 'both'): void
+    public function mute(string $channelId, string $direction = 'both'): void
     {
         $this->postRequest("/channels/{$channelId}/mute", ['direction' => $direction]);
     }
@@ -277,9 +297,9 @@ class Channels extends AriRestClient
      *
      * @param string $channelId Channel's id.
      * @param string $direction Direction in which to unmute audio (both, in, out).
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function unMute(string $channelId, string $direction = 'both'): void
+    public function unMute(string $channelId, string $direction = 'both'): void
     {
         $this->deleteRequest("/channels/{$channelId}/mute", ['direction' => $direction]);
     }
@@ -288,9 +308,9 @@ class Channels extends AriRestClient
      * Hold a channel.
      *
      * @param string $channelId Channel's id.
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function hold(string $channelId): void
+    public function hold(string $channelId): void
     {
         $this->postRequest("/channels/{$channelId}/hold");
     }
@@ -299,9 +319,9 @@ class Channels extends AriRestClient
      * Remove a channel from hold.
      *
      * @param string $channelId Channel's id.
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function unHold(string $channelId): void
+    public function unHold(string $channelId): void
     {
         $this->deleteRequest("/channels/{$channelId}/hold");
     }
@@ -313,14 +333,16 @@ class Channels extends AriRestClient
      *
      * @param string $channelId Channel's id.
      * @param string $mohClass Music on hold class to use.
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function startMoh(string $channelId, string $mohClass = ''): void
+    public function startMoh(string $channelId, string $mohClass = ''): void
     {
         $queryParameters = [];
+
         if ($mohClass !== '') {
             $queryParameters['mohClass'] = $mohClass;
         }
+
         $this->postRequest("/channels/{$channelId}/moh", $queryParameters);
     }
 
@@ -328,9 +350,9 @@ class Channels extends AriRestClient
      * Stop playing music on hold to a channel.
      *
      * @param string $channelId Channel's id.
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function stopMoh(string $channelId): void
+    public function stopMoh(string $channelId): void
     {
         $this->deleteRequest("/channels/{$channelId}/moh");
     }
@@ -340,9 +362,9 @@ class Channels extends AriRestClient
      * silence in this manner will suspend silence without resuming automatically.
      *
      * @param string $channelId Channel's id.
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function startSilence(string $channelId): void
+    public function startSilence(string $channelId): void
     {
         $this->postRequest("/channels/{$channelId}/silence");
     }
@@ -352,9 +374,9 @@ class Channels extends AriRestClient
      * playing silence in this manner will suspend silence without resuming automatically.
      *
      * @param string $channelId Channel's id
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function stopSilence(string $channelId): void
+    public function stopSilence(string $channelId): void
     {
         $this->deleteRequest("/channels/{$channelId}/silence");
     }
@@ -374,16 +396,16 @@ class Channels extends AriRestClient
      * skipms: int - Number of milliseconds to skip for forward/reverse operations. Default: 3000
      * playbackId: string - Playback ID.
      * @return Playback|object
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function play(string $channelId, array $media, array $options = []): Playback
+    public function play(string $channelId, array $media, array $options = []): Playback
     {
         return $this->postRequest(
             "/channels/{$channelId}/play",
             ['media' => glueArrayOfStrings($media)] + $options,
             [],
-            self::MODEL,
-            'Playback'
+            parent::MODEL,
+            Playback::class
         );
     }
 
@@ -403,16 +425,16 @@ class Channels extends AriRestClient
      *      Only applies to the first URI if multiple media URIs are specified.
      * skipms: int - Number of milliseconds to skip for forward/reverse operations. Default: 3000
      * @return Playback|object
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function playWithId(string $channelId, string $playbackId, array $media, array $options = []): Playback
+    public function playWithId(string $channelId, string $playbackId, array $media, array $options = []): Playback
     {
         return $this->postRequest(
             "/channels/{$channelId}/play/{$playbackId}",
             ['media' => glueArrayOfStrings($media)] + $options,
             [],
-            self::MODEL,
-            'Playback'
+            parent::MODEL,
+            Playback::class
         );
     }
 
@@ -434,16 +456,16 @@ class Channels extends AriRestClient
      * beep: boolean - Play beep when recording begins
      * terminateOn: string - DTMF input to terminate recording. Default: none. Allowed values: none, any, *, #
      * @return LiveRecording|object
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function record(string $channelId, string $name, string $format, array $options = []): LiveRecording
+    public function record(string $channelId, string $name, string $format, array $options = []): LiveRecording
     {
         return $this->postRequest(
             "/channels/{$channelId}/record",
             ['name' => $name, 'format' => $format] + $options,
             [],
-            self::MODEL,
-            'LiveRecording'
+            parent::MODEL,
+            LiveRecording::class
         );
     }
 
@@ -453,15 +475,15 @@ class Channels extends AriRestClient
      * @param string $channelId Channel's id.
      * @param string $variable The channel variable or function to get.
      * @return Variable|object
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function getChannelVar(string $channelId, string $variable): Variable
+    public function getChannelVar(string $channelId, string $variable): Variable
     {
         return $this->getRequest(
             "/channels/{$channelId}/variable",
             ['variable' => $variable],
-            self::MODEL,
-            'Variable'
+            parent::MODEL,
+            Variable::class
         );
     }
 
@@ -471,9 +493,9 @@ class Channels extends AriRestClient
      * @param string $channelId Channel's id.
      * @param string $variable The channel variable or function to set
      * @param string $value The value to set the variable to
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function setChannelVar(string $channelId, string $variable, string $value): void
+    public function setChannelVar(string $channelId, string $variable, string $value): void
     {
         $this->postRequest("/channels/{$channelId}/variable", [], ['variable' => $variable, 'value' => $value]);
     }
@@ -489,16 +511,16 @@ class Channels extends AriRestClient
      * appArgs: string - The application arguments to pass to the Stasis application
      * snoopId: string - Unique ID to assign to snooping channel
      * @return Channel|object
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function snoopChannel(string $channelId, string $app, array $options = []): Channel
+    public function snoopChannel(string $channelId, string $app, array $options = []): Channel
     {
         return $this->postRequest(
             "/channels/{$channelId}/snoop",
             ['app' => $app] + $options,
             [],
-            self::MODEL,
-            self::CHANNEL
+            parent::MODEL,
+            Channel::class
         );
     }
 
@@ -513,16 +535,16 @@ class Channels extends AriRestClient
      * whisper: string - Direction of audio to whisper into. Default: none. Allowed values: none, both, out, in
      * appArgs: string - The application arguments to pass to the Stasis application
      * @return Channel|object
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function snoopChannelWithId(string $channelId, string $snoopId, string $app, array $options = []): Channel
+    public function snoopChannelWithId(string $channelId, string $snoopId, string $app, array $options = []): Channel
     {
         return $this->postRequest(
             "/channels/{$channelId}/snoop/{$snoopId}",
             ['app' => $app] + $options,
             [],
-            self::MODEL,
-            self::CHANNEL
+            parent::MODEL,
+            Channel::class
         );
     }
 
@@ -532,9 +554,9 @@ class Channels extends AriRestClient
      * @param string $channelId Channel's id
      * @param string $caller Channel ID of caller
      * @param int $timeout Dial timeout. Allowed range: Min: 0; Max: None
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function dial(string $channelId, string $caller, int $timeout): void
+    public function dial(string $channelId, string $caller, int $timeout): void
     {
         $this->postRequest("/channels/{$channelId}/dial", ['caller' => $caller, 'timeout' => $timeout]);
     }

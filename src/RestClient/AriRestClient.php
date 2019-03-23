@@ -5,7 +5,7 @@
  * @copyright ng-voice GmbH (2018)
  */
 
-namespace AriStasisApp\RestClient;
+namespace NgVoice\AriClient\RestClient;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
@@ -13,12 +13,11 @@ use GuzzleHttp\Psr7\Response;
 use JsonMapper;
 use JsonMapper_Exception;
 use Monolog\Logger;
-use function AriStasisApp\{getShortClassName, initLogger, parseAriSettings};
+use function NgVoice\AriClient\{getShortClassName, initLogger, parseAriSettings};
 
 /**
  * Class AriRestClient
- *
- * @package AriStasisApp\RestClient
+ * @package NgVoice\AriClient\RestClient
  */
 class AriRestClient
 {
@@ -54,7 +53,7 @@ class AriRestClient
      * @param array $otherAriSettings
      * @param Client|null $guzzleClient
      */
-    function __construct(
+    public function __construct(
         string $ariUser,
         string $ariPassword,
         array $otherAriSettings = [],
@@ -99,9 +98,9 @@ class AriRestClient
     ) {
         $method = 'GET';
         $uri = $this->rootUri . $uri;
-        $this->logRequest($method, $uri, $queryParameters);
+        $this->debugRequest($method, $uri, $queryParameters);
         $response = $this->guzzleClient->request($method, $uri, [self::QUERY => $queryParameters]);
-        $this->logResponse($response, $method, $uri);
+        $this->debugResponse($response, $method, $uri);
         return $this->formatResponse($response, $returnType, $returnModelClassName);
     }
 
@@ -113,7 +112,7 @@ class AriRestClient
      * @param array $queryParameters
      * @param array $body
      */
-    private function logRequest(string $method, string $uri, array $queryParameters = [], array $body = [])
+    private function debugRequest(string $method, string $uri, array $queryParameters = [], array $body = []): void
     {
         $queryParameters = print_r($queryParameters, true);
         $body = print_r($body, true);
@@ -129,7 +128,7 @@ class AriRestClient
      * @param string $method
      * @param string $uri
      */
-    private function logResponse(Response $response, string $method, string $uri)
+    private function debugResponse(Response $response, string $method, string $uri): void
     {
         $this->logger->debug("Received Response... Method: {$method} | URI: {$uri} | "
             . "ResponseCode: {$response->getStatusCode()} | Reason: {$response->getReasonPhrase()} | "
@@ -140,17 +139,18 @@ class AriRestClient
     /**
      * @param Response $response
      * @param string $returnType
-     * @param string $returnModelClassName
+     * @param string $modelClassPath
      * @return array|Response|object
      */
-    private function formatResponse(Response $response, string $returnType, string $returnModelClassName)
+    private function formatResponse(Response $response, string $returnType, string $modelClassPath)
     {
-        if (($returnType !== '') && ($returnModelClassName !== '')) {
-            $modelClassName = "AriStasisApp\\Model\\" . $returnModelClassName;
+        if (($returnType !== '') && ($modelClassPath !== '')) {
             if ($returnType === 'array') {
-                return $this->mapJsonArrayToAriObjects($response, $modelClassName);
-            } elseif ($returnType === 'model') {
-                return $this->mapJsonToAriObject($response, $modelClassName);
+                return $this->mapJsonArrayToAriObjects($response, $modelClassPath);
+            }
+
+            if ($returnType === 'model') {
+                return $this->mapJsonToAriObject($response, $modelClassPath);
             }
         }
         return $response;
@@ -163,11 +163,11 @@ class AriRestClient
      */
     private function mapJsonArrayToAriObjects(Response $response, string $targetObjectType): array
     {
-        $decodedBody = json_decode($response->getBody());
+        $decodedResponseBody = json_decode($response->getBody());
         try {
             $mappedElements = [];
-            for ($i = 0; $i < sizeof($decodedBody); $i++) {
-                $mappedElements[$i] = $this->jsonMapper->map($decodedBody[$i], new $targetObjectType);
+            foreach ($decodedResponseBody as $jsonObject) {
+                $mappedElements[] = $this->jsonMapper->map($jsonObject, new $targetObjectType);
             }
             return $mappedElements;
         } catch (JsonMapper_Exception $jsonMapper_Exception) {
@@ -212,9 +212,9 @@ class AriRestClient
     ) {
         $method = 'POST';
         $uri = $this->rootUri . $uri;
-        $this->logRequest($method, $uri, $queryParameters, $body);
+        $this->debugRequest($method, $uri, $queryParameters, $body);
         $response = $this->guzzleClient->request($method, $uri, ['json' => $body, self::QUERY => $queryParameters]);
-        $this->logResponse($response, $method, $uri);
+        $this->debugResponse($response, $method, $uri);
         return $this->formatResponse($response, $returnType, $returnModelClassName);
     }
 
@@ -236,9 +236,9 @@ class AriRestClient
     ) {
         $method = 'PUT';
         $uri = $this->rootUri . $uri;
-        $this->logRequest($method, $uri, [], $body);
+        $this->debugRequest($method, $uri, [], $body);
         $response = $this->guzzleClient->request($method, $uri, ['json' => $body]);
-        $this->logResponse($response, $method, $uri);
+        $this->debugResponse($response, $method, $uri);
         return $this->formatResponse($response, $returnType, $returnModelClassName);
     }
 
@@ -260,9 +260,9 @@ class AriRestClient
     ) {
         $method = 'DELETE';
         $uri = $this->rootUri . $uri;
-        $this->logRequest($method, $uri, $queryParameters);
+        $this->debugRequest($method, $uri, $queryParameters);
         $response = $this->guzzleClient->request($method, $uri, [self::QUERY => $queryParameters]);
-        $this->logResponse($response, $method, $uri);
+        $this->debugResponse($response, $method, $uri);
         return $this->formatResponse($response, $returnType, $returnModelClassName);
     }
 }

@@ -1,28 +1,30 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: lukas
- * Date: 21.02.19
- * Time: 19:25
+ * @author Lukas Stermann
+ * @copyright ng-voice GmbH (2019)
  */
 
-namespace AriStasisApp\Tests\Model\messages;
+declare(strict_types=1);
 
-use AriStasisApp\Model\{Message\ApplicationReplaced};
+namespace NgVoice\AriClient\Tests\Model\messages;
+
+
+use JsonMapper_Exception;
+use NgVoice\AriClient\Model\{Message\ApplicationReplaced};
 use PHPUnit\Framework\TestCase;
-use function AriStasisApp\Tests\mapMessageParametersToAriObject;
+use function NgVoice\AriClient\Tests\mapMessageParametersToAriObject;
 
-require_once __DIR__ . '/../../shared_test_functions.php';
 
 /**
  * Class ApplicationReplacedTest
  *
- * @package AriStasisApp\Tests\Model
+ * @package NgVoice\AriClient\Tests\Model
  */
 final class ApplicationReplacedTest extends TestCase
 {
     /**
-     * @throws \JsonMapper_Exception
+     * @throws JsonMapper_Exception
      */
     public function testParametersMappedCorrectly(): void
     {

@@ -10,10 +10,9 @@ declare(strict_types=1);
 namespace AriStasisApp\Tests\Model;
 
 
-require_once __DIR__ . '/shared_test_functions.php';
-
-use AriStasisApp\BasicStasisApp;
-use AriStasisApp\RestClient\{Applications,
+use Monolog\Logger;
+use NgVoice\AriClient\BasicStasisApp;
+use NgVoice\AriClient\RestClient\{Applications,
     Asterisk,
     Bridges,
     Channels,
@@ -24,18 +23,17 @@ use AriStasisApp\RestClient\{Applications,
     Playbacks,
     Recordings,
     Sounds};
-use Monolog\Logger;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Yaml\Yaml;
 
 /**
  * Class BasicStasisAppTest
  *
- * @package AriStasisApp\Tests
+ * @package NgVoice\AriClient\Tests
  */
 final class BasicStasisAppTest extends TestCase
 {
-    public function asteriskInstanceProvider()
+    public function asteriskInstanceProvider(): array
     {
         $settings = Yaml::parseFile(__DIR__ . '/../environment.yaml');
         return [

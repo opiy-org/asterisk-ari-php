@@ -5,27 +5,29 @@
  * @copyright ng-voice GmbH (2019)
  */
 
-namespace AriStasisApp\Tests\WebSocketClient;
+namespace NgVoice\AriClient\Tests\WebSocketClient;
 
-use AriStasisApp\BasicStasisApp;
-use AriStasisApp\Model\Message\MissingParams;
-use AriStasisApp\WebSocketClient\LocalAppMessageHandler;
+use ExampleLocalApp;
 use JsonMapper;
 use Nekland\Woketo\Core\AbstractConnection;
 use Nekland\Woketo\Exception\WebsocketException;
+use NgVoice\AriClient\BasicStasisApp;
+use NgVoice\AriClient\Model\Message\MissingParams;
+use NgVoice\AriClient\WebSocketClient\LocalAppMessageHandler;
 use PHPUnit\Framework\TestCase;
+use ReflectionException;
 
 /**
  * Class LocalAppMessageHandlerTest
- * @package AriStasisApp\Tests\WebSocketClient
+ * @package NgVoice\AriClient\Tests\WebSocketClient
  */
 class LocalAppMessageHandlerTest extends TestCase
 {
     /**
      * @return array
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
-    public function localAppMessageHandlerStubProvider()
+    public function localAppMessageHandlerStubProvider(): array
     {
         $basicStasisAppStub = $this->createMock(BasicStasisApp::class);
         /**
@@ -41,7 +43,7 @@ class LocalAppMessageHandlerTest extends TestCase
      * @dataProvider localAppMessageHandlerStubProvider
      * @param BasicStasisApp $basicStasisAppStub
      */
-    public function test__construct(BasicStasisApp $basicStasisAppStub)
+    public function test__construct(BasicStasisApp $basicStasisAppStub): void
     {
         $this->assertInstanceOf(
             LocalAppMessageHandler::class,
@@ -52,9 +54,9 @@ class LocalAppMessageHandlerTest extends TestCase
     /**
      * @dataProvider localAppMessageHandlerStubProvider
      * @param BasicStasisApp $basicStasisAppStub
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
-    public function testOnConnection(BasicStasisApp $basicStasisAppStub)
+    public function testOnConnection(BasicStasisApp $basicStasisAppStub): void
     {
         $localAppMessageHandler = new LocalAppMessageHandler($basicStasisAppStub);
 
@@ -68,12 +70,18 @@ class LocalAppMessageHandlerTest extends TestCase
     }
 
     /**
-     * @dataProvider localAppMessageHandlerStubProvider
-     * @param BasicStasisApp $basicStasisAppStub
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
-    public function testOnMessage(BasicStasisApp $basicStasisAppStub)
+    public function testOnMessage(): void
     {
+        require_once __DIR__ . '/../../examples/ExampleLocalApp.php';
+        $basicStasisAppStub = $this->createMock(ExampleLocalApp::class);
+        $basicStasisAppStub->method('channelUserevent');
+
+        /**
+         * @var BasicStasisApp $basicStasisAppStub
+         */
+
         $jsonMapperStub = $this->createMock(JsonMapper::class);
         $jsonMapperStub->method('map')->willReturn(new MissingParams());
         /**
@@ -82,11 +90,6 @@ class LocalAppMessageHandlerTest extends TestCase
         $localAppMessageHandler = new LocalAppMessageHandler($basicStasisAppStub, $jsonMapperStub);
         $abstractConnectionStub = $this->createMock(AbstractConnection::class);
 
-        /*
-         * TODO: We expect an error exception here,because we did not mock a fake class that contains
-         *  the missingParams() method. We should though in the future.
-         */
-        $this->expectException(\Error::class);
         /**
          * @var AbstractConnection $abstractConnectionStub
          */
@@ -94,14 +97,15 @@ class LocalAppMessageHandlerTest extends TestCase
             json_encode(['asterisk_id' => '12345', 'type' => 'MissingParams', ['param1', 'param2']]),
             $abstractConnectionStub
         );
+        $this->assertTrue(true, true);
     }
 
     /**
      * @dataProvider localAppMessageHandlerStubProvider
      * @param BasicStasisApp $basicStasisAppStub
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
-    public function testOnDisconnect(BasicStasisApp $basicStasisAppStub)
+    public function testOnDisconnect(BasicStasisApp $basicStasisAppStub): void
     {
         $localAppMessageHandler = new LocalAppMessageHandler($basicStasisAppStub);
 
@@ -117,10 +121,10 @@ class LocalAppMessageHandlerTest extends TestCase
     /**
      * @dataProvider localAppMessageHandlerStubProvider
      * @param BasicStasisApp $basicStasisAppStub
-     * @throws \ReflectionException
-     * @throws \Nekland\Woketo\Exception\WebsocketException
+     * @throws ReflectionException
+     * @throws WebsocketException
      */
-    public function testOnError(BasicStasisApp $basicStasisAppStub)
+    public function testOnError(BasicStasisApp $basicStasisAppStub): void
     {
         $localAppMessageHandler = new LocalAppMessageHandler($basicStasisAppStub);
 
@@ -133,30 +137,5 @@ class LocalAppMessageHandlerTest extends TestCase
          */
         $this->expectException(WebsocketException::class);
         $localAppMessageHandler->onError($webSocketException, $abstractConnectionStub);
-    }
-
-    /**
-     * @dataProvider localAppMessageHandlerStubProvider
-     * @param BasicStasisApp $basicStasisAppStub
-     * @throws \ReflectionException
-     */
-    public function testJSONMapperThrowsException(BasicStasisApp $basicStasisAppStub)
-    {
-        $jsonMapperStub = $this->createMock(\JsonMapper::class);
-        $jsonMapperStub->method('map')->willThrowException(new \JsonMapper_Exception('Test exception'));
-        /**
-         * @var \JsonMapper $jsonMapperStub
-         */
-        $localAppMessageHandler = new LocalAppMessageHandler($basicStasisAppStub, $jsonMapperStub);
-        $abstractConnectionStub = $this->createMock(AbstractConnection::class);
-
-        /**
-         * @var AbstractConnection $abstractConnectionStub
-         */
-        $localAppMessageHandler->onMessage(
-            json_encode(['asterisk_id' => '12345', 'type' => 'MissingParams', ['param1', 'param2']]),
-            $abstractConnectionStub
-        );
-        $this->assertTrue(true, true);
     }
 }

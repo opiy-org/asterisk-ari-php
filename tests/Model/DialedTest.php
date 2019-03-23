@@ -7,18 +7,16 @@
 
 declare(strict_types=1);
 
-namespace AriStasisApp\Tests\Model;
+namespace NgVoice\AriClient\Tests\Model;
 
 
-require_once __DIR__ . '/../shared_test_functions.php';
-
-use AriStasisApp\Model\{Dialed};
+use NgVoice\AriClient\Model\Dialed;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Class DialedTest
  *
- * @package AriStasisApp\Tests\Model
+ * @package NgVoice\AriClient\Tests\Model
  */
 final class DialedTest extends TestCase
 {

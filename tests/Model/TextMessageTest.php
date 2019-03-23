@@ -7,24 +7,23 @@
 
 declare(strict_types=1);
 
-namespace AriStasisApp\Tests\Model;
+namespace NgVoice\AriClient\Tests\Model;
 
 
-require_once __DIR__ . '/../shared_test_functions.php';
-
-use AriStasisApp\Model\{TextMessage};
+use JsonMapper_Exception;
+use NgVoice\AriClient\Model\TextMessage;
 use PHPUnit\Framework\TestCase;
-use function AriStasisApp\Tests\mapAriResponseParametersToAriObject;
+use function NgVoice\AriClient\Tests\mapAriResponseParametersToAriObject;
 
 /**
  * Class TextMessageTest
  *
- * @package AriStasisApp\Tests\Model
+ * @package NgVoice\AriClient\Tests\Model
  */
 final class TextMessageTest extends TestCase
 {
     /**
-     * @throws \JsonMapper_Exception
+     * @throws JsonMapper_Exception
      */
     public function testParametersMappedCorrectly(): void
     {
@@ -48,7 +47,7 @@ final class TextMessageTest extends TestCase
         $this->assertSame('ExampleBody', $textMessage->getBody());
         $this->assertSame('pjsip/bla1', $textMessage->getFrom());
         $this->assertSame('pjsip/bla', $textMessage->getTo());
-        $this->assertSame(1, sizeof($textMessage->getVariables()));
+        $this->assertCount(1, $textMessage->getVariables());
         $this->assertSame('Y', $textMessage->getVariables()[0]->getValue());
     }
 }

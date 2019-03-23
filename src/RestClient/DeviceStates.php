@@ -5,15 +5,15 @@
  * @copyright ng-voice GmbH (2018)
  */
 
-namespace AriStasisApp\RestClient;
+namespace NgVoice\AriClient\RestClient;
 
 
-use AriStasisApp\Model\DeviceState;
+use GuzzleHttp\Exception\GuzzleException;
+use NgVoice\AriClient\Model\DeviceState;
 
 /**
  * Class DeviceStates
- *
- * @package AriStasisApp\RestClient
+ * @package NgVoice\AriClient\RestClient
  */
 class DeviceStates extends AriRestClient
 {
@@ -21,11 +21,11 @@ class DeviceStates extends AriRestClient
      * List all ARI controlled device states.
      *
      * @return DeviceState[]
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function list(): array
+    public function list(): array
     {
-        return $this->getRequest('/deviceStates', [], 'array', 'DeviceState');
+        return $this->getRequest('/deviceStates', [], parent::ARRAY, DeviceState::class);
     }
 
     /**
@@ -33,11 +33,11 @@ class DeviceStates extends AriRestClient
      *
      * @param string $deviceName Name of the device
      * @return DeviceState|object
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function get(string $deviceName): DeviceState
+    public function get(string $deviceName): DeviceState
     {
-        return $this->getRequest("/deviceStates/{$deviceName}", [], 'model', 'DeviceState');
+        return $this->getRequest("/deviceStates/{$deviceName}", [], parent::MODEL, DeviceState::class);
     }
 
     /**
@@ -45,9 +45,9 @@ class DeviceStates extends AriRestClient
      *
      * @param string $deviceName Name of the device
      * @param string $deviceState Allowed: NOT_INUSE, INUSE, BUSY, INVALID, UNAVAILABLE, RINGING, RINGINUSE, ONHOLD
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function update(string $deviceName, string $deviceState): void
+    public function update(string $deviceName, string $deviceState): void
     {
         $this->putRequest("/deviceStates/{$deviceName}", ['deviceState' => $deviceState]);
     }
@@ -56,9 +56,9 @@ class DeviceStates extends AriRestClient
      * Destroy a device-state controlled by ARI.
      *
      * @param string $deviceName Name of the device
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function delete(string $deviceName): void
+    public function delete(string $deviceName): void
     {
         $this->deleteRequest("/deviceStates/{$deviceName}");
     }

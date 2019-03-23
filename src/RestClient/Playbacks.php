@@ -5,15 +5,15 @@
  * @copyright ng-voice GmbH (2018)
  */
 
-namespace AriStasisApp\RestClient;
+namespace NgVoice\AriClient\RestClient;
 
 
-use AriStasisApp\Model\Playback;
+use GuzzleHttp\Exception\GuzzleException;
+use NgVoice\AriClient\Model\Playback;
 
 /**
  * Class Playbacks
- *
- * @package AriStasisApp\RestClient
+ * @package NgVoice\AriClient\RestClient
  */
 class Playbacks extends AriRestClient
 {
@@ -22,20 +22,20 @@ class Playbacks extends AriRestClient
      *
      * @param string $playbackId Playback's id.
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function get(string $playbackId): Playback
+    public function get(string $playbackId): Playback
     {
-        return $this->getRequest("/playbacks/{$playbackId}", [], 'model', 'Playback');
+        return $this->getRequest("/playbacks/{$playbackId}", [], parent::MODEL, Playback::class);
     }
 
     /**
      * Stop a playback.
      *
      * @param string $playbackId Playback's id
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function stop(string $playbackId): void
+    public function stop(string $playbackId): void
     {
         $this->deleteRequest("/playbacks/{$playbackId}");
     }
@@ -46,9 +46,9 @@ class Playbacks extends AriRestClient
      * @param string $playbackId Playback's id.
      * @param string $operation Operation to perform on the playback.
      * Allowed: restart, pause, unpause, reverse, forward
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function control(string $playbackId, string $operation): void
+    public function control(string $playbackId, string $operation): void
     {
         $this->postRequest("/playbacks/{$playbackId}/control", ['operation' => $operation]);
     }

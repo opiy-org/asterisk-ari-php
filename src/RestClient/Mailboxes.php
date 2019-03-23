@@ -5,15 +5,15 @@
  * @copyright ng-voice GmbH (2018)
  */
 
-namespace AriStasisApp\RestClient;
+namespace NgVoice\AriClient\RestClient;
 
 
-use AriStasisApp\Model\Mailbox;
+use GuzzleHttp\Exception\GuzzleException;
+use NgVoice\AriClient\Model\Mailbox;
 
 /**
  * Class Mailboxes
- *
- * @package AriStasisApp\RestClient
+ * @package NgVoice\AriClient\RestClient
  */
 class Mailboxes extends AriRestClient
 {
@@ -21,11 +21,11 @@ class Mailboxes extends AriRestClient
      * List all mailboxes.
      *
      * @return Mailbox[]
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function list(): array
+    public function list(): array
     {
-        return $this->getRequest('/mailboxes', [], 'array', 'Mailbox');
+        return $this->getRequest('/mailboxes', [], parent::ARRAY, Mailbox::class);
     }
 
     /**
@@ -33,11 +33,11 @@ class Mailboxes extends AriRestClient
      *
      * @param string $mailboxName Name of the mailbox.
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function get(string $mailboxName): Mailbox
+    public function get(string $mailboxName): Mailbox
     {
-        return $this->getRequest("/mailboxes/{$mailboxName}", [], 'model', 'Mailbox');
+        return $this->getRequest("/mailboxes/{$mailboxName}", [], parent::MODEL, Mailbox::class);
 
     }
 
@@ -47,9 +47,9 @@ class Mailboxes extends AriRestClient
      * @param string $mailboxName Name of the mailbox.
      * @param int $oldMessages Count of old Message in the mailbox.
      * @param int $newMessages Count of new Message in the mailbox.
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function update(string $mailboxName, int $oldMessages, int $newMessages): void
+    public function update(string $mailboxName, int $oldMessages, int $newMessages): void
     {
         $this->putRequest("/mailboxes/{$mailboxName}", ['oldMessages' => $oldMessages, 'newMessages' => $newMessages]);
     }
@@ -58,9 +58,9 @@ class Mailboxes extends AriRestClient
      * Destroy a mailbox.
      *
      * @param string $mailboxName Name of the mailbox
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function delete(string $mailboxName): void
+    public function delete(string $mailboxName): void
     {
         $this->deleteRequest("/mailboxes/{$mailboxName}");
     }

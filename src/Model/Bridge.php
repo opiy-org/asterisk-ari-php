@@ -5,7 +5,7 @@
  * @copyright ng-voice GmbH (2018)
  */
 
-namespace AriStasisApp\Model;
+namespace NgVoice\AriClient\Model;
 
 
 /**
@@ -37,6 +37,11 @@ class Bridge
      * @var string The video mode the bridge is using. One of 'none', 'talker', or 'single'.
      */
     private $video_mode;
+
+    /**
+     * @var string Timestamp when bridge was created
+     */
+    private $creationtime;
 
     /**
      * @var string[] Ids of channels participating in this bridge
@@ -76,11 +81,11 @@ class Bridge
     }
 
     /**
-     * @param string $bridgeType
+     * @param string $bridge_type
      */
-    public function setBridgeType(string $bridgeType): void
+    public function setBridgeType(string $bridge_type): void
     {
-        $this->bridge_type = $bridgeType;
+        $this->bridge_type = $bridge_type;
     }
 
     /**
@@ -124,11 +129,27 @@ class Bridge
     }
 
     /**
-     * @param string $videoMode
+     * @param string $video_mode
      */
-    public function setVideoMode(string $videoMode): void
+    public function setVideoMode(string $video_mode): void
     {
-        $this->video_mode = $videoMode;
+        $this->video_mode = $video_mode;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreationtime(): string
+    {
+        return $this->creationtime;
+    }
+
+    /**
+     * @param string $creationtime
+     */
+    public function setCreationtime(string $creationtime): void
+    {
+        $this->creationtime = $creationtime;
     }
 
     /**
@@ -156,11 +177,11 @@ class Bridge
     }
 
     /**
-     * @param string $videoSourceId
+     * @param string $video_source_id
      */
-    public function setVideoSourceId(string $videoSourceId): void
+    public function setVideoSourceId(string $video_source_id): void
     {
-        $this->video_source_id = $videoSourceId;
+        $this->video_source_id = $video_source_id;
     }
 
     /**
@@ -172,11 +193,11 @@ class Bridge
     }
 
     /**
-     * @param string $bridgeClass
+     * @param string $bridge_class
      */
-    public function setBridgeClass(string $bridgeClass): void
+    public function setBridgeClass(string $bridge_class): void
     {
-        $this->bridge_class = $bridgeClass;
+        $this->bridge_class = $bridge_class;
     }
 
     /**

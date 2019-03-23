@@ -7,13 +7,15 @@
 
 namespace AriStasisApp\Tests\RestClient;
 
-use AriStasisApp\Model\{Channel, LiveRecording, Playback, Variable};
-use AriStasisApp\RestClient\Channels;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
+use NgVoice\AriClient\Model\{Channel, LiveRecording, Playback, Variable};
+use NgVoice\AriClient\RestClient\Channels;
 use PHPUnit\Framework\TestCase;
+use ReflectionException;
 
 /**
  * Class ChannelsTest
@@ -24,7 +26,7 @@ class ChannelsTest extends TestCase
     /**
      * @return array
      */
-    public function channelsInstanceProvider()
+    public function channelsInstanceProvider(): array
     {
         return [
             'example channel' => [
@@ -59,10 +61,10 @@ class ChannelsTest extends TestCase
 
     /**
      * @dataProvider channelsInstanceProvider
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testContinueInDialPlan()
+    public function testContinueInDialPlan(): void
     {
         $channelsClient = $this->createChannelsClient([]);
         $channelsClient->continueInDialPlan('SomeChannelId', []);
@@ -70,10 +72,10 @@ class ChannelsTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testRecord()
+    public function testRecord(): void
     {
         $channelsClient = $this->createChannelsClient([
             'talking_duration' => '3',
@@ -91,10 +93,10 @@ class ChannelsTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testSetChannelVar()
+    public function testSetChannelVar(): void
     {
         $channelsClient = $this->createChannelsClient([]);
         $channelsClient->setChannelVar('SomeChannelId', 'SomeVar', 'SomeVal');
@@ -104,10 +106,10 @@ class ChannelsTest extends TestCase
     /**
      * @dataProvider channelsInstanceProvider
      * @param string[] $exampleChannel
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testSnoopChannel(array $exampleChannel)
+    public function testSnoopChannel(array $exampleChannel): void
     {
         $channelsClient = $this->createChannelsClient($exampleChannel);
         $resultChannel = $channelsClient->snoopChannel('12345', 'TestApp');
@@ -116,10 +118,10 @@ class ChannelsTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testRedirect()
+    public function testRedirect(): void
     {
         $channelsClient = $this->createChannelsClient([]);
         $channelsClient->redirect('SomeChannelId', 'SomeEndpoint');
@@ -129,10 +131,10 @@ class ChannelsTest extends TestCase
     /**
      * @dataProvider channelsInstanceProvider
      * @param string[] $exampleChannel
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testList(array $exampleChannel)
+    public function testList(array $exampleChannel): void
     {
         $channelsClient = $this->createChannelsClient(
             [$exampleChannel, $exampleChannel, $exampleChannel]
@@ -146,10 +148,10 @@ class ChannelsTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testGetChannelVar()
+    public function testGetChannelVar(): void
     {
         $channelsClient = $this->createChannelsClient(['value' => 'testValue']);
         $resultVariable = $channelsClient->getChannelVar('12345', 'TestVar');
@@ -158,10 +160,10 @@ class ChannelsTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testMute()
+    public function testMute(): void
     {
         $channelsClient = $this->createChannelsClient([]);
         $channelsClient->mute('SomeChannelId');
@@ -169,10 +171,10 @@ class ChannelsTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testStartSilence()
+    public function testStartSilence(): void
     {
         $channelsClient = $this->createChannelsClient([]);
         $channelsClient->startSilence('SomeChannelId');
@@ -180,10 +182,10 @@ class ChannelsTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testDial()
+    public function testDial(): void
     {
         $channelsClient = $this->createChannelsClient([]);
         $channelsClient->dial('SomeChannelId', 'callerId', 500);
@@ -193,10 +195,10 @@ class ChannelsTest extends TestCase
     /**
      * @dataProvider channelsInstanceProvider
      * @param string[] $exampleChannel
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testGet(array $exampleChannel)
+    public function testGet(array $exampleChannel): void
     {
         $channelsClient = $this->createChannelsClient($exampleChannel);
         $resultChannel = $channelsClient->get('12345');
@@ -205,10 +207,10 @@ class ChannelsTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testSendDtmf()
+    public function testSendDtmf(): void
     {
         $channelsClient = $this->createChannelsClient([]);
         $channelsClient->sendDtmf('SomeChannelId', '1234');
@@ -216,10 +218,10 @@ class ChannelsTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testUnHold()
+    public function testUnHold(): void
     {
         $channelsClient = $this->createChannelsClient([]);
         $channelsClient->unHold('SomeChannelId');
@@ -229,10 +231,10 @@ class ChannelsTest extends TestCase
     /**
      * @dataProvider channelsInstanceProvider
      * @param string[] $exampleChannel
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testCreate(array $exampleChannel)
+    public function testCreate(array $exampleChannel): void
     {
         $channelsClient = $this->createChannelsClient($exampleChannel);
         $resultChannel = $channelsClient->create('SomeEndpoint', 'SomeApp');
@@ -241,10 +243,10 @@ class ChannelsTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testStartMoh()
+    public function testStartMoh(): void
     {
         $channelsClient = $this->createChannelsClient([]);
         $channelsClient->startMoh('SomeChannelId', 'SomeMohClass');
@@ -253,10 +255,10 @@ class ChannelsTest extends TestCase
 
     /**
      * @dataProvider channelsInstanceProvider
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testRing()
+    public function testRing(): void
     {
         $channelsClient = $this->createChannelsClient([]);
         $channelsClient->ring('SomeChannelId');
@@ -266,10 +268,10 @@ class ChannelsTest extends TestCase
     /**
      * @dataProvider channelsInstanceProvider
      * @param string[] $exampleChannel
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testOriginate(array $exampleChannel)
+    public function testOriginate(array $exampleChannel): void
     {
         $channelsClient = $this->createChannelsClient($exampleChannel);
         $resultChannel = $channelsClient->originate('SomeEndpoint');
@@ -278,10 +280,10 @@ class ChannelsTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testPlayWithId()
+    public function testPlayWithId(): void
     {
         $channelsClient = $this->createChannelsClient([
             'next_media_uri' => 'ExampleUri',
@@ -297,10 +299,10 @@ class ChannelsTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testHold()
+    public function testHold(): void
     {
         $channelsClient = $this->createChannelsClient([]);
         $channelsClient->hold('SomeChannelId');
@@ -308,10 +310,10 @@ class ChannelsTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testUnMute()
+    public function testUnMute(): void
     {
         $channelsClient = $this->createChannelsClient([]);
         $channelsClient->unMute('SomeChannelId');
@@ -319,10 +321,10 @@ class ChannelsTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testPlay()
+    public function testPlay(): void
     {
         $channelsClient = $this->createChannelsClient([
             'next_media_uri' => 'ExampleUri',
@@ -340,10 +342,10 @@ class ChannelsTest extends TestCase
     /**
      * @dataProvider channelsInstanceProvider
      * @param string[] $exampleChannel
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testOriginateWithId(array $exampleChannel)
+    public function testOriginateWithId(array $exampleChannel): void
     {
         $channelsClient = $this->createChannelsClient($exampleChannel);
         $resultChannel = $channelsClient->originateWithId('SomeChannelId', 'SomeEndpoint');
@@ -352,10 +354,10 @@ class ChannelsTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testStopSilence()
+    public function testStopSilence(): void
     {
         $channelsClient = $this->createChannelsClient([]);
         $channelsClient->stopSilence('SomeChannelId');
@@ -363,10 +365,10 @@ class ChannelsTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testStopMoh()
+    public function testStopMoh(): void
     {
         $channelsClient = $this->createChannelsClient([]);
         $channelsClient->stopMoh('SomeChannelId');
@@ -374,10 +376,10 @@ class ChannelsTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testRingStop()
+    public function testRingStop(): void
     {
         $channelsClient = $this->createChannelsClient([]);
         $channelsClient->ringStop('SomeChannelId');
@@ -387,10 +389,10 @@ class ChannelsTest extends TestCase
     /**
      * @dataProvider channelsInstanceProvider
      * @param string[] $exampleChannel
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testSnoopChannelWithId(array $exampleChannel)
+    public function testSnoopChannelWithId(array $exampleChannel): void
     {
         $channelsClient = $this->createChannelsClient($exampleChannel);
         $resultChannel = $channelsClient->snoopChannelWithId('12345', 'SnoopId', 'TestApp');
@@ -399,10 +401,10 @@ class ChannelsTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testHangup()
+    public function testHangup(): void
     {
         $channelsClient = $this->createChannelsClient([]);
         $channelsClient->hangup('SomeChannelId', 'SomeReason');
@@ -411,10 +413,10 @@ class ChannelsTest extends TestCase
 
     /**
      * @dataProvider channelsInstanceProvider
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testAnswer()
+    public function testAnswer(): void
     {
         $channelsClient = $this->createChannelsClient([]);
         $channelsClient->answer('SomeChannelId');
@@ -424,9 +426,9 @@ class ChannelsTest extends TestCase
     /**
      * @param $expectedResponse
      * @return Channels
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
-    private function createChannelsClient($expectedResponse)
+    private function createChannelsClient($expectedResponse): Channels
     {
         $guzzleClientStub = $this->createMock(Client::class);
         $guzzleClientStub->method('request')
@@ -444,9 +446,9 @@ class ChannelsTest extends TestCase
 
     /**
      * @return Channels
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
-    private function createChannelsClientThatThrowsException()
+    private function createChannelsClientThatThrowsException(): Channels
     {
         $guzzleClientStub = $this->createMock(Client::class);
         $guzzleClientStub->method('request')
@@ -465,37 +467,37 @@ class ChannelsTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testPostException()
+    public function testPostException(): void
     {
         $channelsClient = $this->createChannelsClientThatThrowsException();
-        $this->expectException('GuzzleHttp\Exception\ServerException');
+        $this->expectException(ServerException::class);
         $channelsClient->sendDtmf('SomeChannelId', '1234');
         $this->assertTrue(true, true);
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testGetException()
+    public function testGetException(): void
     {
         $channelsClient = $this->createChannelsClientThatThrowsException();
-        $this->expectException('GuzzleHttp\Exception\ServerException');
+        $this->expectException(ServerException::class);
         $channelsClient->get('SomeChannelId');
         $this->assertTrue(true, true);
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testDeleteException()
+    public function testDeleteException(): void
     {
         $channelsClient = $this->createChannelsClientThatThrowsException();
-        $this->expectException('GuzzleHttp\Exception\ServerException');
+        $this->expectException(ServerException::class);
         $channelsClient->unHold('SomeChannelId');
         $this->assertTrue(true, true);
     }

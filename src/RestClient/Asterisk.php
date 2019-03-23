@@ -5,20 +5,18 @@
  * @copyright ng-voice GmbH (2018)
  */
 
-namespace AriStasisApp\RestClient;
+namespace NgVoice\AriClient\RestClient;
 
-use AriStasisApp\Model\{AsteriskInfo, AsteriskPing, ConfigTuple, LogChannel, Module, Variable};
-use function AriStasisApp\glueArrayOfStrings;
+use GuzzleHttp\Exception\GuzzleException;
+use NgVoice\AriClient\Model\{AsteriskInfo, AsteriskPing, ConfigTuple, LogChannel, Module, Variable};
+use function NgVoice\AriClient\glueArrayOfStrings;
 
 /**
  * Class Asterisk
- *
- * @package AriStasisApp\RestClient
+ * @package NgVoice\AriClient\RestClient
  */
 class Asterisk extends AriRestClient
 {
-    private const FIELDS = 'fields';
-
     /**
      * Retrieve a dynamic configuration object.
      *
@@ -26,15 +24,15 @@ class Asterisk extends AriRestClient
      * @param string $objectType The type of configuration object to retrieve.
      * @param string $id The unique identifier of the object to retrieve.
      * @return ConfigTuple[]|object
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function getObject(string $configClass, string $objectType, string $id): array
+    public function getObject(string $configClass, string $objectType, string $id): array
     {
         return $this->getRequest(
             "/asterisk/config/dynamic/{$configClass}/{$objectType}/{$id}",
             [],
-            self::ARRAY,
-            'ConfigTuple'
+            parent::ARRAY,
+            ConfigTuple::class
         );
     }
 
@@ -47,22 +45,24 @@ class Asterisk extends AriRestClient
      * @param string[] $fields The body object should have a value that is a list of ConfigTuples,
      * which provide the fields to update.
      * @return ConfigTuple[]|object
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function updateObject(string $configClass, string $objectType, string $id, array $fields = []): array
+    public function updateObject(string $configClass, string $objectType, string $id, array $fields = []): array
     {
-        $body = [self::FIELDS => []];
+        $body = ['fields' => []];
+
         if ($fields !== []) {
+            $formattedFields = [];
             foreach ($fields as $attribute => $value) {
-                $body[self::FIELDS] =
-                    array_merge($body[self::FIELDS], [['attribute' => $attribute, 'value' => $value]]);
+                $formattedFields[] = ['attribute' => $attribute, 'value' => $value];
             }
+            $body['fields'] = $formattedFields;
         }
 
         return $this->putRequest("/asterisk/config/dynamic/{$configClass}/{$objectType}/{$id}",
             $body,
-            self::ARRAY,
-            'ConfigTuple'
+            parent::ARRAY,
+            ConfigTuple::class
         );
     }
 
@@ -72,9 +72,9 @@ class Asterisk extends AriRestClient
      * @param string $configClass The configuration class containing dynamic configuration objects.
      * @param string $objectType The type of configuration object to delete.
      * @param string $id The unique identifier of the object to delete.
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function deleteObject(string $configClass, string $objectType, string $id): void
+    public function deleteObject(string $configClass, string $objectType, string $id): void
     {
         $this->deleteRequest("/asterisk/config/dynamic/{$configClass}/{$objectType}/{$id}");
     }
@@ -84,37 +84,37 @@ class Asterisk extends AriRestClient
      *
      * @param array $only Filter information returned. Allowed values: build, system, config, status.
      * @return AsteriskInfo|object
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function getInfo(array $only = []): AsteriskInfo
+    public function getInfo(array $only = []): AsteriskInfo
     {
         $queryParameters = [];
         if ($only !== []) {
             $queryParameters = ['only' => glueArrayOfStrings($only)];
         }
-        return $this->getRequest('/asterisk/info', $queryParameters, self::MODEL, 'AsteriskInfo');
+        return $this->getRequest('/asterisk/info', $queryParameters, parent::MODEL, AsteriskInfo::class);
     }
 
     /**
      * Response pong message.
      *
      * @return AsteriskPing|object
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function ping(): AsteriskPing
+    public function ping(): AsteriskPing
     {
-        return $this->getRequest('/asterisk/ping', [], self::MODEL, 'AsteriskPing');
+        return $this->getRequest('/asterisk/ping', [], parent::MODEL, AsteriskPing::class);
     }
 
     /**
      * List Asterisk modules.
      *
      * @return Module[]
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function listModules(): array
+    public function listModules(): array
     {
-        return $this->getRequest('/asterisk/modules', [], self::ARRAY, 'Module');
+        return $this->getRequest('/asterisk/modules', [], parent::ARRAY, Module::class);
     }
 
     /**
@@ -122,20 +122,20 @@ class Asterisk extends AriRestClient
      *
      * @param string $moduleName Module's name.
      * @return Module|object
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function getModule(string $moduleName): Module
+    public function getModule(string $moduleName): Module
     {
-        return $this->getRequest("/asterisk/modules/{$moduleName}", [], self::MODEL, 'Module');
+        return $this->getRequest("/asterisk/modules/{$moduleName}", [], parent::MODEL, Module::class);
     }
 
     /**
      * Load an Asterisk module.
      *
      * @param string $moduleName Module's name.
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function loadModule(string $moduleName): void
+    public function loadModule(string $moduleName): void
     {
         $this->postRequest("/asterisk/modules/{$moduleName}");
     }
@@ -144,9 +144,9 @@ class Asterisk extends AriRestClient
      * Unload an Asterisk module.
      *
      * @param string $moduleName Module's name.
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function unloadModule(string $moduleName): void
+    public function unloadModule(string $moduleName): void
     {
         $this->deleteRequest("/asterisk/modules/{$moduleName}");
     }
@@ -155,9 +155,9 @@ class Asterisk extends AriRestClient
      * Reload an Asterisk module.
      *
      * @param string $moduleName Module's name.
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function reloadModule(string $moduleName): void
+    public function reloadModule(string $moduleName): void
     {
         $this->putRequest("/asterisk/modules/{$moduleName}");
     }
@@ -166,11 +166,11 @@ class Asterisk extends AriRestClient
      * Gets Asterisk log channel information.
      *
      * @return LogChannel[]
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function listLogChannels(): array
+    public function listLogChannels(): array
     {
-        return $this->getRequest('asterisk/logging', [], self::ARRAY, 'LogChannel');
+        return $this->getRequest('asterisk/logging', [], parent::ARRAY, LogChannel::class);
     }
 
     /**
@@ -178,9 +178,9 @@ class Asterisk extends AriRestClient
      *
      * @param string $logChannelName The log channel to add.
      * @param string $configuration Levels of the log channel
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function addLog(string $logChannelName, string $configuration): void
+    public function addLog(string $logChannelName, string $configuration): void
     {
         $this->postRequest("/asterisk/logging/{$logChannelName}", ['configuration' => $configuration]);
     }
@@ -189,9 +189,9 @@ class Asterisk extends AriRestClient
      * Deletes a log channel.
      *
      * @param string $logChannelName Log channels name.
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function deleteLog(string $logChannelName): void
+    public function deleteLog(string $logChannelName): void
     {
         $this->deleteRequest("/asterisk/logging/{$logChannelName}");
     }
@@ -200,9 +200,9 @@ class Asterisk extends AriRestClient
      * Rotates a log channel.
      *
      * @param string $logChannelName Log channel's name.
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function rotateLog(string $logChannelName): void
+    public function rotateLog(string $logChannelName): void
     {
         $this->putRequest("/asterisk/logging/{$logChannelName}/rotate");
     }
@@ -212,11 +212,11 @@ class Asterisk extends AriRestClient
      *
      * @param string $variable The variable to get.
      * @return Variable|object
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function getGlobalVar(string $variable): Variable
+    public function getGlobalVar(string $variable): Variable
     {
-        return $this->getRequest('/asterisk/variable', ['variable' => $variable], self::MODEL, 'Variable');
+        return $this->getRequest('/asterisk/variable', ['variable' => $variable], parent::MODEL, Variable::class);
     }
 
     /**
@@ -224,9 +224,9 @@ class Asterisk extends AriRestClient
      *
      * @param string $variable The variable to set.
      * @param string $value The value to set the variable to.
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function setGlobalVar(string $variable, string $value): void
+    public function setGlobalVar(string $variable, string $value): void
     {
         $this->postRequest('/asterisk/variable', ['variable' => $variable, 'value' => $value]);
     }

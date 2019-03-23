@@ -5,16 +5,15 @@
  * @copyright ng-voice GmbH (2018)
  */
 
-namespace AriStasisApp\Model\Message;
+namespace NgVoice\AriClient\Model\Message;
 
 
-use AriStasisApp\Model\ContactInfo;
-use AriStasisApp\Model\Endpoint;
+use NgVoice\AriClient\Model\{ContactInfo, Endpoint};
 
 /**
  * The state of a contact on an endpoint has changed.
  *
- * @package AriStasisApp\Model\Message
+ * @package NgVoice\AriClient\Model\Message
  */
 class ContactStatusChange extends Event
 {

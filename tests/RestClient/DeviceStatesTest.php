@@ -5,24 +5,26 @@
  * @copyright ng-voice GmbH (2018)
  */
 
-namespace AriStasisApp\Tests\RestClient;
+namespace NgVoice\AriClient\Tests\RestClient;
 
-use AriStasisApp\Model\{DeviceState};
-use AriStasisApp\RestClient\DeviceStates;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Response;
+use NgVoice\AriClient\Model\DeviceState;
+use NgVoice\AriClient\RestClient\DeviceStates;
 use PHPUnit\Framework\TestCase;
+use ReflectionException;
 
 /**
  * Class SoundsTest
- * @package AriStasisApp\Tests\RestClient
+ * @package NgVoice\AriClient\Tests\RestClient
  */
 class DeviceStatesTest extends TestCase
 {
     /**
      * @return array
      */
-    public function deviceStateInstanceProvider()
+    public function deviceStateInstanceProvider(): array
     {
         return [
             'example device state' => [
@@ -37,10 +39,10 @@ class DeviceStatesTest extends TestCase
     /**
      * @dataProvider deviceStateInstanceProvider
      * @param array $exampleDeviceState
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testList(array $exampleDeviceState)
+    public function testList(array $exampleDeviceState): void
     {
         $deviceStatesClient = $this->createDeviceStatesClient(
             [$exampleDeviceState, $exampleDeviceState, $exampleDeviceState]
@@ -56,10 +58,10 @@ class DeviceStatesTest extends TestCase
     /**
      * @dataProvider deviceStateInstanceProvider
      * @param string[] $exampleDeviceState
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testGet(array $exampleDeviceState)
+    public function testGet(array $exampleDeviceState): void
     {
         $deviceStatesClient = $this->createDeviceStatesClient($exampleDeviceState);
         $resultDeviceState = $deviceStatesClient->get('12345');
@@ -68,10 +70,10 @@ class DeviceStatesTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testDelete()
+    public function testDelete(): void
     {
         $deviceStatesClient = $this->createDeviceStatesClient([]);
         $deviceStatesClient->delete('SomeDeviceName');
@@ -79,10 +81,10 @@ class DeviceStatesTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testUpdate()
+    public function testUpdate(): void
     {
         $deviceStatesClient = $this->createDeviceStatesClient([]);
         $deviceStatesClient->update('SomeDeviceName', 'NewState');
@@ -92,9 +94,9 @@ class DeviceStatesTest extends TestCase
     /**
      * @param $expectedResponse
      * @return DeviceStates
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
-    private function createDeviceStatesClient($expectedResponse)
+    private function createDeviceStatesClient($expectedResponse): DeviceStates
     {
         $guzzleClientStub = $this->createMock(Client::class);
         $guzzleClientStub->method('request')

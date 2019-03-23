@@ -5,15 +5,15 @@
  * @copyright ng-voice GmbH (2018)
  */
 
-namespace AriStasisApp\Model\Message;
+namespace NgVoice\AriClient\Model\Message;
 
 
-use AriStasisApp\Model\DeviceState;
+use NgVoice\AriClient\Model\DeviceState;
 
 /**
  * Notification that a device state has changed.
  *
- * @package AriStasisApp\Model\Message
+ * @package NgVoice\AriClient\Model\Message
  */
 class DeviceStateChanged extends Event
 {

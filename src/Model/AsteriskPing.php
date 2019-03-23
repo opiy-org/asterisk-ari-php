@@ -5,7 +5,7 @@
  * @copyright ng-voice GmbH (2019)
  */
 
-namespace AriStasisApp\Model;
+namespace NgVoice\AriClient\Model;
 
 
 /**

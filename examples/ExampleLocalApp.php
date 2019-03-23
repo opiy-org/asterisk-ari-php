@@ -5,9 +5,9 @@
  * @copyright ng-voice GmbH (2018)
  */
 
-use AriStasisApp\BasicStasisApp;
-use AriStasisApp\Model\Message\{ChannelUserevent, StasisEnd, StasisStart};
 use GuzzleHttp\Exception\GuzzleException;
+use NgVoice\AriClient\BasicStasisApp;
+use NgVoice\AriClient\Model\Message\{ChannelUserevent, StasisEnd, StasisStart};
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -35,7 +35,7 @@ class ExampleLocalApp extends BasicStasisApp
      *
      * @param StasisStart $stasisStart
      */
-    function stasisStart(StasisStart $stasisStart): void
+    public function stasisStart(StasisStart $stasisStart): void
     {
         $channelId = $stasisStart->getChannel()->getId();
         $this->logger->info("The channel {$channelId} has entered the ExampleLocalApp.");
@@ -62,7 +62,7 @@ class ExampleLocalApp extends BasicStasisApp
      *
      * @param ChannelUserevent $channelUserevent
      */
-    function channelUserevent(ChannelUserevent $channelUserevent): void
+    public function channelUserevent(ChannelUserevent $channelUserevent): void
     {
         $this->logger->info("ChannelUserevent received: {$channelUserevent->getEventname()}");
         $this->logger->info("Timestamp of the event: {$channelUserevent->getTimestamp()}");
@@ -83,7 +83,7 @@ class ExampleLocalApp extends BasicStasisApp
      *
      * @param StasisEnd $stasisEnd
      */
-    function stasisEnd(StasisEnd $stasisEnd): void
+    public function stasisEnd(StasisEnd $stasisEnd): void
     {
         $this->logger->info("The channel {$stasisEnd->getChannel()->getId()} has left your example app.");
     }

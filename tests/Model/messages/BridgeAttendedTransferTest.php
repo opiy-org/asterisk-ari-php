@@ -2,29 +2,28 @@
 
 /**
  * @author Lukas Stermann
- * @copyright ng-voice GmbH (2018)
+ * @copyright ng-voice GmbH (2019)
  */
 
 declare(strict_types=1);
 
-namespace AriStasisApp\Tests\Model;
+namespace NgVoice\AriClient\Tests\Model;
 
 
-require_once __DIR__ . '/../../shared_test_functions.php';
-
-use AriStasisApp\Model\{Bridge, Channel, Message\BridgeAttendedTransfer};
+use JsonMapper_Exception;
+use NgVoice\AriClient\Model\{Bridge, Channel, Message\BridgeAttendedTransfer};
 use PHPUnit\Framework\TestCase;
-use function AriStasisApp\Tests\mapMessageParametersToAriObject;
+use function NgVoice\AriClient\Tests\mapMessageParametersToAriObject;
 
 /**
  * Class BridgeAttendedTransferTest
  *
- * @package AriStasisApp\Tests\Model\Message
+ * @package NgVoice\AriClient\Tests\Model\Message
  */
 final class BridgeAttendedTransferTest extends TestCase
 {
     /**
-     * @throws \JsonMapper_Exception
+     * @throws JsonMapper_Exception
      */
     public function testParametersMappedCorrectly(): void
     {

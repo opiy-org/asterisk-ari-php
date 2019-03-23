@@ -5,15 +5,15 @@
  * @copyright ng-voice GmbH (2018)
  */
 
-namespace AriStasisApp\Model\Message;
+namespace NgVoice\AriClient\Model\Message;
 
 
-use AriStasisApp\Model\Bridge;
+use NgVoice\AriClient\Model\Bridge;
 
 /**
  * Notification that one bridge has merged into another.
  *
- * @package AriStasisApp\Model\Message
+ * @package NgVoice\AriClient\Model\Message
  */
 class BridgeMerged extends Event
 {

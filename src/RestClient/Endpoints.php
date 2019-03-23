@@ -5,29 +5,27 @@
  * @copyright ng-voice GmbH (2018)
  */
 
-namespace AriStasisApp\RestClient;
+namespace NgVoice\AriClient\RestClient;
 
 
-use AriStasisApp\Model\Endpoint;
+use GuzzleHttp\Exception\GuzzleException;
+use NgVoice\AriClient\Model\Endpoint;
 
 /**
  * Class Endpoints
- *
- * @package AriStasisApp\RestClient
+ * @package NgVoice\AriClient\RestClient
  */
 class Endpoints extends AriRestClient
 {
-    private const ENDPOINT = 'Endpoint';
-
     /**
      * List all endpoints.
      *
      * @return Endpoint[]
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function list(): array
+    public function list(): array
     {
-        return $this->getRequest('/endpoints', [], 'array', self::ENDPOINT);
+        return $this->getRequest('/endpoints', [], parent::ARRAY, Endpoint::class);
     }
 
     /**
@@ -38,11 +36,11 @@ class Endpoints extends AriRestClient
      * @param string $from The endpoint resource or technology specific identity to send this message from.
      * Valid resources are sip, pjsip, and xmpp.
      * @param string $body The body of the message.
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function sendMessage(string $to, string $from, string $body = ''): void
+    public function sendMessage(string $to, string $from, string $body = ''): void
     {
-        $this->putRequest("/endpoints/sendMessage", ['to' => $to, 'from' => $from, 'body' => $body]);
+        $this->putRequest('/endpoints/sendMessage', ['to' => $to, 'from' => $from, 'body' => $body]);
     }
 
     /**
@@ -50,11 +48,11 @@ class Endpoints extends AriRestClient
      *
      * @param string $tech Technology of the endpoints (sip,iax2,...).
      * @return Endpoint[]
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function listByTech(string $tech): array
+    public function listByTech(string $tech): array
     {
-        return $this->getRequest("/endpoints/{$tech}", [], 'array', self::ENDPOINT);
+        return $this->getRequest("/endpoints/{$tech}", [], parent::ARRAY, Endpoint::class);
     }
 
     /**
@@ -63,11 +61,11 @@ class Endpoints extends AriRestClient
      * @param string $tech Technology of the endpoint.
      * @param string $resource ID of the endpoint.
      * @return Endpoint|object
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function get(string $tech, string $resource): Endpoint
+    public function get(string $tech, string $resource): Endpoint
     {
-        return $this->getRequest("/endpoints/{$tech}/{$resource}", [], 'model', self::ENDPOINT);
+        return $this->getRequest("/endpoints/{$tech}/{$resource}", [], parent::MODEL, Endpoint::class);
     }
 
     /**
@@ -78,9 +76,9 @@ class Endpoints extends AriRestClient
      * @param string $from The endpoint resource or technology specific identity to send this message from.
      * Valid resources are sip, pjsip, and xmpp.
      * @param string $body The body of the message.
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function sendMessageToEndpoint(string $tech, string $resource, string $from, string $body = ''): void
+    public function sendMessageToEndpoint(string $tech, string $resource, string $from, string $body = ''): void
     {
         $this->putRequest("/endpoints/{$tech}/{$resource}/sendMessage", ['from' => $from, 'body' => $body]);
     }

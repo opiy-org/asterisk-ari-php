@@ -5,14 +5,14 @@
  * @copyright ng-voice GmbH (2018)
  */
 
-namespace AriStasisApp\WebSocketClient;
+namespace NgVoice\AriClient\WebSocketClient;
 
 use Exception;
 use http\Exception\RuntimeException;
 use Monolog\Logger;
 use Nekland\Woketo\Client\WebSocketClient as WoketoWebSocketClient;
 use Nekland\Woketo\Message\MessageHandlerInterface;
-use function AriStasisApp\{getShortClassName, glueArrayOfStrings, initLogger, parseWebSocketSettings};
+use function NgVoice\AriClient\{getShortClassName, glueArrayOfStrings, initLogger, parseWebSocketSettings};
 
 /**
  * Class WebSocketClient
@@ -21,7 +21,7 @@ use function AriStasisApp\{getShortClassName, glueArrayOfStrings, initLogger, pa
  * It is a good idea - regarding to the concept of 'separation of concerns' - to have a worker process
  * for each of your applications, so your code doesn't get messy.
  *
- * @package AriStasisApp\ariclients
+ * @package NgVoice\ArClient\WeSocketClient
  *
  */
 class WebSocketClient
@@ -44,7 +44,7 @@ class WebSocketClient
     /**
      * WebSocketClient constructor.
      *
-     * @param String[] $app Applications to subscribe to. Allows more than one value.
+     * @param String[] $appsArray Applications to subscribe to. Allows more than one value.
      * @param MessageHandlerInterface $messageHandler Handles incoming Message from Asterisk.
      * Look at LocalAppMessageHandler and RemoteAppMessageHandler for examples.
      * @param array $webSocketSettings The settings for the asterisk web socket.
@@ -55,8 +55,8 @@ class WebSocketClient
      * @throws \RuntimeException
      * TODO: We can see in the logs of asterisk that the application is activated twice. This should not happen.
      */
-    function __construct(
-        array $app,
+    public function __construct(
+        array $appsArray,
         MessageHandlerInterface $messageHandler,
         array $webSocketSettings = [],
         $subscribeAll = false,
@@ -72,11 +72,11 @@ class WebSocketClient
          * you are running, so your code doesn't get messy.
          */
 
-        if ($app === []) {
+        if ($appsArray === []) {
             throw new RuntimeException('You have to provide at least one app name.');
         }
 
-        foreach ($app as $name) {
+        foreach ($appsArray as $name) {
             if ($name === '') {
                 throw new RuntimeException('App names cannot be empty.');
             }
@@ -94,11 +94,11 @@ class WebSocketClient
 
         $wsType = $wssEnabled ? 'wss' : 'ws';
         $wsUrl = "{$wsType}://{$host}:{$port}{$rootUri}";
-        $app = glueArrayOfStrings($app);
-        $subscribeAllParameter = ($subscribeAll) ? '&subscribeAll=true' : '&subscribeAll=false';
-        $uri = "{$wsUrl}/events?api_key={$user}:{$password}&app={$app}{$subscribeAllParameter}";
+        $appsString = glueArrayOfStrings($appsArray);
+        $subscribeAllParameter = $subscribeAll ? '&subscribeAll=true' : '&subscribeAll=false';
+        $uri = "{$wsUrl}/events?api_key={$user}:{$password}&app={$appsString}{$subscribeAllParameter}";
         $this->logger->debug("URI to asterisk: '{$uri}'");
-        if (is_null($woketoWebSocketClient)) {
+        if ($woketoWebSocketClient === null) {
             $this->woketoWebSocketClient = new WoketoWebSocketClient($uri);
         } else {
             $this->woketoWebSocketClient = $woketoWebSocketClient;
@@ -109,7 +109,7 @@ class WebSocketClient
      * Subscribe to the WebSocket of your Asterisk instance and handle Events in a message handler.
      * Look at LocalAppMessageHandler and RemoteAppMessageHandler for example.
      */
-    function start(): void
+    public function start(): void
     {
         try {
             $this->woketoWebSocketClient->start($this->messageHandler);

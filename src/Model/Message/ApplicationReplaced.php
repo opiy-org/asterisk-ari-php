@@ -5,7 +5,7 @@
  * @copyright ng-voice GmbH (2018)
  */
 
-namespace AriStasisApp\Model\Message;
+namespace NgVoice\AriClient\Model\Message;
 
 
 /**
@@ -14,7 +14,7 @@ namespace AriStasisApp\Model\Message;
  * If multiple WebSockets attempt to subscribe to the same application,
  * the newer WebSocket wins, and the older one receives this event.
  *
- * @package AriStasisApp\Model\Message
+ * @package NgVoice\AriClient\Model\Message
  */
 class ApplicationReplaced extends Event
 {

@@ -1,9 +1,11 @@
 <?php
 
-namespace AriStasisApp\Tests;
+namespace NgVoice\AriClient\Tests;
 
 use JsonMapper;
 use JsonMapper_Exception;
+use NgVoice\AriClient\Model\Message\Message;
+use NgVoice\AriClient\Model\Message\MissingParams;
 
 /**
  * @param string $modelName
@@ -15,7 +17,7 @@ function mapMessageParametersToAriObject(string $modelName, array $parameters)
 {
     $parameters = $parameters + mockAsteriskId() + mockEventParameters() + ['type' => $modelName];
     $decodedJson = json_decode(json_encode($parameters));
-    $eventPath = "AriStasisApp\\Model\\Message\\" . $modelName;
+    $eventPath = "NgVoice\\AriClient\\Model\\Message\\" . $modelName;
     $jsonMapper = new JsonMapper();
     $jsonMapper->bExceptionOnUndefinedProperty = true;
     $jsonMapper->bIgnoreVisibility = true;
@@ -30,11 +32,10 @@ function mapMessage()
 {
     $parameters = ['type' => 'ExampleType'] + mockAsteriskId();
     $decodedJson = json_decode(json_encode($parameters));
-    $eventPath = "AriStasisApp\\Model\\Message\\Message";
     $jsonMapper = new JsonMapper();
     $jsonMapper->bExceptionOnUndefinedProperty = true;
     $jsonMapper->bIgnoreVisibility = true;
-    return $jsonMapper->map($decodedJson, new $eventPath);
+    return $jsonMapper->map($decodedJson, new Message());
 }
 
 /**
@@ -49,11 +50,10 @@ function mapMissingParams()
             'type' => 'MissingParams'
         ] + mockAsteriskId();
     $decodedJson = json_decode(json_encode($parameters));
-    $eventPath = "AriStasisApp\\Model\\Message\\MissingParams";
     $jsonMapper = new JsonMapper();
     $jsonMapper->bExceptionOnUndefinedProperty = true;
     $jsonMapper->bIgnoreVisibility = true;
-    return $jsonMapper->map($decodedJson, new $eventPath);
+    return $jsonMapper->map($decodedJson, new MissingParams());
 }
 
 /**
@@ -65,7 +65,7 @@ function mapMissingParams()
 function mapAriResponseParametersToAriObject(string $modelName, array $parameters)
 {
     $decodedJson = json_decode(json_encode($parameters));
-    $eventPath = "AriStasisApp\\Model\\" . $modelName;
+    $eventPath = "NgVoice\\AriClient\\Model\\" . $modelName;
     $jsonMapper = new JsonMapper();
     $jsonMapper->bExceptionOnUndefinedProperty = true;
     $jsonMapper->bIgnoreVisibility = true;

@@ -5,15 +5,15 @@
  * @copyright ng-voice GmbH (2018)
  */
 
-namespace AriStasisApp\Model\Message;
+namespace NgVoice\AriClient\Model\Message;
 
 
-use AriStasisApp\Model\Playback;
+use NgVoice\AriClient\Model\Playback;
 
 /**
  * Event showing the continuation of a media playback operation from one media URI to the next in the list.
  *
- * @package AriStasisApp\Model\Message
+ * @package NgVoice\AriClient\Model\Message
  */
 class PlaybackContinuing extends Event
 {

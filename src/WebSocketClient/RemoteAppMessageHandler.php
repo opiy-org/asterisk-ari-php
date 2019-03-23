@@ -5,7 +5,7 @@
  * @copyright ng-voice GmbH (2018)
  */
 
-namespace AriStasisApp\WebSocketClient;
+namespace NgVoice\AriClient\WebSocketClient;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Client as GuzzleClient;
@@ -14,12 +14,11 @@ use Monolog\Logger;
 use Nekland\Woketo\Core\AbstractConnection;
 use Nekland\Woketo\Exception\WebsocketException;
 use Nekland\Woketo\Message\TextMessageHandler;
-use function AriStasisApp\{getShortClassName, initLogger, parseMyApiSettings};
+use function NgVoice\AriClient\{getShortClassName, initLogger, parseMyApiSettings};
 
 /**
  * Class RemoteAppMessageHandler
- *
- * @package AriStasisApp\rabbitmq
+ * @package NgVoice\AriClient\WebSocketClient
  */
 class RemoteAppMessageHandler extends TextMessageHandler
 {
@@ -43,7 +42,7 @@ class RemoteAppMessageHandler extends TextMessageHandler
      * @param array $remoteApiSettings
      * @param Client $guzzleClient
      */
-    function __construct(array $remoteApiSettings, Client $guzzleClient = null)
+    public function __construct(array $remoteApiSettings, Client $guzzleClient = null)
     {
         $this->logger = initLogger(getShortClassName($this));
         $remoteApiSettings = parseMyApiSettings($remoteApiSettings);
@@ -56,7 +55,7 @@ class RemoteAppMessageHandler extends TextMessageHandler
 
         $baseUri = "{$httpType}://{$remoteApiSettings['host']}:{$remoteApiSettings['port']}";
         $this->rootUri = $remoteApiSettings['rootUri'];
-        if (is_null($guzzleClient)) {
+        if ($guzzleClient === null) {
             $this->guzzleClient = new GuzzleClient(
                 ['base_uri' => $baseUri, 'auth' => [$remoteApiSettings['user'], $remoteApiSettings['password']]]
             );
@@ -68,7 +67,7 @@ class RemoteAppMessageHandler extends TextMessageHandler
     /**
      * @inheritdoc
      */
-    public function onConnection(AbstractConnection $connection)
+    public function onConnection(AbstractConnection $connection): void
     {
         $this->logger->debug('Connection to asterisk successfully. Waiting for Message...');
     }
@@ -76,7 +75,7 @@ class RemoteAppMessageHandler extends TextMessageHandler
     /**
      * @inheritdoc
      */
-    public function onMessage(string $data, AbstractConnection $connection)
+    public function onMessage(string $data, AbstractConnection $connection): void
     {
         try {
             $this->logger->debug("Received raw message from asterisk WebSocket server: {$data}");
@@ -96,7 +95,7 @@ class RemoteAppMessageHandler extends TextMessageHandler
     /**
      * @inheritdoc
      */
-    public function onDisconnect(AbstractConnection $connection)
+    public function onDisconnect(AbstractConnection $connection): void
     {
         $this->logger->info('Connection to Asterisk was closed.');
     }
@@ -105,7 +104,7 @@ class RemoteAppMessageHandler extends TextMessageHandler
      * @inheritdoc
      * @throws WebsocketException
      */
-    public function onError(WebsocketException $websocketException, AbstractConnection $connection)
+    public function onError(WebsocketException $websocketException, AbstractConnection $connection): void
     {
         $this->logger->error($websocketException->getMessage());
         throw $websocketException;

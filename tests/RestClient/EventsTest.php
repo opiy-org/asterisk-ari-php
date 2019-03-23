@@ -5,21 +5,27 @@
  * @copyright ng-voice GmbH (2018)
  */
 
-namespace AriStasisApp\Tests\RestClient;
+namespace NgVoice\AriClient\Tests\RestClient;
 
-use AriStasisApp\RestClient\Events;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Response;
+use NgVoice\AriClient\RestClient\Events;
 use PHPUnit\Framework\TestCase;
+use ReflectionException;
 
+/**
+ * Class EventsTest
+ * @package NgVoice\AriClient\Tests\RestClient
+ */
 class EventsTest extends TestCase
 {
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testUserEvent()
+    public function testUserEvent(): void
     {
         $eventsClient = $this->createEventsClientWithGuzzleClientStub([]);
         $eventsClient->userEvent(
@@ -36,7 +42,7 @@ class EventsTest extends TestCase
      * @return Events
      * @throws \ReflectionException
      */
-    private function createEventsClientWithGuzzleClientStub($expectedResponse)
+    private function createEventsClientWithGuzzleClientStub($expectedResponse): Events
     {
         $guzzleClientStub = $this->createMock(Client::class);
         $guzzleClientStub->method('request')

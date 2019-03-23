@@ -7,24 +7,23 @@
 
 declare(strict_types=1);
 
-namespace AriStasisApp\Tests\Model;
+namespace NgVoice\AriClient\Tests\Model;
 
 
-require_once __DIR__ . '/../shared_test_functions.php';
-
-use AriStasisApp\Model\{CallerID, Channel, DialplanCEP};
+use JsonMapper_Exception;
+use NgVoice\AriClient\Model\{CallerID, Channel, DialplanCEP};
 use PHPUnit\Framework\TestCase;
-use function AriStasisApp\Tests\mapAriResponseParametersToAriObject;
+use function NgVoice\AriClient\Tests\mapAriResponseParametersToAriObject;
 
 /**
  * Class ChannelTest
  *
- * @package AriStasisApp\Tests\Model
+ * @package NgVoice\AriClient\Tests\Model
  */
 final class ChannelTest extends TestCase
 {
     /**
-     * @throws \JsonMapper_Exception
+     * @throws JsonMapper_Exception
      */
     public function testParametersMappedCorrectly(): void
     {

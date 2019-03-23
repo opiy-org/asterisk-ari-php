@@ -6,8 +6,10 @@
  *
  */
 
-namespace AriStasisApp\RestClient;
+namespace NgVoice\AriClient\RestClient;
 
+
+use GuzzleHttp\Exception\GuzzleException;
 
 /**
  * Class Events
@@ -15,12 +17,10 @@ namespace AriStasisApp\RestClient;
  * GET /events is not part of this API because it has to be a WebSocket connection (ws:// or wss://)
  * and is handled separately in the WebSocketClient of this library.
  *
- * @package AriStasisApp\RestClient
+ * @package NgVoice\AriClient\RestClient
  */
 class Events extends AriRestClient
 {
-    private const VARIABLES = 'variables';
-
     /**
      * Generate a stasis application user events.
      *
@@ -30,26 +30,27 @@ class Events extends AriRestClient
      * endpoint:{tech}/{resource}, deviceState:{deviceName})
      * @param string[] $variables containers - The "variables" key in the body object holds custom key/value pairs to add
      * to the user events. Ex. { "variables": { "key": "value" } }
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function userEvent(string $eventName, string $application, array $source = [], array $variables = []): void
     {
+        $body = [];
         $queryParameters = ['application' => $application];
+
         if ($source !== []) {
             $sourceString = '';
             foreach ($source as $sourceType => $sourceValue) {
                 $sourceString = "{$sourceString},{$sourceType}:{$sourceValue}";
             }
-            $queryParameters = $queryParameters + ['source' => ltrim($sourceString, ',')];
+            $queryParameters += ['source' => ltrim($sourceString, ',')];
         }
 
-        $body = [];
         if ($variables !== []) {
-            $body = [self::VARIABLES => []];
+            $formattedVariables = [];
             foreach ($variables as $key => $value) {
-                // TODO: Is this really working? might switch to array_merge()
-                $body[self::VARIABLES] = $body[self::VARIABLES] + [$key => $value];
+                $formattedVariables[] = [$key => $value];
             }
+            $body['variables'] = $formattedVariables;
         }
         $this->postRequest("/events/user/{$eventName}", $queryParameters, $body);
     }

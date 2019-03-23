@@ -5,21 +5,27 @@
  * @copyright ng-voice GmbH (2018)
  */
 
-namespace AriStasisApp\Tests\RestClient;
+namespace NgVoice\AriClient\Tests\RestClient;
 
-use AriStasisApp\Model\Playback;
-use AriStasisApp\RestClient\Playbacks;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Response;
+use NgVoice\AriClient\Model\Playback;
+use NgVoice\AriClient\RestClient\Playbacks;
 use PHPUnit\Framework\TestCase;
+use ReflectionException;
 
+/**
+ * Class PlaybacksTest
+ * @package NgVoice\AriClient\Tests\RestClient
+ */
 class PlaybacksTest extends TestCase
 {
 
     /**
      * @return array
      */
-    public function playbackInstanceProvider()
+    public function playbackInstanceProvider(): array
     {
         return [
             'example mailbox' => [
@@ -36,10 +42,10 @@ class PlaybacksTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testStop()
+    public function testStop(): void
     {
         $playbacksClient = $this->createPlaybacksClient([]);
         $playbacksClient->stop('SomePlaybackId');
@@ -47,10 +53,10 @@ class PlaybacksTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testControl()
+    public function testControl(): void
     {
         $playbacksClient = $this->createPlaybacksClient([]);
         $playbacksClient->control('SomePlaybackId', 'ExampleOperation');
@@ -60,10 +66,10 @@ class PlaybacksTest extends TestCase
     /**
      * @dataProvider playbackInstanceProvider
      * @param string[] $examplePlayback
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testGet(array $examplePlayback)
+    public function testGet(array $examplePlayback): void
     {
         $playbacksClient = $this->createPlaybacksClient($examplePlayback);
         $resultPlayback = $playbacksClient->get('12345');
@@ -74,9 +80,9 @@ class PlaybacksTest extends TestCase
     /**
      * @param $expectedResponse
      * @return Playbacks
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
-    private function createPlaybacksClient($expectedResponse)
+    private function createPlaybacksClient($expectedResponse): Playbacks
     {
         $guzzleClientStub = $this->createMock(Client::class);
         $guzzleClientStub->method('request')

@@ -7,24 +7,23 @@
 
 declare(strict_types=1);
 
-namespace AriStasisApp\Tests\Model;
+namespace NgVoice\AriClient\Tests\Model;
 
 
-require_once __DIR__ . '/../../shared_test_functions.php';
-
-use AriStasisApp\Model\{Bridge, Message\BridgeCreated};
+use JsonMapper_Exception;
+use NgVoice\AriClient\Model\{Bridge, Message\BridgeCreated};
 use PHPUnit\Framework\TestCase;
-use function AriStasisApp\Tests\mapMessageParametersToAriObject;
+use function NgVoice\AriClient\Tests\mapMessageParametersToAriObject;
 
 /**
  * Class BridgeCreatedTest
  *
- * @package AriStasisApp\Tests\Model\Message
+ * @package NgVoice\AriClient\Tests\Model\Message
  */
 final class BridgeCreatedTest extends TestCase
 {
     /**
-     * @throws \JsonMapper_Exception
+     * @throws JsonMapper_Exception
      */
     public function testParametersMappedCorrectly(): void
     {

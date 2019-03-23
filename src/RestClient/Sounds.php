@@ -5,15 +5,15 @@
  * @copyright ng-voice GmbH (2018)
  */
 
-namespace AriStasisApp\RestClient;
+namespace NgVoice\AriClient\RestClient;
 
 
-use AriStasisApp\Model\Sound;
+use GuzzleHttp\Exception\GuzzleException;
+use NgVoice\AriClient\Model\Sound;
 
 /**
  * Class Sounds
- *
- * @package AriStasisApp\RestClient
+ * @package NgVoice\AriClient\RestClient
  */
 class Sounds extends AriRestClient
 {
@@ -24,11 +24,11 @@ class Sounds extends AriRestClient
      * lang: string - Lookup sound for a specific language.
      * format: string - Lookup sound in a specific format.
      * @return Sound[]
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function list(array $options = []): array
+    public function list(array $options = []): array
     {
-        return $this->getRequest('/sounds', $options, 'array', 'Sound');
+        return $this->getRequest('/sounds', $options, parent::ARRAY, Sound::class);
     }
 
     /**
@@ -36,10 +36,10 @@ class Sounds extends AriRestClient
      *
      * @param string $soundId Sound's id.
      * @return Sound|object
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function get(string $soundId): Sound
+    public function get(string $soundId): Sound
     {
-        return $this->getRequest("/sounds/{$soundId}", [], 'model', 'Sound');
+        return $this->getRequest("/sounds/{$soundId}", [], parent::MODEL, Sound::class);
     }
 }

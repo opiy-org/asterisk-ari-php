@@ -5,24 +5,26 @@
  * @copyright ng-voice GmbH (2018)
  */
 
-namespace AriStasisApp\Tests\RestClient;
+namespace NgVoice\AriClient\Tests\RestClient;
 
-use AriStasisApp\Model\{Endpoint};
-use AriStasisApp\RestClient\Endpoints;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Response;
+use NgVoice\AriClient\Model\{Endpoint};
+use NgVoice\AriClient\RestClient\Endpoints;
 use PHPUnit\Framework\TestCase;
+use ReflectionException;
 
 /**
  * Class SoundsTest
- * @package AriStasisApp\Tests\RestClient
+ * @package NgVoice\AriClient\Tests\RestClient
  */
 class EndpointsTest extends TestCase
 {
     /**
      * @return array
      */
-    public function endpointInstanceProvider()
+    public function endpointInstanceProvider(): array
     {
         return [
             'example endpoint' => [
@@ -42,10 +44,10 @@ class EndpointsTest extends TestCase
     /**
      * @dataProvider endpointInstanceProvider
      * @param array $exampleEndpoint
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testList(array $exampleEndpoint)
+    public function testList(array $exampleEndpoint): void
     {
         $endpointsClient = $this->createEndpointsClient(
             [$exampleEndpoint, $exampleEndpoint, $exampleEndpoint]
@@ -61,10 +63,10 @@ class EndpointsTest extends TestCase
     /**
      * @dataProvider endpointInstanceProvider
      * @param array $exampleEndpoint
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testListByTech(array $exampleEndpoint)
+    public function testListByTech(array $exampleEndpoint): void
     {
         $endpointsClient = $this->createEndpointsClient(
             [$exampleEndpoint, $exampleEndpoint, $exampleEndpoint]
@@ -80,10 +82,10 @@ class EndpointsTest extends TestCase
     /**
      * @dataProvider endpointInstanceProvider
      * @param string[] $exampleEndpoint
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testGet(array $exampleEndpoint)
+    public function testGet(array $exampleEndpoint): void
     {
         $endpointsClient = $this->createEndpointsClient($exampleEndpoint);
         $resultEndpoint = $endpointsClient->get('12345', 'ExampleResource');
@@ -92,10 +94,10 @@ class EndpointsTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testSendMessage()
+    public function testSendMessage(): void
     {
         $endpointsClient = $this->createEndpointsClient([]);
         $endpointsClient->sendMessage('Stefan', 'Lukas', 'This is a message for you.');
@@ -103,10 +105,10 @@ class EndpointsTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testSendMessageToEndpoint()
+    public function testSendMessageToEndpoint(): void
     {
         $endpointsClient = $this->createEndpointsClient([]);
         $endpointsClient->sendMessageToEndpoint('SomeTech', 'ExampleResource', 'This is a message.');
@@ -116,9 +118,9 @@ class EndpointsTest extends TestCase
     /**
      * @param $expectedResponse
      * @return Endpoints
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
-    private function createEndpointsClient($expectedResponse)
+    private function createEndpointsClient($expectedResponse): Endpoints
     {
         $guzzleClientStub = $this->createMock(Client::class);
         $guzzleClientStub->method('request')

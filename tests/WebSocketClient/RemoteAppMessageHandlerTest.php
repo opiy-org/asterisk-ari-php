@@ -5,26 +5,27 @@
  * @copyright ng-voice GmbH (2019)
  */
 
-namespace AriStasisApp\Tests\WebSocketClient;
+namespace NgVoice\AriClient\Tests\WebSocketClient;
 
-use AriStasisApp\WebSocketClient\RemoteAppMessageHandler;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
 use Nekland\Woketo\Core\AbstractConnection;
 use Nekland\Woketo\Exception\WebsocketException;
+use NgVoice\AriClient\WebSocketClient\RemoteAppMessageHandler;
 use PHPUnit\Framework\TestCase;
+use ReflectionException;
 
 /**
  * Class RemoteAppMessageHandlerTest
- * @package AriStasisApp\Tests\WebSocketClient
+ * @package NgVoice\AriClient\Tests\WebSocketClient
  */
 class RemoteAppMessageHandlerTest extends TestCase
 {
     /**
      * @return array
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
-    public function remoteAppMessageHandlerStubProvider()
+    public function remoteAppMessageHandlerStubProvider(): array
     {
         $guzzleClientStub = $this->createMock(Client::class);
         $guzzleClientStub->method('request')->willReturn(new Response(200));
@@ -41,7 +42,7 @@ class RemoteAppMessageHandlerTest extends TestCase
      * @dataProvider remoteAppMessageHandlerStubProvider
      * @param Client $guzzleClient
      */
-    public function test__construct(Client $guzzleClient)
+    public function test__construct(Client $guzzleClient): void
     {
         $this->assertInstanceOf(
             RemoteAppMessageHandler::class,
@@ -52,9 +53,9 @@ class RemoteAppMessageHandlerTest extends TestCase
     /**
      * @dataProvider remoteAppMessageHandlerStubProvider
      * @param Client $guzzleClient
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
-    public function testOnConnection(Client $guzzleClient)
+    public function testOnConnection(Client $guzzleClient): void
     {
         $remoteAppMessageHandler = new RemoteAppMessageHandler([], $guzzleClient);
 
@@ -70,9 +71,9 @@ class RemoteAppMessageHandlerTest extends TestCase
     /**
      * @dataProvider remoteAppMessageHandlerStubProvider
      * @param Client $guzzleClient
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
-    public function testOnMessage(Client $guzzleClient)
+    public function testOnMessage(Client $guzzleClient): void
     {
         $remoteAppMessageHandler = new RemoteAppMessageHandler([], $guzzleClient);
         $abstractConnectionStub = $this->createMock(AbstractConnection::class);
@@ -97,9 +98,9 @@ class RemoteAppMessageHandlerTest extends TestCase
     /**
      * @dataProvider remoteAppMessageHandlerStubProvider
      * @param Client $guzzleClient
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
-    public function testOnDisconnect(Client $guzzleClient)
+    public function testOnDisconnect(Client $guzzleClient): void
     {
         $remoteAppMessageHandler = new RemoteAppMessageHandler([], $guzzleClient);
 
@@ -116,9 +117,9 @@ class RemoteAppMessageHandlerTest extends TestCase
      * @dataProvider remoteAppMessageHandlerStubProvider
      * @param Client $guzzleClient
      * @throws WebsocketException
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
-    public function testOnError(Client $guzzleClient)
+    public function testOnError(Client $guzzleClient): void
     {
         $remoteAppMessageHandler = new RemoteAppMessageHandler([], $guzzleClient);
 
@@ -129,7 +130,7 @@ class RemoteAppMessageHandlerTest extends TestCase
          * @var AbstractConnection $abstractConnectionStub
          * @var WebsocketException $webSocketException
          */
-        $this->expectException('\Nekland\Woketo\Exception\WebsocketException');
+        $this->expectException(WebsocketException::class);
         $remoteAppMessageHandler->onError($webSocketException, $abstractConnectionStub);
     }
 }

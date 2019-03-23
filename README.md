@@ -1,9 +1,7 @@
 # Asterisk REST Interface (ARI) Client :telephone:
-> Grab yourself some coffee and save plenty of time by using this object oriented ARI client library. 
-Keeping your code nice and clean, taking care of easy RESTful calls to Asterisk and incoming events 
+> Grab yourself some coffee and save plenty of time with this object oriented ARI client library. 
+Keeping your code nice and clean. Taking care of easy REST calls to Asterisk. Handling incoming messages for you
 while you focus on developing your Stasis apps.
-
-`Implemented and tested for Asterisk 16!`
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ngvoice_asterisk-ari-client&metric=alert_status)](https://sonarcloud.io/dashboard?id=ngvoice_asterisk-ari-client)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=ngvoice_asterisk-ari-client&metric=security_rating)](https://sonarcloud.io/dashboard?id=ngvoice_asterisk-ari-client)
@@ -17,40 +15,42 @@ while you focus on developing your Stasis apps.
 
 ![Licence](https://img.shields.io/badge/licence-MIT-blue.svg)
 
-![What this library is about](AriClientLibSkizze.png)
+![](images/AriClientSketch.png)
 
 ## Installation
-Use this library with composer and include it into your composer.json by using the terminal command
+Install composer and include this library into your project
+
 `composer require ng-voice/asterisk-ari-client`
 
-##### PHP extensions
-You might run into troubles with missing php extensions. The following are required:
-We recommend to install them with terminal commands. E.g. for Debian: `apt install php7.2-mbstring` 
-(may differ depending on your underlying operating system. Don't forget to restart your apache 
-server with `service apache2 restart`
+While installing, you might run into composer errors concerning missing php extensions.
+There are several ways to install them, depending on your operating system (e.g. `apt install php7.3-http`).
 
-For performance increase also install the PECL extension libevent. It makes the WebSocketClient faster!
+Don't forget to restart your apache server after installing the extensions.
 
 ##### Asterisk
-You will have to start a running asterisk instance first and configure it to use it's light http server and the 
-"Asterisk RESTful Interface" (ARI). The official Asterisk documentation shows you how to configure http.conf and 
-ari.conf in order to use ARI. Alternatively use the provided Dockerfile. Ready to use!
+You will have to start an Asterisk instance and configure it in order to use ARI.
+The official Asterisk documentation shows you how to do so. 
+Alternatively use the provided Dockerfile in the docker directory as described below.
 
 ## Features
-#### ARI Clients
-Talk to your asterisk instance by using the given well documented http clients.
+#### ARI abstraction layer
+The idea of this client library is to make ARI calls safe and easy. Therefore I wanted to get rid of 
+JSON parsing in my application code. Instead I aim to make it as easy as possible for anyone to talk to ARI without 
+worrying about an implementation of a client stub. I already did the work for you :)
 
-#### ARI web socket message model mapping
-A WebSocketClient connects to Asterisk via `GET /events` and subscribes either to one, many or all 
-stasis application events. 
-If you choose to write a local app (see examples/ExampleLocalApp), events will be mapped onto objects and are 
-therefore easy to access/handle. No need to touch any JSON! I already did the work for you :)
+#### REST Clients
+Talk to your asterisk instance by the given well documented HTTP clients.
+All requests and responses are mapped onto objects that are easy to understand.
 
-#### Build your own apps
-Using this client library for your own asynchronous applications is a piece of cake.
-Simply extend the BasicStasisApp and design your Stasis app as you wish. Say goodbye to boilerplate code!
+#### Web socket client
+Connects to Asterisk via `GET /events` and subscribes either to one, many or all stasis applications running on your 
+Asterisk instance.
 
-#### Ready to use Asterisk ARI Docker container
+#### Asynchronous stasis application principle
+Simply extend the BasicStasisApp and implement your own stasis app logic (have a look at the **examples** directory).
+Say goodbye to boilerplate code!
+
+#### Asterisk Docker container
 Preferably use the provided Dockerfile in this library to compile your own asterisk container.
     
     cd docker/asterisk
@@ -63,17 +63,14 @@ Preferably use the provided Dockerfile in this library to compile your own aster
     to make sure it will work.
     Alternatively you can set generic compiler flags at your own risk.
 
-If you choose to write a local app (see examples/ExampleLocalApp), Messages from Asterisk will be mapped onto 
-ARI specific message objects and are easy to access/handle. No need to touch any JSON! I already did the work for you :)
-
 ## How to use
 Two examples can be found in the example directory.
 
 Basically there are two possibilities to handle incoming events from Asterisk, depending on what you would like to do 
 with them:
 
-* To write a local standalone script for simple event handling (like in ExampleLocalApp)
-* Pass events to a remote app, e.g. if you are wrapping Asterisk with an own RESTful Interface
+* Write a class for local event handling (like in ExampleLocalApp)
+* Pass events to a remote app, e.g. if you are wrapping Asterisk with an own REST Interface
 (like with example_worker_remote_app)
 
 Now, how should we handle events, that are sent to our WebSocketClient workers?
@@ -82,15 +79,13 @@ Out of the box you can use the `LocalAppMessageHandler` (handling event objects 
 or the `RemoteAppMessageHandler` (sending events to another API) but of course you can write your own.
 
 ## Tests
-Execute the following command in the downloaded repository:
-
-    ./vendor/bin/phpunit
+`./vendor/bin/phpunit`
 
 ##Licence
-MIT
+MIT © ng-voice GmbH (2019)
 
 ##Contact
 ng-voice is happy to help! Feel free to send me a message.
-I'd also love to hear about your application ideas and use cases :)
+I'd also like to hear about your application ideas and use cases :)
 
 Lukas Stermann (lukas@ng-voice.com)

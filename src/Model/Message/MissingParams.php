@@ -5,13 +5,13 @@
  * @copyright ng-voice GmbH (2019)
  */
 
-namespace AriStasisApp\Model\Message;
+namespace NgVoice\AriClient\Model\Message;
 
 
 /**
  * Error event sent when required params are missing.
  *
- * @package AriStasisApp\Model\Message
+ * @package NgVoice\AriClient\Model\Message
  */
 class MissingParams extends Message
 {

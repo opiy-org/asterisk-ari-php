@@ -5,16 +5,15 @@
  * @copyright ng-voice GmbH (2018)
  */
 
-namespace AriStasisApp\Model\Message;
+namespace NgVoice\AriClient\Model\Message;
 
 
-use AriStasisApp\Model\Endpoint;
-use AriStasisApp\Model\Peer;
+use NgVoice\AriClient\Model\{Endpoint, Peer};
 
 /**
  * The state of a peer associated with an endpoint has changed.
  *
- * @package AriStasisApp\Model\Message
+ * @package NgVoice\AriClient\Model\Message
  */
 class PeerStatusChange extends Event
 {

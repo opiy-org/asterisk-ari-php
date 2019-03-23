@@ -5,31 +5,28 @@
  * @copyright ng-voice GmbH (2018)
  */
 
-namespace AriStasisApp\RestClient;
+namespace NgVoice\AriClient\RestClient;
 
 
-use AriStasisApp\Model\LiveRecording;
-use AriStasisApp\Model\StoredRecording;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Response;
+use NgVoice\AriClient\Model\{LiveRecording, StoredRecording};
 
 /**
  * Class Recordings
- *
- * @package AriStasisApp\RestClient
+ * @package NgVoice\AriClient\RestClient
  */
 class Recordings extends AriRestClient
 {
-    private const STORED_RECORDING = 'StoredRecording';
-
     /**
      * List recordings that are complete.
      *
      * @return StoredRecording[]
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function listStored(): array
+    public function listStored(): array
     {
-        return $this->getRequest('/recordings/stored', [], 'array', self::STORED_RECORDING);
+        return $this->getRequest('/recordings/stored', [], parent::ARRAY, StoredRecording::class);
     }
 
     /**
@@ -37,11 +34,11 @@ class Recordings extends AriRestClient
      *
      * @param string $recordingName The name of the recording
      * @return StoredRecording|object
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function getStored(string $recordingName): StoredRecording
+    public function getStored(string $recordingName): StoredRecording
     {
-        return $this->getRequest("/recordings/stored/{$recordingName}", [], self::MODEL, self::STORED_RECORDING);
+        return $this->getRequest("/recordings/stored/{$recordingName}", [], parent::MODEL, StoredRecording::class);
     }
 
     /**
@@ -49,9 +46,9 @@ class Recordings extends AriRestClient
      *
      * @param string $recordingName The name of the recording.
      * @return bool|mixed|\Psr\Http\Message\ResponseInterface
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function deleteStored(string $recordingName): void
+    public function deleteStored(string $recordingName): void
     {
         $this->deleteRequest("/recordings/stored/{$recordingName}");
     }
@@ -61,9 +58,9 @@ class Recordings extends AriRestClient
      *
      * @param string $recordingName The name of the recording.
      * @return mixed|\Psr\Http\Message\ResponseInterface
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function getStoredFile(string $recordingName): Response
+    public function getStoredFile(string $recordingName): Response
     {
         return $this->getRequest("/recordings/stored/{$recordingName}/file");
     }
@@ -74,12 +71,12 @@ class Recordings extends AriRestClient
      * @param string $recordingName The name of the recording to copy.
      * @param string $destinationRecordingName The destination name of the recording.
      * @return StoredRecording|object
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function copyStored(string $recordingName, string $destinationRecordingName): StoredRecording
+    public function copyStored(string $recordingName, string $destinationRecordingName): StoredRecording
     {
         return $this->postRequest("/recordings/stored/{$recordingName}/copy",
-            ['destinationRecordingName' => $destinationRecordingName], [], self::MODEL, self::STORED_RECORDING);
+            ['destinationRecordingName' => $destinationRecordingName], [], parent::MODEL, StoredRecording::class);
     }
 
     /**
@@ -87,20 +84,20 @@ class Recordings extends AriRestClient
      *
      * @param string $recordingName The name of the recording.
      * @return LiveRecording|object
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function getLive(string $recordingName): LiveRecording
+    public function getLive(string $recordingName): LiveRecording
     {
-        return $this->getRequest("/recordings/live/{$recordingName}", [], self::MODEL, 'LiveRecording');
+        return $this->getRequest("/recordings/live/{$recordingName}", [], parent::MODEL, LiveRecording::class);
     }
 
     /**
      * Stop a live recording and discard it.
      *
      * @param string $recordingName The name of the recording.
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function cancel(string $recordingName): void
+    public function cancel(string $recordingName): void
     {
         $this->deleteRequest("/recordings/live/{$recordingName}");
     }
@@ -109,9 +106,9 @@ class Recordings extends AriRestClient
      * Stop a live recording and store it.
      *
      * @param string $recordingName The name of the recording.
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function stop(string $recordingName): void
+    public function stop(string $recordingName): void
     {
         $this->postRequest("/recordings/live/{$recordingName}/stop");
     }
@@ -122,9 +119,9 @@ class Recordings extends AriRestClient
      * included in the accounting for maxDurationSeconds.
      *
      * @param string $recordingName The name of the recording.
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function pause(string $recordingName): void
+    public function pause(string $recordingName): void
     {
         $this->postRequest("/recordings/live/{$recordingName}/pause");
     }
@@ -133,9 +130,9 @@ class Recordings extends AriRestClient
      * Unpause a live recording.
      *
      * @param string $recordingName The name of the recording.
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function unpause(string $recordingName): void
+    public function unpause(string $recordingName): void
     {
         $this->deleteRequest("/recordings/live/{$recordingName}/pause");
     }
@@ -145,9 +142,9 @@ class Recordings extends AriRestClient
      * which will be restarted when the recording is unmuted.
      *
      * @param string $recordingName The name of the recording.
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function mute(string $recordingName): void
+    public function mute(string $recordingName): void
     {
         $this->postRequest("/recordings/live/{$recordingName}/mute");
     }
@@ -156,9 +153,9 @@ class Recordings extends AriRestClient
      * Unmute a live recording.
      *
      * @param string $recordingName The name of the recording.
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function unmute(string $recordingName): void
+    public function unmute(string $recordingName): void
     {
         $this->deleteRequest("/recordings/live/{$recordingName}/mute");
     }

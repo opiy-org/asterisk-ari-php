@@ -5,13 +5,13 @@
  * @copyright ng-voice GmbH (2018)
  */
 
-namespace AriStasisApp\Model\Message;
+namespace NgVoice\AriClient\Model\Message;
 
 
 /**
  * Base type for asynchronous events from Asterisk.
  *
- * @package AriStasisApp\Model\Message
+ * @package NgVoice\AriClient\Model\Message
  */
 class Event extends Message
 {
@@ -28,7 +28,7 @@ class Event extends Message
     /**
      * @return string
      */
-    function getApplication(): string
+    public function getApplication(): string
     {
         return $this->application;
     }
@@ -36,7 +36,7 @@ class Event extends Message
     /**
      * @param string $application
      */
-    function setApplication(string $application): void
+    public function setApplication(string $application): void
     {
         $this->application = $application;
     }
@@ -44,7 +44,7 @@ class Event extends Message
     /**
      * @return string
      */
-    function getTimestamp(): string
+    public function getTimestamp(): string
     {
         return $this->timestamp;
     }
@@ -52,7 +52,7 @@ class Event extends Message
     /**
      * @param string $timestamp
      */
-    function setTimestamp(string $timestamp): void
+    public function setTimestamp(string $timestamp): void
     {
         $this->timestamp = $timestamp;
     }

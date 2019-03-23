@@ -5,13 +5,13 @@
  * @copyright ng-voice GmbH (2018)
  */
 
-namespace AriStasisApp\Model\Message;
+namespace NgVoice\AriClient\Model\Message;
 
 
 /**
  * Base type for errors and events.
  *
- * @package AriStasisApp\Model\Message
+ * @package NgVoice\AriClient\Model\Message
  */
 class Message
 {
@@ -28,7 +28,7 @@ class Message
     /**
      * @return string
      */
-    function getType(): string
+    public function getType(): string
     {
         return $this->type;
     }
@@ -36,7 +36,7 @@ class Message
     /**
      * @param string $type
      */
-    function setType(string $type): void
+    public function setType(string $type): void
     {
         $this->type = $type;
     }
@@ -44,7 +44,7 @@ class Message
     /**
      * @return string
      */
-    function getAsteriskId(): string
+    public function getAsteriskId(): string
     {
         return $this->asterisk_id;
     }
@@ -52,7 +52,7 @@ class Message
     /**
      * @param string $asteriskId
      */
-    function setAsteriskId(string $asteriskId): void
+    public function setAsteriskId(string $asteriskId): void
     {
         $this->asterisk_id = $asteriskId;
     }

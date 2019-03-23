@@ -5,24 +5,26 @@
  * @copyright ng-voice GmbH (2018)
  */
 
-namespace AriStasisApp\Tests\RestClient;
+namespace NgVoice\AriClient\Tests\RestClient;
 
-use AriStasisApp\Model\{Sound};
-use AriStasisApp\RestClient\Sounds;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Response;
+use NgVoice\AriClient\Model\Sound;
+use NgVoice\AriClient\RestClient\Sounds;
 use PHPUnit\Framework\TestCase;
+use ReflectionException;
 
 /**
  * Class SoundsTest
- * @package AriStasisApp\Tests\RestClient
+ * @package NgVoice\AriClient\Tests\RestClient
  */
 class SoundsTest extends TestCase
 {
     /**
      * @return array
      */
-    public function soundInstanceProvider()
+    public function soundInstanceProvider(): array
     {
         return [
             'example sound' => [
@@ -43,10 +45,10 @@ class SoundsTest extends TestCase
     /**
      * @dataProvider soundInstanceProvider
      * @param array $exampleSound
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
-    public function testList(array $exampleSound)
+    public function testList(array $exampleSound): void
     {
         $soundsClient = $this->createSoundsClient(
             [$exampleSound, $exampleSound, $exampleSound]
@@ -65,7 +67,7 @@ class SoundsTest extends TestCase
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \ReflectionException
      */
-    public function testGet(array $exampleSound)
+    public function testGet(array $exampleSound): void
     {
         $soundsClient = $this->createSoundsClient($exampleSound);
         $resultSound = $soundsClient->get('12345');
@@ -78,7 +80,7 @@ class SoundsTest extends TestCase
      * @return Sounds
      * @throws \ReflectionException
      */
-    private function createSoundsClient($expectedResponse)
+    private function createSoundsClient($expectedResponse): Sounds
     {
         $guzzleClientStub = $this->createMock(Client::class);
         $guzzleClientStub->method('request')

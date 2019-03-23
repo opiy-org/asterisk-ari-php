@@ -5,10 +5,11 @@
  * @copyright ng-voice GmbH (2018)
  */
 
-namespace AriStasisApp;
+namespace NgVoice\AriClient;
 
 
-use AriStasisApp\RestClient\{Applications,
+use Monolog\Logger;
+use NgVoice\AriClient\RestClient\{Applications,
     Asterisk,
     Bridges,
     Channels,
@@ -19,7 +20,6 @@ use AriStasisApp\RestClient\{Applications,
     Playbacks,
     Recordings,
     Sounds};
-use Monolog\Logger;
 
 /**
  * A main client to talk to the 'Asterisk RESTful Interface'.
@@ -191,7 +191,7 @@ class BasicStasisApp
      * @param string $ariPassword
      * @param array $otherAriSettings
      */
-    function __construct(string $ariUser, string $ariPassword, array $otherAriSettings = [])
+    public function __construct(string $ariUser, string $ariPassword, array $otherAriSettings = [])
     {
         $this->logger = initLogger(getShortClassName($this));
         $this->eventsClient = new Events($ariUser, $ariPassword, $otherAriSettings);

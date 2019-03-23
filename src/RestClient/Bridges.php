@@ -5,30 +5,28 @@
  * @copyright ng-voice GmbH (2018)
  */
 
-namespace AriStasisApp\RestClient;
+namespace NgVoice\AriClient\RestClient;
 
 
-use AriStasisApp\Model\{Bridge, LiveRecording, Playback};
-use function AriStasisApp\glueArrayOfStrings;
+use GuzzleHttp\Exception\GuzzleException;
+use NgVoice\AriClient\Model\{Bridge, LiveRecording, Playback};
+use function NgVoice\AriClient\glueArrayOfStrings;
 
 /**
  * Class Bridges
- *
- * @package AriStasisApp\RestClient
+ * @package NgVoice\AriClient\RestClient
  */
 class Bridges extends AriRestClient
 {
-    private const BRIDGE = 'Bridge';
-
     /**
      * List all active bridges in Asterisk.
      *
      * @return Bridge[]
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function list(): array
+    public function list(): array
     {
-        return $this->getRequest('/bridges', [], 'array', self::BRIDGE);
+        return $this->getRequest('/bridges', [], parent::ARRAY, Bridge::class);
     }
 
     /**
@@ -41,11 +39,11 @@ class Bridges extends AriRestClient
      * bridgeId: string - Unique ID to give to the bridge being created.
      * name: string - Name to give to the bridge being created.
      * @return Bridge|object
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function create(array $options = []): Bridge
+    public function create(array $options = []): Bridge
     {
-        return $this->postRequest('/bridges', $options, [], self::MODEL, self::BRIDGE);
+        return $this->postRequest('/bridges', $options, [], parent::MODEL, Bridge::class);
     }
 
     /**
@@ -58,11 +56,11 @@ class Bridges extends AriRestClient
      *      (mixing, holding, dtmf_events, proxy_media, video_sfu) to set.
      * name: string - Set the name of the bridge.
      * @return Bridge|object
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function createWithId(string $bridgeId, array $options = []): Bridge
+    public function createWithId(string $bridgeId, array $options = []): Bridge
     {
-        return $this->postRequest("/bridges/{$bridgeId}", $options, [], self::MODEL, self::BRIDGE);
+        return $this->postRequest("/bridges/{$bridgeId}", $options, [], parent::MODEL, Bridge::class);
     }
 
     /**
@@ -70,11 +68,11 @@ class Bridges extends AriRestClient
      *
      * @param string $bridgeId Bridge's id
      * @return Bridge|object
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function get(string $bridgeId): Bridge
+    public function get(string $bridgeId): Bridge
     {
-        return $this->getRequest("/bridges/{$bridgeId}", [], self::MODEL, self::BRIDGE);
+        return $this->getRequest("/bridges/{$bridgeId}", [], parent::MODEL, Bridge::class);
     }
 
     /**
@@ -82,9 +80,9 @@ class Bridges extends AriRestClient
      * If any channels are in this bridge, they will be removed and resume whatever they were doing beforehand.
      *
      * @param string $bridgeId Bridge's id
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function destroy(string $bridgeId): void
+    public function destroy(string $bridgeId): void
     {
         $this->deleteRequest("/bridges/{$bridgeId}");
     }
@@ -98,9 +96,9 @@ class Bridges extends AriRestClient
      * role: string - Channel's role in the bridge
      * absorbDTMF: boolean - Absorb DTMF coming from this channel, preventing it to pass through to the bridge
      * mute: boolean - Mute audio from this channel, preventing it to pass through to the bridge
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function addChannel(string $bridgeId, array $channel, array $options = []): void
+    public function addChannel(string $bridgeId, array $channel, array $options = []): void
     {
         $this->postRequest("/bridges/{$bridgeId}/addChannel", ['channel' => glueArrayOfStrings($channel)] + $options);
     }
@@ -110,9 +108,9 @@ class Bridges extends AriRestClient
      *
      * @param string $bridgeId Bridge's id
      * @param string[] $channel Ids of channels to remove from bridge
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function removeChannel(string $bridgeId, array $channel): void
+    public function removeChannel(string $bridgeId, array $channel): void
     {
         $this->postRequest("/bridges/{$bridgeId}/removeChannel", ['channel' => glueArrayOfStrings($channel)]);
     }
@@ -123,9 +121,9 @@ class Bridges extends AriRestClient
      *
      * @param string $bridgeId Bridge's id
      * @param string $channelId Channels's id
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function setVideoSource(string $bridgeId, string $channelId): void
+    public function setVideoSource(string $bridgeId, string $channelId): void
     {
         $this->postRequest("/bridges/{$bridgeId}/videoSource/{$channelId}");
     }
@@ -136,9 +134,9 @@ class Bridges extends AriRestClient
      * When no explicit video source is set, talk detection will be used to determine the active video stream.
      *
      * @param string $bridgeId Bridge's id
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function clearVideoSource(string $bridgeId): void
+    public function clearVideoSource(string $bridgeId): void
     {
         $this->deleteRequest("/bridges/{$bridgeId}/videoSource");
     }
@@ -148,9 +146,9 @@ class Bridges extends AriRestClient
      *
      * @param string $bridgeId Bridge's id
      * @param string $mohClass Music on hold class
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function startMoh(string $bridgeId, string $mohClass = ''): void
+    public function startMoh(string $bridgeId, string $mohClass = ''): void
     {
         $queryParameters = [];
         if ($mohClass !== '') {
@@ -164,9 +162,9 @@ class Bridges extends AriRestClient
      * This will only stop music on hold being played via POST bridges/{bridgeId}/moh.
      *
      * @param string $bridgeId Bridge's id
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function stopMoh(string $bridgeId): void
+    public function stopMoh(string $bridgeId): void
     {
         $this->deleteRequest("/bridges/{$bridgeId}/moh");
     }
@@ -189,16 +187,16 @@ class Bridges extends AriRestClient
      *      Default: 3000. Allowed range: Min: 0; Max: None
      * playbackId: string - Playback Id.
      * @return Playback|object
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function play(string $bridgeId, array $media, array $options = []): Playback
+    public function play(string $bridgeId, array $media, array $options = []): Playback
     {
         return $this->postRequest(
             "/bridges/{$bridgeId}/play",
             ['media' => glueArrayOfStrings($media)] + $options,
             [],
-            self::MODEL,
-            'Playback'
+            parent::MODEL,
+            Playback::class
         );
     }
 
@@ -219,16 +217,16 @@ class Bridges extends AriRestClient
      * skipms: int - Number of milliseconds to skip for forward/reverse operations.
      *      Default: 3000. Allowed range: Min: 0; Max: None
      * @return Playback|object
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function playWithId(string $bridgeId, string $playbackId, array $media, array $options = []): Playback
+    public function playWithId(string $bridgeId, string $playbackId, array $media, array $options = []): Playback
     {
         return $this->postRequest(
             "/bridges/{$bridgeId}/play/{$playbackId}",
             ['media' => glueArrayOfStrings($media)] + $options,
             [],
-            self::MODEL,
-            'Playback'
+            parent::MODEL,
+            Playback::class
         );
     }
 
@@ -249,16 +247,16 @@ class Bridges extends AriRestClient
      * beep: boolean - Play beep when recording begins
      * terminateOn: string - DTMF input to terminate recording. Default: none. Allowed values: none, any, *, #
      * @return LiveRecording|object
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    function record(string $bridgeId, string $name, string $format, array $options = []): LiveRecording
+    public function record(string $bridgeId, string $name, string $format, array $options = []): LiveRecording
     {
         return $this->postRequest(
             "/bridges/{$bridgeId}/record",
             ['name' => $name, 'format' => $format] + $options,
             [],
-            self::MODEL,
-            'LiveRecording'
+            parent::MODEL,
+            LiveRecording::class
         );
     }
 }

@@ -5,7 +5,7 @@
  * @copyright ng-voice GmbH (2018)
  */
 
-namespace AriStasisApp;
+namespace NgVoice\AriClient;
 
 
 use Monolog\Handler\{NullHandler, StreamHandler};
@@ -14,7 +14,7 @@ use ReflectionClass;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * @param array $array
+ * @param string[] $array
  * @return string
  */
 function glueArrayOfStrings(array $array): string

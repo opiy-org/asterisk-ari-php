@@ -5,16 +5,16 @@
  * @copyright ng-voice GmbH (2018)
  */
 
-namespace AriStasisApp\Model\Message;
+namespace NgVoice\AriClient\Model\Message;
 
 
-use AriStasisApp\Model\Channel;
+use NgVoice\AriClient\Model\Channel;
 
 /**
  * DTMF received on a channel.
  * This event is sent when the DTMF ends. There is no notification about the start of DTMF.
  *
- * @package AriStasisApp\Model\Message
+ * @package NgVoice\AriClient\Model\Message
  */
 class ChannelDtmfReceived extends Event
 {

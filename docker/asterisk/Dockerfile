@@ -11,10 +11,10 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selectio
 WORKDIR /tmp
 
 RUN apt-get update
-RUN apt-get install apt-utils -y
+RUN apt-get install -y apt-utils
 RUN apt-get update
 RUN echo 'Y' | apt-get upgrade
-RUN apt-get install wget -y
+RUN apt-get install -y wget
 
 RUN wget http://downloads.asterisk.org/pub/telephony/asterisk/asterisk-${asterisk_version}.tar.gz
 RUN tar -zxvf asterisk-${asterisk_version}.tar.gz && rm asterisk-${asterisk_version}.tar.gz
@@ -53,6 +53,7 @@ COPY sorcery.conf /etc/asterisk/
 #COPY modules.conf /etc/asterisk/
 COPY docker-entrypoint.sh /tmp
 WORKDIR /tmp
+RUN rm -rf ./asterisk-${asterisk_version}
 RUN chmod +x docker-entrypoint.sh
 
 # Exposing the default ARI HTTP Port

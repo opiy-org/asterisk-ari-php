@@ -10,16 +10,15 @@ declare(strict_types=1);
 namespace AriStasisApp\Tests\Model;
 
 
-require_once __DIR__ . '/../shared_test_functions.php';
-
-use AriStasisApp\Model\{AsteriskInfo, BuildInfo, ConfigInfo, StatusInfo, SystemInfo};
+use JsonMapper_Exception;
+use NgVoice\AriClient\Model\{AsteriskInfo, BuildInfo, ConfigInfo, StatusInfo, SystemInfo};
 use PHPUnit\Framework\TestCase;
-use function AriStasisApp\Tests\mapAriResponseParametersToAriObject;
+use function NgVoice\AriClient\Tests\mapAriResponseParametersToAriObject;
 
 /**
  * Class AsteriskInfoTest
  *
- * @package AriStasisApp\Tests\Model
+ * @package NgVoice\AriClient\Tests\Model
  */
 final class AsteriskInfoTest extends TestCase
 {
@@ -29,7 +28,7 @@ final class AsteriskInfoTest extends TestCase
      */
 
     /**
-     * @throws \JsonMapper_Exception
+     * @throws JsonMapper_Exception
      */
     public function testParametersMappedCorrectly(): void
     {

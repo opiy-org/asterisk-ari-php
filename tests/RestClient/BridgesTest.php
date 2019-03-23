@@ -5,22 +5,26 @@
  * @copyright ng-voice GmbH (2018)
  */
 
-namespace AriStasisApp\Tests\RestClient;
+namespace NgVoice\AriClient\Tests\RestClient;
 
-use AriStasisApp\Model\Bridge;
-use AriStasisApp\Model\LiveRecording;
-use AriStasisApp\Model\Playback;
-use AriStasisApp\RestClient\Bridges;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Response;
+use NgVoice\AriClient\Model\{Bridge, LiveRecording, Playback};
+use NgVoice\AriClient\RestClient\Bridges;
 use PHPUnit\Framework\TestCase;
+use ReflectionException;
 
+/**
+ * Class BridgesTest
+ * @package NgVoice\AriClient\Tests\RestClient
+ */
 class BridgesTest extends TestCase
 {
     /**
      * @return array
      */
-    public function bridgesInstanceProvider()
+    public function bridgesInstanceProvider(): array
     {
         return [
             'example bridge' => [
@@ -40,8 +44,8 @@ class BridgesTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
     public function testStopMoh()
     {
@@ -53,8 +57,8 @@ class BridgesTest extends TestCase
     /**
      * @dataProvider bridgesInstanceProvider
      * @param string[] $exampleBridge
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
     public function testCreateWithId(array $exampleBridge)
     {
@@ -65,8 +69,8 @@ class BridgesTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
     public function testPlay()
     {
@@ -84,8 +88,8 @@ class BridgesTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
     public function testStartMoh()
     {
@@ -95,8 +99,8 @@ class BridgesTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
     public function testDestroy()
     {
@@ -108,8 +112,8 @@ class BridgesTest extends TestCase
     /**
      * @dataProvider bridgesInstanceProvider
      * @param array $exampleBridge
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
     public function testList(array $exampleBridge)
     {
@@ -127,8 +131,8 @@ class BridgesTest extends TestCase
     /**
      * @dataProvider bridgesInstanceProvider
      * @param string[] $exampleChannel
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
     public function testGet(array $exampleChannel)
     {
@@ -139,8 +143,8 @@ class BridgesTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
     public function testSetVideoSource()
     {
@@ -150,8 +154,8 @@ class BridgesTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
     public function testPlayWithId()
     {
@@ -171,8 +175,8 @@ class BridgesTest extends TestCase
     /**
      * @dataProvider bridgesInstanceProvider
      * @param string[] $exampleBridge
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
     public function testCreate(array $exampleBridge)
     {
@@ -183,8 +187,8 @@ class BridgesTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
     public function testClearVideoSource()
     {
@@ -194,8 +198,8 @@ class BridgesTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
     public function testRecord()
     {
@@ -215,8 +219,8 @@ class BridgesTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
     public function testAddChannel()
     {
@@ -226,8 +230,8 @@ class BridgesTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws GuzzleException
+     * @throws ReflectionException
      */
     public function testRemoveChannel()
     {
@@ -239,7 +243,7 @@ class BridgesTest extends TestCase
     /**
      * @param $expectedResponse
      * @return Bridges
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     private function createBridgesClientWithGuzzleClientStub($expectedResponse)
     {

@@ -5,16 +5,15 @@
  * @copyright ng-voice GmbH (2018)
  */
 
-namespace AriStasisApp\Model\Message;
+namespace NgVoice\AriClient\Model\Message;
 
 
-use AriStasisApp\Model\Endpoint;
-use AriStasisApp\Model\TextMessage;
+use NgVoice\AriClient\Model\{Endpoint, TextMessage};
 
 /**
  * A text message was received from an endpoint.
  *
- * @package AriStasisApp\Model\Message
+ * @package NgVoice\AriClient\Model\Message
  */
 class TextMessageReceived extends Event
 {

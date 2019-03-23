@@ -7,62 +7,59 @@
 
 declare(strict_types=1);
 
-namespace AriStasisApp\Tests;
+namespace NgVoice\AriClient\Tests;
 
 
-require_once __DIR__ . '/shared_test_functions.php';
-require_once __DIR__ . '/../src/helping_functions.php';
-
-use AriStasisApp\Model\Application;
 use Monolog\Logger;
+use NgVoice\AriClient\Model\Application;
 use PHPUnit\Framework\TestCase;
-use function AriStasisApp\getAsteriskDefaultSettings;
-use function AriStasisApp\getShortClassName;
-use function AriStasisApp\glueArrayOfStrings;
-use function AriStasisApp\initLogger;
-use function AriStasisApp\parseAriSettings;
-use function AriStasisApp\parseMyApiSettings;
-use function AriStasisApp\parseWebSocketSettings;
+use function NgVoice\AriClient\{getAsteriskDefaultSettings,
+    getShortClassName,
+    glueArrayOfStrings,
+    initLogger,
+    parseAriSettings,
+    parseMyApiSettings,
+    parseWebSocketSettings};
 
 /**
  * Class helping_functionsTest
  *
- * @package AriStasisApp\Tests
+ * @package NgVoice\AriClient\Tests
  */
 final class helping_functionsTest extends TestCase
 {
-    public function testGlueArrayOfStrings()
+    public function testGlueArrayOfStrings(): void
     {
         $this->assertEquals('test,123,peter', glueArrayOfStrings(['test', '123', 'peter']));
     }
 
-    public function testGetAsteriskDefaultSettings()
+    public function testGetAsteriskDefaultSettings(): void
     {
         $this->assertIsArray(getAsteriskDefaultSettings());
     }
 
-    public function testParseMyApiSettings()
+    public function testParseMyApiSettings(): void
     {
         $this->assertEquals('jo', parseMyApiSettings(['test' => 'jo'])['test']);
     }
 
-    public function testParseAriSettings()
+    public function testParseAriSettings(): void
     {
         $this->assertEquals('jo', parseAriSettings(['test' => 'jo'])['test']);
     }
 
-    public function testParseWebSocketSettings()
+    public function testParseWebSocketSettings(): void
     {
         $this->assertEquals('jo', parseWebSocketSettings(['test' => 'jo'])['test']);
     }
 
-    public function testGetShortClassName()
+    public function testGetShortClassName(): void
     {
         $this->assertEquals('Application', getShortClassName(new Application()));
     }
 
-    public function testInitLogger()
+    public function testInitLogger(): void
     {
-        $this->assertInstanceOf(Logger::class, initLogger('TestClass'));
+        $this->assertSame(Logger::class, get_class(initLogger('TestClass')));
     }
 }

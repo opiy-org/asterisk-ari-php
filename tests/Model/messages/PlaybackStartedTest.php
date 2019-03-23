@@ -7,24 +7,23 @@
 
 declare(strict_types=1);
 
-namespace AriStasisApp\Tests\Model;
+namespace NgVoice\AriClient\Tests\Model;
 
 
-require_once __DIR__ . '/../../shared_test_functions.php';
-
-use AriStasisApp\Model\{Message\PlaybackStarted, Playback};
+use JsonMapper_Exception;
+use NgVoice\AriClient\Model\{Message\PlaybackStarted, Playback};
 use PHPUnit\Framework\TestCase;
-use function AriStasisApp\Tests\mapMessageParametersToAriObject;
+use function NgVoice\AriClient\Tests\mapMessageParametersToAriObject;
 
 /**
  * Class PlaybackStartedTest
  *
- * @package AriStasisApp\Tests\Model\Message
+ * @package NgVoice\AriClient\Tests\Model\Message
  */
 final class PlaybackStartedTest extends TestCase
 {
     /**
-     * @throws \JsonMapper_Exception
+     * @throws JsonMapper_Exception
      */
     public function testParametersMappedCorrectly(): void
     {

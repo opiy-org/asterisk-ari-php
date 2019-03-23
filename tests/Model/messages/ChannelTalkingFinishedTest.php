@@ -7,19 +7,17 @@
 
 declare(strict_types=1);
 
-namespace AriStasisApp\Tests\Model;
+namespace NgVoice\AriClient\Tests\Model;
 
 
-require_once __DIR__ . '/../../shared_test_functions.php';
-
-use AriStasisApp\Model\{Channel, Message\ChannelTalkingFinished};
+use NgVoice\AriClient\Model\{Channel, Message\ChannelTalkingFinished};
 use PHPUnit\Framework\TestCase;
-use function AriStasisApp\Tests\mapMessageParametersToAriObject;
+use function NgVoice\AriClient\Tests\mapMessageParametersToAriObject;
 
 /**
  * Class ChannelTalkingFinishedTest
  *
- * @package AriStasisApp\Tests\Model\Message
+ * @package NgVoice\AriClient\Tests\Model\Message
  */
 final class ChannelTalkingFinishedTest extends TestCase
 {
