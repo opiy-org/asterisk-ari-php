@@ -107,7 +107,7 @@ function initLogger(string $name): Logger
 {
     $logger = new Logger($name);
 
-    $settings = Yaml::parseFile(__DIR__ . '/../environment.yaml');
+    $settings = Yaml::parseFile(__DIR__ . '/../debugmode.yaml');
 
     try {
         $stdOutPath = 'php://stdout';

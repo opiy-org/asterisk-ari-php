@@ -24,7 +24,6 @@ use NgVoice\AriClient\RestClient\{Applications,
     Recordings,
     Sounds};
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  * Class BasicStasisAppTest
@@ -35,10 +34,9 @@ final class BasicStasisAppTest extends TestCase
 {
     public function asteriskInstanceProvider(): array
     {
-        $settings = Yaml::parseFile(__DIR__ . '/../environment.yaml');
         return [
             'setup basic stasis app' =>
-                [new BasicStasisApp($settings['tests']['asteriskUser'], $settings['tests']['asteriskPassword'])]
+                [new BasicStasisApp('asterisk', 'asterisk')]
         ];
     }
 
@@ -64,9 +62,8 @@ final class BasicStasisAppTest extends TestCase
 
     public function testConstructor(): void
     {
-        $settings = Yaml::parseFile(__DIR__ . '/../environment.yaml');
         $this->assertInstanceOf(BasicStasisApp::class,
-            new BasicStasisApp($settings['tests']['asteriskUser'], $settings['tests']['asteriskPassword'])
+            new BasicStasisApp('asterisk', 'asterisk')
         );
     }
 }

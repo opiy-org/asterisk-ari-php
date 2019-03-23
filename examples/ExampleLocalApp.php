@@ -2,14 +2,14 @@
 
 /**
  * @author Lukas Stermann
- * @copyright ng-voice GmbH (2018)
+ * @copyright ng-voice GmbH (2019)
  */
+
+require_once __DIR__ . '/../vendor/autoload.php';
 
 use GuzzleHttp\Exception\GuzzleException;
 use NgVoice\AriClient\BasicStasisApp;
 use NgVoice\AriClient\Model\Message\{ChannelUserevent, StasisEnd, StasisStart};
-
-require_once __DIR__ . '/../vendor/autoload.php';
 
 /**
  * Example for usage of this library in a local application.

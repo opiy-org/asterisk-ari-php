@@ -2,17 +2,16 @@
 
 /**
  * @author Lukas Stermann
- * @copyright ng-voice GmbH (2018)
+ * @copyright ng-voice GmbH (2019)
  *
  * The asterisk events will be received by a web socket client which then is handled by your own local app.
  * We recommend using supervisor to monitor this process in the background.
  */
 
-use NgVoice\AriClient\WebSocketClient\{LocalAppMessageHandler, WebSocketClient};
-use Symfony\Component\Yaml\Yaml;
-
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/ExampleLocalApp.php';
+
+use NgVoice\AriClient\WebSocketClient\{LocalAppMessageHandler, WebSocketClient};
 
 /**
  * You will need to run a worker script like this one in the background to
@@ -20,20 +19,19 @@ require_once __DIR__ . '/ExampleLocalApp.php';
  * I prefer using 'supervisor' to monitor my worker processes.
  */
 
-$settings = Yaml::parseFile(__DIR__ . '/../environment.yaml');
-$user = $settings['tests']['asteriskUser'];
-$password = $settings['tests']['asteriskPassword'];
+$ariUser = 'asterisk';
+$ariPass = 'asterisk';
 
 $webSocketSettings = [
     'wssEnabled' => false,
     'host' => 'localhost',
     'port' => 8088,
     'rootUri' => '/ari',
-    'user' => $user,
-    'password' => $password
+    'user' => $ariUser,
+    'password' => $ariPass
 ];
 
-$exampleLocalApp = new ExampleLocalApp($user, $password);
+$exampleLocalApp = new ExampleLocalApp($ariUser, $ariPass);
 
 $ariWebSocket = new WebSocketClient(
     ['ExampleLocalApp'],

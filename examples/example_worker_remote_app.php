@@ -2,28 +2,26 @@
 
 /**
  * @author Lukas Stermann
- * @copyright ng-voice GmbH (2018)
+ * @copyright ng-voice GmbH (2019)
  *
  * The asterisk events will be received by a web socket client which then sends them to your API.
  * We recommend using supervisor to monitor this process in the background.
  */
 
-use NgVoice\AriClient\WebSocketClient\{RemoteAppMessageHandler, WebSocketClient};
-use Symfony\Component\Yaml\Yaml;
-
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$settings = Yaml::parseFile(__DIR__ . '/../environment.yaml');
-$user = $settings['tests']['asteriskUser'];
-$password = $settings['tests']['asteriskPassword'];
+use NgVoice\AriClient\WebSocketClient\{RemoteAppMessageHandler, WebSocketClient};
+
+$ariUser = 'asterisk';
+$ariPass = 'asterisk';
 
 $webSocketSettings = [
     'wssEnabled' => false,
     'host' => 'localhost',
     'port' => 8088,
     'rootUri' => '/ari',
-    'user' => $user,
-    'password' => $password
+    'user' => $ariUser,
+    'password' => $ariPass
 ];
 
 $remoteApiSettings = [
@@ -35,7 +33,7 @@ $remoteApiSettings = [
     'password' => 'myPassword',
 ];
 
-$exampleLocalApp = new ExampleLocalApp($user, $password);
+$exampleLocalApp = new ExampleLocalApp($ariUser, $ariPass);
 
 $ariWebSocket = new WebSocketClient(
     ['ExampleLocalApp'],
