@@ -14,15 +14,15 @@ use NgVoice\AriClient\Model\Message\{ChannelUserevent, StasisEnd, StasisStart};
 /**
  * Example for usage of this library in a local application.
  *
- * TODO: READ FIRST! ============================================================================
+ * READ FIRST! ==================================================================================
  * Open a terminal and start the example WebSocketClient worker script to receive Asterisk events:
  * 'php example_worker_local_app.php'
  *
  * Define public functions in your app class, named after the Message you want to handle (lowerCamelCase!).
  * e.g. function someMessage(SomeMessage $someMessage){...}
- * Other asterisk Message received by the WebSocketClient will be ignored.
+ * Other Asterisk Messages received by the WebSocketClient will be ignored.
  *
- * For a list of all supported Message, have a look at the /src/Model/Message
+ * For a list of all supported Messages, have a look at the /src/Model/Message
  * folder in this library. Alternatively you can look them up in the official Asterisk documentation:
  * https://wiki.asterisk.org/wiki/display/AST/Asterisk+16+REST+Data+Models#Asterisk16RESTDataModels-Event
  * ==============================================================================================

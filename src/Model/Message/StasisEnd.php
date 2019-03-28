@@ -18,7 +18,7 @@ use NgVoice\AriClient\Model\Channel;
 class StasisEnd extends Event
 {
     /**
-     * @var Channel
+     * @var \NgVoice\AriClient\Model\Channel
      */
     private $channel;
 

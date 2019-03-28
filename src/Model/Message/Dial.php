@@ -18,12 +18,12 @@ use NgVoice\AriClient\Model\Channel;
 class Dial extends Event
 {
     /**
-     * @var Channel Channel that the caller has been forwarded to.
+     * @var \NgVoice\AriClient\Model\Channel Channel that the caller has been forwarded to.
      */
     private $forwarded;
 
     /**
-     * @var Channel The calling channel.
+     * @var \NgVoice\AriClient\Model\Channel The calling channel.
      */
     private $caller;
 
@@ -43,7 +43,7 @@ class Dial extends Event
     private $dialstring;
 
     /**
-     * @var Channel The dialed Channel.
+     * @var \NgVoice\AriClient\Model\Channel The dialed Channel.
      */
     private $peer;
 

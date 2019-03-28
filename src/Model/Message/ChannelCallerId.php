@@ -28,7 +28,7 @@ class ChannelCallerId extends Event
     private $caller_presentation;
 
     /**
-     * @var Channel The channel that changed Caller ID.
+     * @var \NgVoice\AriClient\Model\Channel The channel that changed Caller ID.
      */
     private $channel;
 

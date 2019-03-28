@@ -18,12 +18,12 @@ use NgVoice\AriClient\Model\{ContactInfo, Endpoint};
 class ContactStatusChange extends Event
 {
     /**
-     * @var Endpoint
+     * @var \NgVoice\AriClient\Model\Endpoint
      */
     private $endpoint;
 
     /**
-     * @var ContactInfo
+     * @var \NgVoice\AriClient\Model\ContactInfo
      */
     private $contact_info;
 

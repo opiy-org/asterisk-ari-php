@@ -23,7 +23,7 @@ class BridgeVideoSourceChanged extends Event
     private $old_video_source_id;
 
     /**
-     * @var Bridge
+     * @var \NgVoice\AriClient\Model\Bridge
      */
     private $bridge;
 

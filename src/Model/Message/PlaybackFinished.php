@@ -18,7 +18,7 @@ use NgVoice\AriClient\Model\Playback;
 class PlaybackFinished extends Event
 {
     /**
-     * @var Playback Playback control object.
+     * @var \NgVoice\AriClient\Model\Playback Playback control object.
      */
     private $playback;
 

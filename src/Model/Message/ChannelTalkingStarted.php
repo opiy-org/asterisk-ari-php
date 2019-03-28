@@ -18,7 +18,7 @@ use NgVoice\AriClient\Model\Channel;
 class ChannelTalkingStarted extends Event
 {
     /**
-     * @var Channel The channel on which talking started.
+     * @var \NgVoice\AriClient\Model\Channel The channel on which talking started.
      */
     private $channel;
 

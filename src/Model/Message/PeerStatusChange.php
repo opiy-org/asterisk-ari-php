@@ -18,12 +18,12 @@ use NgVoice\AriClient\Model\{Endpoint, Peer};
 class PeerStatusChange extends Event
 {
     /**
-     * @var Peer
+     * @var \NgVoice\AriClient\Model\Peer
      */
     private $peer;
 
     /**
-     * @var Endpoint
+     * @var \NgVoice\AriClient\Model\Endpoint
      */
     private $endpoint;
 

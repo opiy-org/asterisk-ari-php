@@ -18,7 +18,7 @@ use NgVoice\AriClient\Model\DeviceState;
 class DeviceStateChanged extends Event
 {
     /**
-     * @var DeviceState Device state object.
+     * @var \NgVoice\AriClient\Model\DeviceState Device state object.
      */
     private $device_state;
 

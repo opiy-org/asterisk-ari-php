@@ -23,7 +23,7 @@ class ChannelDialplan extends Event
     private $dialplan_app_data;
 
     /**
-     * @var Channel The channel that changed dialplan location.
+     * @var \NgVoice\AriClient\Model\Channel The channel that changed dialplan location.
      */
     private $channel;
 

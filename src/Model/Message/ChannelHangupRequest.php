@@ -28,7 +28,7 @@ class ChannelHangupRequest extends Event
     private $cause;
 
     /**
-     * @var Channel The channel on which the hangup was requested.
+     * @var \NgVoice\AriClient\Model\Channel The channel on which the hangup was requested.
      */
     private $channel;
 

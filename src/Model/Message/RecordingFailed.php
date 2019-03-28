@@ -18,7 +18,7 @@ use NgVoice\AriClient\Model\LiveRecording;
 class RecordingFailed extends Event
 {
     /**
-     * @var LiveRecording Recording control object
+     * @var \NgVoice\AriClient\Model\LiveRecording Recording control object
      */
     private $recording;
 

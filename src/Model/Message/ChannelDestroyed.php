@@ -28,7 +28,7 @@ class ChannelDestroyed extends Event
     private $cause_txt;
 
     /**
-     * @var Channel
+     * @var \NgVoice\AriClient\Model\Channel
      */
     private $channel;
 

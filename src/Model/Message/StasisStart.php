@@ -23,12 +23,12 @@ class StasisStart extends Event
     private $args;
 
     /**
-     * @var Channel
+     * @var \NgVoice\AriClient\Model\Channel
      */
     private $replace_channel;
 
     /**
-     * @var Channel
+     * @var \NgVoice\AriClient\Model\Channel
      */
     private $channel;
 

@@ -18,7 +18,7 @@ use NgVoice\AriClient\Model\Endpoint;
 class EndpointStateChange extends Event
 {
     /**
-     * @var Endpoint
+     * @var \NgVoice\AriClient\Model\Endpoint
      */
     private $endpoint;
 

@@ -18,7 +18,7 @@ use NgVoice\AriClient\Model\Channel;
 class ChannelUnhold extends Event
 {
     /**
-     * @var Channel The channel that initiated the unhold event.
+     * @var \NgVoice\AriClient\Model\Channel The channel that initiated the unhold event.
      */
     private $channel;
 

@@ -18,7 +18,7 @@ use NgVoice\AriClient\Model\{Bridge, Channel};
 class BridgeAttendedTransfer extends Event
 {
     /**
-     * @var Channel The channel that is replacing transferer_first_leg in the swap.
+     * @var \NgVoice\AriClient\Model\Channel The channel that is replacing transferer_first_leg in the swap.
      */
     private $replace_channel;
 
@@ -28,7 +28,7 @@ class BridgeAttendedTransfer extends Event
     private $is_external;
 
     /**
-     * @var Bridge Bridge the transferer second leg is in.
+     * @var \NgVoice\AriClient\Model\Bridge Bridge the transferer second leg is in.
      */
     private $transferer_second_leg_bridge;
 
@@ -38,22 +38,22 @@ class BridgeAttendedTransfer extends Event
     private $destination_bridge;
 
     /**
-     * @var Channel Second leg of the transferer.
+     * @var \NgVoice\AriClient\Model\Channel Second leg of the transferer.
      */
     private $transferer_second_leg;
 
     /**
-     * @var Channel Second leg of a link transfer result.
+     * @var \NgVoice\AriClient\Model\Channel Second leg of a link transfer result.
      */
     private $destination_link_second_leg;
 
     /**
-     * @var Channel Transferer channel that survived the threeway result.
+     * @var \NgVoice\AriClient\Model\Channel Transferer channel that survived the threeway result.
      */
     private $destination_threeway_channel;
 
     /**
-     * @var Channel The channel that is being transferred to.
+     * @var \NgVoice\AriClient\Model\Channel The channel that is being transferred to.
      */
     private $transfer_target;
 
@@ -73,27 +73,27 @@ class BridgeAttendedTransfer extends Event
     private $destination_application;
 
     /**
-     * @var Bridge Bridge that survived the threeway result.
+     * @var \NgVoice\AriClient\Model\Bridge Bridge that survived the threeway result.
      */
     private $destination_threeway_bridge;
 
     /**
-     * @var Channel First leg of a link transfer result.
+     * @var \NgVoice\AriClient\Model\Channel First leg of a link transfer result.
      */
     private $destination_link_first_leg;
 
     /**
-     * @var Channel The channel that is being transferred.
+     * @var \NgVoice\AriClient\Model\Channel The channel that is being transferred.
      */
     private $transferee;
 
     /**
-     * @var Channel First leg of the transferer.
+     * @var \NgVoice\AriClient\Model\Channel First leg of the transferer.
      */
     private $transferer_first_leg;
 
     /**
-     * @var Bridge Bridge the transferer first leg is in.
+     * @var \NgVoice\AriClient\Model\Bridge Bridge the transferer first leg is in.
      */
     private $transferer_first_leg_bridge;
 

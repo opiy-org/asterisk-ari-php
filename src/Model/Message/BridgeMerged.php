@@ -18,12 +18,12 @@ use NgVoice\AriClient\Model\Bridge;
 class BridgeMerged extends Event
 {
     /**
-     * @var Bridge
+     * @var \NgVoice\AriClient\Model\Bridge
      */
     private $bridge;
 
     /**
-     * @var Bridge
+     * @var \NgVoice\AriClient\Model\Bridge
      */
     private $bridge_from;
 

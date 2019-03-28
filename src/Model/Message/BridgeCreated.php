@@ -18,7 +18,7 @@ use NgVoice\AriClient\Model\Bridge;
 class BridgeCreated extends Event
 {
     /**
-     * @var Bridge
+     * @var \NgVoice\AriClient\Model\Bridge
      */
     private $bridge;
 

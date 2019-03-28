@@ -23,7 +23,7 @@ class ChannelHold extends Event
     private $musicclass;
 
     /**
-     * @var Channel The channel that initiated the hold event.
+     * @var \NgVoice\AriClient\Model\Channel The channel that initiated the hold event.
      */
     private $channel;
 

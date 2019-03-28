@@ -18,12 +18,12 @@ use NgVoice\AriClient\Model\{Endpoint, TextMessage};
 class TextMessageReceived extends Event
 {
     /**
-     * @var TextMessage A text message was received from an endpoint.
+     * @var \NgVoice\AriClient\Model\TextMessage A text message was received from an endpoint.
      */
     private $message;
 
     /**
-     * @var Endpoint
+     * @var \NgVoice\AriClient\Model\Endpoint
      */
     private $endpoint;
 

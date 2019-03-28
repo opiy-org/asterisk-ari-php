@@ -28,7 +28,7 @@ class ApplicationMoveFailed extends Event
     private $destination;
 
     /**
-     * @var Channel
+     * @var \NgVoice\AriClient\Model\Channel
      */
     private $channel;
 

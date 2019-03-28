@@ -23,7 +23,7 @@ class ChannelUserevent extends Event
     private $eventname;
 
     /**
-     * @var Bridge A bridge that is signaled with the user event.
+     * @var \NgVoice\AriClient\Model\Bridge A bridge that is signaled with the user event.
      */
     private $bridge;
 
@@ -33,12 +33,12 @@ class ChannelUserevent extends Event
     private $userevent;
 
     /**
-     * @var Endpoint A endpoint that is signaled with the user event.
+     * @var \NgVoice\AriClient\Model\Endpoint A endpoint that is signaled with the user event.
      */
     private $endpoint;
 
     /**
-     * @var Channel A channel that is signaled with the user event.
+     * @var \NgVoice\AriClient\Model\Channel A channel that is signaled with the user event.
      */
     private $channel;
 

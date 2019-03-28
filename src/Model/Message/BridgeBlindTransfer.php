@@ -18,12 +18,12 @@ use NgVoice\AriClient\Model\{Bridge, Channel};
 class BridgeBlindTransfer extends Event
 {
     /**
-     * @var Bridge The bridge being transferred.
+     * @var \NgVoice\AriClient\Model\Bridge The bridge being transferred.
      */
     private $bridge;
 
     /**
-     * @var Channel The channel that is replacing transferer when the transferee(s) can not be transferred directly.
+     * @var \NgVoice\AriClient\Model\Channel The channel that is replacing transferer when the transferee(s) can not be transferred directly.
      */
     private $replace_channel;
 
@@ -48,12 +48,12 @@ class BridgeBlindTransfer extends Event
     private $context;
 
     /**
-     * @var Channel The channel that is being transferred.
+     * @var \NgVoice\AriClient\Model\Channel The channel that is being transferred.
      */
     private $transferee;
 
     /**
-     * @var Channel The channel performing the blind transfer.
+     * @var \NgVoice\AriClient\Model\Channel The channel performing the blind transfer.
      */
     private $channel;
 

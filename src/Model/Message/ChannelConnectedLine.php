@@ -18,7 +18,7 @@ use NgVoice\AriClient\Model\Channel;
 class ChannelConnectedLine extends Event
 {
     /**
-     * @var Channel The channel whose connected line has changed.
+     * @var \NgVoice\AriClient\Model\Channel The channel whose connected line has changed.
      */
     private $channel;
 

@@ -18,12 +18,12 @@ use NgVoice\AriClient\Model\{Bridge, Channel};
 class ChannelLeftBridge extends Event
 {
     /**
-     * @var Channel
+     * @var \NgVoice\AriClient\Model\Channel
      */
     private $channel;
 
     /**
-     * @var Bridge
+     * @var \NgVoice\AriClient\Model\Bridge
      */
     private $bridge;
 

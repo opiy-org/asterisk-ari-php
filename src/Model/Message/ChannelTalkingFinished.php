@@ -23,7 +23,7 @@ class ChannelTalkingFinished extends Event
     private $duration;
 
     /**
-     * @var Channel The channel on which talking completed.
+     * @var \NgVoice\AriClient\Model\Channel The channel on which talking completed.
      */
     private $channel;
 

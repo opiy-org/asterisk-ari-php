@@ -23,7 +23,7 @@ class ChannelVarset extends Event
     private $variable;
 
     /**
-     * @var Channel The channel on which the variable was set.
+     * @var \NgVoice\AriClient\Model\Channel The channel on which the variable was set.
      * If missing, the variable is a global variable.
      */
     private $channel;

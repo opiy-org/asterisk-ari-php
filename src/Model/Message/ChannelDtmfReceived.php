@@ -29,7 +29,7 @@ class ChannelDtmfReceived extends Event
     private $digit;
 
     /**
-     * @var Channel The channel on which DTMF was received.
+     * @var \NgVoice\AriClient\Model\Channel The channel on which DTMF was received.
      */
     private $channel;
 
