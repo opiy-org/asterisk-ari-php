@@ -100,7 +100,7 @@ class AriRestClient
         $uri = $this->rootUri . $uri;
         $this->debugRequest($method, $uri, $queryParameters);
         $response = $this->guzzleClient->request($method, $uri, [self::QUERY => $queryParameters]);
-        $this->debugResponse($response, $method, $uri);
+        $this->debugResponse($response, $method, $uri, $queryParameters);
         return $this->formatResponse($response, $returnType, $returnModelClassName);
     }
 
@@ -127,10 +127,19 @@ class AriRestClient
      * @param Response $response
      * @param string $method
      * @param string $uri
+     * @param array $queryParameters
+     * @param array $body
      */
-    private function debugResponse(Response $response, string $method, string $uri): void
+    private function debugResponse(
+        Response $response,
+        string $method,
+        string $uri,
+        array $queryParameters = [],
+        array $body = []
+    ): void
     {
         $this->logger->debug("Received Response... Method: {$method} | URI: {$uri} | "
+            . "QueryParameters: {$queryParameters} | Body: {$body} | "
             . "ResponseCode: {$response->getStatusCode()} | Reason: {$response->getReasonPhrase()} | "
             . "Body: {$response->getBody()}"
         );
@@ -214,7 +223,7 @@ class AriRestClient
         $uri = $this->rootUri . $uri;
         $this->debugRequest($method, $uri, $queryParameters, $body);
         $response = $this->guzzleClient->request($method, $uri, ['json' => $body, self::QUERY => $queryParameters]);
-        $this->debugResponse($response, $method, $uri);
+        $this->debugResponse($response, $method, $uri, $queryParameters, $body);
         return $this->formatResponse($response, $returnType, $returnModelClassName);
     }
 
@@ -238,7 +247,7 @@ class AriRestClient
         $uri = $this->rootUri . $uri;
         $this->debugRequest($method, $uri, [], $body);
         $response = $this->guzzleClient->request($method, $uri, ['json' => $body]);
-        $this->debugResponse($response, $method, $uri);
+        $this->debugResponse($response, $method, $uri, [], $body);
         return $this->formatResponse($response, $returnType, $returnModelClassName);
     }
 
@@ -262,7 +271,7 @@ class AriRestClient
         $uri = $this->rootUri . $uri;
         $this->debugRequest($method, $uri, $queryParameters);
         $response = $this->guzzleClient->request($method, $uri, [self::QUERY => $queryParameters]);
-        $this->debugResponse($response, $method, $uri);
+        $this->debugResponse($response, $method, $uri, $queryParameters);
         return $this->formatResponse($response, $returnType, $returnModelClassName);
     }
 }
