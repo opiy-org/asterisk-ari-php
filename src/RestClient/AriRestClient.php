@@ -138,6 +138,8 @@ class AriRestClient
         array $body = []
     ): void
     {
+        $queryParameters = print_r($queryParameters, true);
+        $body = print_r($body, true);
         $this->logger->debug("Received Response... Method: {$method} | URI: {$uri} | "
             . "QueryParameters: {$queryParameters} | Body: {$body} | "
             . "ResponseCode: {$response->getStatusCode()} | Reason: {$response->getReasonPhrase()} | "
