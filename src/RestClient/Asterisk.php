@@ -15,7 +15,7 @@ use function NgVoice\AriClient\glueArrayOfStrings;
  * Class Asterisk
  * @package NgVoice\AriClient\RestClient
  */
-class Asterisk extends AriRestClient
+final class Asterisk extends AriRestClient
 {
     /**
      * Retrieve a dynamic configuration object.

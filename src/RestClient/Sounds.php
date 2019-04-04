@@ -15,7 +15,7 @@ use NgVoice\AriClient\Model\Sound;
  * Class Sounds
  * @package NgVoice\AriClient\RestClient
  */
-class Sounds extends AriRestClient
+final class Sounds extends AriRestClient
 {
     /**
      * List all sounds.

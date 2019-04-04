@@ -9,9 +9,10 @@
  */
 
 require_once __DIR__ . '/../vendor/autoload.php';
-require_once __DIR__ . '/ExampleLocalApp.php';
+require_once __DIR__ . '/ExampleApp.php';
 
-use NgVoice\AriClient\WebSocketClient\{LocalAppMessageHandler, WebSocketClient};
+use NgVoice\AriClient\RestClient\AriRestClientSettings;
+use NgVoice\AriClient\WebSocketClient\{LocalAppMessageHandler, WebSocketClient, WebSocketSettings};
 
 /**
  * You will need to run a worker script like this one in the background to
@@ -22,21 +23,14 @@ use NgVoice\AriClient\WebSocketClient\{LocalAppMessageHandler, WebSocketClient};
 $ariUser = 'asterisk';
 $ariPass = 'asterisk';
 
-$webSocketSettings = [
-    'wssEnabled' => false,
-    'host' => 'localhost',
-    'port' => 8088,
-    'rootUri' => '/ari',
-    'user' => $ariUser,
-    'password' => $ariPass
-];
+$ariRestClientSettings = new AriRestClientSettings($ariUser, $ariPass);
+$ariWebSocketSettings = new WebSocketSettings($ariUser, $ariPass);
 
-$exampleLocalApp = new ExampleLocalApp($ariUser, $ariPass);
+$exampleLocalApp = new ExampleApp($ariRestClientSettings);
 
-$ariWebSocket = new WebSocketClient(
-    ['ExampleLocalApp'],
+$ariWebSocket = new WebSocketClient('ExampleApp',
     new LocalAppMessageHandler($exampleLocalApp),
-    $webSocketSettings
+    $ariWebSocketSettings
 );
 
 $ariWebSocket->start();

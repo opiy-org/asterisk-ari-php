@@ -15,7 +15,7 @@ use NgVoice\AriClient\Model\DeviceState;
  * Class DeviceStates
  * @package NgVoice\AriClient\RestClient
  */
-class DeviceStates extends AriRestClient
+final class DeviceStates extends AriRestClient
 {
     /**
      * List all ARI controlled device states.

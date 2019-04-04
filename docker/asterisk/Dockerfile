@@ -40,7 +40,7 @@ RUN make samples
 # This script starts Asterisk when your server starts, will monitor the Asterisk process
 # in case anything bad happens to it, and can be used to stop or restart Asterisk as well
 RUN make config
-#Smarter and compiled logs in asterisk
+# Smarter and compiled logs in asterisk
 RUN make install-logrotate
 
 # Default configurations are copied into the container

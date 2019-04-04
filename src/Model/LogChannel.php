@@ -17,25 +17,21 @@ class LogChannel
 {
     /**
      * @var string Whether or not a log type is enabled.
-     * @required
      */
     private $status;
 
     /**
      * @var string The various log levels.
-     * @required
      */
     private $configuration;
 
     /**
      * @var string Types of logs for the log channel.
-     * @required
      */
     private $type;
 
     /**
      * @var string The log channel path.
-     * @required
      */
     private $channel;
 

@@ -16,13 +16,11 @@ namespace NgVoice\AriClient\Model;
 class FormatLangPair
 {
     /**
-     * @required
      * @var string
      */
     private $language;
 
     /**
-     * @required
      * @var string
      */
     private $format;

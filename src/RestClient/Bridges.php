@@ -16,7 +16,7 @@ use function NgVoice\AriClient\glueArrayOfStrings;
  * Class Bridges
  * @package NgVoice\AriClient\RestClient
  */
-class Bridges extends AriRestClient
+final class Bridges extends AriRestClient
 {
     /**
      * List all active bridges in Asterisk.

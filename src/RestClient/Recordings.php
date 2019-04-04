@@ -11,12 +11,13 @@ namespace NgVoice\AriClient\RestClient;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Response;
 use NgVoice\AriClient\Model\{LiveRecording, StoredRecording};
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class Recordings
  * @package NgVoice\AriClient\RestClient
  */
-class Recordings extends AriRestClient
+final class Recordings extends AriRestClient
 {
     /**
      * List recordings that are complete.
@@ -45,7 +46,7 @@ class Recordings extends AriRestClient
      * Delete a stored recording.
      *
      * @param string $recordingName The name of the recording.
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @return bool|mixed|ResponseInterface
      * @throws GuzzleException
      */
     public function deleteStored(string $recordingName): void
@@ -57,7 +58,7 @@ class Recordings extends AriRestClient
      * Get the file associated with the stored recording.
      *
      * @param string $recordingName The name of the recording.
-     * @return mixed|\Psr\Http\Message\ResponseInterface
+     * @return mixed|ResponseInterface
      * @throws GuzzleException
      */
     public function getStoredFile(string $recordingName): Response

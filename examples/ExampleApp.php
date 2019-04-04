@@ -16,7 +16,7 @@ use NgVoice\AriClient\Model\Message\{ChannelUserevent, StasisEnd, StasisStart};
  *
  * READ FIRST! ==================================================================================
  * Open a terminal and start the example WebSocketClient worker script to receive Asterisk events:
- * 'php example_worker_local_app.php'
+ * 'php example_worker_app.php'
  *
  * Define public functions in your app class, named after the Message you want to handle (lowerCamelCase!).
  * e.g. function someMessage(SomeMessage $someMessage){...}
@@ -27,7 +27,7 @@ use NgVoice\AriClient\Model\Message\{ChannelUserevent, StasisEnd, StasisStart};
  * https://wiki.asterisk.org/wiki/display/AST/Asterisk+16+REST+Data+Models#Asterisk16RESTDataModels-Event
  * ==============================================================================================
  */
-class ExampleLocalApp extends BasicStasisApp
+class ExampleApp extends BasicStasisApp
 {
     /**
      * 'StasisStart' is the first event that is triggered by Asterisk
@@ -38,7 +38,7 @@ class ExampleLocalApp extends BasicStasisApp
     public function stasisStart(StasisStart $stasisStart): void
     {
         $channelId = $stasisStart->getChannel()->getId();
-        $this->logger->info("The channel {$channelId} has entered the ExampleLocalApp.");
+        $this->logger->info("The channel {$channelId} has entered the ExampleApp.");
 
         /*
          * Asterisk provides the possibility to trigger user events for specific applications.
@@ -47,7 +47,7 @@ class ExampleLocalApp extends BasicStasisApp
         $userEventName = 'customEventExample';
 
         try {
-            $this->eventsClient->userEvent($userEventName, 'ExampleLocalApp', ['channel' => $channelId]);
+            $this->eventsClient->userEvent($userEventName, 'ExampleApp', ['channel' => $channelId]);
         } catch (GuzzleException $guzzleException) {
             // Handle 4XX/5XX HTTP status codes. They will throw exceptions!
             $this->logger->error($guzzleException->getMessage());

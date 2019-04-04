@@ -16,6 +16,7 @@ use Nekland\Woketo\Core\AbstractConnection;
 use Nekland\Woketo\Exception\WebsocketException;
 use Nekland\Woketo\Message\TextMessageHandler;
 use NgVoice\AriClient\BasicStasisApp;
+use NgVoice\AriClient\RestClient\Applications;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
@@ -43,14 +44,21 @@ class LocalAppFilteredMessageHandler extends TextMessageHandler
     private $jsonMapper;
 
     /**
+     * @var Applications
+     */
+    private $applicationsClient;
+
+    /**
      * RemoteAppMessageHandler constructor.
-     * @param BasicStasisApp $myApp
+     * @param object $myApp
+     * @param Applications $applicationsClient
      * @param JsonMapper|null $jsonMapper
      */
-    public function __construct(BasicStasisApp $myApp, JsonMapper $jsonMapper = null)
+    public function __construct($myApp, Applications $applicationsClient, JsonMapper $jsonMapper = null)
     {
         $this->logger = initLogger(getShortClassName($this));
         $this->myApp = $myApp;
+        $this->applicationsClient = $applicationsClient;
 
         if ($jsonMapper === null) {
             $this->jsonMapper = new JsonMapper();
@@ -83,7 +91,7 @@ class LocalAppFilteredMessageHandler extends TextMessageHandler
             for ($i = 0; $i < $sizeAllowedMessages; $i++) {
                 $allowedMessages[$i] = ucfirst($allowedMessages[$i]);
             }
-            $this->myApp->getApplicationsClient()->filter(getShortClassName($this->myApp), $allowedMessages);
+            $this->applicationsClient->filter(getShortClassName($this->myApp), $allowedMessages);
         } catch (GuzzleException $e) {
             $this->logger->error($e->getMessage(), [__FUNCTION__]);
         }

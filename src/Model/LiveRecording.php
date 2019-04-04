@@ -23,19 +23,16 @@ class LiveRecording
 
     /**
      * @var string Base name for the recording.
-     * @required
      */
     private $name;
 
     /**
      * @var string URI for the channel or bridge being recorded.
-     * @required
      */
     private $target_uri;
 
     /**
      * @var string Recording format (wav, gsm, etc.).
-     * @required
      */
     private $format;
 
@@ -46,7 +43,6 @@ class LiveRecording
 
     /**
      * @var string ("queued", "recording", "paused", "done", "failed", "canceled").
-     * @required
      */
     private $state;
 

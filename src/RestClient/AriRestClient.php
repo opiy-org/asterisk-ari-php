@@ -2,7 +2,7 @@
 
 /**
  * @author Lukas Stermann
- * @copyright ng-voice GmbH (2018)
+ * @copyright ng-voice GmbH (2019)
  */
 
 namespace NgVoice\AriClient\RestClient;
@@ -13,13 +13,13 @@ use GuzzleHttp\Psr7\Response;
 use JsonMapper;
 use JsonMapper_Exception;
 use Monolog\Logger;
-use function NgVoice\AriClient\{getShortClassName, initLogger, parseAriSettings};
+use function NgVoice\AriClient\{getShortClassName, initLogger};
 
 /**
  * Class AriRestClient
  * @package NgVoice\AriClient\RestClient
  */
-class AriRestClient
+abstract class AriRestClient
 {
     protected const MODEL = 'model';
     protected const ARRAY = 'array';
@@ -48,33 +48,36 @@ class AriRestClient
     /**
      * AriRestClient constructor.
      *
-     * @param string $ariUser
-     * @param string $ariPassword
-     * @param array $otherAriSettings
+     * @param AriRestClientSettings $ariRestClientSettings
      * @param Client|null $guzzleClient
+     * @param JsonMapper|null $jsonMapper
      */
     public function __construct(
-        string $ariUser,
-        string $ariPassword,
-        array $otherAriSettings = [],
-        Client $guzzleClient = null
-    )
-    {
-        $ariSettings = parseAriSettings($otherAriSettings);
+        AriRestClientSettings $ariRestClientSettings,
+        Client $guzzleClient = null,
+        JsonMapper $jsonMapper = null
+    ) {
         $this->logger = initLogger(getShortClassName($this));
 
-        $httpType = $ariSettings['httpsEnabled'] ? 'https' : 'http';
-        $baseUri = "{$httpType}://{$ariSettings['host']}:{$ariSettings['port']}/";
-        $this->rootUri = $ariSettings['rootUri'];
+        $httpType = $ariRestClientSettings->isHttpsEnabled() ? 'https' : 'http';
+        $baseUri = "{$httpType}://{$ariRestClientSettings->getHost()}:{$ariRestClientSettings->getPort()}/";
+        $this->rootUri = $ariRestClientSettings->getRootUri();
 
         if ($guzzleClient === null) {
             $this->guzzleClient =
-                new Client(['base_uri' => $baseUri, 'auth' => [$ariUser, $ariPassword]]);
+                new Client([
+                    'base_uri' => $baseUri,
+                    'auth' => [$ariRestClientSettings->getAriUser(), $ariRestClientSettings->getAriPassword()]
+                ]);
         } else {
             $this->guzzleClient = $guzzleClient;
         }
 
-        $this->jsonMapper = new JsonMapper();
+        if ($jsonMapper === null) {
+            $this->jsonMapper = new JsonMapper();
+        } else {
+            $this->jsonMapper = $jsonMapper;
+        }
         // Allow mapping to private and protected properties and setter methods
         $this->jsonMapper->bIgnoreVisibility = true;
         $this->jsonMapper->bExceptionOnUndefinedProperty = true;
@@ -136,8 +139,7 @@ class AriRestClient
         string $uri,
         array $queryParameters = [],
         array $body = []
-    ): void
-    {
+    ): void {
         $queryParameters = print_r($queryParameters, true);
         $body = print_r($body, true);
         $this->logger->debug("Received Response... Method: {$method} | URI: {$uri} | "

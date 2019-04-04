@@ -16,7 +16,7 @@ use function NgVoice\AriClient\glueArrayOfStrings;
  * Class Applications
  * @package NgVoice\AriClient\RestClient
  */
-class Applications extends AriRestClient
+final class Applications extends AriRestClient
 {
     /**
      * List all applications on the asterisk.

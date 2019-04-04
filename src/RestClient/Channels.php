@@ -16,7 +16,7 @@ use function NgVoice\AriClient\glueArrayOfStrings;
  * Class Channels
  * @package NgVoice\AriClient\RestClient
  */
-class Channels extends AriRestClient
+final class Channels extends AriRestClient
 {
     private const ENDPOINT = 'endpoint';
 

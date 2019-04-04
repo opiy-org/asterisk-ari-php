@@ -19,7 +19,7 @@ use GuzzleHttp\Exception\GuzzleException;
  *
  * @package NgVoice\AriClient\RestClient
  */
-class Events extends AriRestClient
+final class Events extends AriRestClient
 {
     /**
      * Generate a stasis application user events.

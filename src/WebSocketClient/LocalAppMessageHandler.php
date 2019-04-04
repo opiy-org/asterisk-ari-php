@@ -39,11 +39,11 @@ class LocalAppMessageHandler extends TextMessageHandler
     private $jsonMapper;
 
     /**
-     * RemoteAppMessageHandler constructor.
-     * @param BasicStasisApp $myApp
+     * LocalAppMessageHandler constructor.
+     * @param object $myApp
      * @param JsonMapper|null $jsonMapper
      */
-    public function __construct(BasicStasisApp $myApp, JsonMapper $jsonMapper = null)
+    public function __construct($myApp, JsonMapper $jsonMapper = null)
     {
         $this->logger = initLogger(getShortClassName($this));
         $this->myApp = $myApp;

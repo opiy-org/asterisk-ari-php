@@ -15,7 +15,7 @@ use NgVoice\AriClient\Model\Endpoint;
  * Class Endpoints
  * @package NgVoice\AriClient\RestClient
  */
-class Endpoints extends AriRestClient
+final class Endpoints extends AriRestClient
 {
     /**
      * List all endpoints.

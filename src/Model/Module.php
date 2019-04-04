@@ -17,31 +17,26 @@ class Module
 {
     /**
      * @var int The number of times this module is being used.
-     * @required
      */
     private $use_count;
 
     /**
      * @var string The running status of this module.
-     * @required
      */
     private $status;
 
     /**
      * @var string The support state of this module.
-     * @required
      */
     private $support_level;
 
     /**
      * @var string The name of this module.
-     * @required
      */
     private $name;
 
     /**
      * @var string The description of this module.
-     * @required
      */
     private $description;
 

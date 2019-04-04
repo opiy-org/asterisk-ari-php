@@ -10,18 +10,19 @@ namespace NgVoice\AriClient\RestClient;
 
 use GuzzleHttp\Exception\GuzzleException;
 use NgVoice\AriClient\Model\Playback;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class Playbacks
  * @package NgVoice\AriClient\RestClient
  */
-class Playbacks extends AriRestClient
+final class Playbacks extends AriRestClient
 {
     /**
      * Get a playback's details.
      *
      * @param string $playbackId Playback's id.
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @return bool|mixed|ResponseInterface
      * @throws GuzzleException
      */
     public function get(string $playbackId): Playback

@@ -10,6 +10,7 @@ namespace NgVoice\AriClient;
 
 use Monolog\Logger;
 use NgVoice\AriClient\RestClient\{Applications,
+    AriRestClientSettings,
     Asterisk,
     Bridges,
     Channels,
@@ -186,24 +187,21 @@ class BasicStasisApp
 
     /**
      * BasicStasisApp constructor.
-     *
-     * @param string $ariUser
-     * @param string $ariPassword
-     * @param array $otherAriSettings
+     * @param AriRestClientSettings $ariRestClientSettings
      */
-    public function __construct(string $ariUser, string $ariPassword, array $otherAriSettings = [])
+    public function __construct(AriRestClientSettings $ariRestClientSettings)
     {
         $this->logger = initLogger(getShortClassName($this));
-        $this->eventsClient = new Events($ariUser, $ariPassword, $otherAriSettings);
-        $this->soundsClient = new Sounds($ariUser, $ariPassword, $otherAriSettings);
-        $this->bridgesClient = new Bridges($ariUser, $ariPassword, $otherAriSettings);
-        $this->asteriskClient = new Asterisk($ariUser, $ariPassword, $otherAriSettings);
-        $this->channelsClient = new Channels($ariUser, $ariPassword, $otherAriSettings);
-        $this->endpointsClient = new Endpoints($ariUser, $ariPassword, $otherAriSettings);
-        $this->mailboxesClient = new Mailboxes($ariUser, $ariPassword, $otherAriSettings);
-        $this->playbacksClient = new Playbacks($ariUser, $ariPassword, $otherAriSettings);
-        $this->recordingsClient = new Recordings($ariUser, $ariPassword, $otherAriSettings);
-        $this->applicationsClient = new Applications($ariUser, $ariPassword, $otherAriSettings);
-        $this->deviceStatesClient = new DeviceStates($ariUser, $ariPassword, $otherAriSettings);
+        $this->eventsClient = new Events($ariRestClientSettings);
+        $this->soundsClient = new Sounds($ariRestClientSettings);
+        $this->bridgesClient = new Bridges($ariRestClientSettings);
+        $this->asteriskClient = new Asterisk($ariRestClientSettings);
+        $this->channelsClient = new Channels($ariRestClientSettings);
+        $this->endpointsClient = new Endpoints($ariRestClientSettings);
+        $this->mailboxesClient = new Mailboxes($ariRestClientSettings);
+        $this->playbacksClient = new Playbacks($ariRestClientSettings);
+        $this->recordingsClient = new Recordings($ariRestClientSettings);
+        $this->applicationsClient = new Applications($ariRestClientSettings);
+        $this->deviceStatesClient = new DeviceStates($ariRestClientSettings);
     }
 }

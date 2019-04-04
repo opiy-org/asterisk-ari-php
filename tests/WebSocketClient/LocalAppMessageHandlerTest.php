@@ -7,7 +7,7 @@
 
 namespace NgVoice\AriClient\Tests\WebSocketClient;
 
-use ExampleLocalApp;
+use ExampleApp;
 use JsonMapper;
 use Nekland\Woketo\Core\AbstractConnection;
 use Nekland\Woketo\Exception\WebsocketException;
@@ -74,8 +74,8 @@ class LocalAppMessageHandlerTest extends TestCase
      */
     public function testOnMessage(): void
     {
-        require_once __DIR__ . '/../../examples/ExampleLocalApp.php';
-        $basicStasisAppStub = $this->createMock(ExampleLocalApp::class);
+        require_once __DIR__ . '/../../examples/ExampleApp.php';
+        $basicStasisAppStub = $this->createMock(ExampleApp::class);
         $basicStasisAppStub->method('channelUserevent');
 
         /**

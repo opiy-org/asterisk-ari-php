@@ -8,6 +8,7 @@
 namespace NgVoice\AriClient;
 
 
+use Exception;
 use Monolog\Handler\{NullHandler, StreamHandler};
 use Monolog\Logger;
 use ReflectionClass;
@@ -26,61 +27,6 @@ function glueArrayOfStrings(array $array): string
     }
     return ltrim($result, ',');
 }
-
-
-/**
- * @return array
- */
-function getAsteriskDefaultSettings(): array
-{
-    return [
-        'host' => 'localhost',
-        'port' => 8088,
-        'rootUri' => '/ari',
-        'user' => '',
-        'password' => ''
-    ];
-}
-
-
-/**
- * @param array $myApiSettings
- * @return array
- */
-function parseMyApiSettings(array $myApiSettings): array
-{
-    return array_merge([
-        'httpsEnabled' => false,
-        'host' => 'localhost',
-        'port' => 8000,
-        'rootUri' => '/api/asteriskEvents',
-        'user' => '',
-        'password' => '',
-    ], $myApiSettings);
-}
-
-
-/**
- * @param array $ariSettings
- * @return array
- */
-function parseAriSettings(array $ariSettings): array
-{
-    return array_merge(
-        array_merge(['httpsEnabled' => false], getAsteriskDefaultSettings()), $ariSettings);
-}
-
-
-/**
- * @param array $webSocketSettings
- * @return array
- */
-function parseWebSocketSettings(array $webSocketSettings): array
-{
-    return array_merge(
-        array_merge(['wssEnabled' => false], getAsteriskDefaultSettings()), $webSocketSettings);
-}
-
 
 /**
  * @param $object
@@ -123,7 +69,7 @@ function initLogger(string $name): Logger
             new StreamHandler('php://stderr', Logger::ERROR));
 
         $logger->debug('Loggers have successfully been set');
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         print_r("Error while setting up loggers:\n", true);
         print_r($e->getMessage(), true);
         exit(1);

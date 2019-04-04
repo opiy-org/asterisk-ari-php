@@ -37,6 +37,7 @@
     "ext-libevent": "Allows even better performance for the WebSocketClient"
   },
   "require-dev": {
+    "roave/security-advisories": "dev-master",
     "phpunit/phpunit": "8.0.5",
     "phpunit/php-code-coverage": "7.0.3"
   },
@@ -55,6 +56,13 @@
     "files": [
       "src/helping_functions.php",
       "tests/shared_test_functions.php"
+    ]
+  },
+  "scripts": {
+    "test": [
+      "phpenmod xdebug",
+      "vendor/bin/phpunit",
+      "phpdismod xdebug"
     ]
   }
 }

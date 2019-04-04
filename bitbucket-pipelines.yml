@@ -17,9 +17,7 @@ pipelines:
           - service apache2 restart
           - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
           - composer install
-          - phpenmod xdebug
-          - vendor/bin/phpunit
-          - phpdismod xdebug
+          - composer test
           - pipe: sonarsource/sonarcloud-scan:0.1.5
             variables:
               SONAR_TOKEN: ${SONAR_TOKEN} # Using a secure repository variable

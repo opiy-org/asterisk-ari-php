@@ -10,12 +10,13 @@ namespace NgVoice\AriClient\RestClient;
 
 use GuzzleHttp\Exception\GuzzleException;
 use NgVoice\AriClient\Model\Mailbox;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class Mailboxes
  * @package NgVoice\AriClient\RestClient
  */
-class Mailboxes extends AriRestClient
+final class Mailboxes extends AriRestClient
 {
     /**
      * List all mailboxes.
@@ -32,7 +33,7 @@ class Mailboxes extends AriRestClient
      * Retrieve the current state of a mailbox.
      *
      * @param string $mailboxName Name of the mailbox.
-     * @return bool|mixed|\Psr\Http\Message\ResponseInterface
+     * @return bool|mixed|ResponseInterface
      * @throws GuzzleException
      */
     public function get(string $mailboxName): Mailbox
