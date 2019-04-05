@@ -57,7 +57,7 @@ class AriRestClientSettings
         string $ariUser,
         string $ariPassword,
         bool $httpsEnabled = false,
-        string $host = '172.0.0.1',
+        string $host = '127.0.0.1',
         int $port = 8088,
         string $rootUri = '/ari'
     ) {
