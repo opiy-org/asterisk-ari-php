@@ -556,8 +556,18 @@ final class Channels extends AriRestClient
      * @param int $timeout Dial timeout. Allowed range: Min: 0; Max: None
      * @throws GuzzleException
      */
-    public function dial(string $channelId, string $caller, int $timeout): void
+    public function dial(string $channelId, string $caller = '', int $timeout = 0): void
     {
-        $this->postRequest("/channels/{$channelId}/dial", ['caller' => $caller, 'timeout' => $timeout]);
+        $queryParameters = [];
+
+        if ($caller !== '') {
+            $queryParameters['caller'] = $caller;
+        }
+
+        if ($timeout > 0) {
+            $queryParameters['timeout'] = $timeout;
+        }
+
+        $this->postRequest("/channels/{$channelId}/dial", $queryParameters);
     }
 }
