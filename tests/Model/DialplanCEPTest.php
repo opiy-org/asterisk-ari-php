@@ -1,9 +1,6 @@
 <?php
 
-/**
- * @author Lukas Stermann
- * @copyright ng-voice GmbH (2018)
- */
+/** @copyright 2019 ng-voice GmbH */
 
 declare(strict_types=1);
 
@@ -11,14 +8,14 @@ namespace NgVoice\AriClient\Tests\Model;
 
 
 use JsonMapper_Exception;
-use NgVoice\AriClient\Model\DialplanCEP;
+use NgVoice\AriClient\Models\DialplanCEP;
+use NgVoice\AriClient\Tests\Helper;
 use PHPUnit\Framework\TestCase;
-use function NgVoice\AriClient\Tests\mapAriResponseParametersToAriObject;
 
 /**
  * Class DialplanCEPTest
  *
- * @package NgVoice\AriClient\Tests\Model
+ * @package NgVoice\AriClient\Tests\Models
  */
 final class DialplanCEPTest extends TestCase
 {
@@ -30,7 +27,7 @@ final class DialplanCEPTest extends TestCase
         /**
          * @var DialplanCEP $dialplanCEP
          */
-        $dialplanCEP = mapAriResponseParametersToAriObject(
+        $dialplanCEP = Helper::mapAriResponseParametersToAriObject(
             'DialplanCEP',
             [
                 'priority' => '3',

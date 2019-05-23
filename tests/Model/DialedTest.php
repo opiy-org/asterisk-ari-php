@@ -1,22 +1,18 @@
 <?php
 
-/**
- * @author Lukas Stermann
- * @copyright ng-voice GmbH (2018)
- */
+/** @copyright 2019 ng-voice GmbH */
 
 declare(strict_types=1);
 
 namespace NgVoice\AriClient\Tests\Model;
 
-
-use NgVoice\AriClient\Model\Dialed;
+use NgVoice\AriClient\Models\Dialed;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Class DialedTest
  *
- * @package NgVoice\AriClient\Tests\Model
+ * @package NgVoice\AriClient\Tests\Models
  */
 final class DialedTest extends TestCase
 {

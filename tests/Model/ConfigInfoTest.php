@@ -1,9 +1,6 @@
 <?php
 
-/**
- * @author Lukas Stermann
- * @copyright ng-voice GmbH (2018)
- */
+/** @copyright 2019 ng-voice GmbH */
 
 declare(strict_types=1);
 
@@ -11,14 +8,14 @@ namespace NgVoice\AriClient\Tests\Model;
 
 
 use JsonMapper_Exception;
-use NgVoice\AriClient\Model\{ConfigInfo, SetId};
+use NgVoice\AriClient\Models\{ConfigInfo, SetId};
+use NgVoice\AriClient\Tests\Helper;
 use PHPUnit\Framework\TestCase;
-use function NgVoice\AriClient\Tests\mapAriResponseParametersToAriObject;
 
 /**
  * Class ConfigInfoTest
  *
- * @package NgVoice\AriClient\Tests\Model
+ * @package NgVoice\AriClient\Tests\Models
  */
 final class ConfigInfoTest extends TestCase
 {
@@ -30,7 +27,7 @@ final class ConfigInfoTest extends TestCase
         /**
          * @var ConfigInfo $configInfo
          */
-        $configInfo = mapAriResponseParametersToAriObject(
+        $configInfo = Helper::mapAriResponseParametersToAriObject(
             'ConfigInfo',
             [
                 'name' => 'SomeName',

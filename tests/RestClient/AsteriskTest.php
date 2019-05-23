@@ -1,26 +1,31 @@
 <?php
 
 /**
- * @author Lukas Stermann
- * @copyright ng-voice GmbH (2019)
+ * @copyright 2019 ng-voice GmbH
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
 
 namespace NgVoice\AriClient\Tests\RestClient;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ServerException;
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Psr7\Response;
-use NgVoice\AriClient\Model\{AsteriskInfo, AsteriskPing, ConfigTuple, LogChannel, Module, Variable};
-use NgVoice\AriClient\RestClient\Asterisk;
+use GuzzleHttp\Psr7\{Request, Response};
+use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
+use NgVoice\AriClient\Models\{AsteriskInfo,
+    AsteriskPing,
+    ConfigTuple,
+    LogChannel,
+    Module,
+    Variable};
+use NgVoice\AriClient\RestClient\{AriRestClientSettings, Asterisk};
 use PHPUnit\Framework\TestCase;
+use ReflectionException;
 
 class AsteriskTest extends TestCase
 {
-
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws AsteriskRestInterfaceException
+     * @throws ReflectionException
      */
     public function testReloadModule(): void
     {
@@ -30,8 +35,8 @@ class AsteriskTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws AsteriskRestInterfaceException
+     * @throws ReflectionException
      */
     public function testListModules(): void
     {
@@ -55,8 +60,8 @@ class AsteriskTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws AsteriskRestInterfaceException
+     * @throws ReflectionException
      */
     public function testGetObject(): void
     {
@@ -77,8 +82,8 @@ class AsteriskTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws AsteriskRestInterfaceException
+     * @throws ReflectionException
      */
     public function testRotateLog(): void
     {
@@ -88,8 +93,8 @@ class AsteriskTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws AsteriskRestInterfaceException
+     * @throws ReflectionException
      */
     public function testPing(): void
     {
@@ -104,8 +109,8 @@ class AsteriskTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws AsteriskRestInterfaceException
+     * @throws ReflectionException
      */
     public function testGetModule(): void
     {
@@ -122,8 +127,8 @@ class AsteriskTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws AsteriskRestInterfaceException
+     * @throws ReflectionException
      */
     public function testAddLog(): void
     {
@@ -133,8 +138,8 @@ class AsteriskTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws AsteriskRestInterfaceException
+     * @throws ReflectionException
      */
     public function testGetGlobalVar(): void
     {
@@ -147,8 +152,8 @@ class AsteriskTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws AsteriskRestInterfaceException
+     * @throws ReflectionException
      */
     public function testUpdateObject(): void
     {
@@ -174,8 +179,8 @@ class AsteriskTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws AsteriskRestInterfaceException
+     * @throws ReflectionException
      */
     public function testGetInfo(): void
     {
@@ -205,8 +210,8 @@ class AsteriskTest extends TestCase
     }
 
     /**
-     * @throws \ReflectionException
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws ReflectionException
+     * @throws AsteriskRestInterfaceException
      */
     public function testListLogChannels(): void
     {
@@ -229,8 +234,8 @@ class AsteriskTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws AsteriskRestInterfaceException
+     * @throws ReflectionException
      */
     public function testDeleteLog(): void
     {
@@ -240,8 +245,8 @@ class AsteriskTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws AsteriskRestInterfaceException
+     * @throws ReflectionException
      */
     public function testSetGlobalVar(): void
     {
@@ -251,8 +256,8 @@ class AsteriskTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws AsteriskRestInterfaceException
+     * @throws ReflectionException
      */
     public function testUnloadModule(): void
     {
@@ -262,8 +267,8 @@ class AsteriskTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws AsteriskRestInterfaceException
+     * @throws ReflectionException
      */
     public function testLoadModule(): void
     {
@@ -273,8 +278,8 @@ class AsteriskTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws AsteriskRestInterfaceException
+     * @throws ReflectionException
      */
     public function testDeleteObject(): void
     {
@@ -286,7 +291,7 @@ class AsteriskTest extends TestCase
     /**
      * @param $expectedResponse
      * @return Asterisk
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     private function createAsteriskClientWithGuzzleClientStub($expectedResponse): Asterisk
     {
@@ -294,19 +299,28 @@ class AsteriskTest extends TestCase
         $guzzleClientStub->method('request')
             // TODO: Test for correct parameter translation via with() method here?
             //  ->with()
-            ->willReturn(new Response(
-                    200, [], json_encode($expectedResponse), '1.1', 'SomeReason')
+                         ->willReturn(
+                new Response(
+                    200,
+                    [],
+                    json_encode($expectedResponse),
+                    '1.1',
+                    'SomeReason'
+                )
             );
 
         /**
          * @var Client $guzzleClientStub
          */
-        return new Asterisk('SomeUser', 'SomePw', [], $guzzleClientStub);
+        return new Asterisk(
+            new AriRestClientSettings('SomeUser', 'SomePw'),
+            $guzzleClientStub
+        );
     }
 
     /**
      * @return Asterisk
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     private function createAsteriskClientThatThrowsException(): Asterisk
     {
@@ -315,7 +329,8 @@ class AsteriskTest extends TestCase
             // TODO: Test for correct parameter translation via with() method here?
             //  ->with()
             ->willThrowException(
-                new ServerException('Internal Server Error',
+                new ServerException(
+                    'Internal Server Error',
                     new Request('PUT', '/asterisk/test')
                 )
             );
@@ -323,17 +338,20 @@ class AsteriskTest extends TestCase
         /**
          * @var Client $guzzleClientStub
          */
-        return new Asterisk('SomeUser', 'SomePw', [], $guzzleClientStub);
+        return new Asterisk(
+            new AriRestClientSettings('SomeUser', 'SomePw'),
+            $guzzleClientStub
+        );
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \ReflectionException
+     * @throws AsteriskRestInterfaceException
+     * @throws ReflectionException
      */
     public function testPutRequestException(): void
     {
         $asteriskClient = $this->createAsteriskClientThatThrowsException();
-        $this->expectException(ServerException::class);
+        $this->expectException(AsteriskRestInterfaceException::class);
         $asteriskClient->updateObject(
             'SomeConfigClass',
             'SomeObjectType',

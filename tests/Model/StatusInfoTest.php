@@ -1,9 +1,6 @@
 <?php
 
-/**
- * @author Lukas Stermann
- * @copyright ng-voice GmbH (2018)
- */
+/** @copyright 2019 ng-voice GmbH */
 
 declare(strict_types=1);
 
@@ -11,14 +8,14 @@ namespace NgVoice\AriClient\Tests\Model;
 
 
 use JsonMapper_Exception;
-use NgVoice\AriClient\Model\StatusInfo;
+use NgVoice\AriClient\Models\StatusInfo;
+use NgVoice\AriClient\Tests\Helper;
 use PHPUnit\Framework\TestCase;
-use function NgVoice\AriClient\Tests\mapAriResponseParametersToAriObject;
 
 /**
  * Class StatusInfoTest
  *
- * @package NgVoice\AriClient\Tests\Model
+ * @package NgVoice\AriClient\Tests\Models
  */
 final class StatusInfoTest extends TestCase
 {
@@ -30,7 +27,7 @@ final class StatusInfoTest extends TestCase
         /**
          * @var StatusInfo $statusInfo
          */
-        $statusInfo = mapAriResponseParametersToAriObject(
+        $statusInfo = Helper::mapAriResponseParametersToAriObject(
             'StatusInfo',
             [
                 'startup_time' => '2019-02-19T22:43:31.820+0000',

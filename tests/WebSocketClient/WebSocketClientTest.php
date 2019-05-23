@@ -1,38 +1,52 @@
 <?php
 
 /**
- * @author Lukas Stermann
- * @copyright ng-voice GmbH (2019)
+ * @copyright 2019 ng-voice GmbH
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
 
 namespace NgVoice\AriClient\Tests\WebSocketClient;
 
-use NgVoice\AriClient\WebSocketClient\LocalAppMessageHandler;
-use NgVoice\AriClient\WebSocketClient\WebSocketClient;
+use NgVoice\AriClient\AsteriskStasisApplication;
+use NgVoice\AriClient\WebSocketClient\{AriMessageHandler,
+    WebSocketClient,
+    WebSocketSettings};
 use PHPUnit\Framework\TestCase;
 use ReflectionException;
 
 /**
  * Class WebSocketClientTest
+ *
  * @package NgVoice\AriClient\Tests\WebSocketClient
  */
 class WebSocketClientTest extends TestCase
 {
-
     /**
      * @throws ReflectionException
      */
     public function test__construct(): void
     {
-        $woketoWebSocketClientStub = $this->createMock(\Nekland\Woketo\Client\WebSocketClient::class);
-        $localAppMessageHandler = $this->createMock(LocalAppMessageHandler::class);
+        $woketoWebSocketClientStub =
+            $this->createMock(\Nekland\Woketo\Client\WebSocketClient::class);
+        $localAppMessageHandler = $this->createMock(AriMessageHandler::class);
+        $stasisApp = $this->createMock(AsteriskStasisApplication::class);
+        $webSocketSettings = $this->createMock(WebSocketSettings::class);
+
         /**
          * @var \Nekland\Woketo\Client\WebSocketClient $woketoWebSocketClientStub
-         * @var LocalAppMessageHandler $localAppMessageHandler
+         * @var AriMessageHandler $localAppMessageHandler
+         * @var WebSocketSettings $webSocketSettings
+         * @var AsteriskStasisApplication $stasisApp
          */
         $this->assertInstanceOf(
             WebSocketClient::class,
-            new WebSocketClient(['SomeApp'], $localAppMessageHandler, [], false, $woketoWebSocketClientStub)
+            new WebSocketClient(
+                $webSocketSettings,
+                $stasisApp,
+                $localAppMessageHandler,
+                false,
+                $woketoWebSocketClientStub
+            )
         );
     }
 
@@ -41,50 +55,26 @@ class WebSocketClientTest extends TestCase
      */
     public function testStart(): void
     {
-        $woketoWebSocketClientStub = $this->createMock(\Nekland\Woketo\Client\WebSocketClient::class);
-        $localAppMessageHandler = $this->createMock(LocalAppMessageHandler::class);
+        $woketoWebSocketClientStub =
+            $this->createMock(\Nekland\Woketo\Client\WebSocketClient::class);
+        $localAppMessageHandler = $this->createMock(AriMessageHandler::class);
+        $stasisApp = $this->createMock(AsteriskStasisApplication::class);
+        $webSocketSettings = $this->createMock(WebSocketSettings::class);
+
         /**
          * @var \Nekland\Woketo\Client\WebSocketClient $woketoWebSocketClientStub
-         * @var LocalAppMessageHandler $localAppMessageHandler
+         * @var AriMessageHandler $localAppMessageHandler
+         * @var WebSocketSettings $webSocketSettings
+         * @var AsteriskStasisApplication $stasisApp
          */
-        (new WebSocketClient(['SomeApp'], $localAppMessageHandler, [], false, $woketoWebSocketClientStub))
-            ->start();
+        (new WebSocketClient(
+            $webSocketSettings,
+            $stasisApp,
+            $localAppMessageHandler,
+            false,
+            $woketoWebSocketClientStub
+        ))->start();
+
         $this->assertTrue(true, true);
-    }
-
-    /**
-     * @throws ReflectionException
-     */
-    public function test__constructEmptyAppArrayThrowsException(): void
-    {
-        $woketoWebSocketClientStub = $this->createMock(\Nekland\Woketo\Client\WebSocketClient::class);
-        $localAppMessageHandler = $this->createMock(LocalAppMessageHandler::class);
-        $this->expectException('RuntimeException');
-        /**
-         * @var \Nekland\Woketo\Client\WebSocketClient $woketoWebSocketClientStub
-         * @var LocalAppMessageHandler $localAppMessageHandler
-         */
-        $this->assertInstanceOf(
-            WebSocketClient::class,
-            new WebSocketClient([], $localAppMessageHandler, [], false, $woketoWebSocketClientStub)
-        );
-    }
-
-    /**
-     * @throws ReflectionException
-     */
-    public function test__constructEmptyAppNameStringThrowsException(): void
-    {
-        $woketoWebSocketClientStub = $this->createMock(\Nekland\Woketo\Client\WebSocketClient::class);
-        $localAppMessageHandler = $this->createMock(LocalAppMessageHandler::class);
-        $this->expectException('RuntimeException');
-        /**
-         * @var \Nekland\Woketo\Client\WebSocketClient $woketoWebSocketClientStub
-         * @var LocalAppMessageHandler $localAppMessageHandler
-         */
-        $this->assertInstanceOf(
-            WebSocketClient::class,
-            new WebSocketClient(['SomeApp', ''], $localAppMessageHandler, [], false, $woketoWebSocketClientStub)
-        );
     }
 }

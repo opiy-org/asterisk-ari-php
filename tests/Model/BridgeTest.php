@@ -1,9 +1,6 @@
 <?php
 
-/**
- * @author Lukas Stermann
- * @copyright ng-voice GmbH (2018)
- */
+/** @copyright 2019 ng-voice GmbH */
 
 declare(strict_types=1);
 
@@ -11,14 +8,16 @@ namespace AriStasisApp\Tests\Model;
 
 
 use JsonMapper_Exception;
-use NgVoice\AriClient\Model\Bridge;
+use NgVoice\AriClient\Models\Bridge;
+use NgVoice\AriClient\Tests\Helper;
 use PHPUnit\Framework\TestCase;
-use function NgVoice\AriClient\Tests\mapAriResponseParametersToAriObject;
 
 /**
  * Class BridgeTest
  *
- * @package NgVoice\AriClient\Tests\Model
+ * @package NgVoice\AriClient\Tests\Models
+ *
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
 final class BridgeTest extends TestCase
 {
@@ -30,7 +29,7 @@ final class BridgeTest extends TestCase
         /**
          * @var Bridge $bridge
          */
-        $bridge = mapAriResponseParametersToAriObject(
+        $bridge = Helper::mapAriResponseParametersToAriObject(
             'Bridge',
             [
                 'bridge_class' => 'ExampleClass',
@@ -44,6 +43,7 @@ final class BridgeTest extends TestCase
                 'video_source_id' => 'VideoId'
             ]
         );
+
         $this->assertSame('ExampleName', $bridge->getName());
         $this->assertSame('id1', $bridge->getId());
         $this->assertSame('ExampleClass', $bridge->getBridgeClass());

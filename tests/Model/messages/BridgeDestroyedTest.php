@@ -1,9 +1,6 @@
 <?php
 
-/**
- * @author Lukas Stermann
- * @copyright ng-voice GmbH (2018)
- */
+/** @copyright 2019 ng-voice GmbH */
 
 declare(strict_types=1);
 
@@ -11,14 +8,14 @@ namespace NgVoice\AriClient\Tests\Model;
 
 
 use JsonMapper_Exception;
-use NgVoice\AriClient\Model\{Bridge, Message\BridgeDestroyed};
+use NgVoice\AriClient\Models\{Bridge, Message\BridgeDestroyed};
+use NgVoice\AriClient\Tests\Helper;
 use PHPUnit\Framework\TestCase;
-use function NgVoice\AriClient\Tests\mapMessageParametersToAriObject;
 
 /**
  * Class BridgeDestroyedTest
  *
- * @package NgVoice\AriClient\Tests\Model\Message
+ * @package NgVoice\AriClient\Tests\Models\Message
  */
 final class BridgeDestroyedTest extends TestCase
 {
@@ -30,7 +27,7 @@ final class BridgeDestroyedTest extends TestCase
         /**
          * @var BridgeDestroyed $bridgeDestroyed
          */
-        $bridgeDestroyed = mapMessageParametersToAriObject(
+        $bridgeDestroyed = Helper::mapMessageParametersToAriObject(
             'BridgeDestroyed',
             [
                 'bridge' => [

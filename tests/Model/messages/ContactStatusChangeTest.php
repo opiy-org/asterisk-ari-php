@@ -1,9 +1,6 @@
 <?php
 
-/**
- * @author Lukas Stermann
- * @copyright ng-voice GmbH (2018)
- */
+/** @copyright 2019 ng-voice GmbH */
 
 declare(strict_types=1);
 
@@ -11,14 +8,14 @@ namespace NgVoice\AriClient\Tests\Model;
 
 
 use JsonMapper_Exception;
-use NgVoice\AriClient\Model\{ContactInfo, Endpoint, Message\ContactStatusChange};
+use NgVoice\AriClient\Models\{ContactInfo, Endpoint, Message\ContactStatusChange};
+use NgVoice\AriClient\Tests\Helper;
 use PHPUnit\Framework\TestCase;
-use function NgVoice\AriClient\Tests\mapMessageParametersToAriObject;
 
 /**
  * Class ContactStatusChangeTest
  *
- * @package NgVoice\AriClient\Tests\Model\Message
+ * @package NgVoice\AriClient\Tests\Models\Message
  */
 final class ContactStatusChangeTest extends TestCase
 {
@@ -47,7 +44,7 @@ final class ContactStatusChangeTest extends TestCase
         /**
          * @var ContactStatusChange $contactStatusChange
          */
-        $contactStatusChange = mapMessageParametersToAriObject(
+        $contactStatusChange = Helper::mapMessageParametersToAriObject(
             'ContactStatusChange',
             [
                 'contact_info' => $exampleContactInfo,

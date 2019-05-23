@@ -1,8 +1,8 @@
 <?php
 
 /**
- * @author Lukas Stermann
- * @copyright ng-voice GmbH (2019)
+ * @copyright 2019 ng-voice GmbH
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
 
 declare(strict_types=1);
@@ -11,14 +11,14 @@ namespace NgVoice\AriClient\Tests\Model;
 
 
 use JsonMapper_Exception;
-use NgVoice\AriClient\Model\{Bridge, Channel, Message\BridgeAttendedTransfer};
+use NgVoice\AriClient\Models\{Bridge, Channel, Message\BridgeAttendedTransfer};
+use NgVoice\AriClient\Tests\Helper;
 use PHPUnit\Framework\TestCase;
-use function NgVoice\AriClient\Tests\mapMessageParametersToAriObject;
 
 /**
  * Class BridgeAttendedTransferTest
  *
- * @package NgVoice\AriClient\Tests\Model\Message
+ * @package NgVoice\AriClient\Tests\Models\Message
  */
 final class BridgeAttendedTransferTest extends TestCase
 {
@@ -68,7 +68,7 @@ final class BridgeAttendedTransferTest extends TestCase
         /**
          * @var BridgeAttendedTransfer $bridgeAttendedTransfer
          */
-        $bridgeAttendedTransfer = mapMessageParametersToAriObject(
+        $bridgeAttendedTransfer = Helper::mapMessageParametersToAriObject(
             'BridgeAttendedTransfer',
             [
                 'replace_channel' => $exampleChannel,

@@ -1,9 +1,6 @@
 <?php
 
-/**
- * @author Lukas Stermann
- * @copyright ng-voice GmbH (2018)
- */
+/** @copyright 2019 ng-voice GmbH */
 
 declare(strict_types=1);
 
@@ -11,14 +8,16 @@ namespace AriStasisApp\Tests\Model;
 
 
 use JsonMapper_Exception;
-use NgVoice\AriClient\Model\Application;
+use NgVoice\AriClient\Models\Application;
+use NgVoice\AriClient\Tests\Helper;
 use PHPUnit\Framework\TestCase;
-use function NgVoice\AriClient\Tests\mapAriResponseParametersToAriObject;
 
 /**
  * Class ApplicationTest
  *
- * @package NgVoice\AriClient\Tests\Model
+ * @package NgVoice\AriClient\Tests\Models
+ *
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
 final class ApplicationTest extends TestCase
 {
@@ -30,7 +29,7 @@ final class ApplicationTest extends TestCase
         /**
          * @var Application $application
          */
-        $application = mapAriResponseParametersToAriObject(
+        $application = Helper::mapAriResponseParametersToAriObject(
             'Application',
             [
                 'name' => 'TestApplication',

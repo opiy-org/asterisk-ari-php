@@ -1,9 +1,6 @@
 <?php
 
-/**
- * @author Lukas Stermann
- * @copyright ng-voice GmbH (2018)
- */
+/** @copyright 2019 ng-voice GmbH */
 
 declare(strict_types=1);
 
@@ -11,14 +8,14 @@ namespace NgVoice\AriClient\Tests\Model;
 
 
 use JsonMapper_Exception;
-use NgVoice\AriClient\Model\{LiveRecording, Message\RecordingFailed};
+use NgVoice\AriClient\Models\{LiveRecording, Message\RecordingFailed};
+use NgVoice\AriClient\Tests\Helper;
 use PHPUnit\Framework\TestCase;
-use function NgVoice\AriClient\Tests\mapMessageParametersToAriObject;
 
 /**
  * Class RecordingFailedTest
  *
- * @package NgVoice\AriClient\Tests\Model\Message
+ * @package NgVoice\AriClient\Tests\Models\Message
  */
 final class RecordingFailedTest extends TestCase
 {
@@ -30,7 +27,7 @@ final class RecordingFailedTest extends TestCase
         /**
          * @var RecordingFailed $recordingFailed
          */
-        $recordingFailed = mapMessageParametersToAriObject(
+        $recordingFailed = Helper::mapMessageParametersToAriObject(
             'RecordingFailed',
             [
                 'recording' => [

@@ -1,24 +1,21 @@
 <?php
 
-/**
- * @author Lukas Stermann
- * @copyright ng-voice GmbH (2018)
- */
+/** @copyright 2019 ng-voice GmbH */
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Tests\Model;
+namespace NgVoice\AriClient\Tests\Model\Message;
 
 
 use JsonMapper_Exception;
-use NgVoice\AriClient\Model\{Message\Event};
+use NgVoice\AriClient\Models\{Message\Event};
+use NgVoice\AriClient\Tests\Helper;
 use PHPUnit\Framework\TestCase;
-use function NgVoice\AriClient\Tests\mapMessageParametersToAriObject;
 
 /**
  * Class EventTest
  *
- * @package NgVoice\AriClient\Tests\Model\Message
+ * @package NgVoice\AriClient\Tests\Models\Message
  */
 final class EventTest extends TestCase
 {
@@ -30,7 +27,7 @@ final class EventTest extends TestCase
         /**
          * @var Event $event
          */
-        $event = mapMessageParametersToAriObject(
+        $event = Helper::mapMessageParametersToAriObject(
             'Event',
             [
                 'timestamp' => '2016-12-20 13:45:28 UTC',

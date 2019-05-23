@@ -1,0 +1,140 @@
+<?xml version="1.0"?>
+<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="PHP_CodeSniffer"
+         xsi:noNamespaceSchemaLocation="vendor/squizlabs/php_codesniffer/phpcs.xsd">
+    <description>
+        A linter for the [php and commenting coding
+        standard](https://drive.google.com/open?id=1wZG3OEQIDqgUgC7jXWAWS6lDp5dzQUKw)
+        for ng-voice GmbH.
+    </description>
+
+    <file>src</file>
+    <file>tests</file>
+
+    <exclude-pattern>*/src/Standards/*/Tests/*\.(inc|css|js)$</exclude-pattern>
+    <exclude-pattern>*/tests/Core/*/*Test\.(inc|css|js)$</exclude-pattern>
+
+    <arg name="basepath" value="."/>
+
+    <arg name="colors"/>
+    <arg name="parallel" value="75"/>
+    <arg value="np"/>
+
+    <!-- Don't hide tokenizer exceptions -->
+    <rule ref="Internal.Tokenizer.Exception">
+        <type>error</type>
+    </rule>
+
+    <rule ref="PSR12">
+        <exclude name="PSR2.ControlStructures.ControlStructureSpacing"/>
+    </rule>
+
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="80"/>
+            <property name="absoluteLineLimit" value="90"/>
+            <property name="ignoreComments" value="false"/>
+        </properties>
+    </rule>
+
+    <rule ref="Generic.Formatting.SpaceAfterCast">
+        <properties>
+            <property name="spacing" value="1"/>
+        </properties>
+    </rule>
+
+    <!-- Space after not (!) operator is not allowed -->
+    <rule ref="Generic.Formatting.SpaceAfterNot">
+        <properties>
+            <property name="spacing" value="0"/>
+        </properties>
+    </rule>
+
+    <!-- Ensure 1 blank line before and after functions, except at the top and bottom. -->
+    <rule ref="Squiz.WhiteSpace.FunctionSpacing">
+        <properties>
+            <property name="spacing" value="1"/>
+            <property name="spacingBeforeFirst" value="0"/>
+            <property name="spacingAfterLast" value="0"/>
+        </properties>
+    </rule>
+
+    <!-- Ensure 1 blank lines between member vars, but don't require blank lines before the first. -->
+    <rule ref="Squiz.WhiteSpace.MemberVarSpacing">
+        <properties>
+            <property name="spacing" value="1"/>
+            <property name="spacingBeforeFirst" value="0"/>
+        </properties>
+    </rule>
+
+    <rule ref="Squiz.WhiteSpace.ObjectOperatorSpacing">
+        <properties>
+            <property name="ignoreNewlines" value="true"/>
+        </properties>
+    </rule>
+
+    <!--
+    Do not allow multiple arguments on same line in multiline expressions.
+    Do not allow spaces between closing parenthesis and semicolon.
+    -->
+    <rule ref="PEAR.Functions.FunctionCallSignature">
+        <properties>
+            <property name="allowMultipleArguments" value="false"/>
+        </properties>
+    </rule>
+
+    <rule ref="PSR2.Classes.ClassDeclaration">
+        <properties>
+            <property name="indent" value="4"/>
+        </properties>
+    </rule>
+
+    <!-- Rules for commenting -->
+    <rule ref="Squiz.Commenting.FunctionComment.EmptyThrows"/>
+    <rule ref="Squiz.Commenting.FileComment.EmptyCopyrightTag"/>
+    <rule ref="Squiz.Commenting.ClassComment.SpacingAfter"/>
+    <rule ref="Generic.Commenting.DocComment.NonParamGroup"/>
+    <rule ref="PEAR.Commenting.FunctionComment.SpacingAfter"/>
+    <rule ref="PEAR.Commenting.FunctionComment.MissingParamComment"/>
+    <rule ref="PEAR.Commenting.ClassComment">
+        <exclude name="PEAR.Commenting.ClassComment.MissingCategoryTag"/>
+        <exclude name="PEAR.Commenting.ClassComment.MissingLicenseTag"/>
+        <exclude name="PEAR.Commenting.ClassComment.MissingLinkTag"/>
+        <exclude name="PEAR.Commenting.ClassComment.PackageTagOrder"/>
+    </rule>
+    <!--
+        Commented out following rules because @inheritDoc is not recognized, but
+        linter errors are thrown when only using @inheritDoc within a comment.
+    -->
+    <!--<rule ref="Generic.Commenting.DocComment.MissingShort"/>-->
+    <!--<rule ref="PEAR.Commenting.FunctionComment.MissingParamTag"/>-->
+    <!--<rule ref="PEAR.Commenting.FunctionComment.MissingReturn"/>-->
+
+
+    <!-- Private properties MUST not be prefixed with an underscore -->
+    <rule ref="Squiz.NamingConventions.ValidVariableName.PrivateNoUnderscore">
+        <severity>0</severity>
+    </rule>
+    <rule ref="PSR2.Classes.PropertyDeclaration.Underscore">
+        <type>error</type>
+    </rule>
+
+    <rule ref="Generic.Metrics.CyclomaticComplexity">
+        <properties>
+            <property name="complexity" value="10"/>
+            <property name="absoluteComplexity" value="15"/>
+        </properties>
+    </rule>
+
+    <rule ref="Generic.Metrics.NestingLevel">
+        <properties>
+            <property name="nestingLevel" value="4"/>
+            <property name="absoluteNestingLevel" value="5"/>
+        </properties>
+    </rule>
+
+    <rule ref="Generic.Strings.UnnecessaryStringConcat">
+        <properties>
+            <property name="allowMultiline" value="true"/>
+        </properties>
+    </rule>
+</ruleset>

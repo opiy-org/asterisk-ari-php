@@ -1,24 +1,23 @@
 <?php
 
-/**
- * @author Lukas Stermann
- * @copyright ng-voice GmbH (2018)
- */
+/** @copyright 2019 ng-voice GmbH */
 
 namespace AriStasisApp\Tests\RestClient;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use NgVoice\AriClient\Model\{Channel, LiveRecording, Playback, Variable};
+use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
+use NgVoice\AriClient\Models\{Channel, LiveRecording, Playback, Variable};
+use NgVoice\AriClient\RestClient\AriRestClientSettings;
 use NgVoice\AriClient\RestClient\Channels;
 use PHPUnit\Framework\TestCase;
 use ReflectionException;
 
 /**
  * Class ChannelsTest
+ *
  * @package AriStasisApp\Tests\RestClient
  */
 class ChannelsTest extends TestCase
@@ -31,37 +30,37 @@ class ChannelsTest extends TestCase
         return [
             'example channel' => [
                 [
-                    'name' => 'SIP/foo-0000a7e3',
-                    'language' => 'en',
-                    'accountcode' => 'TestAccount',
-                    'channelvars' => [
-                        'testVar' => 'correct',
-                        'testVar2' => 'nope'
+                    'name'         => 'SIP/foo-0000a7e3',
+                    'language'     => 'en',
+                    'accountcode'  => 'TestAccount',
+                    'channelvars'  => [
+                        'testVar'  => 'correct',
+                        'testVar2' => 'nope',
                     ],
-                    'caller' => [
-                        'name' => 'ExampleName',
-                        'number' => 'ExampleNumber'
+                    'caller'       => [
+                        'name'   => 'ExampleName',
+                        'number' => 'ExampleNumber',
                     ],
                     'creationtime' => '2016-12-20 13:45:28 UTC',
-                    'state' => 'Up',
-                    'connected' => [
-                        'name' => 'ExampleName2',
-                        'number' => 'ExampleNumber2'
+                    'state'        => 'Up',
+                    'connected'    => [
+                        'name'   => 'ExampleName2',
+                        'number' => 'ExampleNumber2',
                     ],
-                    'dialplan' => [
-                        'context' => 'ExampleContext',
-                        'exten' => 'ExampleExten',
-                        'priority' => '3'
+                    'dialplan'     => [
+                        'context'  => 'ExampleContext',
+                        'exten'    => 'ExampleExten',
+                        'priority' => '3',
                     ],
-                    'id' => '123456'
-                ]
+                    'id'           => '123456',
+                ],
             ],
         ];
     }
 
     /**
      * @dataProvider channelsInstanceProvider
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testContinueInDialPlan(): void
@@ -72,28 +71,30 @@ class ChannelsTest extends TestCase
     }
 
     /**
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testRecord(): void
     {
-        $channelsClient = $this->createChannelsClient([
-            'talking_duration' => '3',
-            'name' => 'ExampleName',
-            'target_uri' => 'ExampleUri',
-            'format' => 'wav',
-            'cause' => 'ExampleCause',
-            'state' => 'paused',
-            'duration' => '4',
-            'silence_duration' => '2'
-        ]);
+        $channelsClient = $this->createChannelsClient(
+            [
+                'talking_duration' => '3',
+                'name'             => 'ExampleName',
+                'target_uri'       => 'ExampleUri',
+                'format'           => 'wav',
+                'cause'            => 'ExampleCause',
+                'state'            => 'paused',
+                'duration'         => '4',
+                'silence_duration' => '2',
+            ]
+        );
         $resultLiveRecording = $channelsClient->record('12345', 'RecordName', 'wav');
 
         $this->assertInstanceOf(LiveRecording::class, $resultLiveRecording);
     }
 
     /**
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testSetChannelVar(): void
@@ -106,7 +107,7 @@ class ChannelsTest extends TestCase
     /**
      * @dataProvider channelsInstanceProvider
      * @param string[] $exampleChannel
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testSnoopChannel(array $exampleChannel): void
@@ -118,7 +119,7 @@ class ChannelsTest extends TestCase
     }
 
     /**
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testRedirect(): void
@@ -131,7 +132,7 @@ class ChannelsTest extends TestCase
     /**
      * @dataProvider channelsInstanceProvider
      * @param string[] $exampleChannel
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testList(array $exampleChannel): void
@@ -148,7 +149,7 @@ class ChannelsTest extends TestCase
     }
 
     /**
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testGetChannelVar(): void
@@ -160,7 +161,7 @@ class ChannelsTest extends TestCase
     }
 
     /**
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testMute(): void
@@ -171,7 +172,7 @@ class ChannelsTest extends TestCase
     }
 
     /**
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testStartSilence(): void
@@ -182,7 +183,7 @@ class ChannelsTest extends TestCase
     }
 
     /**
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testDial(): void
@@ -195,7 +196,7 @@ class ChannelsTest extends TestCase
     /**
      * @dataProvider channelsInstanceProvider
      * @param string[] $exampleChannel
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testGet(array $exampleChannel): void
@@ -207,7 +208,7 @@ class ChannelsTest extends TestCase
     }
 
     /**
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testSendDtmf(): void
@@ -218,7 +219,7 @@ class ChannelsTest extends TestCase
     }
 
     /**
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testUnHold(): void
@@ -231,7 +232,7 @@ class ChannelsTest extends TestCase
     /**
      * @dataProvider channelsInstanceProvider
      * @param string[] $exampleChannel
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testCreate(array $exampleChannel): void
@@ -243,7 +244,7 @@ class ChannelsTest extends TestCase
     }
 
     /**
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testStartMoh(): void
@@ -255,7 +256,7 @@ class ChannelsTest extends TestCase
 
     /**
      * @dataProvider channelsInstanceProvider
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testRing(): void
@@ -268,7 +269,7 @@ class ChannelsTest extends TestCase
     /**
      * @dataProvider channelsInstanceProvider
      * @param string[] $exampleChannel
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testOriginate(array $exampleChannel): void
@@ -280,26 +281,29 @@ class ChannelsTest extends TestCase
     }
 
     /**
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testPlayWithId(): void
     {
-        $channelsClient = $this->createChannelsClient([
-            'next_media_uri' => 'ExampleUri',
-            'target_uri' => 'ExampleTargetUri',
-            'language' => 'en',
-            'state' => 'queued',
-            'media_uri' => 'ExampleMediaRui',
-            'id' => 'ExampleId'
-        ]);
-        $resultPlayback = $channelsClient->playWithId('12345', 'PlaybackId', ['sound:exampleSound']);
+        $channelsClient = $this->createChannelsClient(
+            [
+                'next_media_uri' => 'ExampleUri',
+                'target_uri'     => 'ExampleTargetUri',
+                'language'       => 'en',
+                'state'          => 'queued',
+                'media_uri'      => 'ExampleMediaRui',
+                'id'             => 'ExampleId',
+            ]
+        );
+        $resultPlayback =
+            $channelsClient->playWithId('12345', 'PlaybackId', ['sound:exampleSound']);
 
         $this->assertInstanceOf(Playback::class, $resultPlayback);
     }
 
     /**
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testHold(): void
@@ -310,7 +314,7 @@ class ChannelsTest extends TestCase
     }
 
     /**
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testUnMute(): void
@@ -321,19 +325,21 @@ class ChannelsTest extends TestCase
     }
 
     /**
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testPlay(): void
     {
-        $channelsClient = $this->createChannelsClient([
-            'next_media_uri' => 'ExampleUri',
-            'target_uri' => 'ExampleTargetUri',
-            'language' => 'en',
-            'state' => 'queued',
-            'media_uri' => 'ExampleMediaRui',
-            'id' => 'ExampleId'
-        ]);
+        $channelsClient = $this->createChannelsClient(
+            [
+                'next_media_uri' => 'ExampleUri',
+                'target_uri'     => 'ExampleTargetUri',
+                'language'       => 'en',
+                'state'          => 'queued',
+                'media_uri'      => 'ExampleMediaRui',
+                'id'             => 'ExampleId',
+            ]
+        );
         $resultPlayback = $channelsClient->play('12345', ['sound:exampleSound']);
 
         $this->assertInstanceOf(Playback::class, $resultPlayback);
@@ -342,19 +348,20 @@ class ChannelsTest extends TestCase
     /**
      * @dataProvider channelsInstanceProvider
      * @param string[] $exampleChannel
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testOriginateWithId(array $exampleChannel): void
     {
         $channelsClient = $this->createChannelsClient($exampleChannel);
-        $resultChannel = $channelsClient->originateWithId('SomeChannelId', 'SomeEndpoint');
+        $resultChannel =
+            $channelsClient->originateWithId('SomeChannelId', 'SomeEndpoint');
 
         $this->assertInstanceOf(Channel::class, $resultChannel);
     }
 
     /**
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testStopSilence(): void
@@ -365,7 +372,7 @@ class ChannelsTest extends TestCase
     }
 
     /**
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testStopMoh(): void
@@ -376,7 +383,7 @@ class ChannelsTest extends TestCase
     }
 
     /**
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testRingStop(): void
@@ -389,19 +396,20 @@ class ChannelsTest extends TestCase
     /**
      * @dataProvider channelsInstanceProvider
      * @param string[] $exampleChannel
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testSnoopChannelWithId(array $exampleChannel): void
     {
         $channelsClient = $this->createChannelsClient($exampleChannel);
-        $resultChannel = $channelsClient->snoopChannelWithId('12345', 'SnoopId', 'TestApp');
+        $resultChannel =
+            $channelsClient->snoopChannelWithId('12345', 'SnoopId', 'TestApp');
 
         $this->assertInstanceOf(Channel::class, $resultChannel);
     }
 
     /**
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testHangup(): void
@@ -413,13 +421,49 @@ class ChannelsTest extends TestCase
 
     /**
      * @dataProvider channelsInstanceProvider
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testAnswer(): void
     {
         $channelsClient = $this->createChannelsClient([]);
         $channelsClient->answer('SomeChannelId');
+        $this->assertTrue(true, true);
+    }
+
+    /**
+     * @throws AsteriskRestInterfaceException
+     * @throws ReflectionException
+     */
+    public function testPostException(): void
+    {
+        $channelsClient = $this->createChannelsClientThatThrowsException();
+        $this->expectException(AsteriskRestInterfaceException::class);
+        $channelsClient->sendDtmf('SomeChannelId', '1234');
+        $this->assertTrue(true, true);
+    }
+
+    /**
+     * @throws AsteriskRestInterfaceException
+     * @throws ReflectionException
+     */
+    public function testGetException(): void
+    {
+        $channelsClient = $this->createChannelsClientThatThrowsException();
+        $this->expectException(AsteriskRestInterfaceException::class);
+        $channelsClient->get('SomeChannelId');
+        $this->assertTrue(true, true);
+    }
+
+    /**
+     * @throws AsteriskRestInterfaceException
+     * @throws ReflectionException
+     */
+    public function testDeleteException(): void
+    {
+        $channelsClient = $this->createChannelsClientThatThrowsException();
+        $this->expectException(AsteriskRestInterfaceException::class);
+        $channelsClient->unHold('SomeChannelId');
         $this->assertTrue(true, true);
     }
 
@@ -434,14 +478,23 @@ class ChannelsTest extends TestCase
         $guzzleClientStub->method('request')
             // TODO: Test for correct parameter translation via with() method here?
             //  ->with()
-            ->willReturn(new Response(
-                    200, [], json_encode($expectedResponse), '1.1', 'SomeReason')
+                         ->willReturn(
+                new Response(
+                    200,
+                    [],
+                    json_encode($expectedResponse),
+                    '1.1',
+                    'SomeReason'
+                )
             );
 
         /**
          * @var Client $guzzleClientStub
          */
-        return new Channels('SomeUser', 'SomePw', [], $guzzleClientStub);
+        return new Channels(
+            new AriRestClientSettings('SomeUser', 'SomePw'),
+            $guzzleClientStub
+        );
     }
 
     /**
@@ -455,7 +508,8 @@ class ChannelsTest extends TestCase
             // TODO: Test for correct parameter translation via with() method here?
             //  ->with()
             ->willThrowException(
-                new ServerException('Internal Server Error',
+                new ServerException(
+                    'Internal Server Error',
                     new Request('POST', '/channels/test')
                 )
             );
@@ -463,42 +517,9 @@ class ChannelsTest extends TestCase
         /**
          * @var Client $guzzleClientStub
          */
-        return new Channels('SomeUser', 'SomePw', [], $guzzleClientStub);
-    }
-
-    /**
-     * @throws GuzzleException
-     * @throws ReflectionException
-     */
-    public function testPostException(): void
-    {
-        $channelsClient = $this->createChannelsClientThatThrowsException();
-        $this->expectException(ServerException::class);
-        $channelsClient->sendDtmf('SomeChannelId', '1234');
-        $this->assertTrue(true, true);
-    }
-
-    /**
-     * @throws GuzzleException
-     * @throws ReflectionException
-     */
-    public function testGetException(): void
-    {
-        $channelsClient = $this->createChannelsClientThatThrowsException();
-        $this->expectException(ServerException::class);
-        $channelsClient->get('SomeChannelId');
-        $this->assertTrue(true, true);
-    }
-
-    /**
-     * @throws GuzzleException
-     * @throws ReflectionException
-     */
-    public function testDeleteException(): void
-    {
-        $channelsClient = $this->createChannelsClientThatThrowsException();
-        $this->expectException(ServerException::class);
-        $channelsClient->unHold('SomeChannelId');
-        $this->assertTrue(true, true);
+        return new Channels(
+            new AriRestClientSettings('SomeUser', 'SomePw'),
+            $guzzleClientStub
+        );
     }
 }

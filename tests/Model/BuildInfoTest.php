@@ -1,9 +1,6 @@
 <?php
 
-/**
- * @author Lukas Stermann
- * @copyright ng-voice GmbH (2018)
- */
+/** @copyright 2019 ng-voice GmbH */
 
 declare(strict_types=1);
 
@@ -11,14 +8,16 @@ namespace NgVoice\AriClient\Tests\Model;
 
 
 use JsonMapper_Exception;
-use NgVoice\AriClient\Model\{BuildInfo};
+use NgVoice\AriClient\Models\{BuildInfo};
+use NgVoice\AriClient\Tests\Helper;
 use PHPUnit\Framework\TestCase;
-use function NgVoice\AriClient\Tests\mapAriResponseParametersToAriObject;
 
 /**
  * Class BuildInfoTest
  *
- * @package NgVoice\AriClient\Tests\Model
+ * @package NgVoice\AriClient\Tests\Models
+ *
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
 final class BuildInfoTest extends TestCase
 {
@@ -30,7 +29,7 @@ final class BuildInfoTest extends TestCase
         /**
          * @var BuildInfo
          */
-        $buildInfo = mapAriResponseParametersToAriObject(
+        $buildInfo = Helper::mapAriResponseParametersToAriObject(
             'BuildInfo',
             [
                 'os' => 'Linux',
@@ -41,6 +40,7 @@ final class BuildInfoTest extends TestCase
                 'user' => 'root'
             ]
         );
+
         $this->assertSame('root', $buildInfo->getUser());
         $this->assertSame('Linux', $buildInfo->getOs());
         $this->assertSame('2016-12-20 13:45:28 UTC', $buildInfo->getDate());

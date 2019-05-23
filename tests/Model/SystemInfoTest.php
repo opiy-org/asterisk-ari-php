@@ -1,9 +1,6 @@
 <?php
 
-/**
- * @author Lukas Stermann
- * @copyright ng-voice GmbH (2018)
- */
+/** @copyright 2019 ng-voice GmbH */
 
 declare(strict_types=1);
 
@@ -11,14 +8,14 @@ namespace NgVoice\AriClient\Tests\Model;
 
 
 use JsonMapper_Exception;
-use NgVoice\AriClient\Model\SystemInfo;
+use NgVoice\AriClient\Models\SystemInfo;
+use NgVoice\AriClient\Tests\Helper;
 use PHPUnit\Framework\TestCase;
-use function NgVoice\AriClient\Tests\mapAriResponseParametersToAriObject;
 
 /**
  * Class SystemInfoTest
  *
- * @package NgVoice\AriClient\Tests\Model
+ * @package NgVoice\AriClient\Tests\Models
  */
 final class SystemInfoTest extends TestCase
 {
@@ -30,7 +27,7 @@ final class SystemInfoTest extends TestCase
         /**
          * @var SystemInfo $systemInfo
          */
-        $systemInfo = mapAriResponseParametersToAriObject(
+        $systemInfo = Helper::mapAriResponseParametersToAriObject(
             'SystemInfo',
             [
                 'version' => '16.1.0',

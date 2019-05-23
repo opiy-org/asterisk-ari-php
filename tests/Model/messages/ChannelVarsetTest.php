@@ -1,9 +1,6 @@
 <?php
 
-/**
- * @author Lukas Stermann
- * @copyright ng-voice GmbH (2018)
- */
+/** @copyright 2019 ng-voice GmbH */
 
 declare(strict_types=1);
 
@@ -11,14 +8,14 @@ namespace NgVoice\AriClient\Tests\Model;
 
 
 use JsonMapper_Exception;
-use NgVoice\AriClient\Model\{Channel, Message\ChannelVarset};
+use NgVoice\AriClient\Models\{Channel, Message\ChannelVarset};
+use NgVoice\AriClient\Tests\Helper;
 use PHPUnit\Framework\TestCase;
-use function NgVoice\AriClient\Tests\mapMessageParametersToAriObject;
 
 /**
  * Class ChannelVarsetTest
  *
- * @package NgVoice\AriClient\Tests\Model\Message
+ * @package NgVoice\AriClient\Tests\Models\Message
  */
 final class ChannelVarsetTest extends TestCase
 {
@@ -56,7 +53,7 @@ final class ChannelVarsetTest extends TestCase
         /**
          * @var ChannelVarset $channelVarSet
          */
-        $channelVarSet = mapMessageParametersToAriObject(
+        $channelVarSet = Helper::mapMessageParametersToAriObject(
             'ChannelVarset',
             [
                 'variable' => 'TestVar',

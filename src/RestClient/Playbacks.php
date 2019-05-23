@@ -1,40 +1,46 @@
 <?php
 
-/**
- * @author Lukas Stermann
- * @copyright ng-voice GmbH (2018)
- */
+/** @copyright 2019 ng-voice GmbH */
+
+declare(strict_types=1);
 
 namespace NgVoice\AriClient\RestClient;
 
-
-use GuzzleHttp\Exception\GuzzleException;
-use NgVoice\AriClient\Model\Playback;
-use Psr\Http\Message\ResponseInterface;
+use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
+use NgVoice\AriClient\Models\{Model, Playback};
 
 /**
- * Class Playbacks
+ * An implementation of the Playbacks REST client for the
+ * Asterisk REST Interface
+ *
+ * @see https://wiki.asterisk.org/wiki/display/AST/Asterisk+16+Playbacks+REST+API
+ *
  * @package NgVoice\AriClient\RestClient
+ *
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class Playbacks extends AriRestClient
+final class Playbacks extends AsteriskRestInterfaceClient
 {
     /**
      * Get a playback's details.
      *
      * @param string $playbackId Playback's id.
-     * @return bool|mixed|ResponseInterface
-     * @throws GuzzleException
+     *
+     * @return Playback|Model
+     *
+     * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
     public function get(string $playbackId): Playback
     {
-        return $this->getRequest("/playbacks/{$playbackId}", [], parent::MODEL, Playback::class);
+        return $this->getModelRequest(Playback::class, "/playbacks/{$playbackId}");
     }
 
     /**
      * Stop a playback.
      *
      * @param string $playbackId Playback's id
-     * @throws GuzzleException
+     *
+     * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
     public function stop(string $playbackId): void
     {
@@ -47,10 +53,14 @@ final class Playbacks extends AriRestClient
      * @param string $playbackId Playback's id.
      * @param string $operation Operation to perform on the playback.
      * Allowed: restart, pause, unpause, reverse, forward
-     * @throws GuzzleException
+     *
+     * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
     public function control(string $playbackId, string $operation): void
     {
-        $this->postRequest("/playbacks/{$playbackId}/control", ['operation' => $operation]);
+        $this->postRequest(
+            "/playbacks/{$playbackId}/control",
+            ['operation' => $operation]
+        );
     }
 }

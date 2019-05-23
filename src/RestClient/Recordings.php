@@ -1,53 +1,64 @@
 <?php
 
-/**
- * @author Lukas Stermann
- * @copyright ng-voice GmbH (2018)
- */
+/** @copyright 2019 ng-voice GmbH */
+
+declare(strict_types=1);
 
 namespace NgVoice\AriClient\RestClient;
 
-
-use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Psr7\Response;
-use NgVoice\AriClient\Model\{LiveRecording, StoredRecording};
-use Psr\Http\Message\ResponseInterface;
+use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
+use NgVoice\AriClient\Models\{LiveRecording, Model, StoredRecording};
 
 /**
- * Class Recordings
+ * An implementation of the Recordings REST client for the
+ * Asterisk REST Interface
+ *
+ * @see https://wiki.asterisk.org/wiki/display/AST/Asterisk+16+Recordings+REST+API
+ *
  * @package NgVoice\AriClient\RestClient
+ *
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class Recordings extends AriRestClient
+final class Recordings extends AsteriskRestInterfaceClient
 {
     /**
      * List recordings that are complete.
      *
      * @return StoredRecording[]
-     * @throws GuzzleException
+     *
+     * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
     public function listStored(): array
     {
-        return $this->getRequest('/recordings/stored', [], parent::ARRAY, StoredRecording::class);
+        return $this->getArrayOfModelInstancesRequest(
+            StoredRecording::class,
+            '/recordings/stored'
+        );
     }
 
     /**
      * Get a stored recording's details.
      *
      * @param string $recordingName The name of the recording
-     * @return StoredRecording|object
-     * @throws GuzzleException
+     *
+     * @return StoredRecording|Model
+     *
+     * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
     public function getStored(string $recordingName): StoredRecording
     {
-        return $this->getRequest("/recordings/stored/{$recordingName}", [], parent::MODEL, StoredRecording::class);
+        return $this->getModelRequest(
+            StoredRecording::class,
+            "/recordings/stored/{$recordingName}"
+        );
     }
 
     /**
      * Delete a stored recording.
      *
      * @param string $recordingName The name of the recording.
-     * @return bool|mixed|ResponseInterface
-     * @throws GuzzleException
+     *
+     * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
     public function deleteStored(string $recordingName): void
     {
@@ -58,12 +69,15 @@ final class Recordings extends AriRestClient
      * Get the file associated with the stored recording.
      *
      * @param string $recordingName The name of the recording.
-     * @return mixed|ResponseInterface
-     * @throws GuzzleException
+     *
+     * @param string $pathToFile The full path to the location
+     * where the downloaded file shall be saved to.
+     *
+     * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
-    public function getStoredFile(string $recordingName): Response
+    public function getStoredFile(string $recordingName, string $pathToFile): void
     {
-        return $this->getRequest("/recordings/stored/{$recordingName}/file");
+        $this->downloadFile("/recordings/stored/{$recordingName}/file", $pathToFile);
     }
 
     /**
@@ -71,32 +85,45 @@ final class Recordings extends AriRestClient
      *
      * @param string $recordingName The name of the recording to copy.
      * @param string $destinationRecordingName The destination name of the recording.
-     * @return StoredRecording|object
-     * @throws GuzzleException
+     *
+     * @return StoredRecording|Model
+     *
+     * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
-    public function copyStored(string $recordingName, string $destinationRecordingName): StoredRecording
-    {
-        return $this->postRequest("/recordings/stored/{$recordingName}/copy",
-            ['destinationRecordingName' => $destinationRecordingName], [], parent::MODEL, StoredRecording::class);
+    public function copyStored(
+        string $recordingName,
+        string $destinationRecordingName
+    ): StoredRecording {
+        return $this->postRequestReturningModel(
+            StoredRecording::class,
+            "/recordings/stored/{$recordingName}/copy",
+            ['destinationRecordingName' => $destinationRecordingName]
+        );
     }
 
     /**
      * List live recordings.
      *
      * @param string $recordingName The name of the recording.
-     * @return LiveRecording|object
-     * @throws GuzzleException
+     *
+     * @return LiveRecording|Model
+     *
+     * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
     public function getLive(string $recordingName): LiveRecording
     {
-        return $this->getRequest("/recordings/live/{$recordingName}", [], parent::MODEL, LiveRecording::class);
+        return $this->getModelRequest(
+            LiveRecording::class,
+            "/recordings/live/{$recordingName}"
+        );
     }
 
     /**
      * Stop a live recording and discard it.
      *
      * @param string $recordingName The name of the recording.
-     * @throws GuzzleException
+     *
+     * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
     public function cancel(string $recordingName): void
     {
@@ -107,7 +134,8 @@ final class Recordings extends AriRestClient
      * Stop a live recording and store it.
      *
      * @param string $recordingName The name of the recording.
-     * @throws GuzzleException
+     *
+     * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
     public function stop(string $recordingName): void
     {
@@ -120,7 +148,8 @@ final class Recordings extends AriRestClient
      * included in the accounting for maxDurationSeconds.
      *
      * @param string $recordingName The name of the recording.
-     * @throws GuzzleException
+     *
+     * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
     public function pause(string $recordingName): void
     {
@@ -131,7 +160,8 @@ final class Recordings extends AriRestClient
      * Unpause a live recording.
      *
      * @param string $recordingName The name of the recording.
-     * @throws GuzzleException
+     *
+     * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
     public function unpause(string $recordingName): void
     {
@@ -143,7 +173,8 @@ final class Recordings extends AriRestClient
      * which will be restarted when the recording is unmuted.
      *
      * @param string $recordingName The name of the recording.
-     * @throws GuzzleException
+     *
+     * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
     public function mute(string $recordingName): void
     {
@@ -154,7 +185,8 @@ final class Recordings extends AriRestClient
      * Unmute a live recording.
      *
      * @param string $recordingName The name of the recording.
-     * @throws GuzzleException
+     *
+     * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
     public function unmute(string $recordingName): void
     {

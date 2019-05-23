@@ -46,8 +46,6 @@ RUN make install-logrotate
 # Default configurations are copied into the container
 COPY ari.conf /etc/asterisk/
 COPY http.conf /etc/asterisk/
-COPY pjsip.conf /etc/asterisk/
-COPY extensions.conf /etc/asterisk/
 COPY sorcery.conf /etc/asterisk/
 # TODO: This operation is not working at the moment!
 #COPY modules.conf /etc/asterisk/

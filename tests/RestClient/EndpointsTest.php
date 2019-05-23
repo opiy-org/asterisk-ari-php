@@ -1,17 +1,14 @@
 <?php
 
-/**
- * @author Lukas Stermann
- * @copyright ng-voice GmbH (2018)
- */
+/** @copyright 2019 ng-voice GmbH */
 
 namespace NgVoice\AriClient\Tests\RestClient;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Response;
-use NgVoice\AriClient\Model\{Endpoint};
-use NgVoice\AriClient\RestClient\Endpoints;
+use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
+use NgVoice\AriClient\Models\{Endpoint};
+use NgVoice\AriClient\RestClient\{AriRestClientSettings, Endpoints};
 use PHPUnit\Framework\TestCase;
 use ReflectionException;
 
@@ -44,7 +41,7 @@ class EndpointsTest extends TestCase
     /**
      * @dataProvider endpointInstanceProvider
      * @param array $exampleEndpoint
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testList(array $exampleEndpoint): void
@@ -63,7 +60,7 @@ class EndpointsTest extends TestCase
     /**
      * @dataProvider endpointInstanceProvider
      * @param array $exampleEndpoint
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testListByTech(array $exampleEndpoint): void
@@ -82,7 +79,7 @@ class EndpointsTest extends TestCase
     /**
      * @dataProvider endpointInstanceProvider
      * @param string[] $exampleEndpoint
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testGet(array $exampleEndpoint): void
@@ -94,7 +91,7 @@ class EndpointsTest extends TestCase
     }
 
     /**
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testSendMessage(): void
@@ -105,7 +102,7 @@ class EndpointsTest extends TestCase
     }
 
     /**
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testSendMessageToEndpoint(): void
@@ -126,13 +123,22 @@ class EndpointsTest extends TestCase
         $guzzleClientStub->method('request')
             // TODO: Test for correct parameter translation via with() method here?
             //  ->with()
-            ->willReturn(new Response(
-                    200, [], json_encode($expectedResponse), '1.1', 'SomeReason')
+                         ->willReturn(
+                new Response(
+                    200,
+                    [],
+                    json_encode($expectedResponse),
+                    '1.1',
+                    'SomeReason'
+                )
             );
 
         /**
          * @var Client $guzzleClientStub
          */
-        return new Endpoints('SomeUser', 'SomePw', [], $guzzleClientStub);
+        return new Endpoints(
+            new AriRestClientSettings('SomeUser', 'SomePw'),
+            $guzzleClientStub
+        );
     }
 }

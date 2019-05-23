@@ -1,9 +1,6 @@
 <?php
 
-/**
- * @author Lukas Stermann
- * @copyright ng-voice GmbH (2018)
- */
+/** @copyright 2019 ng-voice GmbH */
 
 declare(strict_types=1);
 
@@ -11,14 +8,14 @@ namespace NgVoice\AriClient\Tests\Model;
 
 
 use JsonMapper_Exception;
-use NgVoice\AriClient\Model\{Endpoint, Message\PeerStatusChange, Peer};
+use NgVoice\AriClient\Models\{Endpoint, Message\PeerStatusChange, Peer};
+use NgVoice\AriClient\Tests\Helper;
 use PHPUnit\Framework\TestCase;
-use function NgVoice\AriClient\Tests\mapMessageParametersToAriObject;
 
 /**
  * Class PeerStatusChangeTest
  *
- * @package NgVoice\AriClient\Tests\Model\Message
+ * @package NgVoice\AriClient\Tests\Models\Message
  */
 final class PeerStatusChangeTest extends TestCase
 {
@@ -48,7 +45,7 @@ final class PeerStatusChangeTest extends TestCase
         /**
          * @var PeerStatusChange $peerStatusChange
          */
-        $peerStatusChange = mapMessageParametersToAriObject(
+        $peerStatusChange = Helper::mapMessageParametersToAriObject(
             'PeerStatusChange',
             [
                 'peer' => $examplePeer,

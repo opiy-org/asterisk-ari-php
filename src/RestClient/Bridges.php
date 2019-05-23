@@ -1,32 +1,37 @@
 <?php
 
-/**
- * @author Lukas Stermann
- * @copyright ng-voice GmbH (2018)
- */
+/** @copyright 2019 ng-voice GmbH */
+
+declare(strict_types=1);
 
 namespace NgVoice\AriClient\RestClient;
 
-
-use GuzzleHttp\Exception\GuzzleException;
-use NgVoice\AriClient\Model\{Bridge, LiveRecording, Playback};
-use function NgVoice\AriClient\glueArrayOfStrings;
+use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
+use NgVoice\AriClient\Helper;
+use NgVoice\AriClient\Models\{Bridge, LiveRecording, Model, Playback};
 
 /**
- * Class Bridges
+ * An implementation of the Bridges REST client for the
+ * Asterisk REST Interface
+ *
+ * @see https://wiki.asterisk.org/wiki/display/AST/Asterisk+16+Bridges+REST+API
+ *
  * @package NgVoice\AriClient\RestClient
+ *
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class Bridges extends AriRestClient
+final class Bridges extends AsteriskRestInterfaceClient
 {
     /**
      * List all active bridges in Asterisk.
      *
      * @return Bridge[]
-     * @throws GuzzleException
+     *
+     * @throws AsteriskRestInterfaceException
      */
     public function list(): array
     {
-        return $this->getRequest('/bridges', [], parent::ARRAY, Bridge::class);
+        return $this->getArrayOfModelInstancesRequest(Bridge::class, '/bridges');
     }
 
     /**
@@ -38,12 +43,14 @@ final class Bridges extends AriRestClient
      *      (mixing, holding, dtmf_events, proxy_media, video_sfu).
      * bridgeId: string - Unique ID to give to the bridge being created.
      * name: string - Name to give to the bridge being created.
+     *
      * @return Bridge|object
-     * @throws GuzzleException
+     *
+     * @throws AsteriskRestInterfaceException
      */
     public function create(array $options = []): Bridge
     {
-        return $this->postRequest('/bridges', $options, [], parent::MODEL, Bridge::class);
+        return $this->postRequestReturningModel(Bridge::class, '/bridges', $options);
     }
 
     /**
@@ -56,11 +63,16 @@ final class Bridges extends AriRestClient
      *      (mixing, holding, dtmf_events, proxy_media, video_sfu) to set.
      * name: string - Set the name of the bridge.
      * @return Bridge|object
-     * @throws GuzzleException
+     *
+     * @throws AsteriskRestInterfaceException
      */
     public function createWithId(string $bridgeId, array $options = []): Bridge
     {
-        return $this->postRequest("/bridges/{$bridgeId}", $options, [], parent::MODEL, Bridge::class);
+        return $this->postRequestReturningModel(
+            Bridge::class,
+            "/bridges/{$bridgeId}",
+            $options
+        );
     }
 
     /**
@@ -68,19 +80,21 @@ final class Bridges extends AriRestClient
      *
      * @param string $bridgeId Bridge's id
      * @return Bridge|object
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      */
     public function get(string $bridgeId): Bridge
     {
-        return $this->getRequest("/bridges/{$bridgeId}", [], parent::MODEL, Bridge::class);
+        return $this->getModelRequest(Bridge::class, "/bridges/{$bridgeId}");
     }
 
     /**
      * Shut down a bridge.
-     * If any channels are in this bridge, they will be removed and resume whatever they were doing beforehand.
+     * If any channels are in this bridge, they will be removed and resume whatever they
+     * were doing beforehand.
      *
      * @param string $bridgeId Bridge's id
-     * @throws GuzzleException
+     *
+     * @throws AsteriskRestInterfaceException
      */
     public function destroy(string $bridgeId): void
     {
@@ -94,13 +108,21 @@ final class Bridges extends AriRestClient
      * @param array $channel Ids of channels to add to bridge.
      * @param array $options
      * role: string - Channel's role in the bridge
-     * absorbDTMF: boolean - Absorb DTMF coming from this channel, preventing it to pass through to the bridge
-     * mute: boolean - Mute audio from this channel, preventing it to pass through to the bridge
-     * @throws GuzzleException
+     * absorbDTMF: boolean - Absorb DTMF coming from this channel, preventing it to pass
+     *     through to the bridge mute: boolean - Mute audio from this channel, preventing
+     *     it to pass through to the bridge
+     *
+     * @throws AsteriskRestInterfaceException
      */
-    public function addChannel(string $bridgeId, array $channel, array $options = []): void
-    {
-        $this->postRequest("/bridges/{$bridgeId}/addChannel", ['channel' => glueArrayOfStrings($channel)] + $options);
+    public function addChannel(
+        string $bridgeId,
+        array $channel,
+        array $options = []
+    ): void {
+        $this->postRequest(
+            "/bridges/{$bridgeId}/addChannel",
+            ['channel' => Helper::glueArrayOfStrings($channel)] + $options
+        );
     }
 
     /**
@@ -108,11 +130,15 @@ final class Bridges extends AriRestClient
      *
      * @param string $bridgeId Bridge's id
      * @param string[] $channel Ids of channels to remove from bridge
-     * @throws GuzzleException
+     *
+     * @throws AsteriskRestInterfaceException
      */
     public function removeChannel(string $bridgeId, array $channel): void
     {
-        $this->postRequest("/bridges/{$bridgeId}/removeChannel", ['channel' => glueArrayOfStrings($channel)]);
+        $this->postRequest(
+            "/bridges/{$bridgeId}/removeChannel",
+            ['channel' => Helper::glueArrayOfStrings($channel)]
+        );
     }
 
     /**
@@ -121,7 +147,8 @@ final class Bridges extends AriRestClient
      *
      * @param string $bridgeId Bridge's id
      * @param string $channelId Channels's id
-     * @throws GuzzleException
+     *
+     * @throws AsteriskRestInterfaceException
      */
     public function setVideoSource(string $bridgeId, string $channelId): void
     {
@@ -131,10 +158,12 @@ final class Bridges extends AriRestClient
     /**
      * Removes any explicit video source in a multi-party mixing bridge.
      * This operation has no effect on bridges with two or fewer participants.
-     * When no explicit video source is set, talk detection will be used to determine the active video stream.
+     * When no explicit video source is set, talk detection will be used to determine the
+     * active video stream.
      *
      * @param string $bridgeId Bridge's id
-     * @throws GuzzleException
+     *
+     * @throws AsteriskRestInterfaceException
      */
     public function clearVideoSource(string $bridgeId): void
     {
@@ -146,7 +175,8 @@ final class Bridges extends AriRestClient
      *
      * @param string $bridgeId Bridge's id
      * @param string $mohClass Music on hold class
-     * @throws GuzzleException
+     *
+     * @throws AsteriskRestInterfaceException
      */
     public function startMoh(string $bridgeId, string $mohClass = ''): void
     {
@@ -162,7 +192,8 @@ final class Bridges extends AriRestClient
      * This will only stop music on hold being played via POST bridges/{bridgeId}/moh.
      *
      * @param string $bridgeId Bridge's id
-     * @throws GuzzleException
+     *
+     * @throws AsteriskRestInterfaceException
      */
     public function stopMoh(string $bridgeId): void
     {
@@ -173,39 +204,39 @@ final class Bridges extends AriRestClient
      * Start playback of media on a bridge.
      *
      * The media URI may be any of a number of URI's.
-     * Currently sound:, recording:, number:, digits:, characters:, and tone: URI's are supported.
-     * This operation creates a playback resource that can be used to control the playback
-     * of media (pause, rewind, fast forward, etc.).
+     * Currently sound:, recording:, number:, digits:, characters:, and tone: URI's are
+     * supported. This operation creates a playback resource that can be used to control
+     * the playback of media (pause, rewind, fast forward, etc.).
      *
      * @param string $bridgeId Bridge's id
      * @param array $media List of media URIs to play.
      * @param array $options
      * lang: string - For sounds, selects language for sound.
      * offsetms: int - Number of milliseconds to skip before playing.
-     *      Only applies to the first URI if multiple media URIs are specified. Allowed range: Min: 0; Max: None
-     * skipms: int - Number of milliseconds to skip for forward/reverse operations.
-     *      Default: 3000. Allowed range: Min: 0; Max: None
-     * playbackId: string - Playback Id.
-     * @return Playback|object
-     * @throws GuzzleException
+     *      Only applies to the first URI if multiple media URIs are specified. Allowed
+     *     range: Min: 0; Max: None skipms: int - Number of milliseconds to skip for
+     *     forward/reverse operations. Default: 3000. Allowed range: Min: 0; Max: None
+     *     playbackId: string - Playback Id.
+     *
+     * @return Playback|Model
+     *
+     * @throws AsteriskRestInterfaceException
      */
     public function play(string $bridgeId, array $media, array $options = []): Playback
     {
-        return $this->postRequest(
+        return $this->postRequestReturningModel(
+            Playback::class,
             "/bridges/{$bridgeId}/play",
-            ['media' => glueArrayOfStrings($media)] + $options,
-            [],
-            parent::MODEL,
-            Playback::class
+            ['media' => Helper::glueArrayOfStrings($media)] + $options,
         );
     }
 
     /**
      * Start playback of media on a bridge.
      * The media URI may be any of a number of URI's.
-     * Currently sound:, recording:, number:, digits:, characters:, and tone: URI's are supported.
-     * This operation creates a playback resource that can be used to control the playback
-     * of media (pause, rewind, fast forward, etc.).
+     * Currently sound:, recording:, number:, digits:, characters:, and tone: URI's are
+     * supported. This operation creates a playback resource that can be used to control
+     * the playback of media (pause, rewind, fast forward, etc.).
      *
      * @param string $bridgeId Bridge's id
      * @param string $playbackId Playback id
@@ -213,20 +244,24 @@ final class Bridges extends AriRestClient
      * @param array $options
      * lang: string - For sounds, selects language for sound.
      * offsetms: int - Number of milliseconds to skip before playing.
-     *      Only applies to the first URI if multiple media URIs are specified. Allowed range: Min: 0; Max: None
-     * skipms: int - Number of milliseconds to skip for forward/reverse operations.
-     *      Default: 3000. Allowed range: Min: 0; Max: None
-     * @return Playback|object
-     * @throws GuzzleException
+     *      Only applies to the first URI if multiple media URIs are specified. Allowed
+     *     range: Min: 0; Max: None skipms: int - Number of milliseconds to skip for
+     *     forward/reverse operations. Default: 3000. Allowed range: Min: 0; Max: None
+     *
+     * @return Playback|Model
+     *
+     * @throws AsteriskRestInterfaceException
      */
-    public function playWithId(string $bridgeId, string $playbackId, array $media, array $options = []): Playback
-    {
-        return $this->postRequest(
+    public function playWithId(
+        string $bridgeId,
+        string $playbackId,
+        array $media,
+        array $options = []
+    ): Playback {
+        return $this->postRequestReturningModel(
+            Playback::class,
             "/bridges/{$bridgeId}/play/{$playbackId}",
-            ['media' => glueArrayOfStrings($media)] + $options,
-            [],
-            parent::MODEL,
-            Playback::class
+            ['media' => Helper::glueArrayOfStrings($media)] + $options,
         );
     }
 
@@ -238,25 +273,28 @@ final class Bridges extends AriRestClient
      * @param string $name Recording's filename.
      * @param string $format Format to encode audio in.
      * @param array $options
-     * maxDurationSeconds: int - Maximum duration of the recording, in seconds. 0 for no limit.
-     *      Allowed range: Min: 0; Max: None
-     * maxSilenceSeconds: int - Maximum duration of silence, in seconds. 0 for no limit.
-     *      Allowed range: Min: 0; Max: None
-     * ifExists: string - Action to take if a recording with the same name already exists.
-     *      Default: fail. Allowed values: fail, overwrite, append
-     * beep: boolean - Play beep when recording begins
-     * terminateOn: string - DTMF input to terminate recording. Default: none. Allowed values: none, any, *, #
-     * @return LiveRecording|object
-     * @throws GuzzleException
+     * maxDurationSeconds: int - Maximum duration of the recording, in seconds. 0 for no
+     *     limit. Allowed range: Min: 0; Max: None maxSilenceSeconds: int - Maximum
+     *     duration of silence, in seconds. 0 for no limit. Allowed range: Min: 0; Max:
+     *     None ifExists: string - Action to take if a recording with the same name
+     *     already exists. Default: fail. Allowed values: fail, overwrite, append beep:
+     *     boolean - Play beep when recording begins terminateOn: string - DTMF input to
+     *     terminate recording. Default: none. Allowed values: none, any, *, #
+     *
+     * @return LiveRecording|Model
+     *
+     * @throws AsteriskRestInterfaceException
      */
-    public function record(string $bridgeId, string $name, string $format, array $options = []): LiveRecording
-    {
-        return $this->postRequest(
+    public function record(
+        string $bridgeId,
+        string $name,
+        string $format,
+        array $options = []
+    ): LiveRecording {
+        return $this->postRequestReturningModel(
+            LiveRecording::class,
             "/bridges/{$bridgeId}/record",
             ['name' => $name, 'format' => $format] + $options,
-            [],
-            parent::MODEL,
-            LiveRecording::class
         );
     }
 }

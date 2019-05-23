@@ -1,9 +1,6 @@
 <?php
 
-/**
- * @author Lukas Stermann
- * @copyright ng-voice GmbH (2018)
- */
+/** @copyright 2019 ng-voice GmbH */
 
 declare(strict_types=1);
 
@@ -11,14 +8,14 @@ namespace NgVoice\AriClient\Tests\Model;
 
 
 use JsonMapper_Exception;
-use NgVoice\AriClient\Model\{CallerID, Channel, DialplanCEP};
+use NgVoice\AriClient\Models\{CallerID, Channel, DialplanCEP};
+use NgVoice\AriClient\Tests\Helper;
 use PHPUnit\Framework\TestCase;
-use function NgVoice\AriClient\Tests\mapAriResponseParametersToAriObject;
 
 /**
  * Class ChannelTest
  *
- * @package NgVoice\AriClient\Tests\Model
+ * @package NgVoice\AriClient\Tests\Models
  */
 final class ChannelTest extends TestCase
 {
@@ -30,7 +27,7 @@ final class ChannelTest extends TestCase
         /**
          * @var Channel $channel
          */
-        $channel = mapAriResponseParametersToAriObject(
+        $channel = Helper::mapAriResponseParametersToAriObject(
             'Channel',
             [
                 'name' => 'SIP/foo-0000a7e3',

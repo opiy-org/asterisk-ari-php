@@ -1,17 +1,14 @@
 <?php
 
-/**
- * @author Lukas Stermann
- * @copyright ng-voice GmbH (2018)
- */
+/** @copyright 2019 ng-voice GmbH */
 
 namespace NgVoice\AriClient\Tests\Model;
 
 
 use JsonMapper_Exception;
-use NgVoice\AriClient\Model\TextMessageVariable;
+use NgVoice\AriClient\Models\TextMessageVariable;
+use NgVoice\AriClient\Tests\Helper;
 use PHPUnit\Framework\TestCase;
-use function NgVoice\AriClient\Tests\mapAriResponseParametersToAriObject;
 
 class TextMessageVariableTest extends TestCase
 {
@@ -23,7 +20,7 @@ class TextMessageVariableTest extends TestCase
         /**
          * @var TextMessageVariable $textMessageVariable
          */
-        $textMessageVariable = mapAriResponseParametersToAriObject(
+        $textMessageVariable = Helper::mapAriResponseParametersToAriObject(
             'TextMessageVariable',
             [
                 'key' => 'SomeKey',

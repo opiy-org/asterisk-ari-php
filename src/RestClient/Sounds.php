@@ -1,45 +1,53 @@
 <?php
 
-/**
- * @author Lukas Stermann
- * @copyright ng-voice GmbH (2018)
- */
+/** @copyright 2019 ng-voice GmbH */
+
+declare(strict_types=1);
 
 namespace NgVoice\AriClient\RestClient;
 
-
-use GuzzleHttp\Exception\GuzzleException;
-use NgVoice\AriClient\Model\Sound;
+use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
+use NgVoice\AriClient\Models\{Model, Sound};
 
 /**
- * Class Sounds
+ * An implementation of the Sounds REST client for the
+ * Asterisk REST Interface
+ *
+ * @see https://wiki.asterisk.org/wiki/display/AST/Asterisk+16+Sounds+REST+API
+ *
  * @package NgVoice\AriClient\RestClient
+ *
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class Sounds extends AriRestClient
+final class Sounds extends AsteriskRestInterfaceClient
 {
     /**
      * List all sounds.
      *
-     * @param array $options
+     * @param array $options A collection of options when requesting a list of sounds.
      * lang: string - Lookup sound for a specific language.
      * format: string - Lookup sound in a specific format.
+     *
      * @return Sound[]
-     * @throws GuzzleException
+     *
+     * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
     public function list(array $options = []): array
     {
-        return $this->getRequest('/sounds', $options, parent::ARRAY, Sound::class);
+        return $this->getArrayOfModelInstancesRequest(Sound::class, '/sounds', $options);
     }
 
     /**
      * Get a sound's details.
      *
      * @param string $soundId Sound's id.
-     * @return Sound|object
-     * @throws GuzzleException
+     *
+     * @return Sound|Model
+     *
+     * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
     public function get(string $soundId): Sound
     {
-        return $this->getRequest("/sounds/{$soundId}", [], parent::MODEL, Sound::class);
+        return $this->getModelRequest(Sound::class, "/sounds/{$soundId}");
     }
 }

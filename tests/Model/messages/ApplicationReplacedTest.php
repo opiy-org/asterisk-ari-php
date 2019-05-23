@@ -1,8 +1,8 @@
 <?php
 
 /**
- * @author Lukas Stermann
- * @copyright ng-voice GmbH (2019)
+ * @copyright 2019 ng-voice GmbH
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
 
 declare(strict_types=1);
@@ -11,15 +11,14 @@ namespace NgVoice\AriClient\Tests\Model\messages;
 
 
 use JsonMapper_Exception;
-use NgVoice\AriClient\Model\{Message\ApplicationReplaced};
+use NgVoice\AriClient\Models\{Message\ApplicationReplaced};
+use NgVoice\AriClient\Tests\Helper;
 use PHPUnit\Framework\TestCase;
-use function NgVoice\AriClient\Tests\mapMessageParametersToAriObject;
-
 
 /**
  * Class ApplicationReplacedTest
  *
- * @package NgVoice\AriClient\Tests\Model
+ * @package NgVoice\AriClient\Tests\Models
  */
 final class ApplicationReplacedTest extends TestCase
 {
@@ -31,7 +30,7 @@ final class ApplicationReplacedTest extends TestCase
         /**
          * @var ApplicationReplaced $dialed
          */
-        $dialed = mapMessageParametersToAriObject(
+        $dialed = Helper::mapMessageParametersToAriObject(
             'ApplicationReplaced',
             [
             ]

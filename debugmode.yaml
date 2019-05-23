@@ -1,9 +1,0 @@
-#
-# Enable debugging for a closer look
-# at what is happening in the background of this library
-#
-# @author Lukas Stermann
-# @copyright ng-voice GmbH (2018)
-#
-
-debug_mode: false

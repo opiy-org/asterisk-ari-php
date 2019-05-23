@@ -1,17 +1,14 @@
 <?php
 
-/**
- * @author Lukas Stermann
- * @copyright ng-voice GmbH (2018)
- */
+/** @copyright 2019 ng-voice GmbH */
 
 namespace NgVoice\AriClient\Tests\RestClient;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Response;
-use NgVoice\AriClient\Model\{Bridge, LiveRecording, Playback};
-use NgVoice\AriClient\RestClient\Bridges;
+use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
+use NgVoice\AriClient\Models\{Bridge, LiveRecording, Playback};
+use NgVoice\AriClient\RestClient\{AriRestClientSettings, Bridges};
 use PHPUnit\Framework\TestCase;
 use ReflectionException;
 
@@ -44,10 +41,10 @@ class BridgesTest extends TestCase
     }
 
     /**
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
-    public function testStopMoh()
+    public function testStopMoh(): void
     {
         $bridgesClient = $this->createBridgesClientWithGuzzleClientStub([]);
         $bridgesClient->stopMoh('SomeBridgeId');
@@ -57,10 +54,10 @@ class BridgesTest extends TestCase
     /**
      * @dataProvider bridgesInstanceProvider
      * @param string[] $exampleBridge
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
-    public function testCreateWithId(array $exampleBridge)
+    public function testCreateWithId(array $exampleBridge): void
     {
         $bridgesClient = $this->createBridgesClientWithGuzzleClientStub($exampleBridge);
         $resultChannel = $bridgesClient->createWithId('SomeBridgeId');
@@ -69,29 +66,31 @@ class BridgesTest extends TestCase
     }
 
     /**
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
-    public function testPlay()
+    public function testPlay(): void
     {
-        $bridgesClient = $this->createBridgesClientWithGuzzleClientStub([
+        $bridgesClient = $this->createBridgesClientWithGuzzleClientStub(
+            [
             'next_media_uri' => 'ExampleUri',
             'target_uri' => 'ExampleTargetUri',
             'language' => 'en',
             'state' => 'queued',
             'media_uri' => 'ExampleMediaRui',
             'id' => 'ExampleId'
-        ]);
+            ]
+        );
         $resultPlayback = $bridgesClient->play('12345', ['sound:exampleSound']);
 
         $this->assertInstanceOf(Playback::class, $resultPlayback);
     }
 
     /**
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
-    public function testStartMoh()
+    public function testStartMoh(): void
     {
         $bridgesClient = $this->createBridgesClientWithGuzzleClientStub([]);
         $bridgesClient->startMoh('SomeBridgeId', 'SomeMohClass');
@@ -99,10 +98,10 @@ class BridgesTest extends TestCase
     }
 
     /**
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
-    public function testDestroy()
+    public function testDestroy(): void
     {
         $bridgesClient = $this->createBridgesClientWithGuzzleClientStub([]);
         $bridgesClient->destroy('SomeChannelId');
@@ -112,10 +111,10 @@ class BridgesTest extends TestCase
     /**
      * @dataProvider bridgesInstanceProvider
      * @param array $exampleBridge
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
-    public function testList(array $exampleBridge)
+    public function testList(array $exampleBridge): void
     {
         $bridgesClient = $this->createBridgesClientWithGuzzleClientStub(
             [$exampleBridge, $exampleBridge, $exampleBridge]
@@ -131,10 +130,10 @@ class BridgesTest extends TestCase
     /**
      * @dataProvider bridgesInstanceProvider
      * @param string[] $exampleChannel
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
-    public function testGet(array $exampleChannel)
+    public function testGet(array $exampleChannel): void
     {
         $bridgesClient = $this->createBridgesClientWithGuzzleClientStub($exampleChannel);
         $resultChannel = $bridgesClient->get('12345');
@@ -143,10 +142,10 @@ class BridgesTest extends TestCase
     }
 
     /**
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
-    public function testSetVideoSource()
+    public function testSetVideoSource(): void
     {
         $bridgesClient = $this->createBridgesClientWithGuzzleClientStub([]);
         $bridgesClient->setVideoSource('SomeChannelId', 'SomeChannelId');
@@ -154,19 +153,21 @@ class BridgesTest extends TestCase
     }
 
     /**
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
-    public function testPlayWithId()
+    public function testPlayWithId(): void
     {
-        $bridgesClient = $this->createBridgesClientWithGuzzleClientStub([
+        $bridgesClient = $this->createBridgesClientWithGuzzleClientStub(
+            [
             'next_media_uri' => 'ExampleUri',
             'target_uri' => 'ExampleTargetUri',
             'language' => 'en',
             'state' => 'queued',
             'media_uri' => 'ExampleMediaRui',
             'id' => 'ExampleId'
-        ]);
+            ]
+        );
         $resultPlayback = $bridgesClient->playWithId('12345', 'SomePlaybackId', ['sound:exampleSound']);
 
         $this->assertInstanceOf(Playback::class, $resultPlayback);
@@ -175,10 +176,10 @@ class BridgesTest extends TestCase
     /**
      * @dataProvider bridgesInstanceProvider
      * @param string[] $exampleBridge
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
-    public function testCreate(array $exampleBridge)
+    public function testCreate(array $exampleBridge): void
     {
         $bridgesClient = $this->createBridgesClientWithGuzzleClientStub($exampleBridge);
         $resultChannel = $bridgesClient->create();
@@ -187,10 +188,10 @@ class BridgesTest extends TestCase
     }
 
     /**
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
-    public function testClearVideoSource()
+    public function testClearVideoSource(): void
     {
         $bridgesClient = $this->createBridgesClientWithGuzzleClientStub([]);
         $bridgesClient->clearVideoSource('SomeChannelId');
@@ -198,12 +199,13 @@ class BridgesTest extends TestCase
     }
 
     /**
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
-    public function testRecord()
+    public function testRecord(): void
     {
-        $bridgesClient = $this->createBridgesClientWithGuzzleClientStub([
+        $bridgesClient = $this->createBridgesClientWithGuzzleClientStub(
+            [
             'talking_duration' => '3',
             'name' => 'ExampleName',
             'target_uri' => 'ExampleUri',
@@ -212,17 +214,18 @@ class BridgesTest extends TestCase
             'state' => 'paused',
             'duration' => '4',
             'silence_duration' => '2'
-        ]);
+            ]
+        );
         $resultLiveRecording = $bridgesClient->record('12345', 'RecordName', 'wav');
 
         $this->assertInstanceOf(LiveRecording::class, $resultLiveRecording);
     }
 
     /**
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
-    public function testAddChannel()
+    public function testAddChannel(): void
     {
         $bridgesClient = $this->createBridgesClientWithGuzzleClientStub([]);
         $bridgesClient->addChannel('SomeChannelId', []);
@@ -230,10 +233,10 @@ class BridgesTest extends TestCase
     }
 
     /**
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
-    public function testRemoveChannel()
+    public function testRemoveChannel(): void
     {
         $bridgesClient = $this->createBridgesClientWithGuzzleClientStub([]);
         $bridgesClient->removeChannel('SomeChannelId', []);
@@ -245,19 +248,28 @@ class BridgesTest extends TestCase
      * @return Bridges
      * @throws ReflectionException
      */
-    private function createBridgesClientWithGuzzleClientStub($expectedResponse)
+    private function createBridgesClientWithGuzzleClientStub($expectedResponse): Bridges
     {
         $guzzleClientStub = $this->createMock(Client::class);
         $guzzleClientStub->method('request')
             // TODO: Test for correct parameter translation via with() method here?
             //  ->with()
-            ->willReturn(new Response(
-                    200, [], json_encode($expectedResponse), '1.1', 'SomeReason')
+                         ->willReturn(
+                new Response(
+                    200,
+                    [],
+                    json_encode($expectedResponse),
+                    '1.1',
+                    'SomeReason'
+                )
             );
 
         /**
          * @var Client $guzzleClientStub
          */
-        return new Bridges('SomeUser', 'SomePw', [], $guzzleClientStub);
+        return new Bridges(
+            new AriRestClientSettings('SomeUser', 'SomePw'),
+            $guzzleClientStub
+        );
     }
 }

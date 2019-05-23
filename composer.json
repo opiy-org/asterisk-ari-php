@@ -24,45 +24,35 @@
     }
   ],
   "require": {
-    "php": ">7.2",
+    "php": ">=7.3",
     "monolog/monolog": "1.24.0",
     "guzzlehttp/guzzle": "6.3.3",
-    "symfony/yaml": "v4.2.4",
+    "symfony/yaml": "v4.2.8",
     "nekland/woketo": "2.2.1",
     "netresearch/jsonmapper": "v1.4.0",
     "ext-http": "*",
     "ext-json": "*"
   },
-  "suggest": {
-    "ext-libevent": "Allows even better performance for the WebSocketClient"
-  },
   "require-dev": {
     "roave/security-advisories": "dev-master",
-    "phpunit/phpunit": "8.0.5",
-    "phpunit/php-code-coverage": "7.0.3"
+    "squizlabs/php_codesniffer": "3.4.2",
+    "phpunit/phpunit": "8.1.5",
+    "phpunit/php-code-coverage": "7.0.3",
+    "dg/bypass-finals": "1.1.1"
   },
   "autoload": {
     "psr-4": {
       "NgVoice\\AriClient\\": "src/"
-    },
-    "files": [
-      "src/helping_functions.php"
-    ]
+    }
   },
   "autoload-dev": {
     "psr-4": {
       "NgVoice\\AriClient\\Tests\\": "tests/"
-    },
-    "files": [
-      "src/helping_functions.php",
-      "tests/shared_test_functions.php"
-    ]
+    }
   },
   "scripts": {
-    "test": [
-      "phpenmod xdebug",
-      "vendor/bin/phpunit",
-      "phpdismod xdebug"
-    ]
+    "lint": "vendor/bin/phpcs -s",
+    "lint-fix": "vendor/bin/phpcbf",
+    "test": "vendor/bin/phpunit"
   }
 }

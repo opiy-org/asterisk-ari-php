@@ -1,18 +1,19 @@
 <?php
 
-/**
- * @author Lukas Stermann
- * @copyright ng-voice GmbH (2018)
- */
+/** @copyright 2019 ng-voice GmbH */
+
+declare(strict_types=1);
 
 namespace NgVoice\AriClient\WebSocketClient;
 
-
 /**
  * Class WebSocketSettings
+ *
  * @package NgVoice\AriClient\WebSocketClient
+ *
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
-class WebSocketSettings
+final class WebSocketSettings
 {
     /**
      * @var string
@@ -46,6 +47,7 @@ class WebSocketSettings
 
     /**
      * WebSocketSettings constructor.
+     *
      * @param string $user
      * @param string $password
      * @param bool $wssEnabled

@@ -1,27 +1,25 @@
 <?php
 
-/**
- * @author Lukas Stermann
- * @copyright ng-voice GmbH (2018)
- */
+/** @copyright 2019 ng-voice GmbH */
 
 namespace NgVoice\AriClient\Tests\RestClient;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Response;
-use NgVoice\AriClient\Model\Playback;
+use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
+use NgVoice\AriClient\Models\Playback;
+use NgVoice\AriClient\RestClient\AriRestClientSettings;
 use NgVoice\AriClient\RestClient\Playbacks;
 use PHPUnit\Framework\TestCase;
 use ReflectionException;
 
 /**
  * Class PlaybacksTest
+ *
  * @package NgVoice\AriClient\Tests\RestClient
  */
 class PlaybacksTest extends TestCase
 {
-
     /**
      * @return array
      */
@@ -31,18 +29,18 @@ class PlaybacksTest extends TestCase
             'example mailbox' => [
                 [
                     'next_media_uri' => 'ExampleUri',
-                    'target_uri' => 'ExampleTargetUri',
-                    'language' => 'en',
-                    'state' => 'queued',
-                    'media_uri' => 'ExampleMediaRui',
-                    'id' => 'ExampleId'
-                ]
-            ]
+                    'target_uri'     => 'ExampleTargetUri',
+                    'language'       => 'en',
+                    'state'          => 'queued',
+                    'media_uri'      => 'ExampleMediaRui',
+                    'id'             => 'ExampleId',
+                ],
+            ],
         ];
     }
 
     /**
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testStop(): void
@@ -53,7 +51,7 @@ class PlaybacksTest extends TestCase
     }
 
     /**
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testControl(): void
@@ -66,7 +64,7 @@ class PlaybacksTest extends TestCase
     /**
      * @dataProvider playbackInstanceProvider
      * @param string[] $examplePlayback
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testGet(array $examplePlayback): void
@@ -88,13 +86,22 @@ class PlaybacksTest extends TestCase
         $guzzleClientStub->method('request')
             // TODO: Test for correct parameter translation via with() method here?
             //  ->with()
-            ->willReturn(new Response(
-                    200, [], json_encode($expectedResponse), '1.1', 'SomeReason')
+                         ->willReturn(
+                new Response(
+                    200,
+                    [],
+                    json_encode($expectedResponse),
+                    '1.1',
+                    'SomeReason'
+                )
             );
 
         /**
          * @var Client $guzzleClientStub
          */
-        return new Playbacks('SomeUser', 'SomePw', [], $guzzleClientStub);
+        return new Playbacks(
+            new AriRestClientSettings('SomeUser', 'SomePw'),
+            $guzzleClientStub
+        );
     }
 }

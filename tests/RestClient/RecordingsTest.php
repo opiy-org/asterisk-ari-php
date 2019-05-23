@@ -1,17 +1,15 @@
 <?php
 
-/**
- * @author Lukas Stermann
- * @copyright ng-voice GmbH (2018)
- */
+/** @copyright 2019 ng-voice GmbH */
 
 namespace NgVoice\AriClient\Tests\RestClient;
 
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Response;
-use NgVoice\AriClient\Model\{LiveRecording, StoredRecording};
+use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
+use NgVoice\AriClient\Models\{LiveRecording, StoredRecording};
+use NgVoice\AriClient\RestClient\AriRestClientSettings;
 use NgVoice\AriClient\RestClient\Recordings;
 use PHPUnit\Framework\TestCase;
 use ReflectionException;
@@ -46,7 +44,7 @@ class RecordingsTest extends TestCase
     /**
      * @dataProvider recordingInstanceProvider
      * @param array $exampleLiveRecording
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testGetLive(array $exampleLiveRecording): void
@@ -59,7 +57,7 @@ class RecordingsTest extends TestCase
 
     /**
      * @throws ReflectionException
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      */
     public function testCopyStored(): void
     {
@@ -74,7 +72,7 @@ class RecordingsTest extends TestCase
     }
 
     /**
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testGetStored(): void
@@ -90,7 +88,7 @@ class RecordingsTest extends TestCase
     }
 
     /**
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testListStored(): void
@@ -111,7 +109,7 @@ class RecordingsTest extends TestCase
     }
 
     /**
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testDeleteStored(): void
@@ -122,7 +120,7 @@ class RecordingsTest extends TestCase
     }
 
     /**
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testCancel(): void
@@ -133,7 +131,7 @@ class RecordingsTest extends TestCase
     }
 
     /**
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testStop(): void
@@ -144,7 +142,7 @@ class RecordingsTest extends TestCase
     }
 
     /**
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testPause(): void
@@ -155,7 +153,7 @@ class RecordingsTest extends TestCase
     }
 
     /**
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testUnpause(): void
@@ -166,7 +164,7 @@ class RecordingsTest extends TestCase
     }
 
     /**
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testMute(): void
@@ -177,7 +175,7 @@ class RecordingsTest extends TestCase
     }
 
     /**
-     * @throws GuzzleException
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testUnmute(): void
@@ -198,13 +196,22 @@ class RecordingsTest extends TestCase
         $guzzleClientStub->method('request')
             // TODO: Test for correct parameter translation via with() method here?
             //  ->with()
-            ->willReturn(new Response(
-                    200, [], json_encode($expectedResponse), '1.1', 'SomeReason')
+                         ->willReturn(
+                new Response(
+                    200,
+                    [],
+                    json_encode($expectedResponse),
+                    '1.1',
+                    'SomeReason'
+                )
             );
 
         /**
          * @var Client $guzzleClientStub
          */
-        return new Recordings('SomeUser', 'SomePw', [], $guzzleClientStub);
+        return new Recordings(
+            new AriRestClientSettings('SomeUser', 'SomePw'),
+            $guzzleClientStub
+        );
     }
 }

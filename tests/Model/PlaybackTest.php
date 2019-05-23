@@ -1,9 +1,6 @@
 <?php
 
-/**
- * @author Lukas Stermann
- * @copyright ng-voice GmbH (2018)
- */
+/** @copyright 2019 ng-voice GmbH */
 
 declare(strict_types=1);
 
@@ -11,14 +8,14 @@ namespace NgVoice\AriClient\Tests\Model;
 
 
 use JsonMapper_Exception;
-use NgVoice\AriClient\Model\Playback;
+use NgVoice\AriClient\Models\Playback;
+use NgVoice\AriClient\Tests\Helper;
 use PHPUnit\Framework\TestCase;
-use function NgVoice\AriClient\Tests\mapAriResponseParametersToAriObject;
 
 /**
  * Class PlaybackTest
  *
- * @package NgVoice\AriClient\Tests\Model
+ * @package NgVoice\AriClient\Tests\Models
  */
 final class PlaybackTest extends TestCase
 {
@@ -30,7 +27,7 @@ final class PlaybackTest extends TestCase
         /**
          * @var Playback $playback
          */
-        $playback = mapAriResponseParametersToAriObject(
+        $playback = Helper::mapAriResponseParametersToAriObject(
             'Playback',
             [
                 'next_media_uri' => 'ExampleUri',

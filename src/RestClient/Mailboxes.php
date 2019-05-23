@@ -1,45 +1,50 @@
 <?php
 
-/**
- * @author Lukas Stermann
- * @copyright ng-voice GmbH (2018)
- */
+/** @copyright 2019 ng-voice GmbH */
+
+declare(strict_types=1);
 
 namespace NgVoice\AriClient\RestClient;
 
-
-use GuzzleHttp\Exception\GuzzleException;
-use NgVoice\AriClient\Model\Mailbox;
-use Psr\Http\Message\ResponseInterface;
+use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
+use NgVoice\AriClient\Models\{Mailbox, Model};
 
 /**
- * Class Mailboxes
+ * An implementation of the Mailboxes REST client for the
+ * Asterisk REST Interface
+ *
+ * @see https://wiki.asterisk.org/wiki/display/AST/Asterisk+16+Mailboxes+REST+API
+ *
  * @package NgVoice\AriClient\RestClient
+ *
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class Mailboxes extends AriRestClient
+final class Mailboxes extends AsteriskRestInterfaceClient
 {
     /**
      * List all mailboxes.
      *
      * @return Mailbox[]
-     * @throws GuzzleException
+     *
+     * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
     public function list(): array
     {
-        return $this->getRequest('/mailboxes', [], parent::ARRAY, Mailbox::class);
+        return $this->getArrayOfModelInstancesRequest(Mailbox::class, '/mailboxes');
     }
 
     /**
      * Retrieve the current state of a mailbox.
      *
      * @param string $mailboxName Name of the mailbox.
-     * @return bool|mixed|ResponseInterface
-     * @throws GuzzleException
+     *
+     * @return Mailbox|Model
+     *
+     * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
     public function get(string $mailboxName): Mailbox
     {
-        return $this->getRequest("/mailboxes/{$mailboxName}", [], parent::MODEL, Mailbox::class);
-
+        return $this->getModelRequest(Mailbox::class, "/mailboxes/{$mailboxName}");
     }
 
     /**
@@ -48,18 +53,23 @@ final class Mailboxes extends AriRestClient
      * @param string $mailboxName Name of the mailbox.
      * @param int $oldMessages Count of old Message in the mailbox.
      * @param int $newMessages Count of new Message in the mailbox.
-     * @throws GuzzleException
+     *
+     * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
     public function update(string $mailboxName, int $oldMessages, int $newMessages): void
     {
-        $this->putRequest("/mailboxes/{$mailboxName}", ['oldMessages' => $oldMessages, 'newMessages' => $newMessages]);
+        $this->putRequest(
+            "/mailboxes/{$mailboxName}",
+            ['oldMessages' => $oldMessages, 'newMessages' => $newMessages]
+        );
     }
 
     /**
      * Destroy a mailbox.
      *
      * @param string $mailboxName Name of the mailbox
-     * @throws GuzzleException
+     *
+     * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
     public function delete(string $mailboxName): void
     {

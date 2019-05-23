@@ -1,9 +1,6 @@
 <?php
 
-/**
- * @author Lukas Stermann
- * @copyright ng-voice GmbH (2018)
- */
+/** @copyright 2019 ng-voice GmbH */
 
 declare(strict_types=1);
 
@@ -11,14 +8,14 @@ namespace NgVoice\AriClient\Tests\Model;
 
 
 use JsonMapper_Exception;
-use NgVoice\AriClient\Model\{Channel, Message\ChannelDtmfReceived};
+use NgVoice\AriClient\Models\{Channel, Message\ChannelDtmfReceived};
+use NgVoice\AriClient\Tests\Helper;
 use PHPUnit\Framework\TestCase;
-use function NgVoice\AriClient\Tests\mapMessageParametersToAriObject;
 
 /**
  * Class ChannelDtmfReceivedTest
  *
- * @package NgVoice\AriClient\Tests\Model\Message
+ * @package NgVoice\AriClient\Tests\Models\Message
  */
 final class ChannelDtmfReceivedTest extends TestCase
 {
@@ -56,7 +53,7 @@ final class ChannelDtmfReceivedTest extends TestCase
         /**
          * @var ChannelDtmfReceived $channelDtmfReceived
          */
-        $channelDtmfReceived = mapMessageParametersToAriObject(
+        $channelDtmfReceived = Helper::mapMessageParametersToAriObject(
             'ChannelDtmfReceived',
             [
                 'digit' => '4',

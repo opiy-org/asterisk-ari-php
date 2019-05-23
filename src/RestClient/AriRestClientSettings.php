@@ -1,18 +1,19 @@
 <?php
 
-/**
- * @author Lukas Stermann
- * @copyright ng-voice GmbH (2019)
- */
+/** @copyright 2019 ng-voice GmbH */
+
+declare(strict_types=1);
 
 namespace NgVoice\AriClient\RestClient;
 
-
 /**
- * Class AriRestClientSettings
+ * Class AriRestClientSettings encapsulates the settings for a AriClient.
+ *
  * @package NgVoice\AriClient
+ *
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
-class AriRestClientSettings
+final class AriRestClientSettings
 {
     /**
      * @var string
@@ -46,6 +47,7 @@ class AriRestClientSettings
 
     /**
      * AriRestClientSettings constructor.
+     *
      * @param string $ariUser
      * @param string $ariPassword
      * @param bool $httpsEnabled

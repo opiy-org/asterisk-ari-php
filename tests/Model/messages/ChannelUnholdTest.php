@@ -1,28 +1,25 @@
 <?php
 
-/**
- * @author Lukas Stermann
- * @copyright ng-voice GmbH (2018)
- */
+/** @copyright 2019 ng-voice GmbH */
 
 declare(strict_types=1);
 
 namespace NgVoice\AriClient\Tests\Model;
 
-
-use NgVoice\AriClient\Model\{Channel, Message\ChannelUnhold};
+use JsonMapper_Exception;
+use NgVoice\AriClient\Models\{Channel, Message\ChannelUnhold};
+use NgVoice\AriClient\Tests\Helper;
 use PHPUnit\Framework\TestCase;
-use function NgVoice\AriClient\Tests\mapMessageParametersToAriObject;
 
 /**
  * Class ChannelUnholdTest
  *
- * @package NgVoice\AriClient\Tests\Model\Message
+ * @package NgVoice\AriClient\Tests\Models\Message
  */
 final class ChannelUnholdTest extends TestCase
 {
     /**
-     * @throws \JsonMapper_Exception
+     * @throws JsonMapper_Exception
      */
     public function testParametersMappedCorrectly(): void
     {
@@ -55,7 +52,7 @@ final class ChannelUnholdTest extends TestCase
         /**
          * @var ChannelUnhold $channelUnhold
          */
-        $channelUnhold = mapMessageParametersToAriObject(
+        $channelUnhold = Helper::mapMessageParametersToAriObject(
             'ChannelUnhold',
             [
                 'channel' => $exampleChannel

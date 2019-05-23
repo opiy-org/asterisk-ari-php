@@ -1,9 +1,6 @@
 <?php
 
-/**
- * @author Lukas Stermann
- * @copyright ng-voice GmbH (2018)
- */
+/** @copyright 2019 ng-voice GmbH */
 
 declare(strict_types=1);
 
@@ -11,14 +8,14 @@ namespace NgVoice\AriClient\Tests\Model;
 
 
 use JsonMapper_Exception;
-use NgVoice\AriClient\Model\FormatLangPair;
+use NgVoice\AriClient\Models\FormatLangPair;
+use NgVoice\AriClient\Tests\Helper;
 use PHPUnit\Framework\TestCase;
-use function NgVoice\AriClient\Tests\mapAriResponseParametersToAriObject;
 
 /**
  * Class FormatLangPairTest
  *
- * @package NgVoice\AriClient\Tests\Model
+ * @package NgVoice\AriClient\Tests\Models
  */
 final class FormatLangPairTest extends TestCase
 {
@@ -30,7 +27,7 @@ final class FormatLangPairTest extends TestCase
         /**
          * @var FormatLangPair $formatLangPair
          */
-        $formatLangPair = mapAriResponseParametersToAriObject(
+        $formatLangPair = Helper::mapAriResponseParametersToAriObject(
             'FormatLangPair',
             [
                 'language' => 'en',

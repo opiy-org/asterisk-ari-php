@@ -1,28 +1,25 @@
 <?php
 
-/**
- * @author Lukas Stermann
- * @copyright ng-voice GmbH (2018)
- */
+/** @copyright 2019 ng-voice GmbH */
 
 declare(strict_types=1);
 
-namespace AriStasisApp\Tests\Model;
+namespace AriClient\Tests\Model;
 
-
-use NgVoice\AriClient\Model\{Channel, Message\ChannelDestroyed};
+use JsonMapper_Exception;
+use NgVoice\AriClient\Models\{Channel, Message\ChannelDestroyed};
+use NgVoice\AriClient\Tests\Helper;
 use PHPUnit\Framework\TestCase;
-use function NgVoice\AriClient\Tests\mapMessageParametersToAriObject;
 
 /**
  * Class ChannelDestroyedTest
  *
- * @package NgVoice\AriClient\Tests\Model\Message
+ * @package NgVoice\AriClient\Tests\Models\Message
  */
 final class ChannelDestroyedTest extends TestCase
 {
     /**
-     * @throws \JsonMapper_Exception
+     * @throws JsonMapper_Exception
      */
     public function testParametersMappedCorrectly(): void
     {
@@ -55,7 +52,7 @@ final class ChannelDestroyedTest extends TestCase
         /**
          * @var ChannelDestroyed $channelDestroyed
          */
-        $channelDestroyed = mapMessageParametersToAriObject(
+        $channelDestroyed = Helper::mapMessageParametersToAriObject(
             'ChannelDestroyed',
             [
                 'cause' => '23',
