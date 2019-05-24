@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * The JSONMapper library needs the full name path of
+ * a class, so there are no imports used instead.
+ *
+ * @noinspection PhpFullyQualifiedNameUsageInspection
+ */
+
 /** @copyright 2019 ng-voice GmbH */
 
 namespace NgVoice\AriClient\Models;
@@ -9,6 +16,8 @@ namespace NgVoice\AriClient\Models;
  * Asterisk system information
  *
  * @package NgVoice\AriClient\Models
+ *
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
 final class AsteriskInfo implements Model
 {

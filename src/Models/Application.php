@@ -1,17 +1,24 @@
 <?php
 
+/**
+ * The JSONMapper library needs the full name path of
+ * a class, so there are no imports used instead.
+ *
+ * @noinspection PhpFullyQualifiedNameUsageInspection
+ */
+
 /** @copyright 2019 ng-voice GmbH */
 
 declare(strict_types=1);
 
 namespace NgVoice\AriClient\Models;
 
-use NgVoice\AriClient\Models\Message\Message;
 
 /**
  * Details of a Stasis application.
  *
  * @package NgVoice\AriClient\Models
+ *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
 final class Application implements Model
@@ -47,7 +54,7 @@ final class Application implements Model
     /**
      * Event types not sent to the application.
      *
-     * @var Message[]
+     * @var \NgVoice\AriClient\Models\Message\Message[]
      */
     private $events_disallowed;
 
@@ -61,7 +68,7 @@ final class Application implements Model
     /**
      * Event types sent to the application.
      *
-     * @var Message[]
+     * @var \NgVoice\AriClient\Models\Message\Message[]
      */
     private $events_allowed;
 
@@ -130,7 +137,7 @@ final class Application implements Model
     }
 
     /**
-     * @return Message[]
+     * @return \NgVoice\AriClient\Models\Message\Message[]
      */
     public function getEventsDisallowed(): array
     {
@@ -138,7 +145,7 @@ final class Application implements Model
     }
 
     /**
-     * @param Message[] $events_disallowed
+     * @param \NgVoice\AriClient\Models\Message\Message[] $events_disallowed
      */
     public function setEventsDisallowed(array $events_disallowed): void
     {
@@ -162,7 +169,7 @@ final class Application implements Model
     }
 
     /**
-     * @return Message[]
+     * @return \NgVoice\AriClient\Models\Message\Message[]
      */
     public function getEventsAllowed(): array
     {
@@ -170,7 +177,7 @@ final class Application implements Model
     }
 
     /**
-     * @param Message[] $events_allowed
+     * @param \NgVoice\AriClient\Models\Message\Message[] $events_allowed
      */
     public function setEventsAllowed(array $events_allowed): void
     {

@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * The JSONMapper library needs the full name path of
+ * a class, so there are no imports used instead.
+ *
+ * @noinspection PhpFullyQualifiedNameUsageInspection
+ */
+
 /** @copyright 2019 ng-voice GmbH */
 
 namespace NgVoice\AriClient\Models;
@@ -9,6 +16,8 @@ namespace NgVoice\AriClient\Models;
  * The merging of media from one or more channels. Everyone on the bridge receives the same audio.
  *
  * @package NgVoice\AriClient\Models
+ *
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
 final class Bridge implements Model
 {
@@ -41,7 +50,6 @@ final class Bridge implements Model
 
     /**
      * @var string[] Ids of channels participating in this bridge
-     * @required
      */
     private $channels;
 
@@ -52,19 +60,16 @@ final class Bridge implements Model
 
     /**
      * @var string Bridging class.
-     * @required
      */
     private $bridge_class;
 
     /**
      * @var string Name of the current bridging technology.
-     * @required
      */
     private $technology;
 
     /**
      * @var string Unique identifier for this bridge.
-     * @required
      */
     private $id;
 

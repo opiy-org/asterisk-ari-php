@@ -1,9 +1,6 @@
 <?php
 
-/**
- * @copyright 2019 ng-voice GmbH
- * @author Lukas Stermann <lukas@ng-voice.com>
- */
+/** @copyright 2019 ng-voice GmbH */
 
 namespace NgVoice\AriClient\Models\Message;
 
