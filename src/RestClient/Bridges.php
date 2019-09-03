@@ -7,7 +7,6 @@ declare(strict_types=1);
 namespace NgVoice\AriClient\RestClient;
 
 use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
-use NgVoice\AriClient\Helper;
 use NgVoice\AriClient\Models\{Bridge, LiveRecording, Model, Playback};
 
 /**
@@ -27,7 +26,7 @@ final class Bridges extends AsteriskRestInterfaceClient
      *
      * @return Bridge[]
      *
-     * @throws AsteriskRestInterfaceException
+     * @throws AsteriskRestInterfaceException When the REST request fails.
      */
     public function list(): array
     {
@@ -38,15 +37,15 @@ final class Bridges extends AsteriskRestInterfaceClient
      * Create a new bridge.
      * This bridge persists until it has been shut down, or Asterisk has been shut down.
      *
-     * @param string[] $options
+     * @param string[] $options The options for the request
      * type: string - Comma separated list of bridge type attributes
      *      (mixing, holding, dtmf_events, proxy_media, video_sfu).
      * bridgeId: string - Unique ID to give to the bridge being created.
      * name: string - Name to give to the bridge being created.
      *
-     * @return Bridge|object
+     * @return Bridge|Model
      *
-     * @throws AsteriskRestInterfaceException
+     * @throws AsteriskRestInterfaceException When the REST request fails.
      */
     public function create(array $options = []): Bridge
     {
@@ -58,13 +57,14 @@ final class Bridges extends AsteriskRestInterfaceClient
      * This bridge persists until it has been shut down, or Asterisk has been shut down.
      *
      * @param string $bridgeId Unique ID to give to the bridge being created.
-     * @param string[] $options
+     * @param string[] $options The options for the request
      * type: string - Comma separated list of bridge type attributes
      *      (mixing, holding, dtmf_events, proxy_media, video_sfu) to set.
      * name: string - Set the name of the bridge.
-     * @return Bridge|object
      *
-     * @throws AsteriskRestInterfaceException
+     * @return Bridge|Model
+     *
+     * @throws AsteriskRestInterfaceException When the REST request fails.
      */
     public function createWithId(string $bridgeId, array $options = []): Bridge
     {
@@ -79,8 +79,10 @@ final class Bridges extends AsteriskRestInterfaceClient
      * Get bridge details.
      *
      * @param string $bridgeId Bridge's id
-     * @return Bridge|object
-     * @throws AsteriskRestInterfaceException
+     *
+     * @return Bridge|Model
+     *
+     * @throws AsteriskRestInterfaceException When the REST request fails.
      */
     public function get(string $bridgeId): Bridge
     {
@@ -94,7 +96,7 @@ final class Bridges extends AsteriskRestInterfaceClient
      *
      * @param string $bridgeId Bridge's id
      *
-     * @throws AsteriskRestInterfaceException
+     * @throws AsteriskRestInterfaceException When the REST request fails.
      */
     public function destroy(string $bridgeId): void
     {
@@ -106,13 +108,13 @@ final class Bridges extends AsteriskRestInterfaceClient
      *
      * @param string $bridgeId Bridge's id
      * @param array $channel Ids of channels to add to bridge.
-     * @param array $options
+     * @param array $options The options for the request
      * role: string - Channel's role in the bridge
      * absorbDTMF: boolean - Absorb DTMF coming from this channel, preventing it to pass
      *     through to the bridge mute: boolean - Mute audio from this channel, preventing
      *     it to pass through to the bridge
      *
-     * @throws AsteriskRestInterfaceException
+     * @throws AsteriskRestInterfaceException When the REST request fails.
      */
     public function addChannel(
         string $bridgeId,
@@ -121,7 +123,7 @@ final class Bridges extends AsteriskRestInterfaceClient
     ): void {
         $this->postRequest(
             "/bridges/{$bridgeId}/addChannel",
-            ['channel' => Helper::glueArrayOfStrings($channel)] + $options
+            ['channel' => implode(',', $channel)] + $options
         );
     }
 
@@ -131,13 +133,13 @@ final class Bridges extends AsteriskRestInterfaceClient
      * @param string $bridgeId Bridge's id
      * @param string[] $channel Ids of channels to remove from bridge
      *
-     * @throws AsteriskRestInterfaceException
+     * @throws AsteriskRestInterfaceException When the REST request fails.
      */
     public function removeChannel(string $bridgeId, array $channel): void
     {
         $this->postRequest(
             "/bridges/{$bridgeId}/removeChannel",
-            ['channel' => Helper::glueArrayOfStrings($channel)]
+            ['channel' => implode(',', $channel)]
         );
     }
 
@@ -148,7 +150,7 @@ final class Bridges extends AsteriskRestInterfaceClient
      * @param string $bridgeId Bridge's id
      * @param string $channelId Channels's id
      *
-     * @throws AsteriskRestInterfaceException
+     * @throws AsteriskRestInterfaceException When the REST request fails.
      */
     public function setVideoSource(string $bridgeId, string $channelId): void
     {
@@ -163,7 +165,7 @@ final class Bridges extends AsteriskRestInterfaceClient
      *
      * @param string $bridgeId Bridge's id
      *
-     * @throws AsteriskRestInterfaceException
+     * @throws AsteriskRestInterfaceException When the REST request fails.
      */
     public function clearVideoSource(string $bridgeId): void
     {
@@ -176,7 +178,7 @@ final class Bridges extends AsteriskRestInterfaceClient
      * @param string $bridgeId Bridge's id
      * @param string $mohClass Music on hold class
      *
-     * @throws AsteriskRestInterfaceException
+     * @throws AsteriskRestInterfaceException When the REST request fails.
      */
     public function startMoh(string $bridgeId, string $mohClass = ''): void
     {
@@ -193,7 +195,7 @@ final class Bridges extends AsteriskRestInterfaceClient
      *
      * @param string $bridgeId Bridge's id
      *
-     * @throws AsteriskRestInterfaceException
+     * @throws AsteriskRestInterfaceException When the REST request fails.
      */
     public function stopMoh(string $bridgeId): void
     {
@@ -210,7 +212,7 @@ final class Bridges extends AsteriskRestInterfaceClient
      *
      * @param string $bridgeId Bridge's id
      * @param array $media List of media URIs to play.
-     * @param array $options
+     * @param array $options The options for the request
      * lang: string - For sounds, selects language for sound.
      * offsetms: int - Number of milliseconds to skip before playing.
      *      Only applies to the first URI if multiple media URIs are specified. Allowed
@@ -220,14 +222,14 @@ final class Bridges extends AsteriskRestInterfaceClient
      *
      * @return Playback|Model
      *
-     * @throws AsteriskRestInterfaceException
+     * @throws AsteriskRestInterfaceException When the REST request fails.
      */
     public function play(string $bridgeId, array $media, array $options = []): Playback
     {
         return $this->postRequestReturningModel(
             Playback::class,
             "/bridges/{$bridgeId}/play",
-            ['media' => Helper::glueArrayOfStrings($media)] + $options,
+            ['media' => implode(',', $media)] + $options,
         );
     }
 
@@ -241,7 +243,7 @@ final class Bridges extends AsteriskRestInterfaceClient
      * @param string $bridgeId Bridge's id
      * @param string $playbackId Playback id
      * @param array $media List of media URI's to play
-     * @param array $options
+     * @param array $options The options for the request
      * lang: string - For sounds, selects language for sound.
      * offsetms: int - Number of milliseconds to skip before playing.
      *      Only applies to the first URI if multiple media URIs are specified. Allowed
@@ -250,7 +252,7 @@ final class Bridges extends AsteriskRestInterfaceClient
      *
      * @return Playback|Model
      *
-     * @throws AsteriskRestInterfaceException
+     * @throws AsteriskRestInterfaceException When the REST request fails.
      */
     public function playWithId(
         string $bridgeId,
@@ -261,7 +263,7 @@ final class Bridges extends AsteriskRestInterfaceClient
         return $this->postRequestReturningModel(
             Playback::class,
             "/bridges/{$bridgeId}/play/{$playbackId}",
-            ['media' => Helper::glueArrayOfStrings($media)] + $options,
+            ['media' => implode(',', $media)] + $options,
         );
     }
 
@@ -272,7 +274,7 @@ final class Bridges extends AsteriskRestInterfaceClient
      * @param string $bridgeId Bridge's id.
      * @param string $name Recording's filename.
      * @param string $format Format to encode audio in.
-     * @param array $options
+     * @param array $options The options for the request
      * maxDurationSeconds: int - Maximum duration of the recording, in seconds. 0 for no
      *     limit. Allowed range: Min: 0; Max: None maxSilenceSeconds: int - Maximum
      *     duration of silence, in seconds. 0 for no limit. Allowed range: Min: 0; Max:
@@ -283,7 +285,7 @@ final class Bridges extends AsteriskRestInterfaceClient
      *
      * @return LiveRecording|Model
      *
-     * @throws AsteriskRestInterfaceException
+     * @throws AsteriskRestInterfaceException When the REST request fails.
      */
     public function record(
         string $bridgeId,

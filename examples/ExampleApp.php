@@ -38,7 +38,7 @@ final class ExampleApp extends BasicExampleStasisApp
      * 'StasisStart' is the first event that is triggered by Asterisk
      * when a channel enters your Stasis application.
      *
-     * @param StasisStart $stasisStart
+     * @param StasisStart $stasisStart The Asterisk StasisStart event
      */
     public function stasisStart(StasisStart $stasisStart): void
     {
@@ -53,7 +53,9 @@ final class ExampleApp extends BasicExampleStasisApp
 
         try {
             $this->ariEventsClient->userEvent(
-                $userEventName, 'ExampleApp', ['channel' => $channelId]
+                $userEventName,
+                'ExampleApp',
+                ['channel' => $channelId]
             );
         } catch (AsteriskRestInterfaceException $asteriskRestInterfaceException) {
             // Handle 4XX/5XX HTTP status codes. They will throw exceptions!
@@ -67,7 +69,7 @@ final class ExampleApp extends BasicExampleStasisApp
      * User-generated event with additional user-defined fields in the object.
      * We will handle our user event we triggered after we received the StasisStart event.
      *
-     * @param ChannelUserevent $channelUserevent
+     * @param ChannelUserevent $channelUserevent The Asterisk ChannelUserevent event
      */
     public function channelUserevent(ChannelUserevent $channelUserevent): void
     {
@@ -95,7 +97,7 @@ final class ExampleApp extends BasicExampleStasisApp
      * Notification that a channel has left your Stasis application.
      * Do some clean ups in your database here for example.
      *
-     * @param StasisEnd $stasisEnd
+     * @param StasisEnd $stasisEnd The Asterisk StasisEnd event
      */
     public function stasisEnd(StasisEnd $stasisEnd): void
     {

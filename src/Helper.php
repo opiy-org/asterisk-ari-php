@@ -36,25 +36,6 @@ final class Helper
     }
 
     /**
-     * Take an array of strings and convert it into
-     * a single string with comma separated values.
-     *
-     * @param string[] $array An array with string values.
-     *
-     * @return string
-     */
-    public static function glueArrayOfStrings(array $array): string
-    {
-        $result = '';
-
-        foreach ($array as $option) {
-            $result = "{$result},{$option}";
-        }
-
-        return ltrim($result, ',');
-    }
-
-    /**
      * Get the short name of an objects class without the full namespace.
      *
      * @param object $object The object to get the class name from.
@@ -65,11 +46,10 @@ final class Helper
     {
         try {
             $reflect = new ReflectionClass($object);
-
             return $reflect->getShortName();
         } catch (ReflectionException $e) {
-            print_r("Reflection of class {$object} failed. Terminating...", true);
-            print_r($e->getMessage(), true);
+            echo 'Reflection of class' . get_class($object) . " failed.\n";
+            echo $e->getMessage();
             exit(1);
         }
     }
@@ -88,25 +68,22 @@ final class Helper
         $settings = Yaml::parseFile(__DIR__ . '/../debug_mode.yaml');
 
         try {
-            $stdOutPath = 'php://stdout';
-
             $settings['debug_mode'] ?
-                $logger->pushHandler(new StreamHandler($stdOutPath, Logger::DEBUG))
+                $logger->pushHandler(new StreamHandler(STDOUT, Logger::DEBUG))
                 : $logger->pushHandler(new NullHandler(Logger::DEBUG));
             $logger->pushHandler(
-                new StreamHandler($stdOutPath, Logger::INFO)
+                new StreamHandler(STDOUT, Logger::INFO)
             );
             $logger->pushHandler(
-                new StreamHandler($stdOutPath, Logger::WARNING)
+                new StreamHandler(STDOUT, Logger::WARNING)
             );
             $logger->pushHandler(
-                new StreamHandler('php://stderr', Logger::ERROR)
+                new StreamHandler(STDERR, Logger::ERROR)
             );
 
             $logger->debug('Loggers have successfully been set');
         } catch (Exception $e) {
-            print_r("Error while setting up loggers:\n", true);
-            print_r($e->getMessage(), true);
+            fwrite(STDERR, "Error while setting up loggers: '{$e->getMessage()}'\n");
             exit(1);
         }
 

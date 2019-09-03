@@ -20,14 +20,6 @@ use PHPUnit\Framework\TestCase;
  */
 final class HelperTest extends TestCase
 {
-    public function testGlueArrayOfStrings(): void
-    {
-        $this->assertEquals(
-            'test,123,peter',
-            Helper::glueArrayOfStrings(['test', '123', 'peter'])
-        );
-    }
-
     public function testGetShortClassName(): void
     {
         $this->assertEquals('Application', Helper::getShortClassName(new Application()));

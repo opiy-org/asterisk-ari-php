@@ -65,7 +65,7 @@ final class WebSocketClient
         $subscribeAll = false,
         WoketoWebSocketClient $woketoWebSocketClient = null
     ) {
-        $this->logger = Helper::initLogger(Helper::getShortClassName($this));
+        $this->logger = Helper::initLogger(self::class);
         $this->messageHandler = $messageHandler;
         $appName = Helper::getShortClassName($stasisApplication);
 

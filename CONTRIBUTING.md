@@ -11,10 +11,8 @@ Possible TODO's:
 [Models]
 
 - Also handle 'null' return values in code, not covered yet! (e.g. $channel->getChannelvars()).
-    They throw exceptions right now.
+    They throw exceptions right now. Use bla(): ?ReturnType to allow null as return value.
 
-- declare(strict_types = 1) in every class.
-        
 [Testing]
 
 - Edit mocked objects and expect them to receive given parameters ($mock->with(...))
@@ -27,5 +25,5 @@ Possible TODO's:
  
 [README]
  - Recommend to users that they should chunk their bigger application
- contexts into small Application chunks and move them from one app into another.
+ contexts into small Applications and move from one app into another during the call flow.
  Remember this is an asynchronous programming principle. Hard to keep everything in mind!

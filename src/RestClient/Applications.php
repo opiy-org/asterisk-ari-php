@@ -7,7 +7,6 @@ declare(strict_types=1);
 namespace NgVoice\AriClient\RestClient;
 
 use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
-use NgVoice\AriClient\Helper;
 use NgVoice\AriClient\Models\{Application, Model};
 
 /**
@@ -72,7 +71,7 @@ final class Applications extends AsteriskRestInterfaceClient
         return $this->postRequestReturningModel(
             Application::class,
             "/applications/{$applicationName}/subscription",
-            ['eventSource' => Helper::glueArrayOfStrings($eventSource)]
+            ['eventSource' => implode(',', $eventSource)]
         );
     }
 
@@ -80,7 +79,7 @@ final class Applications extends AsteriskRestInterfaceClient
      * Unsubscribe an application from an events source.
      * Returns the state of the application after the subscriptions have changed.
      *
-     * @param string $applicationName
+     * @param string $applicationName Name of the target Stasis application
      * @param array $eventSource URI for events source
      * (channel:{channelId}, bridge:{bridgeId}, endpoint:{tech}[/{resource}],
      *     deviceState:{deviceName}
@@ -94,7 +93,7 @@ final class Applications extends AsteriskRestInterfaceClient
         return $this->deleteRequestReturningModel(
             Application::class,
             "/applications/{$applicationName}/subscription",
-            ['eventSource' => Helper::glueArrayOfStrings($eventSource)]
+            ['eventSource' => implode(',', $eventSource)]
         );
     }
 
@@ -131,8 +130,8 @@ final class Applications extends AsteriskRestInterfaceClient
      * specified in both lists.
      *
      * @param string $applicationName Application's name
-     * @param array $allowed Specifies an allowed list of event types
-     * @param array $disallowed Specifies a disallowed list of event types
+     * @param string[]|null $allowed Specifies an allowed list of event types
+     * @param string[]|null $disallowed Specifies a disallowed list of event types
      *
      * @return Application|Model
      *
@@ -161,7 +160,7 @@ final class Applications extends AsteriskRestInterfaceClient
     }
 
     /**
-     * @param array $messageTypes
+     * @param string[] $messageTypes The types of messages that shall be formatted.
      *
      * @return string[]
      */

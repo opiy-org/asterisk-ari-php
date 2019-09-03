@@ -2,6 +2,8 @@
 
 /** @copyright 2019 ng-voice GmbH */
 
+declare(strict_types=1);
+
 namespace NgVoice\AriClient\Models\Message;
 
 use NgVoice\AriClient\Models\{ContactInfo, Endpoint};
@@ -10,6 +12,8 @@ use NgVoice\AriClient\Models\{ContactInfo, Endpoint};
  * The state of a contact on an endpoint has changed.
  *
  * @package NgVoice\AriClient\Models\Message
+ *
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
 final class ContactStatusChange extends Event
 {

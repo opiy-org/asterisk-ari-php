@@ -55,7 +55,7 @@ final class AriFilteredMessageHandler extends TextMessageHandler
      *
      * @param AsteriskStasisApplication $myApp
      * @param AsteriskApplicationsClient $asteriskApplicationsClient
-     * @param JsonMapper $jsonMapper
+     * @param JsonMapper|null $jsonMapper
      */
     public function __construct(
         AsteriskStasisApplication $myApp,
@@ -71,7 +71,7 @@ final class AriFilteredMessageHandler extends TextMessageHandler
             $this->jsonMapper = $jsonMapper;
         }
 
-        $this->logger = Helper::initLogger(Helper::getShortClassName($this));
+        $this->logger = Helper::initLogger(self::class);
     }
 
     /**

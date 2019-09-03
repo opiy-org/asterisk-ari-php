@@ -8,11 +8,11 @@ namespace NgVoice\AriClient\RestClient;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Psr7\Response;
 use JsonMapper;
 use JsonMapper_Exception;
 use Monolog\Logger;
 use NgVoice\AriClient\{Exception\AsteriskRestInterfaceException, Helper, Models\Model};
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class AriClient is a basic client for the Asterisk REST Interface.
@@ -57,15 +57,15 @@ abstract class AsteriskRestInterfaceClient
      * AriClient constructor.
      *
      * @param AriRestClientSettings $ariRestClientSettings
-     * @param Client $guzzleClient
-     * @param JsonMapper $jsonMapper
+     * @param Client|null $guzzleClient
+     * @param JsonMapper|null $jsonMapper
      */
     public function __construct(
         AriRestClientSettings $ariRestClientSettings,
         Client $guzzleClient = null,
         JsonMapper $jsonMapper = null
     ) {
-        $this->logger = Helper::initLogger(Helper::getShortClassName($this));
+        $this->logger = Helper::initLogger(static::class);
 
         $httpType = $ariRestClientSettings->isHttpsEnabled() ? 'https' : 'http';
         $baseUri = "{$httpType}://"
@@ -135,7 +135,7 @@ abstract class AsteriskRestInterfaceClient
     /**
      * Send a GET Request to Asterisk, expecting an array of model instance.
      *
-     * @param string $modelClassPath
+     * @param string $returnModelClassPath
      * @param string $uri
      * @param array $queryParameters
      *
@@ -144,7 +144,7 @@ abstract class AsteriskRestInterfaceClient
      * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
     protected function getArrayOfModelInstancesRequest(
-        string $modelClassPath,
+        string $returnModelClassPath,
         string $uri,
         array $queryParameters = []
     ): array {
@@ -163,7 +163,7 @@ abstract class AsteriskRestInterfaceClient
 
         $this->debugResponse($response, self::GET, $uri, $queryParameters);
 
-        return $this->mapJsonToArrayOfAriModelInstances($response, $modelClassPath);
+        return $this->mapJsonToArrayOfAriModelInstances($response, $returnModelClassPath);
     }
 
     /**
@@ -191,14 +191,14 @@ abstract class AsteriskRestInterfaceClient
     /**
      * Log responses for debugging purposes.
      *
-     * @param Response $response
+     * @param ResponseInterface $response
      * @param string $method
      * @param string $uri
      * @param array $queryParameters
      * @param array $body
      */
     private function debugResponse(
-        Response $response,
+        ResponseInterface $response,
         string $method,
         string $uri,
         array $queryParameters = [],
@@ -216,13 +216,13 @@ abstract class AsteriskRestInterfaceClient
     }
 
     /**
-     * @param Response $response
+     * @param ResponseInterface $response
      * @param string $targetObjectType
      *
      * @return Model[]
      */
     private function mapJsonToArrayOfAriModelInstances(
-        Response $response,
+        ResponseInterface $response,
         string $targetObjectType
     ): array {
         $decodedResponseBody = json_decode((string) $response->getBody(), false);
@@ -241,13 +241,15 @@ abstract class AsteriskRestInterfaceClient
     }
 
     /**
-     * @param Response $response
+     * @param ResponseInterface $response
      * @param string $modelClassPath
      *
      * @return Model|object
      */
-    private function mapJsonToAriModel(Response $response, string $modelClassPath): Model
-    {
+    private function mapJsonToAriModel(
+        ResponseInterface $response,
+        string $modelClassPath
+    ): Model {
         try {
             return $this->jsonMapper->map(
                 json_decode((string) $response->getBody(), false),

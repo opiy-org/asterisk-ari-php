@@ -7,7 +7,6 @@ declare(strict_types=1);
 namespace NgVoice\AriClient\RestClient;
 
 use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
-use NgVoice\AriClient\Helper;
 use NgVoice\AriClient\Models\{Channel, LiveRecording, Model, Playback, RTPstat, Variable};
 
 /**
@@ -27,7 +26,7 @@ final class Channels extends AsteriskRestInterfaceClient
     /**
      * List all active channels in Asterisk.
      *
-     * @return Channel[]|object
+     * @return Channel[]
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
@@ -242,7 +241,7 @@ final class Channels extends AsteriskRestInterfaceClient
         $queryParameters = ['app' => $app];
 
         if ($appArgs !== []) {
-            $queryParameters['appArgs'] = Helper::glueArrayOfStrings($appArgs);
+            $queryParameters['appArgs'] = implode(',', $appArgs);
         }
 
         $this->postRequest("/channels/{$channelId}/move", $queryParameters);
@@ -457,7 +456,7 @@ final class Channels extends AsteriskRestInterfaceClient
         return $this->postRequestReturningModel(
             Playback::class,
             "/channels/{$channelId}/play",
-            ['media' => Helper::glueArrayOfStrings($media)] + $options
+            ['media' => implode(',', $media)] + $options
         );
     }
 
@@ -492,7 +491,7 @@ final class Channels extends AsteriskRestInterfaceClient
         return $this->postRequestReturningModel(
             Playback::class,
             "/channels/{$channelId}/play/{$playbackId}",
-            ['media' => Helper::glueArrayOfStrings($media)] + $options
+            ['media' => implode(',', $media)] + $options
         );
     }
 

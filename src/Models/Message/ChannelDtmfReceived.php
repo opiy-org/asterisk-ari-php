@@ -2,6 +2,8 @@
 
 /** @copyright 2019 ng-voice GmbH */
 
+declare(strict_types=1);
+
 namespace NgVoice\AriClient\Models\Message;
 
 use NgVoice\AriClient\Models\Channel;
@@ -11,6 +13,8 @@ use NgVoice\AriClient\Models\Channel;
  * This event is sent when the DTMF ends. There is no notification about the start of DTMF.
  *
  * @package NgVoice\AriClient\Models\Message
+ *
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
 final class ChannelDtmfReceived extends Event
 {

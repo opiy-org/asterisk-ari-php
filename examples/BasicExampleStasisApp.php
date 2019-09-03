@@ -1,8 +1,6 @@
 <?php
 
-/**
- * @copyright 2019 ng-voice GmbH
- */
+/**  @copyright 2019 ng-voice GmbH */
 
 declare(strict_types=1);
 
@@ -43,9 +41,12 @@ abstract class BasicExampleStasisApp implements AsteriskStasisApplication
     /**
      * BasicExampleStasisApp constructor.
      *
-     * @param AriEventsClient $ariEventsClient
-     * @param AriAsteriskClient $ariAsteriskClient
-     * @param Logger $logger
+     * @param AriEventsClient $ariEventsClient REST client for
+     * the 'Event' resource of the Asterisk REST Interface
+     * @param AriAsteriskClient $ariAsteriskClient REST client
+     * for the 'Asterisk' resource of the Asterisk REST Interface
+     * @param Logger $logger Logger for debugging and information
+     * about the states of the example app
      */
     public function __construct(
         AriEventsClient $ariEventsClient,
@@ -62,7 +63,8 @@ abstract class BasicExampleStasisApp implements AsteriskStasisApplication
      * Very helpful to avoid messy and/or duplicated code in your stasis application
      * classes!
      *
-     * @param ChannelHangupRequest $channelHangupRequest
+     * @param ChannelHangupRequest $channelHangupRequest The Asterisk
+     * ChannelUserevent event
      */
     public function channelHangupRequest(ChannelHangupRequest $channelHangupRequest): void
     {

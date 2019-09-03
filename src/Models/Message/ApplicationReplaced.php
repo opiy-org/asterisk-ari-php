@@ -2,6 +2,8 @@
 
 /** @copyright 2019 ng-voice GmbH */
 
+declare(strict_types=1);
+
 namespace NgVoice\AriClient\Models\Message;
 
 
@@ -12,6 +14,8 @@ namespace NgVoice\AriClient\Models\Message;
  * the newer WebSocket wins, and the older one receives this event.
  *
  * @package NgVoice\AriClient\Models\Message
+ *
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
 final class ApplicationReplaced extends Event
 {

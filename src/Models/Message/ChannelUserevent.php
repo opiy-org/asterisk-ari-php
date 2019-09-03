@@ -2,6 +2,8 @@
 
 /** @copyright 2019 ng-voice GmbH */
 
+declare(strict_types=1);
+
 namespace NgVoice\AriClient\Models\Message;
 
 use NgVoice\AriClient\Models\{Bridge, Channel, Endpoint};
@@ -10,6 +12,8 @@ use NgVoice\AriClient\Models\{Bridge, Channel, Endpoint};
  * User-generated event with additional user-defined fields in the object.
  *
  * @package NgVoice\AriClient\Models\Message
+ *
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
 final class ChannelUserevent extends Event
 {

@@ -46,9 +46,11 @@ final class AriMessageHandler extends TextMessageHandler
      * @param AsteriskStasisApplication $myApp
      * @param JsonMapper|null $jsonMapper
      */
-    public function __construct(AsteriskStasisApplication $myApp, JsonMapper $jsonMapper = null)
-    {
-        $this->logger = Helper::initLogger(Helper::getShortClassName($this));
+    public function __construct(
+        AsteriskStasisApplication $myApp,
+        JsonMapper $jsonMapper = null
+    ) {
+        $this->logger = Helper::initLogger(self::class);
         $this->myApp = $myApp;
 
         if ($jsonMapper === null) {
@@ -69,8 +71,8 @@ final class AriMessageHandler extends TextMessageHandler
     /**
      * @inheritdoc
      *
-     * Every incoming message from Asterisk will be checked on weather it is handled within
-     * the provided BasicStasisApp class or not.
+     * Every incoming message from Asterisk will be checked on weather
+     * it is handled within the provided BasicStasisApp class or not.
      */
     public function onMessage(string $data, AbstractConnection $connection): void
     {
@@ -111,8 +113,10 @@ final class AriMessageHandler extends TextMessageHandler
      * @inheritdoc
      * @throws WebsocketException
      */
-    public function onError(WebsocketException $websocketException, AbstractConnection $connection): void
-    {
+    public function onError(
+        WebsocketException $websocketException,
+        AbstractConnection $connection
+    ): void {
         $this->logger->error($websocketException->getMessage(), [__FUNCTION__]);
         throw $websocketException;
     }

@@ -41,6 +41,7 @@ final class ApplicationTest extends TestCase
                 'events_disallowed' => []
             ]
         );
+
         $this->assertSame('TestApplication', $application->getName());
         $this->assertSame([], $application->getChannelIds());
         $this->assertSame([], $application->getEndpointIds());

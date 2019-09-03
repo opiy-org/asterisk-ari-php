@@ -25,20 +25,21 @@
   ],
   "require": {
     "php": ">=7.3",
-    "monolog/monolog": "1.24.0",
+    "monolog/monolog": "2.0.0",
     "guzzlehttp/guzzle": "6.3.3",
-    "symfony/yaml": "v4.2.8",
+    "symfony/yaml": "v4.3.4",
     "nekland/woketo": "2.2.1",
-    "netresearch/jsonmapper": "v1.4.0",
-    "ext-http": "*",
-    "ext-json": "*"
+    "netresearch/jsonmapper": "v1.6.0",
+    "ext-json": "*",
+    "ext-http": "*"
   },
   "require-dev": {
     "roave/security-advisories": "dev-master",
     "squizlabs/php_codesniffer": "3.4.2",
-    "phpunit/phpunit": "8.1.5",
-    "phpunit/php-code-coverage": "7.0.3",
-    "dg/bypass-finals": "1.1.1"
+    "phpunit/phpunit": "8.3.4",
+    "phpunit/php-code-coverage": "7.0.7",
+    "phan/phan": "2.2.11",
+    "dg/bypass-finals": "1.1.2"
   },
   "autoload": {
     "psr-4": {

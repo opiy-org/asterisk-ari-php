@@ -2,6 +2,8 @@
 
 /** @copyright 2019 ng-voice GmbH */
 
+declare(strict_types=1);
+
 namespace NgVoice\AriClient\Models\Message;
 
 
@@ -9,6 +11,8 @@ namespace NgVoice\AriClient\Models\Message;
  * Base type for asynchronous events from Asterisk.
  *
  * @package NgVoice\AriClient\Models\Message
+ *
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
 class Event extends Message
 {

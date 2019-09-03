@@ -3,7 +3,8 @@
 /**
  * @copyright 2019 ng-voice GmbH
  *
- * The asterisk events will be received by a web socket client which then is handled by your own local app.
+ * The asterisk events will be received by a web socket client which then is
+ * handled by your own local app.
  * We recommend using supervisor to monitor this process in the background.
  *
  * @author Lukas Stermann <lukas@ng-voice.com>

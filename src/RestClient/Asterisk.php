@@ -7,7 +7,6 @@ declare(strict_types=1);
 namespace NgVoice\AriClient\RestClient;
 
 use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
-use NgVoice\AriClient\Helper;
 use NgVoice\AriClient\Models\{AsteriskInfo,
     AsteriskPing,
     ConfigTuple,
@@ -116,7 +115,7 @@ final class Asterisk extends AsteriskRestInterfaceClient
     {
         $queryParameters = [];
         if ($only !== []) {
-            $queryParameters = ['only' => Helper::glueArrayOfStrings($only)];
+            $queryParameters = ['only' => implode(',', $only)];
         }
 
         return $this->getModelRequest(

@@ -9,11 +9,13 @@
 
 /** @copyright 2019 ng-voice GmbH */
 
+declare(strict_types=1);
+
 namespace NgVoice\AriClient\Models;
 
-
 /**
- * The merging of media from one or more channels. Everyone on the bridge receives the same audio.
+ * The merging of media from one or more channels.
+ * Everyone on the bridge receives the same audio.
  *
  * @package NgVoice\AriClient\Models
  *
@@ -39,7 +41,8 @@ final class Bridge implements Model
     private $creator;
 
     /**
-     * @var string The video mode the bridge is using. One of 'none', 'talker', or 'single'.
+     * @var string The video mode the bridge is using.
+     * One of 'none', 'talker', or 'single'.
      */
     private $video_mode;
 
@@ -54,7 +57,8 @@ final class Bridge implements Model
     private $channels;
 
     /**
-     * @var string The ID of the channel that is the source of video in this bridge, if one exists.
+     * @var string The ID of the channel that is the source of video in this bridge, if
+     *     one exists.
      */
     private $video_source_id;
 
