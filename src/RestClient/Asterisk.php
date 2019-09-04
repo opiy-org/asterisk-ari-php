@@ -34,6 +34,7 @@ final class Asterisk extends AsteriskRestInterfaceClient
      *     configuration objects.
      * @param string $objectType The type of configuration object to retrieve.
      * @param string $id The unique identifier of the object to retrieve.
+     *
      * @return ConfigTuple[]
      *
      * @throws AsteriskRestInterfaceException
@@ -55,9 +56,10 @@ final class Asterisk extends AsteriskRestInterfaceClient
      * @param string $id The unique identifier of the object to create or update.
      * @param string[] $fields The body object should have a value that is a list of
      *     ConfigTuples, which provide the fields to update.
+     *
      * @return ConfigTuple[]
      *
-     * @throws AsteriskRestInterfaceException
+     * @throws AsteriskRestInterfaceException Default REST Interface Exception by Asterisk
      */
     public function updateObject(
         string $configClass,
@@ -90,7 +92,7 @@ final class Asterisk extends AsteriskRestInterfaceClient
      * @param string $objectType The type of configuration object to delete.
      * @param string $id The unique identifier of the object to delete.
      *
-     * @throws AsteriskRestInterfaceException
+     * @throws AsteriskRestInterfaceException in case the REST request fails
      */
     public function deleteObject(
         string $configClass,
@@ -107,9 +109,10 @@ final class Asterisk extends AsteriskRestInterfaceClient
      *
      * @param array $only Filter information returned. Allowed values: build, system,
      *     config, status.
+     *
      * @return AsteriskInfo|Model
      *
-     * @throws AsteriskRestInterfaceException
+     * @throws AsteriskRestInterfaceException in case the REST request fails
      */
     public function getInfo(array $only = []): AsteriskInfo
     {
@@ -130,7 +133,7 @@ final class Asterisk extends AsteriskRestInterfaceClient
      *
      * @return AsteriskPing|Model
      *
-     * @throws AsteriskRestInterfaceException
+     * @throws AsteriskRestInterfaceException in case the REST request fails
      */
     public function ping(): AsteriskPing
     {
@@ -142,7 +145,7 @@ final class Asterisk extends AsteriskRestInterfaceClient
      *
      * @return Module[]
      *
-     * @throws AsteriskRestInterfaceException
+     * @throws AsteriskRestInterfaceException in case the REST request fails
      */
     public function listModules(): array
     {
@@ -156,9 +159,10 @@ final class Asterisk extends AsteriskRestInterfaceClient
      * Get Asterisk module information.
      *
      * @param string $moduleName Module's name.
+     *
      * @return Module|Model
      *
-     * @throws AsteriskRestInterfaceException
+     * @throws AsteriskRestInterfaceException Default in case the REST request fails
      */
     public function getModule(string $moduleName): Module
     {
@@ -170,7 +174,7 @@ final class Asterisk extends AsteriskRestInterfaceClient
      *
      * @param string $moduleName Module's name.
      *
-     * @throws AsteriskRestInterfaceException
+     * @throws AsteriskRestInterfaceException in case the REST request fails
      */
     public function loadModule(string $moduleName): void
     {
@@ -182,7 +186,7 @@ final class Asterisk extends AsteriskRestInterfaceClient
      *
      * @param string $moduleName Module's name.
      *
-     * @throws AsteriskRestInterfaceException
+     * @throws AsteriskRestInterfaceException in case the REST request fails
      */
     public function unloadModule(string $moduleName): void
     {
@@ -194,7 +198,7 @@ final class Asterisk extends AsteriskRestInterfaceClient
      *
      * @param string $moduleName Module's name.
      *
-     * @throws AsteriskRestInterfaceException
+     * @throws AsteriskRestInterfaceException in case the REST request fails
      */
     public function reloadModule(string $moduleName): void
     {
@@ -206,7 +210,7 @@ final class Asterisk extends AsteriskRestInterfaceClient
      *
      * @return LogChannel[]
      *
-     * @throws AsteriskRestInterfaceException
+     * @throws AsteriskRestInterfaceException in case the REST request fails
      */
     public function listLogChannels(): array
     {
@@ -222,7 +226,7 @@ final class Asterisk extends AsteriskRestInterfaceClient
      * @param string $logChannelName The log channel to add.
      * @param string $configuration Levels of the log channel
      *
-     * @throws AsteriskRestInterfaceException
+     * @throws AsteriskRestInterfaceException in case the REST request fails
      */
     public function addLog(string $logChannelName, string $configuration): void
     {
@@ -237,7 +241,7 @@ final class Asterisk extends AsteriskRestInterfaceClient
      *
      * @param string $logChannelName Log channels name.
      *
-     * @throws AsteriskRestInterfaceException
+     * @throws AsteriskRestInterfaceException in case the REST request fails
      */
     public function deleteLog(string $logChannelName): void
     {
@@ -249,7 +253,7 @@ final class Asterisk extends AsteriskRestInterfaceClient
      *
      * @param string $logChannelName Log channel's name.
      *
-     * @throws AsteriskRestInterfaceException
+     * @throws AsteriskRestInterfaceException in case the REST request fails
      */
     public function rotateLog(string $logChannelName): void
     {
@@ -260,9 +264,10 @@ final class Asterisk extends AsteriskRestInterfaceClient
      * Get the value of a global variable.
      *
      * @param string $variable The variable to get.
+     *
      * @return Variable|Model
      *
-     * @throws AsteriskRestInterfaceException
+     * @throws AsteriskRestInterfaceException in case the REST request fails
      */
     public function getGlobalVar(string $variable): Variable
     {
@@ -279,7 +284,7 @@ final class Asterisk extends AsteriskRestInterfaceClient
      * @param string $variable The variable to set.
      * @param string $value The value to set the variable to.
      *
-     * @throws AsteriskRestInterfaceException
+     * @throws AsteriskRestInterfaceException in case the REST request fails
      */
     public function setGlobalVar(string $variable, string $value): void
     {

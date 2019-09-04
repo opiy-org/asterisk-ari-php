@@ -48,12 +48,12 @@ final class AriRestClientSettings
     /**
      * AriRestClientSettings constructor.
      *
-     * @param string $ariUser
-     * @param string $ariPassword
-     * @param bool $httpsEnabled
-     * @param string $host
-     * @param int $port
-     * @param string $rootUri
+     * @param string $ariUser Username for the AriRestClient
+     * @param string $ariPassword Password for the AriRestClient
+     * @param bool $httpsEnabled Check if httpsEnabled
+     * @param string $host Host Address for AriRestClient
+     * @param int $port Port Name for AriRestClient
+     * @param string $rootUri Root URI for AriRestClient
      */
     public function __construct(
         string $ariUser,

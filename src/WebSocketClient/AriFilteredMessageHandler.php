@@ -53,9 +53,9 @@ final class AriFilteredMessageHandler extends TextMessageHandler
     /**
      * RemoteAppMessageHandler constructor.
      *
-     * @param AsteriskStasisApplication $myApp
-     * @param AsteriskApplicationsClient $asteriskApplicationsClient
-     * @param JsonMapper|null $jsonMapper
+     * @param AsteriskStasisApplication $myApp Asterisk Application
+     * @param AsteriskApplicationsClient $asteriskApplicationsClient Application Client
+     * @param JsonMapper|null $jsonMapper Map JSON into an Object
      */
     public function __construct(
         AsteriskStasisApplication $myApp,
@@ -109,8 +109,8 @@ final class AriFilteredMessageHandler extends TextMessageHandler
      *
      * @inheritdoc
      *
-     * @param string $data
-     * @param AbstractConnection $connection
+     * @param string $data Message Data
+     * @param AbstractConnection $connection Connection Settings
      *
      * @return void
      */
@@ -160,7 +160,8 @@ final class AriFilteredMessageHandler extends TextMessageHandler
     }
 
     /**
-     * @param string|object $classObjectOrPath
+     * @param string|object $classObjectOrPath ClassObject or Path
+     *
      * @return string[]
      */
     private function getPublicClassMethodNames($classObjectOrPath): array
@@ -185,7 +186,7 @@ final class AriFilteredMessageHandler extends TextMessageHandler
     }
 
     /**
-     * @param array $myAppPublicClassMethodNames
+     * @param array $myAppPublicClassMethodNames Method Names of Public Classes
      *
      * @return string[]
      */

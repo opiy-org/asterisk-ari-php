@@ -56,9 +56,10 @@ abstract class AsteriskRestInterfaceClient
     /**
      * AriClient constructor.
      *
-     * @param AriRestClientSettings $ariRestClientSettings
-     * @param Client|null $guzzleClient
-     * @param JsonMapper|null $jsonMapper
+     * @param AriRestClientSettings $ariRestClientSettings AriRestClient
+     * connection setting
+     * @param Client|null $guzzleClient GuzzleClient HTTP Connection Object
+     * @param JsonMapper|null $jsonMapper To convert JSON into an Ari Messages
      */
     public function __construct(
         AriRestClientSettings $ariRestClientSettings,
@@ -102,9 +103,10 @@ abstract class AsteriskRestInterfaceClient
     /**
      * Send a GET Request to Asterisk, expecting a model instance.
      *
-     * @param string $modelClassPath
-     * @param string $uri
-     * @param array $queryParameters
+     * @param string $modelClassPath Path to a Model Class
+     * @param string $uri URI Path
+     * @param array $queryParameters Array of Query Parameters
+     *
      * @return Model
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
@@ -135,9 +137,9 @@ abstract class AsteriskRestInterfaceClient
     /**
      * Send a GET Request to Asterisk, expecting an array of model instance.
      *
-     * @param string $returnModelClassPath
-     * @param string $uri
-     * @param array $queryParameters
+     * @param string $returnModelClassPath Path of a Model Class
+     * @param string $uri URI Path
+     * @param array $queryParameters Array of Query Parameters
      *
      * @return Model[]
      *
@@ -169,10 +171,10 @@ abstract class AsteriskRestInterfaceClient
     /**
      * Log requests for debugging purposes.
      *
-     * @param string $method
-     * @param string $uri
-     * @param array $queryParameters
-     * @param array $body
+     * @param string $method Request Method
+     * @param string $uri URI Path
+     * @param array $queryParameters Array of Query Parameters
+     * @param array $body Body Content
      */
     private function debugRequest(
         string $method,
@@ -191,11 +193,11 @@ abstract class AsteriskRestInterfaceClient
     /**
      * Log responses for debugging purposes.
      *
-     * @param ResponseInterface $response
-     * @param string $method
-     * @param string $uri
-     * @param array $queryParameters
-     * @param array $body
+     * @param ResponseInterface $response Request Response
+     * @param string $method Request Method
+     * @param string $uri URI Path
+     * @param array $queryParameters Array of Query Parameters
+     * @param array $body Body Content
      */
     private function debugResponse(
         ResponseInterface $response,
@@ -216,8 +218,8 @@ abstract class AsteriskRestInterfaceClient
     }
 
     /**
-     * @param ResponseInterface $response
-     * @param string $targetObjectType
+     * @param ResponseInterface $response Request Response
+     * @param string $targetObjectType Path of the Target Object
      *
      * @return Model[]
      */
@@ -241,8 +243,8 @@ abstract class AsteriskRestInterfaceClient
     }
 
     /**
-     * @param ResponseInterface $response
-     * @param string $modelClassPath
+     * @param ResponseInterface $response Request Response
+     * @param string $modelClassPath Model Class Path
      *
      * @return Model|object
      */
@@ -265,9 +267,9 @@ abstract class AsteriskRestInterfaceClient
     /**
      * Send a POST request to Asterisk with no returning Model.
      *
-     * @param string $uri
-     * @param array $queryParameters
-     * @param array $body
+     * @param string $uri URI Path
+     * @param array $queryParameters Array of Query Parameters
+     * @param array $body Body Content
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
@@ -295,10 +297,10 @@ abstract class AsteriskRestInterfaceClient
     /**
      * Send a POST request to Asterisk and return a model instance.
      *
-     * @param string $returnModelClassPath
-     * @param string $uri
-     * @param array $queryParameters
-     * @param array $body
+     * @param string $returnModelClassPath Model Class Path
+     * @param string $uri URI Path
+     * @param array $queryParameters Array of Query Parameters
+     * @param array $body Body Content
      *
      * @return Model
      *
@@ -331,10 +333,10 @@ abstract class AsteriskRestInterfaceClient
     /**
      * Send a POST request to Asterisk and return an array of model instances.
      *
-     * @param string $returnModelClassPath
-     * @param string $uri
-     * @param array $queryParameters
-     * @param array $body
+     * @param string $returnModelClassPath Model Class Path
+     * @param string $uri URI Path
+     * @param array $queryParameters Array of Query Parameters
+     * @param array $body Body Content
      *
      * @return Model[]
      *
@@ -367,9 +369,9 @@ abstract class AsteriskRestInterfaceClient
     /**
      * Send a PUT request to Asterisk and return a Model instance.
      *
-     * @param string $returnModelClassPath
-     * @param string $uri
-     * @param array $body
+     * @param string $returnModelClassPath Model Class Path
+     * @param string $uri URI Path
+     * @param array $body Body Content
      *
      * @return Model
      *
@@ -397,9 +399,9 @@ abstract class AsteriskRestInterfaceClient
     /**
      * Send a PUT request to Asterisk and return an array of Model instances.
      *
-     * @param string $returnModelClassPath
-     * @param string $uri
-     * @param array $body
+     * @param string $returnModelClassPath Model Class Path
+     * @param string $uri URI Path
+     * @param array $body Body Content
      *
      * @return Model[]
      *
@@ -427,8 +429,8 @@ abstract class AsteriskRestInterfaceClient
     /**
      * Send a PUT request to Asterisk.
      *
-     * @param string $uri
-     * @param array $body
+     * @param string $uri URI Path
+     * @param array $body Body Content
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
@@ -440,7 +442,11 @@ abstract class AsteriskRestInterfaceClient
         $this->debugRequest(self::PUT, $uri, [], $body);
 
         try {
-            $response = $this->guzzleClient->request(self::PUT, $uri, ['json' => $body]);
+            $response = $this->guzzleClient->request(
+                self::PUT,
+                $uri,
+                ['json' => $body]
+            );
         } catch (GuzzleException $e) {
             throw new AsteriskRestInterfaceException($e);
         }
@@ -451,9 +457,9 @@ abstract class AsteriskRestInterfaceClient
     /**
      * Send a DELETE request to Asterisk returning a Model instance.
      *
-     * @param string $returnModelClassPath
-     * @param string $uri
-     * @param array $queryParameters
+     * @param string $returnModelClassPath Model Class Path
+     * @param string $uri URI Path
+     * @param array $queryParameters Array of Query Parameters
      *
      * @return Model
      *
@@ -485,8 +491,8 @@ abstract class AsteriskRestInterfaceClient
     /**
      * Send a DELETE request to Asterisk.
      *
-     * @param string $uri
-     * @param array $queryParameters
+     * @param string $uri URI Path
+     * @param array $queryParameters Array of Query Parameters
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
@@ -511,16 +517,21 @@ abstract class AsteriskRestInterfaceClient
     }
 
     /**
-     * @param string $uri
-     * @param string $pathToFile
-     * @throws AsteriskRestInterfaceException
+     * @param string $uri URI Path
+     * @param string $pathToFile File Path
+     *
+     * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
     protected function downloadFile(string $uri, string $pathToFile): void
     {
         $uri = "{$this->rootUri}{$uri}";
 
         try {
-            $this->guzzleClient->request(self::GET, $uri, ['sink' => $pathToFile]);
+            $this->guzzleClient->request(
+                self::GET,
+                $uri,
+                ['sink' => $pathToFile]
+            );
         } catch (GuzzleException $e) {
             throw new AsteriskRestInterfaceException($e);
         }

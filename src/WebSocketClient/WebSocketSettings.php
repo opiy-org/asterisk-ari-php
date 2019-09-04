@@ -48,12 +48,12 @@ final class WebSocketSettings
     /**
      * WebSocketSettings constructor.
      *
-     * @param string $user
-     * @param string $password
-     * @param bool $wssEnabled
-     * @param string $host
-     * @param int $port
-     * @param string $rootUri
+     * @param string $user Username
+     * @param string $password Password
+     * @param bool $wssEnabled Check Websocket Enabled/Disabled
+     * @param string $host Host Address
+     * @param int $port Port Name
+     * @param string $rootUri Root URI
      */
     public function __construct(
         string $user,

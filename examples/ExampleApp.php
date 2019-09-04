@@ -5,10 +5,14 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/../vendor/autoload.php';
-require_once __DIR__ . '/BasicExampleStasisApp.php';
 
+use Monolog\Logger;
+use NgVoice\AriClient\AsteriskStasisApplication;
 use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
-use NgVoice\AriClient\Models\Message\{ChannelUserevent, StasisEnd, StasisStart};
+use NgVoice\AriClient\RestClient\{Asterisk as AriAsteriskClient,
+    Events as AriEventsClient};
+use NgVoice\AriClient\Models\Message\{StasisStart, ChannelUserevent,
+                                        ChannelHangupRequest, StasisEnd};
 
 /**
  * Example for usage of this library in a local application.
@@ -24,7 +28,7 @@ use NgVoice\AriClient\Models\Message\{ChannelUserevent, StasisEnd, StasisStart};
  * Asterisk Messages received by the WebSocketClient will be ignored.
  *
  * For a list of all supported Messages, have a look at the /src/Models/Message
- * folder in this library. Alternatively you can look them up in the official Asterisk
+ * folder in this library. Alternatively you can    look them up in the official Asterisk
  * documentation:
  *
  * @see https://wiki.asterisk.org/wiki/display/AST/Asterisk+16+REST+Data+Models#Asterisk16RESTDataModels-Event
@@ -32,8 +36,43 @@ use NgVoice\AriClient\Models\Message\{ChannelUserevent, StasisEnd, StasisStart};
  * @author Lukas Stermann <lukas@ng-voice.com>
  * =======================================================================================
  */
-final class ExampleApp extends BasicExampleStasisApp
+final class ExampleApp implements AsteriskStasisApplication
 {
+    /**
+     * @var Logger
+     */
+    protected $logger;
+
+    /**
+     * @var AriEventsClient
+     */
+    protected $ariEventsClient;
+
+    /**
+     * @var AriAsteriskClient
+     */
+    protected $ariAsteriskClient;
+
+    /**
+     * ExampleApp constructor.
+     *
+     * @param AriEventsClient $ariEventsClient REST client for
+     * the 'Event' resource of the Asterisk REST Interface
+     * @param AriAsteriskClient $ariAsteriskClient REST client
+     * for the 'Asterisk' resource of the Asterisk REST Interface
+     * @param Logger $logger Logger for debugging and information
+     * about the states of the example app
+     */
+    public function __construct(
+        AriEventsClient $ariEventsClient,
+        AriAsteriskClient $ariAsteriskClient,
+        Logger $logger
+    ) {
+        $this->ariEventsClient = $ariEventsClient;
+        $this->ariAsteriskClient = $ariAsteriskClient;
+        $this->logger = $logger;
+    }
+
     /**
      * 'StasisStart' is the first event that is triggered by Asterisk
      * when a channel enters your Stasis application.
@@ -91,6 +130,23 @@ final class ExampleApp extends BasicExampleStasisApp
             // Handle 4XX/5XX HTTP status codes. They will throw exceptions!
             $this->logger->error($asteriskRestInterfaceException->getMessage());
         }
+    }
+
+    /**
+     * A default message handler for channels that have been hung up.
+     * Very helpful to avoid messy and/or duplicated code in your stasis application
+     * classes!
+     *
+     * @param ChannelHangupRequest $channelHangupRequest The Asterisk
+     * ChannelUserevent event
+     */
+    public function channelHangupRequest(ChannelHangupRequest $channelHangupRequest): void
+    {
+        $this->logger->info(
+            'This is the default hangup handler in your parent class '
+            . 'triggered by channel '
+            . "'{$channelHangupRequest->getChannel()->getId()}' :-)"
+        );
     }
 
     /**

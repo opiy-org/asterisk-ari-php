@@ -56,7 +56,7 @@ final class WebSocketClient
      * @param WoketoWebSocketClient|null $woketoWebSocketClient Optional webSocketClient
      *     to make this class testable
      *
-     * @throws RuntimeException
+     * @throws RuntimeException If fails it will throw the Error
      */
     public function __construct(
         WebSocketSettings $webSocketSettings,
