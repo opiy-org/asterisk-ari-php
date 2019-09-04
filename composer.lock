@@ -11,6 +11,7 @@
             "version": "v3.0.1",
             "source": {
                 "type": "git",
+                "url": "https://github.com/igorw/evenement.git",
                 "reference": "531bfb9d15f8aa57454f5f0285b18bec903b8fb7"
             },
             "dist": {
