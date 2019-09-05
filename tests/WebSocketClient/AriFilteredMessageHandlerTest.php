@@ -10,19 +10,16 @@ use NgVoice\AriClient\AsteriskStasisApplication;
 use NgVoice\AriClient\RestClient\Applications;
 use NgVoice\AriClient\WebSocketClient\AriFilteredMessageHandler;
 use PHPUnit\Framework\TestCase;
-use ReflectionException;
 
 /**
  * Class AriFilteredMessageHandlerTest
  *
  * @package NgVoice\AriClient\Tests\WebSocketClient
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
 class AriFilteredMessageHandlerTest extends TestCase
 {
-    /**
-     * @throws ReflectionException
-     */
-    public function test__construct(): void
+    public function testConstruct(): void
     {
         /**
          * @var AsteriskStasisApplication $stasisAppMock
@@ -37,9 +34,6 @@ class AriFilteredMessageHandlerTest extends TestCase
         );
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testOnConnection(): void
     {
         /**
@@ -50,7 +44,7 @@ class AriFilteredMessageHandlerTest extends TestCase
         $applicationsClientMock = $this->createMock(Applications::class);
 
         $remoteAppMessageHandler =
-            new AriFilteredMessageHandler($stasisAppMock, $applicationsClientMock);
+        new AriFilteredMessageHandler($stasisAppMock, $applicationsClientMock);
 
         $abstractConnectionStub = $this->createMock(AbstractConnection::class);
 
@@ -61,9 +55,6 @@ class AriFilteredMessageHandlerTest extends TestCase
         $this->assertTrue(true, true);
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testOnDisconnect(): void
     {
         /**
@@ -74,7 +65,7 @@ class AriFilteredMessageHandlerTest extends TestCase
         $applicationsClientMock = $this->createMock(Applications::class);
 
         $remoteAppMessageHandler =
-            new AriFilteredMessageHandler($stasisAppMock, $applicationsClientMock);
+        new AriFilteredMessageHandler($stasisAppMock, $applicationsClientMock);
 
         $abstractConnectionStub = $this->createMock(AbstractConnection::class);
 
@@ -87,7 +78,6 @@ class AriFilteredMessageHandlerTest extends TestCase
 
     /**
      * @throws WebsocketException
-     * @throws ReflectionException
      */
     public function testOnError(): void
     {
@@ -99,7 +89,7 @@ class AriFilteredMessageHandlerTest extends TestCase
         $applicationsClientMock = $this->createMock(Applications::class);
 
         $remoteAppMessageHandler =
-            new AriFilteredMessageHandler($stasisAppMock, $applicationsClientMock);
+        new AriFilteredMessageHandler($stasisAppMock, $applicationsClientMock);
 
         $abstractConnectionStub = $this->createMock(AbstractConnection::class);
         $webSocketException = $this->createMock(WebsocketException::class);

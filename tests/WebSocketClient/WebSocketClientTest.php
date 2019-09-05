@@ -3,35 +3,31 @@
 /** @copyright 2019 ng-voice GmbH */
 
 namespace NgVoice\AriClient\Tests\WebSocketClient;
-
 use NgVoice\AriClient\AsteriskStasisApplication;
-use NgVoice\AriClient\WebSocketClient\{AriMessageHandler,
+use NgVoice\AriClient\WebSocketClient\{AriFilteredMessageHandler,
     WebSocketClient,
     WebSocketSettings};
 use PHPUnit\Framework\TestCase;
-use ReflectionException;
 
 /**
  * Class WebSocketClientTest
  *
  * @package NgVoice\AriClient\Tests\WebSocketClient
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
 class WebSocketClientTest extends TestCase
 {
-    /**
-     * @throws ReflectionException
-     */
-    public function test__construct(): void
+    public function testConstruct(): void
     {
         $woketoWebSocketClientStub =
             $this->createMock(\Nekland\Woketo\Client\WebSocketClient::class);
-        $localAppMessageHandler = $this->createMock(AriMessageHandler::class);
+        $localAppMessageHandler = $this->createMock(AriFilteredMessageHandler::class);
         $stasisApp = $this->createMock(AsteriskStasisApplication::class);
         $webSocketSettings = $this->createMock(WebSocketSettings::class);
 
         /**
          * @var \Nekland\Woketo\Client\WebSocketClient $woketoWebSocketClientStub
-         * @var AriMessageHandler $localAppMessageHandler
+         * @var AriFilteredMessageHandler $localAppMessageHandler
          * @var WebSocketSettings $webSocketSettings
          * @var AsteriskStasisApplication $stasisApp
          */
@@ -47,20 +43,18 @@ class WebSocketClientTest extends TestCase
         );
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testStart(): void
     {
+
         $woketoWebSocketClientStub =
             $this->createMock(\Nekland\Woketo\Client\WebSocketClient::class);
-        $localAppMessageHandler = $this->createMock(AriMessageHandler::class);
+        $localAppMessageHandler = $this->createMock(AriFilteredMessageHandler::class);
         $stasisApp = $this->createMock(AsteriskStasisApplication::class);
         $webSocketSettings = $this->createMock(WebSocketSettings::class);
 
         /**
          * @var \Nekland\Woketo\Client\WebSocketClient $woketoWebSocketClientStub
-         * @var AriMessageHandler $localAppMessageHandler
+         * @var AriFilteredMessageHandler $localAppMessageHandler
          * @var WebSocketSettings $webSocketSettings
          * @var AsteriskStasisApplication $stasisApp
          */
