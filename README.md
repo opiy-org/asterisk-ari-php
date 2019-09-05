@@ -18,26 +18,29 @@ while you focus on developing your Stasis apps.
 ![](images/AriClientSketch.png)
 
 ## Installation
-Install composer and include this library into your project
+Install the composer and include this library into your project
 
 `composer require ng-voice/asterisk-ari-client`
 
 While installing, you might run into composer errors concerning missing php extensions.
 There are several ways to install them, depending on your operating system (e.g. `apt install php7.3-http`).
 
-Don't forget to restart your apache server after installing the extensions.
+Don't forget to restart your server after installing the extensions.
 
 ##### Asterisk
 You will have to start an Asterisk instance and configure it in order to use ARI.
 The official Asterisk documentation shows you how to do so. 
+
+https://wiki.asterisk.org/wiki/display/AST/Asterisk+Configuration+for+ARI
+
 Alternatively use the provided Dockerfile in the docker directory as described below.
 
-## Features
-#### ARI abstraction layer
-The idea of this client library is to make ARI calls safe and easy. Therefore I wanted to get rid of 
-JSON parsing in my application code. Instead I aim to make it as easy as possible for anyone to talk to ARI without 
+##### ARI abstraction layer
+The idea of this client library is to make ARI calls safe and easy. Therefore, I wanted to get rid of 
+JSON parsing in my application code. Instead, I aim to make it as easy as possible for anyone to talk to ARI without 
 worrying about an implementation of a client stub. I already did the work for you :)
 
+## Features
 #### REST Clients
 Talk to your asterisk instance by the given well documented HTTP clients.
 All requests and responses are mapped onto objects that are easy to understand.
@@ -47,8 +50,8 @@ Connects to Asterisk via `GET /events` and subscribes either to one, many or all
 Asterisk instance.
 
 #### Asynchronous stasis application principle
-Simply extend the BasicStasisApp and implement your own stasis app logic (have a look at the **examples** directory).
-Say goodbye to boilerplate code!
+
+You can check ExampleApp in `examples` directory for some basic event's logic.
 
 #### Asterisk Docker container
 Preferably use the provided Dockerfile in this library to compile your own asterisk container.
@@ -64,14 +67,23 @@ Preferably use the provided Dockerfile in this library to compile your own aster
     Alternatively you can set generic compiler flags at your own risk.
 
 ## How to use
-Two examples can be found in the example directory.
 
-Basically there are two possibilities to handle incoming events from Asterisk, depending on what you would like to do 
-with them:
+You can find example in the `examples` directory.
 
-* Write a class for local event handling (like in ExampleLocalApp)
-* Pass events to a remote app, e.g. if you are wrapping Asterisk with an own REST Interface
-(like with example_worker_remote_app)
+Here is the class, which is handling local event called `channelHangupRequest`
+
+      /*
+       * A default message event handler for channels that have been hung up.
+       *
+       * @param ChannelHangupRequest $channelHangupRequest The Asterisk Request
+       */
+     public function channelHangupRequest(ChannelHangupRequest $channelHangupRequest): void
+     {
+         $this->logger->info(
+             'This is the default hangup handler triggered by channel '
+             . "'{$channelHangupRequest->getChannel()->getId()}' :-)"
+         );
+     }
 
 Now, how should we handle events, that are sent to our WebSocketClient workers?
 
@@ -79,13 +91,18 @@ Out of the box you can use the `LocalAppMessageHandler` (handling event objects 
 or the `RemoteAppMessageHandler` (sending events to another API) but of course you can write your own.
 
 ## Tests
-`./vendor/bin/phpunit`
+
+To run the test for mocked ARI Messages and Websocket. Please run the following:
+
+`composer test`
 
 ##Licence
-MIT © ng-voice GmbH (2019)
+
+#####MIT © ng-voice GmbH (2019)
 
 ##Contact
 ng-voice is happy to help! Feel free to send me a message.
 I'd also like to hear about your application ideas and use cases :)
 
 Lukas Stermann (lukas@ng-voice.com)
+Ahmad Hussain  (ahmad@ng-voice.com)

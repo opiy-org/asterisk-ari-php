@@ -34,6 +34,7 @@ use NgVoice\AriClient\Models\Message\{StasisStart, ChannelUserevent,
  * @see https://wiki.asterisk.org/wiki/display/AST/Asterisk+16+REST+Data+Models#Asterisk16RESTDataModels-Event
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
+ * @author Ahmad Hussain <ahmad@ng-voice.com>
  * =======================================================================================
  */
 final class ExampleApp implements AsteriskStasisApplication
@@ -134,17 +135,13 @@ final class ExampleApp implements AsteriskStasisApplication
 
     /**
      * A default message handler for channels that have been hung up.
-     * Very helpful to avoid messy and/or duplicated code in your stasis application
-     * classes!
      *
      * @param ChannelHangupRequest $channelHangupRequest The Asterisk
-     * ChannelUserevent event
      */
     public function channelHangupRequest(ChannelHangupRequest $channelHangupRequest): void
     {
         $this->logger->info(
-            'This is the default hangup handler in your parent class '
-            . 'triggered by channel '
+            'This is the default hangup handler triggered by channel '
             . "'{$channelHangupRequest->getChannel()->getId()}' :-)"
         );
     }
