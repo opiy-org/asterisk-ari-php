@@ -9,7 +9,8 @@ require_once __DIR__ . '/../vendor/autoload.php';
 use Monolog\Logger;
 use NgVoice\AriClient\AsteriskStasisApplication;
 use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
-use NgVoice\AriClient\RestClient\{Asterisk as AriAsteriskClient,
+use NgVoice\AriClient\RestClient\{
+    Asterisk as AriAsteriskClient,
     Events as AriEventsClient};
 use NgVoice\AriClient\Models\Message\{StasisStart, ChannelUserevent,
                                         ChannelHangupRequest, StasisEnd};
@@ -42,17 +43,17 @@ final class ExampleApp implements AsteriskStasisApplication
     /**
      * @var Logger
      */
-    protected $logger;
+    private $logger;
 
     /**
      * @var AriEventsClient
      */
-    protected $ariEventsClient;
+    private $ariEventsClient;
 
     /**
      * @var AriAsteriskClient
      */
-    protected $ariAsteriskClient;
+    private $ariAsteriskClient;
 
     /**
      * ExampleApp constructor.
@@ -136,7 +137,7 @@ final class ExampleApp implements AsteriskStasisApplication
     /**
      * A default message handler for channels that have been hung up.
      *
-     * @param ChannelHangupRequest $channelHangupRequest The Asterisk
+     * @param ChannelHangupRequest $channelHangupRequest The Asterisk event
      */
     public function channelHangupRequest(ChannelHangupRequest $channelHangupRequest): void
     {
