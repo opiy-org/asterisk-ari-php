@@ -7,7 +7,7 @@ namespace NgVoice\AriClient\Tests\RestClient;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
-use NgVoice\AriClient\Exception\AsteriskRestInterfaceExceptionTest;
+use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
 use NgVoice\AriClient\Models\{LiveRecording, StoredRecording};
 use NgVoice\AriClient\RestClient\AriRestClientSettings;
 use NgVoice\AriClient\RestClient\Recordings;
@@ -46,7 +46,7 @@ class RecordingsTest extends TestCase
     /**
      * @dataProvider recordingInstanceProvider
      * @param array $exampleLiveRecording
-     * @throws AsteriskRestInterfaceExceptionTest
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testGetLive(array $exampleLiveRecording): void
@@ -59,7 +59,7 @@ class RecordingsTest extends TestCase
 
     /**
      * @throws ReflectionException
-     * @throws AsteriskRestInterfaceExceptionTest
+     * @throws AsteriskRestInterfaceException
      */
     public function testGetStoredFile(): void
     {
@@ -73,7 +73,7 @@ class RecordingsTest extends TestCase
 
     /**
      * @throws ReflectionException
-     * @throws AsteriskRestInterfaceExceptionTest
+     * @throws AsteriskRestInterfaceException
      */
     public function testCopyStored(): void
     {
@@ -88,7 +88,7 @@ class RecordingsTest extends TestCase
     }
 
     /**
-     * @throws AsteriskRestInterfaceExceptionTest
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testGetStored(): void
@@ -104,7 +104,7 @@ class RecordingsTest extends TestCase
     }
 
     /**
-     * @throws AsteriskRestInterfaceExceptionTest
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testListStored(): void
@@ -125,7 +125,7 @@ class RecordingsTest extends TestCase
     }
 
     /**
-     * @throws AsteriskRestInterfaceExceptionTest
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testDeleteStored(): void
@@ -136,7 +136,7 @@ class RecordingsTest extends TestCase
     }
 
     /**
-     * @throws AsteriskRestInterfaceExceptionTest
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testCancel(): void
@@ -147,7 +147,7 @@ class RecordingsTest extends TestCase
     }
 
     /**
-     * @throws AsteriskRestInterfaceExceptionTest
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testStop(): void
@@ -158,7 +158,7 @@ class RecordingsTest extends TestCase
     }
 
     /**
-     * @throws AsteriskRestInterfaceExceptionTest
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testPause(): void
@@ -169,7 +169,7 @@ class RecordingsTest extends TestCase
     }
 
     /**
-     * @throws AsteriskRestInterfaceExceptionTest
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testUnpause(): void
@@ -180,7 +180,7 @@ class RecordingsTest extends TestCase
     }
 
     /**
-     * @throws AsteriskRestInterfaceExceptionTest
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testMute(): void
@@ -191,7 +191,7 @@ class RecordingsTest extends TestCase
     }
 
     /**
-     * @throws AsteriskRestInterfaceExceptionTest
+     * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
     public function testUnmute(): void
