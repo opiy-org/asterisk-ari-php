@@ -7,7 +7,7 @@ namespace NgVoice\AriClient\Tests\RestClient;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
-use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
+use NgVoice\AriClient\Exception\AsteriskRestInterfaceExceptionTest;
 use NgVoice\AriClient\Models\{LiveRecording, StoredRecording};
 use NgVoice\AriClient\RestClient\AriRestClientSettings;
 use NgVoice\AriClient\RestClient\Recordings;
@@ -17,6 +17,8 @@ use ReflectionException;
 /**
  * Class RecordingsTest
  * @package NgVoice\AriClient\Tests\RestClient
+ * @author Lukas Stermann <lukas@ng-voice.com>
+ * @author Ahmad Hussain <ahmad@ng-voice.com>
  */
 class RecordingsTest extends TestCase
 {
@@ -44,7 +46,7 @@ class RecordingsTest extends TestCase
     /**
      * @dataProvider recordingInstanceProvider
      * @param array $exampleLiveRecording
-     * @throws AsteriskRestInterfaceException
+     * @throws AsteriskRestInterfaceExceptionTest
      * @throws ReflectionException
      */
     public function testGetLive(array $exampleLiveRecording): void
@@ -57,7 +59,21 @@ class RecordingsTest extends TestCase
 
     /**
      * @throws ReflectionException
-     * @throws AsteriskRestInterfaceException
+     * @throws AsteriskRestInterfaceExceptionTest
+     */
+    public function testGetStoredFile(): void
+    {
+        $recordingsClient = $this->createRecordingsClientWithGuzzleClientStub([]);
+        $recordingsClient->getStoredFile(
+            'ExampleRecordingName',
+            '/recordings/stored/filename'
+        );
+        $this->assertTrue(true, true);
+    }
+
+    /**
+     * @throws ReflectionException
+     * @throws AsteriskRestInterfaceExceptionTest
      */
     public function testCopyStored(): void
     {
@@ -72,7 +88,7 @@ class RecordingsTest extends TestCase
     }
 
     /**
-     * @throws AsteriskRestInterfaceException
+     * @throws AsteriskRestInterfaceExceptionTest
      * @throws ReflectionException
      */
     public function testGetStored(): void
@@ -88,7 +104,7 @@ class RecordingsTest extends TestCase
     }
 
     /**
-     * @throws AsteriskRestInterfaceException
+     * @throws AsteriskRestInterfaceExceptionTest
      * @throws ReflectionException
      */
     public function testListStored(): void
@@ -109,7 +125,7 @@ class RecordingsTest extends TestCase
     }
 
     /**
-     * @throws AsteriskRestInterfaceException
+     * @throws AsteriskRestInterfaceExceptionTest
      * @throws ReflectionException
      */
     public function testDeleteStored(): void
@@ -120,7 +136,7 @@ class RecordingsTest extends TestCase
     }
 
     /**
-     * @throws AsteriskRestInterfaceException
+     * @throws AsteriskRestInterfaceExceptionTest
      * @throws ReflectionException
      */
     public function testCancel(): void
@@ -131,7 +147,7 @@ class RecordingsTest extends TestCase
     }
 
     /**
-     * @throws AsteriskRestInterfaceException
+     * @throws AsteriskRestInterfaceExceptionTest
      * @throws ReflectionException
      */
     public function testStop(): void
@@ -142,7 +158,7 @@ class RecordingsTest extends TestCase
     }
 
     /**
-     * @throws AsteriskRestInterfaceException
+     * @throws AsteriskRestInterfaceExceptionTest
      * @throws ReflectionException
      */
     public function testPause(): void
@@ -153,7 +169,7 @@ class RecordingsTest extends TestCase
     }
 
     /**
-     * @throws AsteriskRestInterfaceException
+     * @throws AsteriskRestInterfaceExceptionTest
      * @throws ReflectionException
      */
     public function testUnpause(): void
@@ -164,7 +180,7 @@ class RecordingsTest extends TestCase
     }
 
     /**
-     * @throws AsteriskRestInterfaceException
+     * @throws AsteriskRestInterfaceExceptionTest
      * @throws ReflectionException
      */
     public function testMute(): void
@@ -175,7 +191,7 @@ class RecordingsTest extends TestCase
     }
 
     /**
-     * @throws AsteriskRestInterfaceException
+     * @throws AsteriskRestInterfaceExceptionTest
      * @throws ReflectionException
      */
     public function testUnmute(): void
@@ -196,7 +212,7 @@ class RecordingsTest extends TestCase
         $guzzleClientStub->method('request')
             // TODO: Test for correct parameter translation via with() method here?
             //  ->with()
-                         ->willReturn(
+            ->willReturn(
                 new Response(
                     200,
                     [],

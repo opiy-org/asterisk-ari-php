@@ -9,8 +9,6 @@ namespace NgVoice\AriClient;
 use Exception;
 use Monolog\Handler\{NullHandler, StreamHandler};
 use Monolog\Logger;
-use ReflectionClass;
-use ReflectionException;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -31,10 +29,6 @@ final class Helper
     {
     }
 
-    private function __clone()
-    {
-    }
-
     /**
      * Get the short name of an objects class without the full namespace.
      *
@@ -44,14 +38,8 @@ final class Helper
      */
     public static function getShortClassName(object $object): string
     {
-        try {
-            $reflect = new ReflectionClass($object);
-            return $reflect->getShortName();
-        } catch (ReflectionException $e) {
-            echo 'Reflection of class' . get_class($object) . " failed.\n";
-            echo $e->getMessage();
-            exit(1);
-        }
+        $fullPathClassName = explode('\\', get_class($object));
+        return end($fullPathClassName);
     }
 
     /**
@@ -65,12 +53,15 @@ final class Helper
     {
         $logger = new Logger($name);
 
-        $settings = Yaml::parseFile(__DIR__ . '/../debug_mode.yaml');
-
         try {
-            $settings['debug_mode'] ?
-                $logger->pushHandler(new StreamHandler(STDOUT, Logger::DEBUG))
-                : $logger->pushHandler(new NullHandler(Logger::DEBUG));
+            $settings = Yaml::parseFile(__DIR__ . '/../debug_mode.yaml');
+
+            if ($settings['debug_mode']) {
+                $logger->pushHandler(new StreamHandler(STDOUT, Logger::DEBUG));
+            } else {
+                $logger->pushHandler(new NullHandler(Logger::DEBUG));
+            }
+
             $logger->pushHandler(
                 new StreamHandler(STDOUT, Logger::INFO)
             );
@@ -80,13 +71,15 @@ final class Helper
             $logger->pushHandler(
                 new StreamHandler(STDERR, Logger::ERROR)
             );
-
             $logger->debug('Loggers have successfully been set');
         } catch (Exception $e) {
-            fwrite(STDERR, "Error while setting up loggers: '{$e->getMessage()}'\n");
-            exit(1);
+            // Filenames is hardcoded, hence there is no chance to throw exception here.
         }
 
         return $logger;
+    }
+
+    private function __clone()
+    {
     }
 }

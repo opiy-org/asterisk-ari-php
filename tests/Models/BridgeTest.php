@@ -40,7 +40,8 @@ final class BridgeTest extends TestCase
                 'name' => 'ExampleName',
                 'technology' => 'ExampleTechnology',
                 'video_mode' => 'none',
-                'video_source_id' => 'VideoId'
+                'video_source_id' => 'VideoId',
+                'creation_time' => '2019-09-10 13:45:28 UTC'
             ]
         );
 
@@ -53,5 +54,6 @@ final class BridgeTest extends TestCase
         $this->assertSame('ExampleTechnology', $bridge->getTechnology());
         $this->assertSame('none', $bridge->getVideoMode());
         $this->assertSame('VideoId', $bridge->getVideoSourceId());
+        $this->assertSame('2019-09-10 13:45:28 UTC', $bridge->getCreationtime());
     }
 }

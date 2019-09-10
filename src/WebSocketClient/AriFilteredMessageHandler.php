@@ -84,19 +84,21 @@ final class AriFilteredMessageHandler extends TextMessageHandler
     {
         $this->logger->info('Connection to asterisk successful...');
 
+        $myAppPublicClassMethodNames = $this->getPublicClassMethodNames($this->myApp);
+
+        // Only use functions, that are named after a valid Asterisk message type
+        $allowedMessages =
+            $this->filterAsteriskEventMessageFunctions($myAppPublicClassMethodNames);
+        $eventClassName = Helper::getShortClassName($this->myApp);
+
         try {
-            $myAppPublicClassMethodNames = $this->getPublicClassMethodNames($this->myApp);
-
-            // Only use functions, that are named after a valid Asterisk message type
-            $allowedMessages =
-                $this->filterAsteriskEventMessageFunctions($myAppPublicClassMethodNames);
-
             $this->asteriskApplicationsClient->filter(
-                Helper::getShortClassName($this->myApp),
+                $eventClassName,
                 $allowedMessages
             );
         } catch (AsteriskRestInterfaceException $e) {
             $this->logger->error($e->getMessage(), [__FUNCTION__]);
+            exit(1);
         }
 
         $this->logger->debug('Set message filter in Asterisk.', [__FUNCTION__]);
@@ -134,6 +136,7 @@ final class AriFilteredMessageHandler extends TextMessageHandler
             );
         } catch (JsonMapper_Exception $jsonMapper_Exception) {
             $this->logger->error($jsonMapper_Exception->getMessage(), [__FUNCTION__]);
+            exit(1);
         }
     }
 

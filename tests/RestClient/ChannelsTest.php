@@ -317,6 +317,17 @@ class ChannelsTest extends TestCase
      * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
+    public function testMove(): void
+    {
+        $channelsClient = $this->createChannelsClient([]);
+        $channelsClient->move('SomeChannelId', 'AppName', [2, 3, 5]);
+        $this->assertTrue(true, true);
+    }
+
+    /**
+     * @throws AsteriskRestInterfaceException
+     * @throws ReflectionException
+     */
     public function testUnMute(): void
     {
         $channelsClient = $this->createChannelsClient([]);
@@ -478,7 +489,7 @@ class ChannelsTest extends TestCase
         $guzzleClientStub->method('request')
             // TODO: Test for correct parameter translation via with() method here?
             //  ->with()
-                         ->willReturn(
+            ->willReturn(
                 new Response(
                     200,
                     [],
@@ -521,5 +532,51 @@ class ChannelsTest extends TestCase
             new AriRestClientSettings('SomeUser', 'SomePw'),
             $guzzleClientStub
         );
+    }
+
+    /**
+     * @throws AsteriskRestInterfaceException
+     * @throws ReflectionException
+     */
+    public function testRtpStatistics(): void
+    {
+        $channelsClient = $this->createChannelsClient(
+            [
+                'txjitter' => 2.34,
+                'local_stdevjitter' => 4.2243,
+                'local_minjitter' => 8.5323,
+                'rxjitter' => 1.456,
+                'rtt' => 932.33,
+                'stdevrtt' => 23.112,
+                'local_maxjitter' => 28.5323,
+                'maxrtt' => 12.56,
+                'local_normdevrxploss' => 932.33,
+                'local_normdevjitter' => 12.56,
+                'te_minrxploss' => 2.33,
+                'txoctetcount' => 125,
+                'rxoctetcount' => 33,
+                'local_maxrxploss' => 12.56,
+                'remote_normdevrxploss' => 12.56,
+                'local_stdevrxploss' => 12.56,
+                'remote_stdevjitter' => 932.33,
+                'txploss' => 83,
+                'remote_stdevrxploss' => 212.33,
+                'remote_maxrxploss' => 212.33,
+                'txcount' => 126,
+                'remote_minjitter' => 8.33,
+                'remote_maxjitter' => 212.33,
+                'remote_ssrc' => 16,
+                'channel_uniqueid' => 'id',
+                'rxcount' => 33,
+                'rxploss' => 3,
+                'remote_normdevjitter' => 8.33,
+                'local_ssrc' => 3,
+                'minrtt' => 8.33,
+                'local_minrxploss' => 32.3,
+                'normdevrtt' => 8.33
+            ]
+        );
+        $channelsClient->rtpStatistics('SomeChannelId');
+        $this->assertTrue(true, true);
     }
 }

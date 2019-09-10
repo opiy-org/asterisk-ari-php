@@ -4,6 +4,10 @@
 
 declare(strict_types=1);
 
+/**
+ * Overriding built-in PHP Class when testing in order to mock them.
+ */
+
 namespace NgVoice\AriClient\Tests;
 
 use Monolog\Logger;
@@ -17,16 +21,27 @@ use PHPUnit\Framework\TestCase;
  * @package NgVoice\AriClient\Tests
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
+ * @author Ahmad Hussain <ahmad@ng-voice.com>
  */
 final class HelperTest extends TestCase
 {
     public function testGetShortClassName(): void
     {
-        $this->assertEquals('Application', Helper::getShortClassName(new Application()));
+        $this->assertEquals(
+            'Application',
+            Helper::getShortClassName(
+                new Application()
+            )
+        );
     }
 
     public function testInitLogger(): void
     {
-        $this->assertSame(Logger::class, get_class(Helper::initLogger('TestClass')));
+        $this->assertSame(
+            Logger::class,
+            get_class(
+                Helper::initLogger('TestClass')
+            )
+        );
     }
 }

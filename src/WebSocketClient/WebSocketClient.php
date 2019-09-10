@@ -7,11 +7,11 @@ declare(strict_types=1);
 namespace NgVoice\AriClient\WebSocketClient;
 
 use Exception;
-use http\Exception\RuntimeException;
 use Monolog\Logger;
 use Nekland\Woketo\Client\WebSocketClient as WoketoWebSocketClient;
 use Nekland\Woketo\Message\MessageHandlerInterface;
 use NgVoice\AriClient\{AsteriskStasisApplication, Helper};
+use ReflectionException;
 
 /**
  * Class WebSocketClient
@@ -56,13 +56,13 @@ final class WebSocketClient
      * @param WoketoWebSocketClient|null $woketoWebSocketClient Optional webSocketClient
      *     to make this class testable
      *
-     * @throws RuntimeException If fails it will throw the Error
+     * @throws ReflectionException For reference @see ReflectionClass constructor
      */
     public function __construct(
         WebSocketSettings $webSocketSettings,
         AsteriskStasisApplication $stasisApplication,
         MessageHandlerInterface $messageHandler,
-        $subscribeAll = false,
+        bool $subscribeAll = false,
         WoketoWebSocketClient $woketoWebSocketClient = null
     ) {
         $this->logger = Helper::initLogger(self::class);
@@ -112,7 +112,6 @@ final class WebSocketClient
             $this->woketoWebSocketClient->start($this->messageHandler);
         } catch (Exception $e) {
             $this->logger->error($e->getMessage(), [__FUNCTION__]);
-            exit(1);
         }
     }
 }

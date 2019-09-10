@@ -3,7 +3,6 @@
 /** @copyright 2019 ng-voice GmbH */
 
 namespace NgVoice\AriClient\Tests\WebSocketClient;
-
 use Nekland\Woketo\Core\AbstractConnection;
 use Nekland\Woketo\Exception\WebsocketException;
 use NgVoice\AriClient\AsteriskStasisApplication;
@@ -16,6 +15,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @package NgVoice\AriClient\Tests\WebSocketClient
  * @author Lukas Stermann <lukas@ng-voice.com>
+ * @author Ahmad Hussain <ahmad@ng-voice.com>
  */
 class AriFilteredMessageHandlerTest extends TestCase
 {
@@ -52,6 +52,39 @@ class AriFilteredMessageHandlerTest extends TestCase
          * @var AbstractConnection $abstractConnectionStub
          */
         $remoteAppMessageHandler->onConnection($abstractConnectionStub);
+        $this->assertTrue(true, true);
+    }
+
+    public function testOnMessage(): void
+    {
+        /**
+         * @var AsteriskStasisApplication $stasisAppMock
+         * @var Applications $applicationsClientMock
+         */
+        $stasisAppMock = new class() implements AsteriskStasisApplication
+        {
+            public function dial(): void
+            {
+                // Create Mock Instance of DIAL Event
+            }
+        };
+        $applicationsClientMock = $this->createMock(Applications::class);
+
+        $remoteAppMessageHandler =
+            new AriFilteredMessageHandler($stasisAppMock, $applicationsClientMock);
+
+        $abstractConnectionStub = $this->createMock(AbstractConnection::class);
+
+        /**
+         * @var AbstractConnection $abstractConnectionStub
+         * @var array $data Sample JSON Message
+         */
+        $data = [
+            'message' => 'Example Message',
+            'type' => 'Dial',
+            'id' => 'id1'
+        ];
+        $remoteAppMessageHandler->onMessage(json_encode($data), $abstractConnectionStub);
         $this->assertTrue(true, true);
     }
 

@@ -32,11 +32,15 @@ final class DialplanCEPTest extends TestCase
             [
                 'priority' => '3',
                 'exten' => 'ExampleExten',
-                'context' => 'ExampleContext'
+                'context' => 'ExampleContext',
+                'app_name' => 'AppName',
+                'app_data' => 'App Data'
             ]
         );
         $this->assertSame('ExampleContext', $dialplanCEP->getContext());
         $this->assertSame('ExampleExten', $dialplanCEP->getExten());
         $this->assertSame('3', $dialplanCEP->getPriority());
+        $this->assertSame('AppName', $dialplanCEP->getAppName());
+        $this->assertSame('App Data', $dialplanCEP->getAppData());
     }
 }

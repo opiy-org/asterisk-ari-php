@@ -18,6 +18,8 @@ namespace NgVoice\AriClient\Models;
  * Dialed channel information.
  *
  * @package NgVoice\AriClient\Models
+ *
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
 final class Dialed implements Model
 {
