@@ -16,7 +16,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/ExampleApp.php';
 
 use NgVoice\AriClient\Helper;
-use NgVoice\AriClient\RestClient\{Applications, AriRestClientSettings, Asterisk, Events};
+use NgVoice\AriClient\RestClient\{Applications, AriRestClientSettings, Channels};
 use NgVoice\AriClient\WebSocketClient\{AriFilteredMessageHandler,
     WebSocketClient,
     WebSocketSettings};
@@ -33,8 +33,7 @@ $ariPass = 'asterisk';
 $ariRestClientSettings = new AriRestClientSettings($ariUser, $ariPass);
 
 $exampleApp = new ExampleApp(
-    new Events($ariRestClientSettings),
-    new Asterisk($ariRestClientSettings),
+    new Channels($ariRestClientSettings),
     Helper::initLogger('ExampleApp')
 );
 

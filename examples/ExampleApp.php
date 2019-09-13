@@ -9,11 +9,8 @@ require_once __DIR__ . '/../vendor/autoload.php';
 use Monolog\Logger;
 use NgVoice\AriClient\AsteriskStasisApplication;
 use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
-use NgVoice\AriClient\RestClient\{
-    Asterisk as AriAsteriskClient,
-    Events as AriEventsClient};
-use NgVoice\AriClient\Models\Message\{StasisStart, ChannelUserevent,
-                                        ChannelHangupRequest, StasisEnd};
+use NgVoice\AriClient\Models\Message\{ChannelHangupRequest, StasisEnd, StasisStart};
+use NgVoice\AriClient\RestClient\{Channels};
 
 /**
  * Example for usage of this library in a local application.
@@ -46,32 +43,23 @@ final class ExampleApp implements AsteriskStasisApplication
     private $logger;
 
     /**
-     * @var AriEventsClient
+     * @var Channels
      */
-    private $ariEventsClient;
-
-    /**
-     * @var AriAsteriskClient
-     */
-    private $ariAsteriskClient;
+    private $activeChannelsList;
 
     /**
      * ExampleApp constructor.
      *
-     * @param AriEventsClient $ariEventsClient REST client for
-     * the 'Event' resource of the Asterisk REST Interface
-     * @param AriAsteriskClient $ariAsteriskClient REST client
-     * for the 'Asterisk' resource of the Asterisk REST Interface
+     * @param Channels $activeChannelsList REST client for
+     * the 'Channels' resource of the Asterisk REST Interface
      * @param Logger $logger Logger for debugging and information
      * about the states of the example app
      */
     public function __construct(
-        AriEventsClient $ariEventsClient,
-        AriAsteriskClient $ariAsteriskClient,
+        Channels $activeChannelsList,
         Logger $logger
     ) {
-        $this->ariEventsClient = $ariEventsClient;
-        $this->ariAsteriskClient = $ariAsteriskClient;
+        $this->activeChannelsList = $activeChannelsList;
         $this->logger = $logger;
     }
 
@@ -80,57 +68,25 @@ final class ExampleApp implements AsteriskStasisApplication
      * when a channel enters your Stasis application.
      *
      * @param StasisStart $stasisStart The Asterisk StasisStart event
+     *
+     * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
     public function stasisStart(StasisStart $stasisStart): void
     {
         $channelId = $stasisStart->getChannel()->getId();
-        $this->logger->info("The channel {$channelId} has entered the ExampleApp.");
+        $this->logger->info(
+            "The channel {$channelId} has entered the ExampleApp."
+        );
 
         /*
-         * Asterisk provides the possibility to trigger user events
-         * for specific applications. Perfect to test your setup :)
+         * Now we get the list of active channels available in the Application
+         * through Asterisk Rest Interface
          */
-        $userEventName = 'customEventExample';
-
-        try {
-            $this->ariEventsClient->userEvent(
-                $userEventName,
-                'ExampleApp',
-                ['channel' => $channelId]
+        foreach ($this->activeChannelsList->list() as $activeChannel) {
+            $this->logger->info(
+                "The channel id: {$activeChannel->getId()} and the channel name:"
+                . "{$activeChannel->getName()} is active in the ExampleApp."
             );
-        } catch (AsteriskRestInterfaceException $asteriskRestInterfaceException) {
-            // Handle 4XX/5XX HTTP status codes. They will throw exceptions!
-            $this->logger->error($asteriskRestInterfaceException->getMessage());
-        }
-
-        $this->logger->info("{$userEventName} event triggered in Asterisk.");
-    }
-
-    /**
-     * User-generated event with additional user-defined fields in the object.
-     * We will handle our user event we triggered after we received the StasisStart event.
-     *
-     * @param ChannelUserevent $channelUserevent The Asterisk ChannelUserevent event
-     */
-    public function channelUserevent(ChannelUserevent $channelUserevent): void
-    {
-        $this->logger->info(
-            "ChannelUserevent received: {$channelUserevent->getEventname()}"
-        );
-        $this->logger->info(
-            "Timestamp of the event: {$channelUserevent->getTimestamp()}"
-        );
-
-        /*
-         * How about fetching your asterisk settings and
-         * receiving the returning AsteriskInfo object?
-         */
-        try {
-            $asteriskInfo = $this->ariAsteriskClient->getInfo();
-            $this->logger->info($asteriskInfo->getBuild()->getOs());
-        } catch (AsteriskRestInterfaceException $asteriskRestInterfaceException) {
-            // Handle 4XX/5XX HTTP status codes. They will throw exceptions!
-            $this->logger->error($asteriskRestInterfaceException->getMessage());
         }
     }
 
@@ -156,7 +112,8 @@ final class ExampleApp implements AsteriskStasisApplication
     public function stasisEnd(StasisEnd $stasisEnd): void
     {
         $this->logger->info(
-            "The channel {$stasisEnd->getChannel()->getId()} has left your example app."
+            "The channel {$stasisEnd->getChannel()->getId()}
+             has left your example app."
         );
     }
 }

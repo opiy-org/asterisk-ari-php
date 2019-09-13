@@ -11,7 +11,6 @@ use Monolog\Logger;
 use Nekland\Woketo\Client\WebSocketClient as WoketoWebSocketClient;
 use Nekland\Woketo\Message\MessageHandlerInterface;
 use NgVoice\AriClient\{AsteriskStasisApplication, Helper};
-use ReflectionException;
 
 /**
  * Class WebSocketClient
@@ -55,8 +54,6 @@ final class WebSocketClient
      * effectively disabling the application specific subscriptions. Default is 'false'.
      * @param WoketoWebSocketClient|null $woketoWebSocketClient Optional webSocketClient
      *     to make this class testable
-     *
-     * @throws ReflectionException For reference @see ReflectionClass constructor
      */
     public function __construct(
         WebSocketSettings $webSocketSettings,
