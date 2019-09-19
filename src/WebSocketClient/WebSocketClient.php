@@ -8,7 +8,7 @@ namespace NgVoice\AriClient\WebSocketClient;
 
 use Exception;
 use Monolog\Logger;
-use Nekland\Woketo\Client\WebSocketClient as WoketoWebSocketClient;
+use Nekland\Woketo\Client\ModifiedWoketoWebSocketClient as WoketoWebSocketClient;
 use Nekland\Woketo\Message\MessageHandlerInterface;
 use NgVoice\AriClient\{AsteriskStasisApplication, Helper};
 
