@@ -3,6 +3,8 @@
 /** @copyright 2019 ng-voice GmbH */
 
 namespace NgVoice\AriClient\Tests\WebSocketClient;
+
+use Nekland\Woketo\Client\ModifiedWoketoWebSocketClient;
 use NgVoice\AriClient\AsteriskStasisApplication;
 use NgVoice\AriClient\WebSocketClient\{AriFilteredMessageHandler,
     WebSocketClient,
@@ -20,13 +22,13 @@ class WebSocketClientTest extends TestCase
     public function testConstruct(): void
     {
         $woketoWebSocketClientStub =
-            $this->createMock(\Nekland\Woketo\Client\WebSocketClient::class);
+            $this->createMock(ModifiedWoketoWebSocketClient::class);
         $localAppMessageHandler = $this->createMock(AriFilteredMessageHandler::class);
         $stasisApp = $this->createMock(AsteriskStasisApplication::class);
         $webSocketSettings = $this->createMock(WebSocketSettings::class);
 
         /**
-         * @var \Nekland\Woketo\Client\WebSocketClient $woketoWebSocketClientStub
+         * @var ModifiedWoketoWebSocketClient $woketoWebSocketClientStub
          * @var AriFilteredMessageHandler $localAppMessageHandler
          * @var WebSocketSettings $webSocketSettings
          * @var AsteriskStasisApplication $stasisApp
@@ -47,13 +49,13 @@ class WebSocketClientTest extends TestCase
     {
 
         $woketoWebSocketClientStub =
-            $this->createMock(\Nekland\Woketo\Client\WebSocketClient::class);
+            $this->createMock(ModifiedWoketoWebSocketClient::class);
         $localAppMessageHandler = $this->createMock(AriFilteredMessageHandler::class);
         $stasisApp = $this->createMock(AsteriskStasisApplication::class);
         $webSocketSettings = $this->createMock(WebSocketSettings::class);
 
         /**
-         * @var \Nekland\Woketo\Client\WebSocketClient $woketoWebSocketClientStub
+         * @var ModifiedWoketoWebSocketClient $woketoWebSocketClientStub
          * @var AriFilteredMessageHandler $localAppMessageHandler
          * @var WebSocketSettings $webSocketSettings
          * @var AsteriskStasisApplication $stasisApp
