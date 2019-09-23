@@ -4,8 +4,9 @@
 
 declare(strict_types=1);
 
-namespace Nekland\Woketo\Client;
+namespace NgVoice\AriClient\WebSocketClient;
 
+use Nekland\Woketo\Client\{Connection, ConnectorFactory, ConnectorFactoryInterface};
 use Nekland\Woketo\Http\Url;
 use Nekland\Woketo\Message\MessageHandlerInterface;
 use Nekland\Woketo\Rfc6455\{FrameFactory,

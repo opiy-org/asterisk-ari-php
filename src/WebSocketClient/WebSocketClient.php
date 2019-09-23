@@ -8,7 +8,6 @@ namespace NgVoice\AriClient\WebSocketClient;
 
 use Exception;
 use Monolog\Logger;
-use Nekland\Woketo\Client\ModifiedWoketoWebSocketClient as WoketoWebSocketClient;
 use Nekland\Woketo\Message\MessageHandlerInterface;
 use NgVoice\AriClient\{AsteriskStasisApplication, Helper};
 
@@ -32,9 +31,9 @@ final class WebSocketClient
     private $logger;
 
     /**
-     * @var WoketoWebSocketClient
+     * @var ModifiedWoketoWebSocketClient
      */
-    private $woketoWebSocketClient;
+    private $modifiedWoketoWebSocketClient;
 
     /**
      * @var MessageHandlerInterface
@@ -52,7 +51,8 @@ final class WebSocketClient
      * @param bool $subscribeAll Subscribe to all Asterisk events.
      * If provided, the applications listed will be subscribed to all events,
      * effectively disabling the application specific subscriptions. Default is 'false'.
-     * @param WoketoWebSocketClient|null $woketoWebSocketClient Optional webSocketClient
+     * @param ModifiedWoketoWebSocketClient|null $woketoWebSocketClient Optional
+     * webSocketClient
      *     to make this class testable
      */
     public function __construct(
@@ -60,7 +60,7 @@ final class WebSocketClient
         AsteriskStasisApplication $stasisApplication,
         MessageHandlerInterface $messageHandler,
         bool $subscribeAll = false,
-        WoketoWebSocketClient $woketoWebSocketClient = null
+        ModifiedWoketoWebSocketClient $woketoWebSocketClient = null
     ) {
         $this->logger = Helper::initLogger(self::class);
         $this->messageHandler = $messageHandler;
@@ -92,10 +92,10 @@ final class WebSocketClient
         $this->logger->debug("URI to asterisk: '{$uri}'");
 
         if ($woketoWebSocketClient === null) {
-            $this->woketoWebSocketClient = new WoketoWebSocketClient($uri);
-        } else {
-            $this->woketoWebSocketClient = $woketoWebSocketClient;
+            $woketoWebSocketClient = new ModifiedWoketoWebSocketClient($uri);
         }
+
+        $this->modifiedWoketoWebSocketClient = $woketoWebSocketClient;
     }
 
     /**
@@ -106,7 +106,7 @@ final class WebSocketClient
     public function start(): void
     {
         try {
-            $this->woketoWebSocketClient->start($this->messageHandler);
+            $this->modifiedWoketoWebSocketClient->start($this->messageHandler);
         } catch (Exception $e) {
             $this->logger->error($e->getMessage(), [__FUNCTION__]);
         }
