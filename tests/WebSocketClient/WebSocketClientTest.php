@@ -4,9 +4,9 @@
 
 namespace NgVoice\AriClient\Tests\WebSocketClient;
 
-use Nekland\Woketo\Client\ModifiedWoketoWebSocketClient;
 use NgVoice\AriClient\AsteriskStasisApplication;
 use NgVoice\AriClient\WebSocketClient\{AriFilteredMessageHandler,
+    ModifiedWoketoWebSocketClient,
     WebSocketClient,
     WebSocketSettings};
 use PHPUnit\Framework\TestCase;

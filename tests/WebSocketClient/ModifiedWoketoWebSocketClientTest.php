@@ -5,8 +5,8 @@
 namespace NgVoice\AriClient\Tests\WebSocketClient;
 
 use Nekland\Woketo\Client\Connection;
-use Nekland\Woketo\Client\ModifiedWoketoWebSocketClient;
 use NgVoice\AriClient\WebSocketClient\AriFilteredMessageHandler;
+use NgVoice\AriClient\WebSocketClient\ModifiedWoketoWebSocketClient;
 use PHPUnit\Framework\TestCase;
 use React\EventLoop\LoopInterface;
 
