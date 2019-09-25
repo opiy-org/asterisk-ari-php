@@ -5,11 +5,12 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Exception;
+namespace NgVoice\AriClient\Tests\Exception;
 
 use GuzzleHttp\Exception\ServerException;
 use Mockery;
 use Monolog\Test\TestCase;
+use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
 
 /**
  * @package NgVoice\AriClient\Exception
