@@ -8,9 +8,8 @@ declare(strict_types=1);
 namespace NgVoice\AriClient\Tests\Exception;
 
 use GuzzleHttp\Exception\ServerException;
-use Mockery;
-use Monolog\Test\TestCase;
 use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @package NgVoice\AriClient\Exception
@@ -26,7 +25,7 @@ class AsteriskRestInterfaceExceptionTest extends TestCase
          * @var ServerException $mockedGuzzleObject
          *
          */
-        $mockedGuzzleObject = Mockery::mock(ServerException::class);
+        $mockedGuzzleObject = $this->createMock(ServerException::class);
 
         $guzzleExceptionTest =
             new AsteriskRestInterfaceException($mockedGuzzleObject);

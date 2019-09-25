@@ -79,8 +79,7 @@ final class ModifiedWoketoWebSocketClient
         string $url,
         array $config = [],
         ConnectorFactoryInterface $connectorFactory = null
-    )
-    {
+    ) {
         $this->url = new Url($url);
         $this->connectorFactory = $connectorFactory;
         $this->setConfig($config);
@@ -97,8 +96,7 @@ final class ModifiedWoketoWebSocketClient
         MessageHandlerInterface $handler,
         Connection $connection = null,
         LoopInterface $loop = null
-    ): void
-    {
+    ): void {
         if ($this->config['prod'] && extension_loaded('xdebug')) {
             throw new EnvironmentConfigurationException(
                 'xdebug is enabled, 
