@@ -24,12 +24,12 @@
     }
   ],
   "require": {
-    "php": ">=7.3",
-    "monolog/monolog": "2.0.0",
-    "guzzlehttp/guzzle": "6.3.3",
-    "symfony/yaml": "v4.3.4",
-    "nekland/woketo": "2.2.1",
-    "netresearch/jsonmapper": "v1.6.0",
+    "php": "~7.3",
+    "monolog/monolog": "~1.20",
+    "guzzlehttp/guzzle": "~6.3",
+    "symfony/yaml": "~v4.3",
+    "nekland/woketo": "~2.2",
+    "netresearch/jsonmapper": "~v1.6",
     "ext-json": "*",
     "ext-http": "*"
   },
