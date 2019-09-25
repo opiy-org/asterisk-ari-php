@@ -21,6 +21,12 @@
       "email": "lukas@ng-voice.com",
       "homepage": "https://ng-voice.com",
       "role": "Software Engineer"
+    },
+    {
+      "name": "Ahmad Hussain",
+      "email": "ahmad@ng-voice.com",
+      "homepage": "https://ng-voice.com",
+      "role": "Software Engineer"
     }
   ],
   "require": {
