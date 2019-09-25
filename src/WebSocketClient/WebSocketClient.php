@@ -10,6 +10,7 @@ use Exception;
 use Monolog\Logger;
 use Nekland\Woketo\Message\MessageHandlerInterface;
 use NgVoice\AriClient\{AsteriskStasisApplication, Helper};
+use React\EventLoop\LoopInterface;
 
 /**
  * Class WebSocketClient
@@ -110,5 +111,10 @@ final class WebSocketClient
         } catch (Exception $e) {
             $this->logger->error($e->getMessage(), [__FUNCTION__]);
         }
+    }
+
+    public function getLoop(): LoopInterface
+    {
+        return $this->modifiedWoketoWebSocketClient->getLoop();
     }
 }
