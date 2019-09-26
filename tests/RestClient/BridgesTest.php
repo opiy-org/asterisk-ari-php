@@ -254,7 +254,7 @@ class BridgesTest extends TestCase
         $guzzleClientStub->method('request')
             // TODO: Test for correct parameter translation via with() method here?
             //  ->with()
-                         ->willReturn(
+            ->willReturn(
                 new Response(
                     200,
                     [],

@@ -20,8 +20,10 @@ namespace NgVoice\AriClient\Models;
  * an endpoint is uniquely identified by the technology/resource pair.
  *
  * @package NgVoice\AriClient\Models
+ *
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class Endpoint implements Model
+final class Endpoint implements ModelInterface
 {
     /**
      * @var string Identifier of the endpoint, specific to the given technology.

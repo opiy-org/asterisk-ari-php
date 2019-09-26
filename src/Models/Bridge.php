@@ -21,7 +21,7 @@ namespace NgVoice\AriClient\Models;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class Bridge implements Model
+final class Bridge implements ModelInterface
 {
     /**
      * Type of bridge technology (mixing | holding).

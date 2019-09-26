@@ -17,8 +17,10 @@ namespace NgVoice\AriClient\Models;
  * A statistics of a RTP.
  *
  * @package NgVoice\AriClient\Models
+ *
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class RTPstat implements Model
+final class RTPstat implements ModelInterface
 {
     /**
      * @var double Jitter on transmitted packets.

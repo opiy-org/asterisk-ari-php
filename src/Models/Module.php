@@ -18,8 +18,10 @@ namespace NgVoice\AriClient\Models;
  * Details of an Asterisk module
  *
  * @package NgVoice\AriClient\Models
+ *
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class Module implements Model
+final class Module implements ModelInterface
 {
     /**
      * @var int The number of times this module is being used.

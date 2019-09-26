@@ -18,8 +18,10 @@ namespace NgVoice\AriClient\Models;
  * Effective user/group id
  *
  * @package NgVoice\AriClient\Models
+ *
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class SetId implements Model
+final class SetId implements ModelInterface
 {
     /**
      * @var string Effective group id.

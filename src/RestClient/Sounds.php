@@ -7,7 +7,7 @@ declare(strict_types=1);
 namespace NgVoice\AriClient\RestClient;
 
 use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
-use NgVoice\AriClient\Models\{Model, Sound};
+use NgVoice\AriClient\Models\Sound;
 
 /**
  * An implementation of the Sounds REST client for the
@@ -32,9 +32,16 @@ final class Sounds extends AsteriskRestInterfaceClient
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
-    public function list(array $options = []): array
+    public function list(array $options = [])
     {
-        return $this->getArrayOfModelInstancesRequest(Sound::class, '/sounds', $options);
+        /** @var Sound[] $sounds */
+        $sounds = $this->requestGetArrayOfModels(
+            Sound::class,
+            '/sounds',
+            $options
+        );
+
+        return $sounds;
     }
 
     /**
@@ -42,12 +49,15 @@ final class Sounds extends AsteriskRestInterfaceClient
      *
      * @param string $soundId Sound's id.
      *
-     * @return Sound|Model
+     * @return Sound
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
     public function get(string $soundId): Sound
     {
-        return $this->getModelRequest(Sound::class, "/sounds/{$soundId}");
+        /** @var Sound $sound */
+        $sound = $this->getModelRequest(Sound::class, "/sounds/{$soundId}");
+
+        return $sound;
     }
 }

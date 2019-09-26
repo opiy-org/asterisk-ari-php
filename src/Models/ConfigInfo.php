@@ -18,8 +18,10 @@ namespace NgVoice\AriClient\Models;
  * Info about Asterisk configuration
  *
  * @package NgVoice\AriClient\Models
+ *
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class ConfigInfo implements Model
+final class ConfigInfo implements ModelInterface
 {
     /**
      * @var string Asterisk system name.

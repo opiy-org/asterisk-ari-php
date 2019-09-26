@@ -36,8 +36,7 @@
     "symfony/yaml": "~v4.3",
     "nekland/woketo": "~2.2",
     "netresearch/jsonmapper": "~v1.6",
-    "ext-json": "*",
-    "ext-http": "*"
+    "ext-json": "*"
   },
   "require-dev": {
     "roave/security-advisories": "dev-master",

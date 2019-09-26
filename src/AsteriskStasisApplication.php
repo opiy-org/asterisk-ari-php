@@ -8,7 +8,7 @@ namespace NgVoice\AriClient;
 
 /**
  * Interface AsteriskStasisApplication enables stasis applications
- * to use the web socket message handlers provided by this library.
+ * to use the @see AriFilteredMessageHandler provided by this library.
  *
  * In order to use type safety for the provided message handlers
  * constructor signature, stasis applications have to implement

@@ -18,8 +18,10 @@ namespace NgVoice\AriClient\Models;
  * A past recording that may be played back.
  *
  * @package NgVoice\AriClient\Models
+ *
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class StoredRecording implements Model
+final class StoredRecording implements ModelInterface
 {
     /**
      * @var string Base name for the recording.

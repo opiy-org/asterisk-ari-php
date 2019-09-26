@@ -18,8 +18,10 @@ namespace NgVoice\AriClient\Models;
  * Identifies the format and language of a sound file.
  *
  * @package NgVoice\AriClient\Models
+ *
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class FormatLangPair implements Model
+final class FormatLangPair implements ModelInterface
 {
     /**
      * @var string

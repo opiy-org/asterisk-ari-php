@@ -7,13 +7,13 @@ declare(strict_types=1);
 namespace NgVoice\AriClient\WebSocketClient;
 
 /**
- * Class WebSocketSettings
+ * Class WebSocketClientSettings
  *
  * @package NgVoice\AriClient\WebSocketClient
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class WebSocketSettings
+final class WebSocketClientSettings
 {
     /**
      * @var string
@@ -46,7 +46,7 @@ final class WebSocketSettings
     private $rootUri;
 
     /**
-     * WebSocketSettings constructor.
+     * WebSocketClientSettings constructor.
      *
      * @param string $user Username
      * @param string $password Password

@@ -18,8 +18,10 @@ namespace NgVoice\AriClient\Models;
  * Detailed information about a contact on an endpoint.
  *
  * @package NgVoice\AriClient\Models
+ *
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class ContactInfo implements Model
+final class ContactInfo implements ModelInterface
 {
     /**
      * @var string The location of the contact.

@@ -18,8 +18,10 @@ namespace NgVoice\AriClient\Models;
  * Object representing the playback of media to a channel
  *
  * @package NgVoice\AriClient\Models
+ *
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class Playback implements Model
+final class Playback implements ModelInterface
 {
     /**
      * @var string If a list of URIs is being played, the next media URI to be played back.

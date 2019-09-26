@@ -7,7 +7,7 @@ declare(strict_types=1);
 namespace NgVoice\AriClient\RestClient;
 
 use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
-use NgVoice\AriClient\Models\{Model, Playback};
+use NgVoice\AriClient\Models\Playback;
 
 /**
  * An implementation of the Playbacks REST client for the
@@ -26,13 +26,16 @@ final class Playbacks extends AsteriskRestInterfaceClient
      *
      * @param string $playbackId Playback's id.
      *
-     * @return Playback|Model
+     * @return Playback
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
     public function get(string $playbackId): Playback
     {
-        return $this->getModelRequest(Playback::class, "/playbacks/{$playbackId}");
+        /** @var Playback $playback */
+        $playback = $this->getModelRequest(Playback::class, "/playbacks/{$playbackId}");
+
+        return $playback;
     }
 
     /**

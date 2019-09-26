@@ -7,7 +7,7 @@ declare(strict_types=1);
 namespace NgVoice\AriClient\RestClient;
 
 use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
-use NgVoice\AriClient\Models\{LiveRecording, Model, StoredRecording};
+use NgVoice\AriClient\Models\{LiveRecording, StoredRecording};
 
 /**
  * An implementation of the Recordings REST client for the
@@ -28,12 +28,15 @@ final class Recordings extends AsteriskRestInterfaceClient
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
-    public function listStored(): array
+    public function listStored()
     {
-        return $this->getArrayOfModelInstancesRequest(
+        /** @var StoredRecording[] $storedRecordings */
+        $storedRecordings = $this->requestGetArrayOfModels(
             StoredRecording::class,
             '/recordings/stored'
         );
+
+        return $storedRecordings;
     }
 
     /**
@@ -41,16 +44,19 @@ final class Recordings extends AsteriskRestInterfaceClient
      *
      * @param string $recordingName The name of the recording
      *
-     * @return StoredRecording|Model
+     * @return StoredRecording
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
     public function getStored(string $recordingName): StoredRecording
     {
-        return $this->getModelRequest(
+        /** @var StoredRecording $storedRecording */
+        $storedRecording = $this->getModelRequest(
             StoredRecording::class,
             "/recordings/stored/{$recordingName}"
         );
+
+        return $storedRecording;
     }
 
     /**
@@ -86,7 +92,7 @@ final class Recordings extends AsteriskRestInterfaceClient
      * @param string $recordingName The name of the recording to copy.
      * @param string $destinationRecordingName The destination name of the recording.
      *
-     * @return StoredRecording|Model
+     * @return StoredRecording
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
@@ -94,11 +100,14 @@ final class Recordings extends AsteriskRestInterfaceClient
         string $recordingName,
         string $destinationRecordingName
     ): StoredRecording {
-        return $this->postRequestReturningModel(
+        /** @var StoredRecording $storedRecording */
+        $storedRecording = $this->postRequestReturningModel(
             StoredRecording::class,
             "/recordings/stored/{$recordingName}/copy",
             ['destinationRecordingName' => $destinationRecordingName]
         );
+
+        return $storedRecording;
     }
 
     /**
@@ -106,16 +115,19 @@ final class Recordings extends AsteriskRestInterfaceClient
      *
      * @param string $recordingName The name of the recording.
      *
-     * @return LiveRecording|Model
+     * @return LiveRecording
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
     public function getLive(string $recordingName): LiveRecording
     {
-        return $this->getModelRequest(
+        /** @var LiveRecording $liveRecording */
+        $liveRecording = $this->getModelRequest(
             LiveRecording::class,
             "/recordings/live/{$recordingName}"
         );
+
+        return $liveRecording;
     }
 
     /**

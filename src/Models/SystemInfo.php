@@ -18,8 +18,10 @@ namespace NgVoice\AriClient\Models;
  * Info about Asterisk.
  *
  * @package NgVoice\AriClient\Models
+ *
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class SystemInfo implements Model
+final class SystemInfo implements ModelInterface
 {
     /**
      * @var string

@@ -18,8 +18,10 @@ namespace NgVoice\AriClient\Models;
  * Info about how Asterisk was built.
  *
  * @package NgVoice\AriClient\Models
+ *
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class BuildInfo implements Model
+final class BuildInfo implements ModelInterface
 {
     /**
      * @var string Kernel version Asterisk was built on.

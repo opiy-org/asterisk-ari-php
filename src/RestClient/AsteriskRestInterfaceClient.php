@@ -11,7 +11,9 @@ use GuzzleHttp\Exception\GuzzleException;
 use JsonMapper;
 use JsonMapper_Exception;
 use Monolog\Logger;
-use NgVoice\AriClient\{Exception\AsteriskRestInterfaceException, Helper, Models\Model};
+use NgVoice\AriClient\{Exception\AsteriskRestInterfaceException,
+    Helper,
+    Models\ModelInterface};
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -103,11 +105,11 @@ abstract class AsteriskRestInterfaceClient
     /**
      * Send a GET Request to Asterisk, expecting a model instance.
      *
-     * @param string $modelClassPath Path to a Model Class
+     * @param string $modelClassPath Path to a ModelInterface Class
      * @param string $uri URI Path
      * @param array $queryParameters Array of Query Parameters
      *
-     * @return Model
+     * @return ModelInterface
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
@@ -115,7 +117,7 @@ abstract class AsteriskRestInterfaceClient
         string $modelClassPath,
         string $uri,
         array $queryParameters = []
-    ): Model {
+    ): ModelInterface {
         $uri = "{$this->rootUri}{$uri}";
         $this->debugRequest(self::GET, $uri, $queryParameters);
 
@@ -137,19 +139,19 @@ abstract class AsteriskRestInterfaceClient
     /**
      * Send a GET Request to Asterisk, expecting an array of model instance.
      *
-     * @param string $returnModelClassPath Path of a Model Class
+     * @param string $returnModelClassPath Path of a ModelInterface Class
      * @param string $uri URI Path
      * @param array $queryParameters Array of Query Parameters
      *
-     * @return Model[]
+     * @return ModelInterface[]
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
-    protected function getArrayOfModelInstancesRequest(
+    protected function requestGetArrayOfModels(
         string $returnModelClassPath,
         string $uri,
         array $queryParameters = []
-    ): array {
+    ) {
         $uri = "{$this->rootUri}{$uri}";
         $this->debugRequest(self::GET, $uri, $queryParameters);
 
@@ -221,12 +223,12 @@ abstract class AsteriskRestInterfaceClient
      * @param ResponseInterface $response Request Response
      * @param string $targetObjectType Path of the Target Object
      *
-     * @return Model[]
+     * @return ModelInterface[]
      */
     private function mapJsonToArrayOfAriModelInstances(
         ResponseInterface $response,
         string $targetObjectType
-    ): array {
+    ) {
         $decodedResponseBody = json_decode((string) $response->getBody(), false);
         try {
             $mappedElements = [];
@@ -244,19 +246,22 @@ abstract class AsteriskRestInterfaceClient
 
     /**
      * @param ResponseInterface $response Request Response
-     * @param string $modelClassPath Model Class Path
+     * @param string $modelClassPath ModelInterface Class Path
      *
-     * @return Model|object
+     * @return ModelInterface
      */
     private function mapJsonToAriModel(
         ResponseInterface $response,
         string $modelClassPath
-    ): Model {
+    ): ModelInterface {
         try {
-            return $this->jsonMapper->map(
+            /** @var ModelInterface $modelInterface */
+            $modelInterface = $this->jsonMapper->map(
                 json_decode((string) $response->getBody(), false),
                 new $modelClassPath()
             );
+
+            return $modelInterface;
         } catch (JsonMapper_Exception $jsonMapper_Exception) {
             $this->logger->error($jsonMapper_Exception->getMessage(), [__FUNCTION__]);
             // If the entity cannot be mapped, this is a show stopper.
@@ -265,7 +270,7 @@ abstract class AsteriskRestInterfaceClient
     }
 
     /**
-     * Send a POST request to Asterisk with no returning Model.
+     * Send a POST request to Asterisk with no returning ModelInterface.
      *
      * @param string $uri URI Path
      * @param array $queryParameters Array of Query Parameters
@@ -297,12 +302,12 @@ abstract class AsteriskRestInterfaceClient
     /**
      * Send a POST request to Asterisk and return a model instance.
      *
-     * @param string $returnModelClassPath Model Class Path
+     * @param string $returnModelClassPath ModelInterface Class Path
      * @param string $uri URI Path
      * @param array $queryParameters Array of Query Parameters
      * @param array $body Body Content
      *
-     * @return Model
+     * @return ModelInterface
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
@@ -311,7 +316,7 @@ abstract class AsteriskRestInterfaceClient
         string $uri,
         array $queryParameters = [],
         array $body = []
-    ): Model {
+    ): ModelInterface {
         $uri = "{$this->rootUri}{$uri}";
         $this->debugRequest(self::POST, $uri, $queryParameters, $body);
 
@@ -331,49 +336,13 @@ abstract class AsteriskRestInterfaceClient
     }
 
     /**
-     * Send a POST request to Asterisk and return an array of model instances.
+     * Send a PUT request to Asterisk and return a ModelInterface instance.
      *
-     * @param string $returnModelClassPath Model Class Path
-     * @param string $uri URI Path
-     * @param array $queryParameters Array of Query Parameters
-     * @param array $body Body Content
-     *
-     * @return Model[]
-     *
-     * @throws AsteriskRestInterfaceException in case the REST request fails.
-     */
-    protected function postRequestReturningArrayOfModelInstances(
-        string $returnModelClassPath,
-        string $uri,
-        array $queryParameters = [],
-        array $body = []
-    ): array {
-        $uri = "{$this->rootUri}{$uri}";
-        $this->debugRequest(self::POST, $uri, $queryParameters, $body);
-
-        try {
-            $response = $this->guzzleClient->request(
-                self::POST,
-                $uri,
-                ['json' => $body, self::QUERY => $queryParameters]
-            );
-        } catch (GuzzleException $e) {
-            throw new AsteriskRestInterfaceException($e);
-        }
-
-        $this->debugResponse($response, self::POST, $uri, $queryParameters, $body);
-
-        return $this->mapJsonToArrayOfAriModelInstances($response, $returnModelClassPath);
-    }
-
-    /**
-     * Send a PUT request to Asterisk and return a Model instance.
-     *
-     * @param string $returnModelClassPath Model Class Path
+     * @param string $returnModelClassPath ModelInterface Class Path
      * @param string $uri URI Path
      * @param array $body Body Content
      *
-     * @return Model
+     * @return ModelInterface
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
@@ -381,7 +350,7 @@ abstract class AsteriskRestInterfaceClient
         string $returnModelClassPath,
         string $uri,
         array $body = []
-    ): Model {
+    ): ModelInterface {
         $uri = "{$this->rootUri}{$uri}";
         $this->debugRequest(self::PUT, $uri, [], $body);
 
@@ -397,13 +366,13 @@ abstract class AsteriskRestInterfaceClient
     }
 
     /**
-     * Send a PUT request to Asterisk and return an array of Model instances.
+     * Send a PUT request to Asterisk and return an array of ModelInterface instances.
      *
-     * @param string $returnModelClassPath Model Class Path
+     * @param string $returnModelClassPath ModelInterface Class Path
      * @param string $uri URI Path
      * @param array $body Body Content
      *
-     * @return Model[]
+     * @return ModelInterface[]
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
@@ -411,7 +380,7 @@ abstract class AsteriskRestInterfaceClient
         string $returnModelClassPath,
         string $uri,
         array $body = []
-    ): array {
+    ) {
         $uri = "{$this->rootUri}{$uri}";
         $this->debugRequest(self::PUT, $uri, [], $body);
 
@@ -455,13 +424,13 @@ abstract class AsteriskRestInterfaceClient
     }
 
     /**
-     * Send a DELETE request to Asterisk returning a Model instance.
+     * Send a DELETE request to Asterisk returning a ModelInterface instance.
      *
-     * @param string $returnModelClassPath Model Class Path
+     * @param string $returnModelClassPath ModelInterface Class Path
      * @param string $uri URI Path
      * @param array $queryParameters Array of Query Parameters
      *
-     * @return Model
+     * @return ModelInterface
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
@@ -469,7 +438,7 @@ abstract class AsteriskRestInterfaceClient
         string $returnModelClassPath,
         string $uri,
         array $queryParameters = []
-    ): Model {
+    ): ModelInterface {
         $uri = "{$this->rootUri}{$uri}";
         $this->debugRequest(self::DELETE, $uri, $queryParameters);
 

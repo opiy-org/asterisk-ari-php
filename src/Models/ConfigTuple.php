@@ -18,8 +18,10 @@ namespace NgVoice\AriClient\Models;
  * A key/value pair that makes up part of a configuration object.
  *
  * @package NgVoice\AriClient\Models
+ *
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class ConfigTuple implements Model
+final class ConfigTuple implements ModelInterface
 {
     /**
      * @var string A configuration object attribute.

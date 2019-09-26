@@ -7,7 +7,7 @@ declare(strict_types=1);
 namespace NgVoice\AriClient\RestClient;
 
 use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
-use NgVoice\AriClient\Models\{Channel, LiveRecording, Model, Playback, RTPstat, Variable};
+use NgVoice\AriClient\Models\{Channel, LiveRecording, Playback, RTPstat, Variable};
 
 /**
  * An implementation of the Channels REST client for the
@@ -30,9 +30,12 @@ final class Channels extends AsteriskRestInterfaceClient
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
-    public function list(): array
+    public function list()
     {
-        return $this->getArrayOfModelInstancesRequest(Channel::class, '/channels');
+        /** @var Channel[] $channels */
+        $channels = $this->requestGetArrayOfModels(Channel::class, '/channels');
+
+        return $channels;
     }
 
     /**
@@ -71,21 +74,24 @@ final class Channels extends AsteriskRestInterfaceClient
      * @param string[] $channelVariables Variables to be set before the channel is
      *     originated.
      *
-     * @return Channel|Model
+     * @return Channel
      *
      * @throws AsteriskRestInterfaceException  in case the REST request fails.
      */
     public function originate(
         string $endpoint,
-        array $options = [],
+        array $options,
         array $channelVariables = []
     ): Channel {
-        return $this->postRequestReturningModel(
+        /** @var Channel $channel */
+        $channel = $this->postRequestReturningModel(
             Channel::class,
             '/channels',
             [self::ENDPOINT => $endpoint] + $options,
             ['variables' => $channelVariables]
         );
+
+        return $channel;
     }
 
     /**
@@ -105,17 +111,20 @@ final class Channels extends AsteriskRestInterfaceClient
      *     specified. Ex. "ulaw,slin16". Format names can be found with "core show
      *     codecs".
      *
-     * @return Channel|Model
+     * @return Channel
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
     public function create(string $endpoint, string $app, array $options = []): Channel
     {
-        return $this->postRequestReturningModel(
+        /** @var Channel $channel */
+        $channel = $this->postRequestReturningModel(
             Channel::class,
             '/channels/create',
             [self::ENDPOINT => $endpoint, 'app' => $app] + $options
         );
+
+        return $channel;
     }
 
     /**
@@ -123,13 +132,16 @@ final class Channels extends AsteriskRestInterfaceClient
      *
      * @param string $channelId Channel's id.
      *
-     * @return Channel|object
+     * @return Channel
      *
      * @throws AsteriskRestInterfaceException  in case the REST request fails.
      */
     public function get(string $channelId): Channel
     {
-        return $this->getModelRequest(Channel::class, "/channels/{$channelId}");
+        /** @var Channel $channel */
+        $channel = $this->getModelRequest(Channel::class, "/channels/{$channelId}");
+
+        return $channel;
     }
 
     /**
@@ -168,22 +180,25 @@ final class Channels extends AsteriskRestInterfaceClient
      * @param string[] $channelVariables Variables to be set before the channel is
      *     originated.
      *
-     * @return Channel|Model
+     * @return Channel
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
     public function originateWithId(
         string $channelId,
         string $endpoint,
-        array $options = [],
+        array $options,
         array $channelVariables = []
     ): Channel {
-        return $this->postRequestReturningModel(
+        /** @var Channel $channel */
+        $channel = $this->postRequestReturningModel(
             Channel::class,
             "/channels/{$channelId}",
             [self::ENDPOINT => $endpoint] + $options,
             ['variables' => $channelVariables]
         );
+
+        return $channel;
     }
 
     /**
@@ -447,17 +462,20 @@ final class Channels extends AsteriskRestInterfaceClient
      * skipms: int - Number of milliseconds to skip for forward/reverse operations.
      *     Default: 3000 playbackId: string - Playback ID.
      *
-     * @return Playback|Model
+     * @return Playback
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
     public function play(string $channelId, array $media, array $options = []): Playback
     {
-        return $this->postRequestReturningModel(
+        /** @var Playback $playback */
+        $playback = $this->postRequestReturningModel(
             Playback::class,
             "/channels/{$channelId}/play",
             ['media' => implode(',', $media)] + $options
         );
+
+        return $playback;
     }
 
     /**
@@ -478,7 +496,7 @@ final class Channels extends AsteriskRestInterfaceClient
      * skipms: int - Number of milliseconds to skip for forward/reverse operations.
      *     Default: 3000
      *
-     * @return Playback|Model
+     * @return Playback
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
@@ -488,11 +506,14 @@ final class Channels extends AsteriskRestInterfaceClient
         array $media,
         array $options = []
     ): Playback {
-        return $this->postRequestReturningModel(
+        /** @var Playback $playback */
+        $playback = $this->postRequestReturningModel(
             Playback::class,
             "/channels/{$channelId}/play/{$playbackId}",
             ['media' => implode(',', $media)] + $options
         );
+
+        return $playback;
     }
 
     /**
@@ -514,7 +535,7 @@ final class Channels extends AsteriskRestInterfaceClient
      * terminateOn: string - DTMF input to terminate recording. Default: none.
      *     Allowed values: none, any, *, #
      *
-     * @return LiveRecording|Model
+     * @return LiveRecording
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
@@ -524,11 +545,14 @@ final class Channels extends AsteriskRestInterfaceClient
         string $format,
         array $options = []
     ): LiveRecording {
-        return $this->postRequestReturningModel(
+        /** @var LiveRecording $liveRecording */
+        $liveRecording = $this->postRequestReturningModel(
             LiveRecording::class,
             "/channels/{$channelId}/record",
             ['name' => $name, 'format' => $format] + $options
         );
+
+        return $liveRecording;
     }
 
     /**
@@ -537,17 +561,20 @@ final class Channels extends AsteriskRestInterfaceClient
      * @param string $channelId Channel's id.
      * @param string $variable The channel variable or function to get.
      *
-     * @return Variable|Model
+     * @return Variable
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
     public function getChannelVar(string $channelId, string $variable): Variable
     {
-        return $this->getModelRequest(
+        /** @var Variable $variableModel */
+        $variableModel = $this->getModelRequest(
             Variable::class,
             "/channels/{$channelId}/variable",
             ['variable' => $variable]
         );
+
+        return $variableModel;
     }
 
     /**
@@ -584,7 +611,7 @@ final class Channels extends AsteriskRestInterfaceClient
      * appArgs: string - The application arguments to pass to the Stasis application
      * snoopId: string - Unique ID to assign to snooping channel
      *
-     * @return Channel|Model
+     * @return Channel
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
@@ -593,11 +620,14 @@ final class Channels extends AsteriskRestInterfaceClient
         string $app,
         array $options = []
     ): Channel {
-        return $this->postRequestReturningModel(
+        /** @var Channel $channel */
+        $channel = $this->postRequestReturningModel(
             Channel::class,
             "/channels/{$channelId}/snoop",
             ['app' => $app] + $options
         );
+
+        return $channel;
     }
 
     /**
@@ -613,7 +643,7 @@ final class Channels extends AsteriskRestInterfaceClient
      *     Allowed values: none, both, out, in
      * appArgs: string - The application arguments to pass to the Stasis application
      *
-     * @return Channel|Model
+     * @return Channel
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
@@ -623,11 +653,14 @@ final class Channels extends AsteriskRestInterfaceClient
         string $app,
         array $options = []
     ): Channel {
-        return $this->postRequestReturningModel(
+        /** @var Channel $channel */
+        $channel = $this->postRequestReturningModel(
             Channel::class,
             "/channels/{$channelId}/snoop/{$snoopId}",
             ['app' => $app] + $options,
         );
+
+        return $channel;
     }
 
     /**
@@ -659,15 +692,18 @@ final class Channels extends AsteriskRestInterfaceClient
      *
      * @param string $channelId Channel's id
      *
-     * @return RTPstat|Model
+     * @return RTPstat
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
     public function rtpStatistics(string $channelId): RTPstat
     {
-        return $this->getModelRequest(
+        /** @var RTPstat $rtpStat */
+        $rtpStat = $this->getModelRequest(
             RTPstat::class,
             "/channels/{$channelId}/rtp_statistics"
         );
+
+        return $rtpStat;
     }
 }

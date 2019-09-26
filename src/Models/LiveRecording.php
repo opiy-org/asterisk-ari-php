@@ -18,8 +18,10 @@ namespace NgVoice\AriClient\Models;
  * A recording that is in progress
  *
  * @package NgVoice\AriClient\Models
+ *
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class LiveRecording implements Model
+final class LiveRecording implements ModelInterface
 {
     /**
      * @var int Duration of talking, in seconds, detected in the recording.

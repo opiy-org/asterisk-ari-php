@@ -33,9 +33,9 @@ final class DeviceStates extends AsteriskRestInterfaceClient
 
     public const RINGING = 'RINGING';
 
-    public const RINGINUSE = 'RINGINUSE';
+    public const RING_INUSE = 'RINGINUSE';
 
-    public const ONHOLD = 'ONHOLD';
+    public const ON_HOLD = 'ONHOLD';
 
     /**
      * List all ARI controlled device states.
@@ -44,12 +44,15 @@ final class DeviceStates extends AsteriskRestInterfaceClient
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
-    public function list(): array
+    public function list()
     {
-        return $this->getArrayOfModelInstancesRequest(
+        /** @var DeviceState[] $deviceStates */
+        $deviceStates = $this->requestGetArrayOfModels(
             DeviceState::class,
             '/deviceStates'
         );
+
+        return $deviceStates;
     }
 
     /**
@@ -57,13 +60,19 @@ final class DeviceStates extends AsteriskRestInterfaceClient
      *
      * @param string $deviceName Name of the device
      *
-     * @return DeviceState|object
+     * @return DeviceState
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
     public function get(string $deviceName): DeviceState
     {
-        return $this->getModelRequest(DeviceState::class, "/deviceStates/{$deviceName}");
+        /** @var DeviceState $deviceState */
+        $deviceState = $this->getModelRequest(
+            DeviceState::class,
+            "/deviceStates/{$deviceName}"
+        );
+
+        return $deviceState;
     }
 
     /**

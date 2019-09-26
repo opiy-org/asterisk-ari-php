@@ -18,8 +18,10 @@ namespace NgVoice\AriClient\Models;
  * Info about Asterisk status.
  *
  * @package NgVoice\AriClient\Models
+ *
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class StatusInfo implements Model
+final class StatusInfo implements ModelInterface
 {
     /**
      * @var string Time when Asterisk was last reloaded.

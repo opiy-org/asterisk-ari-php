@@ -21,6 +21,6 @@ namespace NgVoice\AriClient\Models;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class Dialed implements Model
+final class Dialed implements ModelInterface
 {
 }

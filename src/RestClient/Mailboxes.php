@@ -7,7 +7,7 @@ declare(strict_types=1);
 namespace NgVoice\AriClient\RestClient;
 
 use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
-use NgVoice\AriClient\Models\{Mailbox, Model};
+use NgVoice\AriClient\Models\Mailbox;
 
 /**
  * An implementation of the Mailboxes REST client for the
@@ -28,9 +28,12 @@ final class Mailboxes extends AsteriskRestInterfaceClient
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
-    public function list(): array
+    public function list()
     {
-        return $this->getArrayOfModelInstancesRequest(Mailbox::class, '/mailboxes');
+        /** @var Mailbox[] $mailboxes */
+        $mailboxes = $this->requestGetArrayOfModels(Mailbox::class, '/mailboxes');
+
+        return $mailboxes;
     }
 
     /**
@@ -38,13 +41,16 @@ final class Mailboxes extends AsteriskRestInterfaceClient
      *
      * @param string $mailboxName Name of the mailbox.
      *
-     * @return Mailbox|Model
+     * @return Mailbox
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
     public function get(string $mailboxName): Mailbox
     {
-        return $this->getModelRequest(Mailbox::class, "/mailboxes/{$mailboxName}");
+        /** @var Mailbox $mailbox */
+        $mailbox = $this->getModelRequest(Mailbox::class, "/mailboxes/{$mailboxName}");
+
+        return $mailbox;
     }
 
     /**

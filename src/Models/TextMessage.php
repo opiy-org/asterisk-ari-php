@@ -18,8 +18,10 @@ namespace NgVoice\AriClient\Models;
  * A text message.
  *
  * @package NgVoice\AriClient\Models
+ *
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class TextMessage implements Model
+final class TextMessage implements ModelInterface
 {
     /**
      * @var string The text of the message.

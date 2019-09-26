@@ -18,8 +18,10 @@ namespace NgVoice\AriClient\Models;
  * A media file that may be played back.
  *
  * @package NgVoice\AriClient\Models
+ *
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class Sound implements Model
+final class Sound implements ModelInterface
 {
     /**
      * @var string Text description of the sound, usually the words spoken.

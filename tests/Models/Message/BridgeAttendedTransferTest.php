@@ -78,7 +78,7 @@ final class BridgeAttendedTransferTest extends TestCase
                 'transfer_target' => $exampleChannel,
                 'result' => 'Result',
                 'destination_type' => 'DestinationType',
-                'destination_application' => 'ExampleApp',
+                'destination_application' => 'MyExampleStasisApp',
                 'destination_threeway_bridge' => $exampleBridge,
                 'destination_link_first_leg' => $exampleChannel,
                 'transferee' => $exampleChannel,
@@ -96,7 +96,7 @@ final class BridgeAttendedTransferTest extends TestCase
         $this->assertInstanceOf(Channel::class, $bridgeAttendedTransfer->getTransferTarget());
         $this->assertSame('Result', $bridgeAttendedTransfer->getResult());
         $this->assertSame('DestinationType', $bridgeAttendedTransfer->getDestinationType());
-        $this->assertSame('ExampleApp', $bridgeAttendedTransfer->getDestinationApplication());
+        $this->assertSame('MyExampleStasisApp', $bridgeAttendedTransfer->getDestinationApplication());
         $this->assertInstanceOf(Bridge::class, $bridgeAttendedTransfer->getDestinationThreewayBridge());
         $this->assertInstanceOf(Channel::class, $bridgeAttendedTransfer->getDestinationLinkFirstLeg());
         $this->assertInstanceOf(Channel::class, $bridgeAttendedTransfer->getTransferee());

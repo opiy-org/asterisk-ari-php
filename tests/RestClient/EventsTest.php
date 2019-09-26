@@ -27,7 +27,7 @@ class EventsTest extends TestCase
         $eventsClient = $this->createEventsClientWithGuzzleClientStub([]);
         $eventsClient->userEvent(
             'ExampleEvent',
-            'ExampleApp',
+            'MyExampleStasisApp',
             ['SourceType1' => 'ExampleSource', 'SourceType2' => 'ExampleSource1', 'SourceType3' => 'ExampleSource2'],
             ['var1' => 'val1', 'var2' => 'val2', 'var3' => 'val3']
         );
@@ -45,7 +45,7 @@ class EventsTest extends TestCase
         $guzzleClientStub->method('request')
             // TODO: Test for correct parameter translation via with() method here?
             //  ->with()
-                         ->willReturn(
+            ->willReturn(
                 new Response(
                     200,
                     [],

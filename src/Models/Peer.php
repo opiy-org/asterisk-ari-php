@@ -18,8 +18,10 @@ namespace NgVoice\AriClient\Models;
  * Detailed information about a remote peer that communicates with Asterisk.
  *
  * @package NgVoice\AriClient\Models
+ *
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class Peer implements Model
+final class Peer implements ModelInterface
 {
     /**
      * @var string The current state of the peer.

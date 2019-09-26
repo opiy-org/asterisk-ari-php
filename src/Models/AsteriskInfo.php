@@ -21,7 +21,7 @@ namespace NgVoice\AriClient\Models;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class AsteriskInfo implements Model
+final class AsteriskInfo implements ModelInterface
 {
     /**
      * @var StatusInfo Info about Asterisk status.

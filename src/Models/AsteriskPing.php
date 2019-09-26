@@ -20,7 +20,7 @@ namespace NgVoice\AriClient\Models;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class AsteriskPing implements Model
+final class AsteriskPing implements ModelInterface
 {
     /**
      * The timestamp string of request received time

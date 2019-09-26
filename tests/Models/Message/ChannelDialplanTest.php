@@ -56,13 +56,13 @@ final class ChannelDialplanTest extends TestCase
         $channelDialplan = Helper::mapMessageParametersToAriObject(
             'ChannelDialplan',
             [
-                'dialplan_app' => 'ExampleApp',
+                'dialplan_app' => 'MyExampleStasisApp',
                 'dialplan_app_data' => 'ExampleAppData',
                 'channel' => $exampleChannel
             ]
         );
         $this->assertInstanceOf(Channel::class, $channelDialplan->getChannel());
-        $this->assertSame('ExampleApp', $channelDialplan->getDialplanApp());
+        $this->assertSame('MyExampleStasisApp', $channelDialplan->getDialplanApp());
         $this->assertSame('ExampleAppData', $channelDialplan->getDialplanAppData());
     }
 }

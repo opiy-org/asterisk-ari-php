@@ -7,7 +7,7 @@ declare(strict_types=1);
 namespace NgVoice\AriClient\RestClient;
 
 use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
-use NgVoice\AriClient\Models\{Bridge, LiveRecording, Model, Playback};
+use NgVoice\AriClient\Models\{Bridge, LiveRecording, Playback};
 
 /**
  * An implementation of the Bridges REST client for the
@@ -28,9 +28,12 @@ final class Bridges extends AsteriskRestInterfaceClient
      *
      * @throws AsteriskRestInterfaceException When the REST request fails.
      */
-    public function list(): array
+    public function list()
     {
-        return $this->getArrayOfModelInstancesRequest(Bridge::class, '/bridges');
+        /** @var Bridge[] $bridges */
+        $bridges = $this->requestGetArrayOfModels(Bridge::class, '/bridges');
+
+        return $bridges;
     }
 
     /**
@@ -43,13 +46,16 @@ final class Bridges extends AsteriskRestInterfaceClient
      * bridgeId: string - Unique ID to give to the bridge being created.
      * name: string - Name to give to the bridge being created.
      *
-     * @return Bridge|Model
+     * @return Bridge
      *
      * @throws AsteriskRestInterfaceException When the REST request fails.
      */
     public function create(array $options = []): Bridge
     {
-        return $this->postRequestReturningModel(Bridge::class, '/bridges', $options);
+        /** @var Bridge $bridge */
+        $bridge = $this->postRequestReturningModel(Bridge::class, '/bridges', $options);
+
+        return $bridge;
     }
 
     /**
@@ -62,17 +68,20 @@ final class Bridges extends AsteriskRestInterfaceClient
      *      (mixing, holding, dtmf_events, proxy_media, video_sfu) to set.
      * name: string - Set the name of the bridge.
      *
-     * @return Bridge|Model
+     * @return Bridge
      *
      * @throws AsteriskRestInterfaceException When the REST request fails.
      */
     public function createWithId(string $bridgeId, array $options = []): Bridge
     {
-        return $this->postRequestReturningModel(
+        /** @var Bridge $bridge */
+        $bridge = $this->postRequestReturningModel(
             Bridge::class,
             "/bridges/{$bridgeId}",
             $options
         );
+
+        return $bridge;
     }
 
     /**
@@ -80,13 +89,16 @@ final class Bridges extends AsteriskRestInterfaceClient
      *
      * @param string $bridgeId Bridge's id
      *
-     * @return Bridge|Model
+     * @return Bridge
      *
      * @throws AsteriskRestInterfaceException When the REST request fails.
      */
     public function get(string $bridgeId): Bridge
     {
-        return $this->getModelRequest(Bridge::class, "/bridges/{$bridgeId}");
+        /** @var Bridge $bridge */
+        $bridge = $this->getModelRequest(Bridge::class, "/bridges/{$bridgeId}");
+
+        return $bridge;
     }
 
     /**
@@ -220,17 +232,20 @@ final class Bridges extends AsteriskRestInterfaceClient
      *     forward/reverse operations. Default: 3000. Allowed range: Min: 0; Max: None
      *     playbackId: string - Playback Id.
      *
-     * @return Playback|Model
+     * @return Playback
      *
      * @throws AsteriskRestInterfaceException When the REST request fails.
      */
     public function play(string $bridgeId, array $media, array $options = []): Playback
     {
-        return $this->postRequestReturningModel(
+        /** @var Playback $playback */
+        $playback = $this->postRequestReturningModel(
             Playback::class,
             "/bridges/{$bridgeId}/play",
             ['media' => implode(',', $media)] + $options,
         );
+
+        return $playback;
     }
 
     /**
@@ -250,7 +265,7 @@ final class Bridges extends AsteriskRestInterfaceClient
      *     range: Min: 0; Max: None skipms: int - Number of milliseconds to skip for
      *     forward/reverse operations. Default: 3000. Allowed range: Min: 0; Max: None
      *
-     * @return Playback|Model
+     * @return Playback
      *
      * @throws AsteriskRestInterfaceException When the REST request fails.
      */
@@ -260,11 +275,14 @@ final class Bridges extends AsteriskRestInterfaceClient
         array $media,
         array $options = []
     ): Playback {
-        return $this->postRequestReturningModel(
+        /** @var Playback $playback */
+        $playback = $this->postRequestReturningModel(
             Playback::class,
             "/bridges/{$bridgeId}/play/{$playbackId}",
             ['media' => implode(',', $media)] + $options,
         );
+
+        return $playback;
     }
 
     /**
@@ -283,7 +301,7 @@ final class Bridges extends AsteriskRestInterfaceClient
      *     boolean - Play beep when recording begins terminateOn: string - DTMF input to
      *     terminate recording. Default: none. Allowed values: none, any, *, #
      *
-     * @return LiveRecording|Model
+     * @return LiveRecording
      *
      * @throws AsteriskRestInterfaceException When the REST request fails.
      */
@@ -293,10 +311,13 @@ final class Bridges extends AsteriskRestInterfaceClient
         string $format,
         array $options = []
     ): LiveRecording {
-        return $this->postRequestReturningModel(
+        /** @var LiveRecording $liveRecording */
+        $liveRecording = $this->postRequestReturningModel(
             LiveRecording::class,
             "/bridges/{$bridgeId}/record",
             ['name' => $name, 'format' => $format] + $options,
         );
+
+        return $liveRecording;
     }
 }

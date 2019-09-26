@@ -13,13 +13,10 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/../vendor/autoload.php';
-require_once __DIR__ . '/ExampleApp.php';
+require_once __DIR__ . '/MyExampleStasisApp.php';
 
-use NgVoice\AriClient\Helper;
-use NgVoice\AriClient\RestClient\{Applications, AriRestClientSettings, Channels};
-use NgVoice\AriClient\WebSocketClient\{AriFilteredMessageHandler,
-    WebSocketClient,
-    WebSocketSettings};
+use NgVoice\AriClient\RestClient\{AriRestClientSettings, Channels};
+use NgVoice\AriClient\WebSocketClient\{WebSocketClient, WebSocketClientSettings};
 
 /**
  * You will need to run a worker script like this one in the background to
@@ -27,20 +24,18 @@ use NgVoice\AriClient\WebSocketClient\{AriFilteredMessageHandler,
  * I prefer using 'supervisor' to monitor my worker processes.
  */
 
-$ariUser = 'asterisk';
-$ariPass = 'asterisk';
+$ariRestClientSettings = new AriRestClientSettings('asterisk', 'asterisk');
 
-$ariRestClientSettings = new AriRestClientSettings($ariUser, $ariPass);
+$myExampleStasisApp = new MyExampleStasisApp(new Channels($ariRestClientSettings));
 
-$exampleApp = new ExampleApp(
-    new Channels($ariRestClientSettings),
-    Helper::initLogger('ExampleApp')
+$ariWebSocketClientSettings = new WebSocketClientSettings(
+    $ariRestClientSettings->getAriUser(),
+    $ariRestClientSettings->getAriPassword()
 );
 
-$ariWebSocket = new WebSocketClient(
-    new WebSocketSettings($ariUser, $ariPass),
-    $exampleApp,
-    new AriFilteredMessageHandler($exampleApp, new Applications($ariRestClientSettings))
+$ariWebSocketClient = new WebSocketClient(
+    $ariWebSocketClientSettings,
+    $myExampleStasisApp
 );
 
-$ariWebSocket->start();
+$ariWebSocketClient->start();

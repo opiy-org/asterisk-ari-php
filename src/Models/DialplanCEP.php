@@ -18,8 +18,10 @@ namespace NgVoice\AriClient\Models;
  * Dialplan location (context/extension/priority)
  *
  * @package NgVoice\AriClient\Models
+ *
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class DialplanCEP implements Model
+final class DialplanCEP implements ModelInterface
 {
     /**
      * @var string Priority in the dialplan

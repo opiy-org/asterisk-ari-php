@@ -14,6 +14,6 @@ namespace NgVoice\AriClient\Models;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-interface Model
+interface ModelInterface
 {
 }

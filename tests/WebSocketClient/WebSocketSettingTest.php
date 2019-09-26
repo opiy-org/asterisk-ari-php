@@ -6,7 +6,7 @@ declare(strict_types=1);
 
 namespace AriStasisApp\Tests\WebSocketClient;
 
-use NgVoice\AriClient\WebSocketClient\WebSocketSettings;
+use NgVoice\AriClient\WebSocketClient\WebSocketClientSettings;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -23,7 +23,7 @@ class WebSocketSettingTest extends TestCase
         /**
          * @var $webSocketSettings
          */
-        $webSocketSettings = new WebSocketSettings(
+        $webSocketSettings = new WebSocketClientSettings(
             'someUser',
             'password',
             true,

@@ -18,8 +18,10 @@ namespace NgVoice\AriClient\Models;
  * A specific communication connection between Asterisk and an Endpoint.
  *
  * @package NgVoice\AriClient\Models
+ *
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class Channel implements Model
+final class Channel implements ModelInterface
 {
     // Channel states
     public const DOWN = 'Down';

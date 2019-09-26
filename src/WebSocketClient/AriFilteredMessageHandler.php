@@ -89,11 +89,11 @@ final class AriFilteredMessageHandler extends TextMessageHandler
         // Only use functions, that are named after a valid Asterisk message type
         $allowedMessages =
             $this->filterAsteriskEventMessageFunctions($myAppPublicClassMethodNames);
-        $eventClassName = Helper::getShortClassName($this->myApp);
+        $applicationName = Helper::getShortClassName($this->myApp);
 
         try {
             $this->asteriskApplicationsClient->filter(
-                $eventClassName,
+                $applicationName,
                 $allowedMessages
             );
         } catch (AsteriskRestInterfaceException $e) {
@@ -101,13 +101,16 @@ final class AriFilteredMessageHandler extends TextMessageHandler
             exit(1);
         }
 
-        $this->logger->debug('Set message filter in Asterisk.', [__FUNCTION__]);
+        $this->logger->debug(
+            'Successfully set message filter in Asterisk.',
+            [__FUNCTION__]
+        );
         $this->logger->info('Waiting for Message.');
     }
 
     /**
      * Every incoming message from Asterisk will be handled within
-     * the provided BasicStasisApp classes function
+     * the provided AsteriskStasisApplication
      *
      * @inheritdoc
      *

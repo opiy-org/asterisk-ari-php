@@ -7,7 +7,7 @@ declare(strict_types=1);
 namespace NgVoice\AriClient\RestClient;
 
 use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
-use NgVoice\AriClient\Models\{Endpoint, Model};
+use NgVoice\AriClient\Models\Endpoint;
 
 /**
  * An implementation of the Endpoints REST client for the
@@ -28,9 +28,15 @@ final class Endpoints extends AsteriskRestInterfaceClient
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
-    public function list(): array
+    public function list()
     {
-        return $this->getArrayOfModelInstancesRequest(Endpoint::class, '/endpoints');
+        /** @var Endpoint[] $endpoints */
+        $endpoints = $this->requestGetArrayOfModels(
+            Endpoint::class,
+            '/endpoints'
+        );
+
+        return $endpoints;
     }
 
     /**
@@ -61,12 +67,15 @@ final class Endpoints extends AsteriskRestInterfaceClient
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
-    public function listByTech(string $tech): array
+    public function listByTech(string $tech)
     {
-        return $this->getArrayOfModelInstancesRequest(
+        /** @var Endpoint[] $endpoints */
+        $endpoints = $this->requestGetArrayOfModels(
             Endpoint::class,
             "/endpoints/{$tech}"
         );
+
+        return $endpoints;
     }
 
     /**
@@ -75,13 +84,19 @@ final class Endpoints extends AsteriskRestInterfaceClient
      * @param string $tech Technology of the endpoint.
      * @param string $resource ID of the endpoint.
      *
-     * @return Endpoint|Model
+     * @return Endpoint
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
     public function get(string $tech, string $resource): Endpoint
     {
-        return $this->getModelRequest(Endpoint::class, "/endpoints/{$tech}/{$resource}");
+        /** @var Endpoint $endpoint */
+        $endpoint = $this->getModelRequest(
+            Endpoint::class,
+            "/endpoints/{$tech}/{$resource}"
+        );
+
+        return $endpoint;
     }
 
     /**

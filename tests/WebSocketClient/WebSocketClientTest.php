@@ -8,7 +8,7 @@ use NgVoice\AriClient\AsteriskStasisApplication;
 use NgVoice\AriClient\WebSocketClient\{AriFilteredMessageHandler,
     ModifiedWoketoWebSocketClient,
     WebSocketClient,
-    WebSocketSettings};
+    WebSocketClientSettings};
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -25,12 +25,12 @@ class WebSocketClientTest extends TestCase
             $this->createMock(ModifiedWoketoWebSocketClient::class);
         $localAppMessageHandler = $this->createMock(AriFilteredMessageHandler::class);
         $stasisApp = $this->createMock(AsteriskStasisApplication::class);
-        $webSocketSettings = $this->createMock(WebSocketSettings::class);
+        $webSocketSettings = $this->createMock(WebSocketClientSettings::class);
 
         /**
          * @var ModifiedWoketoWebSocketClient $woketoWebSocketClientStub
          * @var AriFilteredMessageHandler $localAppMessageHandler
-         * @var WebSocketSettings $webSocketSettings
+         * @var WebSocketClientSettings $webSocketSettings
          * @var AsteriskStasisApplication $stasisApp
          */
         $this->assertInstanceOf(
@@ -52,12 +52,12 @@ class WebSocketClientTest extends TestCase
             $this->createMock(ModifiedWoketoWebSocketClient::class);
         $localAppMessageHandler = $this->createMock(AriFilteredMessageHandler::class);
         $stasisApp = $this->createMock(AsteriskStasisApplication::class);
-        $webSocketSettings = $this->createMock(WebSocketSettings::class);
+        $webSocketSettings = $this->createMock(WebSocketClientSettings::class);
 
         /**
          * @var ModifiedWoketoWebSocketClient $woketoWebSocketClientStub
          * @var AriFilteredMessageHandler $localAppMessageHandler
-         * @var WebSocketSettings $webSocketSettings
+         * @var WebSocketClientSettings $webSocketSettings
          * @var AsteriskStasisApplication $stasisApp
          */
         (new WebSocketClient(

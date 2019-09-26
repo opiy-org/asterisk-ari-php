@@ -18,8 +18,10 @@ namespace NgVoice\AriClient\Models;
  * Represents the state of a mailbox.
  *
  * @package NgVoice\AriClient\Models
+ *
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class Mailbox implements Model
+final class Mailbox implements ModelInterface
 {
     /**
      * @var int Count of old Message in the mailbox.

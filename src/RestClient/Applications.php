@@ -7,7 +7,7 @@ declare(strict_types=1);
 namespace NgVoice\AriClient\RestClient;
 
 use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
-use NgVoice\AriClient\Models\{Application, Model};
+use NgVoice\AriClient\Models\Application;
 
 /**
  * An implementation of the Applications REST client for the
@@ -28,12 +28,15 @@ final class Applications extends AsteriskRestInterfaceClient
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
-    public function list(): array
+    public function list()
     {
-        return $this->getArrayOfModelInstancesRequest(
+        /** @var Application[] $applications */
+        $applications = $this->requestGetArrayOfModels(
             Application::class,
             '/applications'
         );
+
+        return $applications;
     }
 
     /**
@@ -41,16 +44,19 @@ final class Applications extends AsteriskRestInterfaceClient
      *
      * @param string $applicationName Application's name.
      *
-     * @return Application|Model
+     * @return Application
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
     public function get(string $applicationName): Application
     {
-        return $this->getModelRequest(
+        /** @var Application $application */
+        $application = $this->getModelRequest(
             Application::class,
             "/applications/{$applicationName}"
         );
+
+        return $application;
     }
 
     /**
@@ -62,17 +68,20 @@ final class Applications extends AsteriskRestInterfaceClient
      * (channel:{channelId}, bridge:{bridgeId}, endpoint:{tech}[/{resource}],
      *     deviceState:{deviceName}
      *
-     * @return Application|Model
+     * @return Application
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
     public function subscribe(string $applicationName, array $eventSource): Application
     {
-        return $this->postRequestReturningModel(
+        /** @var Application $application */
+        $application = $this->postRequestReturningModel(
             Application::class,
             "/applications/{$applicationName}/subscription",
             ['eventSource' => implode(',', $eventSource)]
         );
+
+        return $application;
     }
 
     /**
@@ -84,17 +93,20 @@ final class Applications extends AsteriskRestInterfaceClient
      * (channel:{channelId}, bridge:{bridgeId}, endpoint:{tech}[/{resource}],
      *     deviceState:{deviceName}
      *
-     * @return Application|Model
+     * @return Application
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
     public function unsubscribe(string $applicationName, array $eventSource): Application
     {
-        return $this->deleteRequestReturningModel(
+        /** @var Application $application */
+        $application = $this->deleteRequestReturningModel(
             Application::class,
             "/applications/{$applicationName}/subscription",
             ['eventSource' => implode(',', $eventSource)]
         );
+
+        return $application;
     }
 
     /**
@@ -133,7 +145,7 @@ final class Applications extends AsteriskRestInterfaceClient
      * @param string[]|null $allowed Specifies an allowed list of event types
      * @param string[]|null $disallowed Specifies a disallowed list of event types
      *
-     * @return Application|Model
+     * @return Application
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
@@ -152,11 +164,14 @@ final class Applications extends AsteriskRestInterfaceClient
             $body['disallowed'] = $this->formatMessageTypesArray($disallowed);
         }
 
-        return $this->putRequestReturningModel(
+        /** @var Application $application */
+        $application = $this->putRequestReturningModel(
             Application::class,
             "/applications/{$applicationName}/eventFilter",
             $body
         );
+
+        return $application;
     }
 
     /**
@@ -164,7 +179,7 @@ final class Applications extends AsteriskRestInterfaceClient
      *
      * @return string[]
      */
-    private function formatMessageTypesArray(array $messageTypes): array
+    private function formatMessageTypesArray(array $messageTypes)
     {
         $messageTypesList = [];
 

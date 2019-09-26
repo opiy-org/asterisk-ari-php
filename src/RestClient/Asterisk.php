@@ -11,7 +11,6 @@ use NgVoice\AriClient\Models\{AsteriskInfo,
     AsteriskPing,
     ConfigTuple,
     LogChannel,
-    Model,
     Module,
     Variable};
 
@@ -37,14 +36,17 @@ final class Asterisk extends AsteriskRestInterfaceClient
      *
      * @return ConfigTuple[]
      *
-     * @throws AsteriskRestInterfaceException
+     * @throws AsteriskRestInterfaceException in case the REST request fails
      */
-    public function getObject(string $configClass, string $objectType, string $id): array
+    public function getObject(string $configClass, string $objectType, string $id)
     {
-        return $this->getArrayOfModelInstancesRequest(
+        /** @var ConfigTuple[] $configTuples */
+        $configTuples = $this->requestGetArrayOfModels(
             ConfigTuple::class,
             "/asterisk/config/dynamic/{$configClass}/{$objectType}/{$id}",
         );
+
+        return $configTuples;
     }
 
     /**
@@ -66,7 +68,7 @@ final class Asterisk extends AsteriskRestInterfaceClient
         string $objectType,
         string $id,
         array $fields = []
-    ): array {
+    ) {
         $body = ['fields' => []];
 
         if ($fields !== []) {
@@ -77,11 +79,14 @@ final class Asterisk extends AsteriskRestInterfaceClient
             $body['fields'] = $formattedFields;
         }
 
-        return $this->putRequestReturningArrayOfModelInstances(
+        /** @var ConfigTuple[] $configTuples */
+        $configTuples = $this->putRequestReturningArrayOfModelInstances(
             ConfigTuple::class,
             "/asterisk/config/dynamic/{$configClass}/{$objectType}/{$id}",
             $body
         );
+
+        return $configTuples;
     }
 
     /**
@@ -110,7 +115,7 @@ final class Asterisk extends AsteriskRestInterfaceClient
      * @param array $only Filter information returned. Allowed values: build, system,
      *     config, status.
      *
-     * @return AsteriskInfo|Model
+     * @return AsteriskInfo
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails
      */
@@ -121,23 +126,29 @@ final class Asterisk extends AsteriskRestInterfaceClient
             $queryParameters = ['only' => implode(',', $only)];
         }
 
-        return $this->getModelRequest(
+        /** @var AsteriskInfo $asteriskInfo */
+        $asteriskInfo = $this->getModelRequest(
             AsteriskInfo::class,
             '/asterisk/info',
             $queryParameters
         );
+
+        return $asteriskInfo;
     }
 
     /**
      * Response pong message.
      *
-     * @return AsteriskPing|Model
+     * @return AsteriskPing
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails
      */
     public function ping(): AsteriskPing
     {
-        return $this->getModelRequest(AsteriskPing::class, '/asterisk/ping');
+        /** @var AsteriskPing $asteriskPing */
+        $asteriskPing = $this->getModelRequest(AsteriskPing::class, '/asterisk/ping');
+
+        return $asteriskPing;
     }
 
     /**
@@ -147,12 +158,15 @@ final class Asterisk extends AsteriskRestInterfaceClient
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails
      */
-    public function listModules(): array
+    public function listModules()
     {
-        return $this->getArrayOfModelInstancesRequest(
+        /** @var Module[] $modules */
+        $modules = $this->requestGetArrayOfModels(
             Module::class,
             '/asterisk/modules'
         );
+
+        return $modules;
     }
 
     /**
@@ -160,13 +174,19 @@ final class Asterisk extends AsteriskRestInterfaceClient
      *
      * @param string $moduleName Module's name.
      *
-     * @return Module|Model
+     * @return Module
      *
      * @throws AsteriskRestInterfaceException Default in case the REST request fails
      */
     public function getModule(string $moduleName): Module
     {
-        return $this->getModelRequest(Module::class, "/asterisk/modules/{$moduleName}");
+        /** @var Module $module */
+        $module = $this->getModelRequest(
+            Module::class,
+            "/asterisk/modules/{$moduleName}"
+        );
+
+        return $module;
     }
 
     /**
@@ -212,12 +232,15 @@ final class Asterisk extends AsteriskRestInterfaceClient
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails
      */
-    public function listLogChannels(): array
+    public function listLogChannels()
     {
-        return $this->getArrayOfModelInstancesRequest(
+        /** @var LogChannel[] $logChannels */
+        $logChannels = $this->requestGetArrayOfModels(
             LogChannel::class,
             'asterisk/logging'
         );
+
+        return $logChannels;
     }
 
     /**
@@ -265,17 +288,20 @@ final class Asterisk extends AsteriskRestInterfaceClient
      *
      * @param string $variable The variable to get.
      *
-     * @return Variable|Model
+     * @return Variable
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails
      */
     public function getGlobalVar(string $variable): Variable
     {
-        return $this->getModelRequest(
+        /** @var Variable $variable */
+        $variable = $this->getModelRequest(
             Variable::class,
             '/asterisk/variable',
             ['variable' => $variable]
         );
+
+        return $variable;
     }
 
     /**

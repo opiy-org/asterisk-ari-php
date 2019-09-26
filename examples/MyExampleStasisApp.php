@@ -6,11 +6,10 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use Monolog\Logger;
 use NgVoice\AriClient\AsteriskStasisApplication;
 use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
 use NgVoice\AriClient\Models\Message\{ChannelHangupRequest, StasisEnd, StasisStart};
-use NgVoice\AriClient\RestClient\{Channels};
+use NgVoice\AriClient\RestClient\Channels;
 
 /**
  * Example for usage of this library in a local application.
@@ -35,32 +34,22 @@ use NgVoice\AriClient\RestClient\{Channels};
  * @author Ahmad Hussain <ahmad@ng-voice.com>
  * =======================================================================================
  */
-final class ExampleApp implements AsteriskStasisApplication
+final class MyExampleStasisApp implements AsteriskStasisApplication
 {
-    /**
-     * @var Logger
-     */
-    private $logger;
-
     /**
      * @var Channels
      */
-    private $activeChannelsList;
+    private $ariChannelsClient;
 
     /**
-     * ExampleApp constructor.
+     * MyExampleStasisApp constructor.
      *
-     * @param Channels $activeChannelsList REST client for
+     * @param Channels $ariChannelsClient REST client for
      * the 'Channels' resource of the Asterisk REST Interface
-     * @param Logger $logger Logger for debugging and information
-     * about the states of the example app
      */
-    public function __construct(
-        Channels $activeChannelsList,
-        Logger $logger
-    ) {
-        $this->activeChannelsList = $activeChannelsList;
-        $this->logger = $logger;
+    public function __construct(Channels $ariChannelsClient)
+    {
+        $this->ariChannelsClient = $ariChannelsClient;
     }
 
     /**
@@ -74,33 +63,27 @@ final class ExampleApp implements AsteriskStasisApplication
     public function stasisStart(StasisStart $stasisStart): void
     {
         $channelId = $stasisStart->getChannel()->getId();
-        $this->logger->info(
-            "The channel {$channelId} has entered the ExampleApp."
-        );
+        echo "The channel {$channelId} has entered the MyExampleStasisApp.\n";
 
         /*
          * Now we get the list of active channels available in the Application
          * through Asterisk Rest Interface
          */
-        foreach ($this->activeChannelsList->list() as $activeChannel) {
-            $this->logger->info(
-                "The channel id: {$activeChannel->getId()} and the channel name:"
-                . "{$activeChannel->getName()} is active in the ExampleApp."
-            );
+        foreach ($this->ariChannelsClient->list() as $activeChannel) {
+            echo "The channel id: {$activeChannel->getId()} and the channel name: "
+                . "{$activeChannel->getName()} is active in the MyExampleStasisApp.\n";
         }
     }
 
     /**
-     * A default message handler for channels that have been hung up.
+     * A default event handler for channels that have been hung up.
      *
      * @param ChannelHangupRequest $channelHangupRequest The Asterisk event
      */
     public function channelHangupRequest(ChannelHangupRequest $channelHangupRequest): void
     {
-        $this->logger->info(
-            'This is the default hangup handler triggered by channel '
-            . "'{$channelHangupRequest->getChannel()->getId()}' :-)"
-        );
+        echo 'This is the default hangup handler triggered by channel '
+            . "'{$channelHangupRequest->getChannel()->getId()}' :-)\n";
     }
 
     /**
@@ -111,9 +94,7 @@ final class ExampleApp implements AsteriskStasisApplication
      */
     public function stasisEnd(StasisEnd $stasisEnd): void
     {
-        $this->logger->info(
-            "The channel {$stasisEnd->getChannel()->getId()}
-             has left your example app."
-        );
+        echo "The channel {$stasisEnd->getChannel()->getId()} "
+            . "has left your example app.\n";
     }
 }

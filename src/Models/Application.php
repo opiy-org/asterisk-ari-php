@@ -21,7 +21,7 @@ namespace NgVoice\AriClient\Models;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class Application implements Model
+final class Application implements ModelInterface
 {
     /**
      * Name of this application

@@ -18,8 +18,10 @@ namespace NgVoice\AriClient\Models;
  * Caller identification
  *
  * @package NgVoice\AriClient\Models
+ *
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class CallerID implements Model
+final class CallerID implements ModelInterface
 {
     /**
      * @var string

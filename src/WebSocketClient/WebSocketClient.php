@@ -9,7 +9,10 @@ namespace NgVoice\AriClient\WebSocketClient;
 use Exception;
 use Monolog\Logger;
 use Nekland\Woketo\Message\MessageHandlerInterface;
-use NgVoice\AriClient\{AsteriskStasisApplication, Helper};
+use NgVoice\AriClient\{AsteriskStasisApplication,
+    Helper,
+    RestClient\Applications,
+    RestClient\AriRestClientSettings};
 use React\EventLoop\LoopInterface;
 
 /**
@@ -44,27 +47,25 @@ final class WebSocketClient
     /**
      * WebSocketClient constructor.
      *
-     * @param WebSocketSettings $webSocketSettings The settings for the asterisk web
+     * @param WebSocketClientSettings $webSocketSettings The settings for the asterisk web
      *     socket.
      * @param AsteriskStasisApplication $stasisApplication Application to subscribe to.
-     * @param MessageHandlerInterface $messageHandler Handles incoming Message from
+     * @param MessageHandlerInterface|null $messageHandler Handles incoming Message from
      *     Asterisk. Look at AriMessageHandler and RemoteAppMessageHandler for examples.
      * @param bool $subscribeAll Subscribe to all Asterisk events.
      * If provided, the applications listed will be subscribed to all events,
      * effectively disabling the application specific subscriptions. Default is 'false'.
      * @param ModifiedWoketoWebSocketClient|null $woketoWebSocketClient Optional
-     * webSocketClient
-     *     to make this class testable
+     * WebSocketClient to make this class testable
      */
     public function __construct(
-        WebSocketSettings $webSocketSettings,
+        WebSocketClientSettings $webSocketSettings,
         AsteriskStasisApplication $stasisApplication,
-        MessageHandlerInterface $messageHandler,
+        MessageHandlerInterface $messageHandler = null,
         bool $subscribeAll = false,
         ModifiedWoketoWebSocketClient $woketoWebSocketClient = null
     ) {
         $this->logger = Helper::initLogger(self::class);
-        $this->messageHandler = $messageHandler;
         $appName = Helper::getShortClassName($stasisApplication);
 
         /*
@@ -92,6 +93,20 @@ final class WebSocketClient
 
         $this->logger->debug("URI to asterisk: '{$uri}'");
 
+        if ($messageHandler === null) {
+            $messageHandler = new AriFilteredMessageHandler(
+                $stasisApplication,
+                new Applications(
+                    new AriRestClientSettings(
+                        $webSocketSettings->getUser(),
+                        $webSocketSettings->getPassword()
+                    )
+                )
+            );
+        }
+
+        $this->messageHandler = $messageHandler;
+
         if ($woketoWebSocketClient === null) {
             $woketoWebSocketClient = new ModifiedWoketoWebSocketClient($uri);
         }
@@ -101,8 +116,7 @@ final class WebSocketClient
 
     /**
      * Subscribe to the WebSocket of your Asterisk instance and handle Events in a
-     * message handler. Look at AriMessageHandler and RemoteAppMessageHandler for
-     * example.
+     * message handler.
      */
     public function start(): void
     {
@@ -113,6 +127,11 @@ final class WebSocketClient
         }
     }
 
+    /**
+     * Get the ReactPHP event loop resource associated with this WebSocketClient.
+     *
+     * @return LoopInterface
+     */
     public function getLoop(): LoopInterface
     {
         return $this->modifiedWoketoWebSocketClient->getLoop();

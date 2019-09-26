@@ -18,8 +18,10 @@ namespace NgVoice\AriClient\Models;
  * Effective user/group id
  *
  * @package NgVoice\AriClient\Models
+ *
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class Variable implements Model
+final class Variable implements ModelInterface
 {
     /**
      * @var string The value of the variable requested

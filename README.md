@@ -8,15 +8,14 @@ JSON parsing in our application code. Instead, we aim to make it as easy as poss
 for anyone to talk to ARI without 
 worrying about an implementation of a client stub. We already did the work for you :)
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ngvoice_asterisk-ari-client&metric=alert_status)](https://sonarcloud.io/dashboard?id=ngvoice_asterisk-ari-client)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=ngvoice_asterisk-ari-client&metric=security_rating)](https://sonarcloud.io/dashboard?id=ngvoice_asterisk-ari-client)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=ngvoice_asterisk-ari-client&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=ngvoice_asterisk-ari-client)
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=ngvoice_asterisk-ari-client&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=ngvoice_asterisk-ari-client)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=ngvoice_asterisk-ari-client&metric=coverage)](https://sonarcloud.io/dashboard?id=ngvoice_asterisk-ari-client)
 
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=ngvoice_asterisk-ari-client&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=ngvoice_asterisk-ari-client)
 [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=ngvoice_asterisk-ari-client&metric=sqale_index)](https://sonarcloud.io/dashboard?id=ngvoice_asterisk-ari-client)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=ngvoice_asterisk-ari-client&metric=ncloc)](https://sonarcloud.io/dashboard?id=ngvoice_asterisk-ari-client)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=ngvoice_asterisk-ari-client&metric=coverage)](https://sonarcloud.io/dashboard?id=ngvoice_asterisk-ari-client)
 
 ![Licence](https://img.shields.io/badge/licence-MIT-blue.svg)
 
@@ -35,7 +34,10 @@ Please run following command to add the library in your project
 `composer require ng-voice/asterisk-ari-client`
 
 While installing, you might run into composer errors concerning missing php extensions.
-There are several ways to install them, depending on your operating system (e.g. `apt install php7.3-http`).
+There are several ways to install them, depending on your operating system (e.g. `apt install php7.3-mbstring`).
+
+Especially e.g. the http extension (pecl_http) is tricky.
+Don't forget to install php-dev first and then install and enable the http extension via pecl.
 
 ##### Asterisk
 You will have to start an Asterisk instance and configure it in order to use ARI.
@@ -54,17 +56,19 @@ All requests and responses are mapped onto objects that are easy to understand.
 Following example originates a call using the Channels resource of the
 Asterisk REST Interface.
 
-    /* Call the ng-voice office number */
-    
+    <?php
+
+    // Of course inject your own web socket settings here.
     $ariChannelsRestClient = new Channels(
         new AriRestClientSettings('asterisk', 'asterisk')
     );
-        
-        try {
-            $ariChannelsRestClient->originate('PJSIP/494052475930');
-        } catch (AsteriskRestInterfaceException $e) {
-            $this->logger->error($e->getMessage());
-        }
+
+    try {
+        // Call the specified number
+        $ariChannelsRestClient->originate('PJSIP/+4940123456789');
+    } catch (AsteriskRestInterfaceException $e) {
+        $this->logger->error($e->getMessage());
+    }
 
 #### Web socket client
 
@@ -72,14 +76,16 @@ Connects to Asterisk and subscribes to a
 Stasis application running on your Asterisk instance. Following example shows 
 how to define a function and handle the certain event. 
 
-
 In this case we are handling a `ChannelHangupRequest` event.
     
+    <?php
+
     /**
      * Write your own Stasis application class that must implement the
      * StasisApplicationInterface.
      */
-    class MyExampleStasisApplication implements AsteriskStasisApplication {
+    class MyExampleStasisApplication implements AsteriskStasisApplication
+    {
         /*
          * Define a function named after the occuring Asterisk event you want to handle.
          *
@@ -94,26 +100,22 @@ In this case we are handling a `ChannelHangupRequest` event.
         } 
     }
 
-    $ariUser = 'asterisk';
-    $ariPass = 'asterisk';
-        
-    // Initialize your Stasis application
-    $ariRestClientSettings = new AriRestClientSettings($ariUser, $ariPass);
+Write a php script to start your WebSocketClient worker process.
 
-    $myExampleStasisApplication = new MyExampleStasisApplication();
-    
-    // Inject dependencies into your web socket client object
-    $ariWebSocket = new WebSocketClient(
-        new WebSocketSettings($ariUser, $ariPass),
-        $myExampleStasisApplication,
-        new AriFilteredMessageHandler(
-            $myExampleStasisApplication,
-            new Applications($ariRestClientSettings)
-        )
+    <?php
+
+    /*
+     * Initialize an ARI web socket client to
+     * listen for incoming Asterisk events.
+     *
+     * Of course inject your own web socket settings here.
+     */
+    $ariWebSocketClient = new WebSocketClient(
+        new WebSocketClientSettings('asterisk', 'asterisk'),
+        new MyExampleStasisApplication()
     );
-    
-    // Start the web socket client
-    $ariWebSocket->start();
+
+    $ariWebSocketClient->start();
 
 
 You can find a detailed example in the `examples` directory.

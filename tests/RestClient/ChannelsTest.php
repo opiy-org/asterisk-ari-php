@@ -275,7 +275,7 @@ class ChannelsTest extends TestCase
     public function testOriginate(array $exampleChannel): void
     {
         $channelsClient = $this->createChannelsClient($exampleChannel);
-        $resultChannel = $channelsClient->originate('SomeEndpoint');
+        $resultChannel = $channelsClient->originate('SomeEndpoint', []);
 
         $this->assertInstanceOf(Channel::class, $resultChannel);
     }
@@ -366,7 +366,7 @@ class ChannelsTest extends TestCase
     {
         $channelsClient = $this->createChannelsClient($exampleChannel);
         $resultChannel =
-            $channelsClient->originateWithId('SomeChannelId', 'SomeEndpoint');
+            $channelsClient->originateWithId('SomeChannelId', 'SomeEndpoint', []);
 
         $this->assertInstanceOf(Channel::class, $resultChannel);
     }

@@ -17,16 +17,15 @@ use Nekland\Woketo\Rfc6455\{FrameFactory,
     MessageFactory,
     MessageProcessor};
 use NgVoice\AriClient\Exception\EnvironmentConfigurationException;
-use React\EventLoop\Factory as LoopFactory;
-use React\EventLoop\LoopInterface;
+use React\EventLoop\{Factory as LoopFactory, LoopInterface};
 use function extension_loaded;
 
 /**
  * Modified version of the WebSocketClient provided
  * by the woketo dependency within this library.
  *
- * In order to make the ReactPHP loop resource used within
- * the nekland/woketo WebSocketClient available to e.g. Stasis
+ * In order to make the ReactPHP loop resource (used within
+ * the nekland/woketo WebSocketClient) available to e.g. Stasis
  * application context, this class provides a public getter
  * for the used loop.
  *

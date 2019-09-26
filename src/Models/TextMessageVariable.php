@@ -18,8 +18,10 @@ namespace NgVoice\AriClient\Models;
  * A key/value pair variable in a text message.
  *
  * @package NgVoice\AriClient\Models
+ *
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class TextMessageVariable implements Model
+final class TextMessageVariable implements ModelInterface
 {
     /**
      * @var string The value of the variable.

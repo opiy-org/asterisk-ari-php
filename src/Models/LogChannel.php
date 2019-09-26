@@ -18,8 +18,10 @@ namespace NgVoice\AriClient\Models;
  * Details of an Asterisk log channel
  *
  * @package NgVoice\AriClient\Models
+ *
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class LogChannel implements Model
+final class LogChannel implements ModelInterface
 {
     /**
      * @var string Whether or not a log type is enabled.

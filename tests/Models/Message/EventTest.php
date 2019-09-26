@@ -31,10 +31,10 @@ final class EventTest extends TestCase
             'Event',
             [
                 'timestamp' => '2016-12-20 13:45:28 UTC',
-                'application' => 'ExampleApp'
+                'application' => 'MyExampleStasisApp'
             ]
         );
-        $this->assertSame('ExampleApp', $event->getApplication());
+        $this->assertSame('MyExampleStasisApp', $event->getApplication());
         $this->assertSame('2016-12-20 13:45:28 UTC', $event->getTimestamp());
     }
 }

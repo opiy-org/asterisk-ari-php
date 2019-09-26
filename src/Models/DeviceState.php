@@ -18,8 +18,10 @@ namespace NgVoice\AriClient\Models;
  * Represents the state of a device.
  *
  * @package NgVoice\AriClient\Models
+ *
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class DeviceState implements Model
+final class DeviceState implements ModelInterface
 {
     /**
      * @var string Name of the device.
@@ -28,7 +30,7 @@ final class DeviceState implements Model
 
     /**
      * @var string Device's state
-     * ("UNKNOWN", "NOT_INUSE", "INUSE", "BUSY", "INVALID", "UNAVAILABLE", "RINGING", "RINGINUSE", "ONHOLD").
+     * @see DeviceStates
      */
     private $state;
 
