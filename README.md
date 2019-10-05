@@ -1,9 +1,9 @@
-# Asterisk REST Interface (ARI) Client :telephone:
+# Asterisk REST Interface (ARI) Client
 
-The simple REST Client to communicate with the Asterisk REST Interface. 
+Client implementation of the Asterisk REST Interface and simple Stasis
+application development library.
 
-The idea of this client library is to make ARI calls safe and easy. 
-Therefore, we wanted to get rid of 
+The idea is to make ARI calls safe and easy. Therefore, we wanted to get rid of 
 JSON parsing in our application code. Instead, we aim to make it as easy as possible 
 for anyone to talk to ARI without 
 worrying about an implementation of a client stub. We already did the work for you :)
@@ -29,15 +29,17 @@ https://getcomposer.org/download/
 ## Installing
 
 ##### Composer
-Please run following command to add the library in your project
+Please run the following command to add the library to your project
 
 `composer require ng-voice/asterisk-ari-client`
 
 While installing, you might run into composer errors concerning missing php extensions.
-There are several ways to install them, depending on your operating system (e.g. `apt install php7.3-mbstring`).
+There are several ways to install them, depending on your operating system
+(e.g. `apt install php7.3-mbstring`).
 
 Especially e.g. the http extension (pecl_http) is tricky.
-Don't forget to install php-dev first and then install and enable the http extension via pecl.
+Don't forget to install php-dev first and then install and enable the http extension via
+pecl.
 
 ##### Asterisk
 You will have to start an Asterisk instance and configure it in order to use ARI.
@@ -65,10 +67,12 @@ Asterisk REST Interface.
 
     try {
         // Call the specified number
-        $ariChannelsRestClient->originate('PJSIP/+4940123456789');
+        $originatedChannel = $ariChannelsRestClient->originate('PJSIP/+4940123456789');
     } catch (AsteriskRestInterfaceException $e) {
-        $this->logger->error($e->getMessage());
+        echo "Error occured: {$e->getMessage()}\n";
     }
+    
+    echo "The originated channel has the ID '{$originatedChannel->getId()}'\n";
 
 #### Web socket client
 
@@ -86,7 +90,7 @@ In this case we are handling a `ChannelHangupRequest` event.
      */
     class MyExampleStasisApplication implements AsteriskStasisApplication
     {
-        /*
+        /**
          * Define a function named after the occuring Asterisk event you want to handle.
          *
          * This event is triggered for channels that have been hung up.
@@ -123,19 +127,19 @@ You can find a detailed example in the `examples` directory.
 
 ## Running the tests
 
-Please run the following:
+### Unit tests
 
 `composer test`
 
-Don't worry about the mocked exception messages, which are logged as error messages :)
+Don't worry about the error messages, they are connected to false positive tests.
 
 ### Coding style tests
 
-Please run this for code sniffing
+For code sniffing
 
 `composer lint `
 
-Please run this for static code analysis
+For static code analysis
 
 `composer sca`
 
@@ -168,4 +172,5 @@ ng-voice is happy to help! Feel free to send us a message.
 We'd also like to hear about your application ideas and use cases :)
 
 Lukas Stermann (lukas@ng-voice.com)
+
 Ahmad Hussain  (ahmad@ng-voice.com)

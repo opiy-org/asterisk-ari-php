@@ -59,7 +59,6 @@ class ChannelsTest extends TestCase
     }
 
     /**
-     * @dataProvider channelsInstanceProvider
      * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
@@ -578,5 +577,30 @@ class ChannelsTest extends TestCase
         );
         $channelsClient->rtpStatistics('SomeChannelId');
         $this->assertTrue(true, true);
+    }
+
+    /**
+     * @dataProvider channelsInstanceProvider
+     * @param array $exampleChannel
+     * @throws AsteriskRestInterfaceException
+     * @throws ReflectionException
+     */
+    public function testExternalMedia(array $exampleChannel): void
+    {
+        $channelsClient = $this->createChannelsClient(
+            [
+                'local_address' => '127.0.0.1',
+                'channel' => $exampleChannel,
+                'local_port' => 9866
+            ]
+        );
+
+        $externalMedia = $channelsClient->externalMedia(
+            'ExampleApp',
+            '127.0.0.1:8003',
+            'g722'
+        );
+
+        $this->assertSame(9866, $externalMedia->getLocalPort());
     }
 }

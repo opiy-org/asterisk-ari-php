@@ -7,7 +7,12 @@ declare(strict_types=1);
 namespace NgVoice\AriClient\RestClient;
 
 use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
-use NgVoice\AriClient\Models\{Channel, LiveRecording, Playback, RTPstat, Variable};
+use NgVoice\AriClient\Models\{Channel,
+    ExternalMedia,
+    LiveRecording,
+    Playback,
+    RTPstat,
+    Variable};
 
 /**
  * An implementation of the Channels REST client for the
@@ -705,5 +710,66 @@ final class Channels extends AsteriskRestInterfaceClient
         );
 
         return $rtpStat;
+    }
+
+    /**
+     * Start an External Media session.
+     *
+     * Create a channel to an External Media source/sink.
+     *
+     * @see https://wiki.asterisk.org/wiki/display/AST/External+Media+and+ARI
+     *
+     * @param string app Stasis Application to place channel into
+     * @param string $externalHost Hostname/ip:port of external host
+     * @param string format Format to encode audio in,
+     * Any standard format/codec supported by Asterisk is supported here.
+     * For example: ulaw, g722, etc.
+     * There is no negotiation. The format you specify is the format you'll get.
+     * The channel driver will automatically transcode the bridge's native
+     * media into this format.
+     * @param array $options Optional parameters.
+     * channelId: string - The unique id to assign the channel on creation.
+     * encapsulation: string - Payload encapsulation protocol
+     *      Default: rtp
+     *      Allowed values: rtp
+     * transport: string - Transport protocol
+     *      Default: udp
+     *      Allowed values: udp
+     * connection_type: string - Connection type (client/server)
+     *      Default: client
+     *      Allowed values: client
+     * direction: string - External media direction
+     *      Default: both
+     *      Allowed values: both
+     * @param array $channelVariables The "variables" key in the body object
+     * holds variable key/value pairs to set on the channel on creation.
+     *
+     * @return ExternalMedia
+     *
+     * @throws AsteriskRestInterfaceException in case the REST request fails.
+     */
+    public function externalMedia(
+        string $app,
+        string $externalHost,
+        string $format,
+        array $options = [],
+        array $channelVariables = []
+    ): ExternalMedia
+    {
+        /**
+         * @var ExternalMedia $externalMedia
+         */
+        $externalMedia = $this->postRequestReturningModel(
+            ExternalMedia::class,
+            '/channels/externalMedia',
+            [
+                'app' => $app,
+                'external_host' => $externalHost,
+                'format' => $format
+            ] + $options,
+            ['variables' => $channelVariables]
+        );
+
+        return $externalMedia;
     }
 }
