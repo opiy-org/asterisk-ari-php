@@ -26,7 +26,9 @@ use NgVoice\AriClient\Models\{Channel,
  */
 final class Channels extends AsteriskRestInterfaceClient
 {
+    // Avoid duplicated strings, following SonarCloud rule
     private const ENDPOINT = 'endpoint';
+    private const VARIABLES = 'variables';
 
     /**
      * List all active channels in Asterisk.
@@ -93,7 +95,7 @@ final class Channels extends AsteriskRestInterfaceClient
             Channel::class,
             '/channels',
             [self::ENDPOINT => $endpoint] + $options,
-            ['variables' => $channelVariables]
+            [self::VARIABLES => $channelVariables]
         );
 
         return $channel;
@@ -200,7 +202,7 @@ final class Channels extends AsteriskRestInterfaceClient
             Channel::class,
             "/channels/{$channelId}",
             [self::ENDPOINT => $endpoint] + $options,
-            ['variables' => $channelVariables]
+            [self::VARIABLES => $channelVariables]
         );
 
         return $channel;
@@ -767,7 +769,7 @@ final class Channels extends AsteriskRestInterfaceClient
                 'external_host' => $externalHost,
                 'format' => $format
             ] + $options,
-            ['variables' => $channelVariables]
+            [self::VARIABLES => $channelVariables]
         );
 
         return $externalMedia;
