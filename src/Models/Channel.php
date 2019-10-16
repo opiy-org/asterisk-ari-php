@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace NgVoice\AriClient\Models;
 
-
 /**
  * A specific communication connection between Asterisk and an Endpoint.
  *
@@ -162,7 +161,7 @@ final class Channel implements ModelInterface
     /**
      * @return null|object
      */
-    public function getChannelvars(): object
+    public function getChannelvars(): ?object
     {
         return $this->channelvars;
     }

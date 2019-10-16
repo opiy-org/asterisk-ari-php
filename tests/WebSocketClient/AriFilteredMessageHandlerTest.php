@@ -3,6 +3,8 @@
 /** @copyright 2019 ng-voice GmbH */
 
 namespace NgVoice\AriClient\Tests\WebSocketClient;
+
+use Monolog\Logger;
 use Nekland\Woketo\Core\AbstractConnection;
 use Nekland\Woketo\Exception\WebsocketException;
 use NgVoice\AriClient\AsteriskStasisApplication;
@@ -23,14 +25,20 @@ class AriFilteredMessageHandlerTest extends TestCase
     {
         /**
          * @var AsteriskStasisApplication $stasisAppMock
-         * @var Applications $applicationsClientMock
          */
         $stasisAppMock = $this->createMock(AsteriskStasisApplication::class);
+
+        /**
+         * @var Applications $applicationsClientMock
+         */
         $applicationsClientMock = $this->createMock(Applications::class);
 
         $this->assertInstanceOf(
             AriFilteredMessageHandler::class,
-            new AriFilteredMessageHandler($stasisAppMock, $applicationsClientMock)
+            new AriFilteredMessageHandler(
+                $stasisAppMock,
+                $applicationsClientMock
+            )
         );
     }
 
@@ -43,8 +51,19 @@ class AriFilteredMessageHandlerTest extends TestCase
         $stasisAppMock = $this->createMock(AsteriskStasisApplication::class);
         $applicationsClientMock = $this->createMock(Applications::class);
 
+
+        /**
+         * @var Logger $loggerMock
+         */
+        $loggerMock = $this->createMock(Logger::class);
+
         $remoteAppMessageHandler =
-        new AriFilteredMessageHandler($stasisAppMock, $applicationsClientMock);
+            new AriFilteredMessageHandler(
+                $stasisAppMock,
+                $applicationsClientMock,
+                null,
+                $loggerMock
+            );
 
         $abstractConnectionStub = $this->createMock(AbstractConnection::class);
 
@@ -61,7 +80,7 @@ class AriFilteredMessageHandlerTest extends TestCase
          * @var AsteriskStasisApplication $stasisAppMock
          * @var Applications $applicationsClientMock
          */
-        $stasisAppMock = new class() implements AsteriskStasisApplication
+        $stasisAppMock = new class () implements AsteriskStasisApplication
         {
             public function dial(): void
             {
@@ -97,8 +116,18 @@ class AriFilteredMessageHandlerTest extends TestCase
         $stasisAppMock = $this->createMock(AsteriskStasisApplication::class);
         $applicationsClientMock = $this->createMock(Applications::class);
 
+        /**
+         * @var Logger $loggerMock
+         */
+        $loggerMock = $this->createMock(Logger::class);
+
         $remoteAppMessageHandler =
-        new AriFilteredMessageHandler($stasisAppMock, $applicationsClientMock);
+            new AriFilteredMessageHandler(
+                $stasisAppMock,
+                $applicationsClientMock,
+                null,
+                $loggerMock
+            );
 
         $abstractConnectionStub = $this->createMock(AbstractConnection::class);
 
@@ -110,7 +139,7 @@ class AriFilteredMessageHandlerTest extends TestCase
     }
 
     /**
-     * @throws WebsocketException
+     * @throws WebsocketException in case an error occurs within the web socket connection
      */
     public function testOnError(): void
     {
@@ -121,8 +150,19 @@ class AriFilteredMessageHandlerTest extends TestCase
         $stasisAppMock = $this->createMock(AsteriskStasisApplication::class);
         $applicationsClientMock = $this->createMock(Applications::class);
 
+
+        /**
+         * @var Logger $loggerMock
+         */
+        $loggerMock = $this->createMock(Logger::class);
+
         $remoteAppMessageHandler =
-        new AriFilteredMessageHandler($stasisAppMock, $applicationsClientMock);
+            new AriFilteredMessageHandler(
+                $stasisAppMock,
+                $applicationsClientMock,
+                null,
+                $loggerMock
+            );
 
         $abstractConnectionStub = $this->createMock(AbstractConnection::class);
         $webSocketException = $this->createMock(WebsocketException::class);

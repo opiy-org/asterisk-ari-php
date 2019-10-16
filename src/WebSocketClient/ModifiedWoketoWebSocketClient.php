@@ -16,8 +16,9 @@ use Nekland\Woketo\Rfc6455\{FrameFactory,
     FrameHandler\WrongOpcodeFrameHandler,
     MessageFactory,
     MessageProcessor};
-use NgVoice\AriClient\Exception\EnvironmentConfigurationException;
+use NgVoice\AriClient\Exception\XdebugEnabledException;
 use React\EventLoop\{Factory as LoopFactory, LoopInterface};
+
 use function extension_loaded;
 
 /**
@@ -97,7 +98,7 @@ final class ModifiedWoketoWebSocketClient
         LoopInterface $loop = null
     ): void {
         if ($this->config['prod'] && extension_loaded('xdebug')) {
-            throw new EnvironmentConfigurationException(
+            throw new XdebugEnabledException(
                 'xdebug is enabled, 
             it\'s a performance issue. Disable that extension 
             or specify "prod" option to false.'

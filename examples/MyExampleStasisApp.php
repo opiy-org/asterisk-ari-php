@@ -60,7 +60,7 @@ final class MyExampleStasisApp implements AsteriskStasisApplication
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
-    public function stasisStart(StasisStart $stasisStart): void
+    public function onAriEventStasisStart(StasisStart $stasisStart): void
     {
         $channelId = $stasisStart->getChannel()->getId();
         echo "The channel {$channelId} has entered the MyExampleStasisApp.\n";
@@ -80,8 +80,9 @@ final class MyExampleStasisApp implements AsteriskStasisApplication
      *
      * @param ChannelHangupRequest $channelHangupRequest The Asterisk event
      */
-    public function channelHangupRequest(ChannelHangupRequest $channelHangupRequest): void
-    {
+    public function onAriEventChannelHangupRequest(
+        ChannelHangupRequest $channelHangupRequest
+    ): void {
         echo 'This is the default hangup handler triggered by channel '
             . "'{$channelHangupRequest->getChannel()->getId()}' :-)\n";
     }
@@ -92,7 +93,7 @@ final class MyExampleStasisApp implements AsteriskStasisApplication
      *
      * @param StasisEnd $stasisEnd The Asterisk StasisEnd event
      */
-    public function stasisEnd(StasisEnd $stasisEnd): void
+    public function onAriEventStasisEnd(StasisEnd $stasisEnd): void
     {
         echo "The channel {$stasisEnd->getChannel()->getId()} "
             . "has left your example app.\n";

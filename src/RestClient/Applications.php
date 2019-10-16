@@ -151,8 +151,8 @@ final class Applications extends AsteriskRestInterfaceClient
      */
     public function filter(
         string $applicationName,
-        array $allowed = null,
-        array $disallowed = null
+        $allowed = null,
+        $disallowed = null
     ): Application {
         $body = [];
 
@@ -177,9 +177,9 @@ final class Applications extends AsteriskRestInterfaceClient
     /**
      * @param string[] $messageTypes The types of messages that shall be formatted.
      *
-     * @return string[]
+     * @return array<int, array<string, string>>
      */
-    private function formatMessageTypesArray(array $messageTypes)
+    private function formatMessageTypesArray(array $messageTypes): array
     {
         $messageTypesList = [];
 

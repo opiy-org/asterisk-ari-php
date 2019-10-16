@@ -9,12 +9,13 @@ namespace NgVoice\AriClient\Exception;
 use RuntimeException;
 
 /**
- * EnvironmentConfigurationException wraps a RuntimeException to make
- * it more precise when we having a exception regarding environment configuration
+ * Wrap a RuntimeException in case the PHP Xdebug extension
+ * is still enabled in a production environment.
+ *
  * @package NgVoice\AriClient\Exception
  *
  * @author Ahmad Hussain <ahmad@ng-voice.com>
  */
-class EnvironmentConfigurationException extends RuntimeException
+class XdebugEnabledException extends RuntimeException
 {
 }

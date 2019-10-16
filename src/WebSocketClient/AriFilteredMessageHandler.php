@@ -31,6 +31,12 @@ use ReflectionMethod;
 final class AriFilteredMessageHandler extends TextMessageHandler
 {
     /**
+     * Prefix to show that a function defined within an
+     * StasisApplication class handles a certain ARI event.
+     */
+    private const ARI_EVENT_HANDLER_FUNCTION_PREFIX = 'onAriEvent';
+
+    /**
      * @var AsteriskStasisApplication
      */
     private $myApp;
@@ -56,11 +62,13 @@ final class AriFilteredMessageHandler extends TextMessageHandler
      * @param AsteriskStasisApplication $myApp Asterisk Application
      * @param AsteriskApplicationsClient $asteriskApplicationsClient Application Client
      * @param JsonMapper|null $jsonMapper Map JSON into an Object
+     * @param Logger|null $logger The logger for the message handler
      */
     public function __construct(
         AsteriskStasisApplication $myApp,
         AsteriskApplicationsClient $asteriskApplicationsClient,
-        JsonMapper $jsonMapper = null
+        JsonMapper $jsonMapper = null,
+        Logger $logger = null
     ) {
         $this->myApp = $myApp;
         $this->asteriskApplicationsClient = $asteriskApplicationsClient;
@@ -71,7 +79,11 @@ final class AriFilteredMessageHandler extends TextMessageHandler
             $this->jsonMapper = $jsonMapper;
         }
 
-        $this->logger = Helper::initLogger(self::class);
+        if ($logger === null) {
+            $logger = Helper::initLogger(self::class);
+        }
+
+        $this->logger = $logger;
     }
 
     /**
@@ -82,13 +94,14 @@ final class AriFilteredMessageHandler extends TextMessageHandler
      */
     public function onConnection(AbstractConnection $connection): void
     {
-        $this->logger->info('Connection to asterisk successful...');
+        $this->logger->info("Successfully connected to Asterisk");
 
         $myAppPublicClassMethodNames = $this->getPublicClassMethodNames($this->myApp);
 
         // Only use functions, that are named after a valid Asterisk message type
-        $allowedMessages =
-            $this->filterAsteriskEventMessageFunctions($myAppPublicClassMethodNames);
+        $allowedMessages = $this
+            ->filterAsteriskEventMessageFunctions($myAppPublicClassMethodNames);
+
         $applicationName = Helper::getShortClassName($this->myApp);
 
         try {
@@ -102,10 +115,16 @@ final class AriFilteredMessageHandler extends TextMessageHandler
         }
 
         $this->logger->debug(
-            'Successfully set message filter in Asterisk.',
+            'Successfully set event filter for app in Asterisk',
             [__FUNCTION__]
         );
-        $this->logger->info('Waiting for Message.');
+
+        $this->logger->info(
+            sprintf(
+                "Waiting for the following incoming Asterisk channel events -> '%s'",
+                print_r($allowedMessages, true)
+            )
+        );
     }
 
     /**
@@ -192,23 +211,30 @@ final class AriFilteredMessageHandler extends TextMessageHandler
     }
 
     /**
-     * @param array $myAppPublicClassMethodNames Method Names of Public Classes
+     * @param string[] $myAppPublicClassMethodNames Method names of Public Classes
      *
      * @return string[]
      */
     private function filterAsteriskEventMessageFunctions(
-        array $myAppPublicClassMethodNames
-    ): array {
+        $myAppPublicClassMethodNames
+    ) {
         $ariEventMethodNames = [];
 
         foreach ($myAppPublicClassMethodNames as $methodName) {
-            $methodName = ucfirst($methodName);
-
+            // Check for correct prefix syntax on incoming ARI events
             if (
-                class_exists(
-                    "NgVoice\\AriClient\\Models\\Message\\" . $methodName
-                ) === true
+                strpos(
+                    $methodName,
+                    self::ARI_EVENT_HANDLER_FUNCTION_PREFIX
+                ) === 0
             ) {
+                $methodName = (string) substr(
+                    $methodName,
+                    strlen(self::ARI_EVENT_HANDLER_FUNCTION_PREFIX)
+                );
+            }
+
+            if (class_exists("NgVoice\\AriClient\\Models\\Message\\" . $methodName)) {
                 $ariEventMethodNames[] = $methodName;
             }
         }

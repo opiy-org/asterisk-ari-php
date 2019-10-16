@@ -35,7 +35,7 @@ final class ApplicationMoveFailed extends Event
     /**
      * @return string[]
      */
-    public function getArgs(): array
+    public function getArgs()
     {
         return $this->args;
     }
@@ -43,7 +43,7 @@ final class ApplicationMoveFailed extends Event
     /**
      * @param string[] $args
      */
-    public function setArgs(array $args): void
+    public function setArgs($args): void
     {
         $this->args = $args;
     }

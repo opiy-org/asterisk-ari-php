@@ -35,11 +35,8 @@ Please run the following command to add the library to your project
 
 While installing, you might run into composer errors concerning missing php extensions.
 There are several ways to install them, depending on your operating system
-(e.g. `apt install php7.3-mbstring`).
-
-Especially e.g. the http extension (pecl_http) is tricky.
-Don't forget to install php-dev first and then install and enable the http extension via
-pecl.
+(e.g. `apt install php7.3-mbstring`). You might need to install php-dev first and
+then install and enable the extension via pecl.
 
 ##### Asterisk
 You will have to start an Asterisk instance and configure it in order to use ARI.
@@ -60,7 +57,7 @@ Asterisk REST Interface.
 
     <?php
 
-    // Of course inject your own web socket settings here.
+    // Of course inject your own REST client settings here.
     $ariChannelsRestClient = new Channels(
         new AriRestClientSettings('asterisk', 'asterisk')
     );
@@ -69,7 +66,7 @@ Asterisk REST Interface.
         // Call the specified number
         $originatedChannel = $ariChannelsRestClient->originate('PJSIP/+4940123456789');
     } catch (AsteriskRestInterfaceException $e) {
-        echo "Error occured: {$e->getMessage()}\n";
+        echo "Error occurred: {$e->getMessage()}\n";
     }
     
     echo "The originated channel has the ID '{$originatedChannel->getId()}'\n";
@@ -78,33 +75,51 @@ Asterisk REST Interface.
 
 Connects to Asterisk and subscribes to a 
 Stasis application running on your Asterisk instance. Following example shows 
-how to define a function and handle the certain event. 
+how to define an application and how to handle a specific incoming event, which
+is related to the application.
 
-In this case we are handling a `ChannelHangupRequest` event.
+In this case we are handling a `StasisStart` event.
     
     <?php
 
     /**
      * Write your own Stasis application class that must implement the
      * StasisApplicationInterface.
+     *
+     * This application will be registered
+     * automatically in Asterisk as soon as you start a WebSocketClient
+     * (@see the worker script example).
      */
     class MyExampleStasisApplication implements AsteriskStasisApplication
     {
         /**
-         * Define a function named after the occuring Asterisk event you want to handle.
+         * To declare an ARI event handler function, name it after
+         * the occurring Asterisk event you want to handle and add
+         * the prefix 'onAriEvent'. The only parameter is the object
+         * representation of the event, provided by this library.
+         * The function MUST also be public and non-static.
          *
-         * This event is triggered for channels that have been hung up.
+         * Of course you can define any other functions within this class
+         * that do not handle incoming ARI events (leave out the prefix ;-)).
+         * Think of your Stasis application class as a data structure
+         * encapsulating your application logic.
          *
-         * @param ChannelHangupRequest $channelHangupRequest The Asterisk event
-         */     
-        public function channelHangupRequest(ChannelHangupRequest $channelHangupRequest): void
+         * The StasisStart event for example is triggered for
+         * channels when they enter your application.
+         *
+         * @param StasisStart $stasisStart The Asterisk event,
+         * telling you that a channel has entered your application.
+         */
+        public function onAriEventStasisStart(StasisStart $stasisStart): void
         {
-            echo 'This is the default hangup handler triggered by channel '
-                . "'{$channelHangupRequest->getChannel()->getId()}' :-)";
-        } 
+            echo 'This is the channels StasisStart event handler triggered by '
+                . "channel '{$stasisStart->getChannel()->getId()}' :-)\n";
+        }
     }
 
-Write a php script to start your WebSocketClient worker process.
+Write a PHP script to start your WebSocketClient worker process.
+This is a blocking process! For production, you should use a process manager to run it in
+the background. We recommend 'supervisor' for linux.
 
     <?php
 
@@ -130,8 +145,6 @@ You can find a detailed example in the `examples` directory.
 ### Unit tests
 
 `composer test`
-
-Don't worry about the error messages, they are connected to false positive tests.
 
 ### Coding style tests
 
