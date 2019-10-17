@@ -150,7 +150,7 @@ final class AriFilteredMessageHandler extends TextMessageHandler
 
         try {
             $mappedEventObject = $this->jsonMapper->map($decodedJson, new $eventPath());
-            $functionName = lcfirst($ariEventType);
+            $functionName = self::ARI_EVENT_HANDLER_FUNCTION_PREFIX . $ariEventType;
             $this->myApp->$functionName($mappedEventObject);
             $this->logger->debug(
                 "Message successfully handled by your app: {$data}",
