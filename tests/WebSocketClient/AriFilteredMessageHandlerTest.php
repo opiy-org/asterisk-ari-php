@@ -82,7 +82,7 @@ class AriFilteredMessageHandlerTest extends TestCase
          */
         $stasisAppMock = new class () implements AsteriskStasisApplication
         {
-            public function dial(): void
+            public function onAriEventDial(): void
             {
                 // Create Mock Instance of DIAL Event
             }
