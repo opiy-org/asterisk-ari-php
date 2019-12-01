@@ -6,7 +6,6 @@ declare(strict_types=1);
 
 namespace NgVoice\AriClient\Tests\Models;
 
-
 use JsonMapper_Exception;
 use NgVoice\AriClient\Models\{ConfigTuple};
 use NgVoice\AriClient\Tests\Helper;

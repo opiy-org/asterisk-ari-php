@@ -4,7 +4,6 @@
 
 namespace NgVoice\AriClient\Tests\Models;
 
-
 use JsonMapper_Exception;
 use NgVoice\AriClient\Models\TextMessageVariable;
 use NgVoice\AriClient\Tests\Helper;

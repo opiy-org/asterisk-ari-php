@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace NgVoice\AriClient\Models;
 
-
 /**
  * Identifies the format and language of a sound file.
  *

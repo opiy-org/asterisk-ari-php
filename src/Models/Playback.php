@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace NgVoice\AriClient\Models;
 
-
 /**
  * Object representing the playback of media to a channel
  *

@@ -7,12 +7,11 @@ declare(strict_types=1);
 namespace NgVoice\AriClient\Exception;
 
 use Exception;
-use GuzzleHttp\Exception\GuzzleException;
 
 /**
- * AsteriskRestInterfaceException wraps a GuzzleException
+ * AsteriskRestInterfaceException wraps occurring exceptions
  * in order to make the context of an exception during the communication
- * with the Asterisk server clearer in the code.
+ * with the ARI server clearer in the users code.
  *
  * @package NgVoice\AriClient\Exception
  *
@@ -23,33 +22,33 @@ class AsteriskRestInterfaceException extends Exception
     /**
      * The thrown exception.
      *
-     * @var GuzzleException
+     * @var Exception
      */
-    private $guzzleException;
+    private $exception;
 
     /**
      * AsteriskRestInterfaceException constructor.
      *
-     * @param GuzzleException $guzzleException The thrown exception.
+     * @param Exception $exception The thrown exception.
      */
-    public function __construct(GuzzleException $guzzleException)
+    public function __construct(Exception $exception)
     {
         parent::__construct(
-            $guzzleException->getMessage(),
-            $guzzleException->getCode(),
-            $guzzleException
+            $exception->getMessage(),
+            $exception->getCode(),
+            $exception
         );
 
-        $this->guzzleException = $guzzleException;
+        $this->exception = $exception;
     }
 
     /**
      * Get the GuzzleException
      *
-     * @return GuzzleException
+     * @return Exception
      */
-    public function getGuzzleException(): GuzzleException
+    public function getException(): Exception
     {
-        return $this->guzzleException;
+        return $this->exception;
     }
 }

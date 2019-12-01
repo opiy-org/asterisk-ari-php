@@ -6,7 +6,6 @@ declare(strict_types=1);
 
 namespace NgVoice\AriClient\Models\Message;
 
-
 /**
  * Notification that another WebSocket has taken over for an application.
  * An application may only be subscribed to by a single WebSocket at a time.

@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace NgVoice\AriClient\Models;
 
-
 /**
  * A key/value pair variable in a text message.
  *

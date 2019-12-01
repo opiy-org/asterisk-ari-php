@@ -57,19 +57,33 @@ Asterisk REST Interface.
 
     <?php
 
+    declare(strict_types=1);
+
+    use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
+    use NgVoice\AriClient\RestClient\ResourceClient\Channels;
+    use NgVoice\AriClient\RestClient\Settings as AriRestClientSettings;
+    
+    require_once __DIR__ . '/vendor/autoload.php';
+    
     // Of course inject your own REST client settings here.
     $ariChannelsRestClient = new Channels(
         new AriRestClientSettings('asterisk', 'asterisk')
     );
-
+    
     try {
         // Call the specified number
-        $originatedChannel = $ariChannelsRestClient->originate('PJSIP/+4940123456789');
+        $originatedChannel = $ariChannelsRestClient->originate(
+            'PJSIP/+4940123456789',
+            [
+                'app' => 'MyExampleStasisApp'
+            ]
+        );
     } catch (AsteriskRestInterfaceException $e) {
         echo "Error occurred: {$e->getMessage()}\n";
     }
     
     echo "The originated channel has the ID '{$originatedChannel->getId()}'\n";
+
 
 #### Web socket client
 
@@ -81,16 +95,27 @@ is related to the application.
 In this case we are handling a `StasisStart` event.
     
     <?php
-
+    
+    declare(strict_types=1);
+    
+    // TODO: Change to your own project namespace.
+    namespace My\Own\Project\Namespace;
+    
+    use NgVoice\AriClient\StasisApplicationInterface;
+    use NgVoice\AriClient\Models\Message\StasisStart;
+    
     /**
      * Write your own Stasis application class that must implement the
      * StasisApplicationInterface.
      *
-     * This application will be registered
-     * automatically in Asterisk as soon as you start a WebSocketClient
-     * (@see the worker script example).
+     * This application will register automatically in Asterisk as
+     * soon as you start a WebSocketClient (@see the worker script example).
+     *
+     * @package My\Own\Project\Namespace
+     *
+     * @author Lukas Stermann <lukas@ng-voice.com>
      */
-    class MyExampleStasisApplication implements AsteriskStasisApplication
+    class MyExampleStasisApp implements StasisApplicationInterface
     {
         /**
          * To declare an ARI event handler function, name it after
@@ -117,28 +142,45 @@ In this case we are handling a `StasisStart` event.
         }
     }
 
+
+
 Write a PHP script to start your WebSocketClient worker process.
 This is a blocking process! For production, you should use a process manager to run it in
 the background. We recommend 'supervisor' for linux.
 
     <?php
 
+    declare(strict_types=1);
+    
+    use NgVoice\AriClient\WebSocketClient\Settings as AriWebSocketClientSettings;
+    use NgVoice\AriClient\WebSocketClient\Factory as AriWebSocketClientFactory;
+    
+    require_once __DIR__ . '/vendor/autoload.php';
+    require_once __DIR__ . '/vendor/ng-voice/asterisk-ari-client/examples/MyExampleStasisApp.php';
+    
     /*
      * Initialize an ARI web socket client to
      * listen for incoming Asterisk events.
      *
      * Of course inject your own web socket settings here.
      */
-    $ariWebSocketClient = new WebSocketClient(
-        new WebSocketClientSettings('asterisk', 'asterisk'),
-        new MyExampleStasisApplication()
+    $ariWebSocketClient = AriWebSocketClientFactory::create(
+        new AriWebSocketClientSettings('asterisk', 'asterisk'),
+        new MyExampleStasisApp()
     );
-
+    
     $ariWebSocketClient->start();
+
 
 
 You can find a detailed example in the `examples` directory.
 
+## Debug logs
+To debug your ARI communication, this client library ships with a simple debug log switch.
+Simply en-/disable it in the `debug_mode.yaml` file located in the root directory
+of this project.
+
+The logs will appear on STDOUT.
 
 ## Running the tests
 

@@ -6,7 +6,6 @@ declare(strict_types=1);
 
 namespace NgVoice\AriClient\Tests\Models;
 
-
 use JsonMapper_Exception;
 use NgVoice\AriClient\Models\Variable;
 use NgVoice\AriClient\Tests\Helper;
@@ -16,6 +15,8 @@ use PHPUnit\Framework\TestCase;
  * Class VariableTest
  *
  * @package NgVoice\AriClient\Tests\Models
+ *
+ * @author Lukas Stermann <lukas@ng-voice.com>
  */
 final class VariableTest extends TestCase
 {

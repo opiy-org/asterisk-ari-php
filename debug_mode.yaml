@@ -1,9 +1,11 @@
 #
-# Enable debugging for a closer look
-# at what is happening in the background of this library
-#
-# @author Lukas Stermann
 # @copyright 2019 ng-voice GmbH
 #
+# Enable debug logging for a closer look at the communication between
+# the Asterisk REST Interface and your application logic.
+#
+# @author Lukas Stermann
+#
 
+# Allowed values: true/false
 debug_mode: false

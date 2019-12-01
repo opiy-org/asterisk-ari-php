@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace NgVoice\AriClient\Models;
 
-
 /**
  * Detailed information about a contact on an endpoint.
  *

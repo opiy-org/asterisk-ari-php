@@ -6,7 +6,6 @@ declare(strict_types=1);
 
 namespace NgVoice\AriClient\Models\Message;
 
-
 /**
  * Base type for errors and events.
  *

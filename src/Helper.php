@@ -22,14 +22,6 @@ use Symfony\Component\Yaml\Yaml;
 final class Helper
 {
     /**
-     * Constructor and clone are private because objects
-     * of this class shouldn't be instantiated.
-     */
-    private function __construct()
-    {
-    }
-
-    /**
      * Get the short name of an objects class without the full namespace.
      *
      * @param object $object The object to get the class name from.
@@ -39,7 +31,8 @@ final class Helper
     public static function getShortClassName(object $object): string
     {
         $fullPathClassName = explode('\\', get_class($object));
-        return end($fullPathClassName);
+
+        return (string) end($fullPathClassName);
     }
 
     /**
@@ -47,14 +40,22 @@ final class Helper
      *
      * @param string $name The name of the logger.
      *
+     * @param Logger|null $logger The logger to initialize
+     *
      * @return Logger
      */
-    public static function initLogger(string $name): Logger
-    {
-        $logger = new Logger($name);
+    public static function initLogger(
+        string $name,
+        Logger $logger = null
+    ): Logger {
+        if ($logger === null) {
+            $logger = new Logger($name);
+        }
+
+        $absoluteFilePath = __DIR__ . '/../debug_mode.yaml';
 
         try {
-            $settings = Yaml::parseFile(__DIR__ . '/../debug_mode.yaml');
+            $settings = Yaml::parseFile($absoluteFilePath);
 
             if ($settings['debug_mode']) {
                 $logger->pushHandler(new StreamHandler(STDOUT, Logger::DEBUG));
@@ -71,15 +72,13 @@ final class Helper
             $logger->pushHandler(
                 new StreamHandler(STDERR, Logger::ERROR)
             );
+
             $logger->debug('Loggers have successfully been set');
         } catch (Exception $e) {
-            // Filenames is hardcoded, hence there is no chance to throw exception here.
+            trigger_error($e->getMessage(), E_USER_ERROR);
+            // Filenames hard coded, hence there is no chance to throw an exception here.
         }
 
         return $logger;
-    }
-
-    private function __clone()
-    {
     }
 }

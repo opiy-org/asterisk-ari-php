@@ -4,7 +4,7 @@
       "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-  "content-hash": "1d74c1d7608d7013c14988b7dd895cb2",
+  "content-hash": "d054878c1d99e86366f7bf8283083ca8",
     "packages": [
         {
             "name": "evenement/evenement",
@@ -51,27 +51,28 @@
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "6.3.3",
+          "version": "6.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "407b0cb880ace85c9b63c5f9551db498cb2d50ba"
+              "reference": "0895c932405407fd3a7368b6910c09a24d26db11"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/407b0cb880ace85c9b63c5f9551db498cb2d50ba",
-                "reference": "407b0cb880ace85c9b63c5f9551db498cb2d50ba",
+              "url": "https://api.github.com/repos/guzzle/guzzle/zipball/0895c932405407fd3a7368b6910c09a24d26db11",
+              "reference": "0895c932405407fd3a7368b6910c09a24d26db11",
                 "shasum": ""
             },
             "require": {
+              "ext-json": "*",
                 "guzzlehttp/promises": "^1.0",
-                "guzzlehttp/psr7": "^1.4",
+              "guzzlehttp/psr7": "^1.6.1",
                 "php": ">=5.5"
             },
             "require-dev": {
                 "ext-curl": "*",
                 "phpunit/phpunit": "^4.8.35 || ^5.7 || ^6.4 || ^7.0",
-                "psr/log": "^1.0"
+              "psr/log": "^1.1"
             },
             "suggest": {
                 "psr/log": "Required for using the Log middleware"
@@ -83,12 +84,12 @@
                 }
             },
             "autoload": {
-                "files": [
-                    "src/functions_include.php"
-                ],
                 "psr-4": {
                     "GuzzleHttp\\": "src/"
-                }
+                },
+              "files": [
+                "src/functions_include.php"
+              ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -112,7 +113,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2018-04-22T15:46:56+00:00"
+          "time": "2019-10-23T15:58:00+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -489,16 +490,16 @@
         },
         {
             "name": "psr/log",
-            "version": "1.1.0",
+          "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
-                "reference": "6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd"
+              "reference": "446d54b4cb6bf489fc9d75f55843658e6f25d801"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd",
-                "reference": "6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd",
+              "url": "https://api.github.com/repos/php-fig/log/zipball/446d54b4cb6bf489fc9d75f55843658e6f25d801",
+              "reference": "446d54b4cb6bf489fc9d75f55843658e6f25d801",
                 "shasum": ""
             },
             "require": {
@@ -507,7 +508,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0.x-dev"
+                  "dev-master": "1.1.x-dev"
                 }
             },
             "autoload": {
@@ -532,7 +533,7 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2018-11-20T15:27:04+00:00"
+          "time": "2019-11-01T11:05:21+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
@@ -575,6 +576,104 @@
             "time": "2019-03-08T08:55:37+00:00"
         },
         {
+          "name": "ratchet/pawl",
+          "version": "v0.3.4",
+          "source": {
+            "type": "git",
+            "url": "https://github.com/ratchetphp/Pawl.git",
+            "reference": "3a7d5b78e0deaec82f42513a4a3193a8eb12feb1"
+          },
+          "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/ratchetphp/Pawl/zipball/3a7d5b78e0deaec82f42513a4a3193a8eb12feb1",
+            "reference": "3a7d5b78e0deaec82f42513a4a3193a8eb12feb1",
+            "shasum": ""
+          },
+          "require": {
+            "evenement/evenement": "^3.0 || ^2.0",
+            "php": ">=5.4",
+            "ratchet/rfc6455": "^0.2.3",
+            "react/socket": "^1.0 || ^0.8 || ^0.7"
+          },
+          "require-dev": {
+            "phpunit/phpunit": "~4.8"
+          },
+          "suggest": {
+            "reactivex/rxphp": "~2.0"
+          },
+          "type": "library",
+          "autoload": {
+            "psr-4": {
+              "Ratchet\\Client\\": "src"
+            },
+            "files": [
+              "src/functions_include.php"
+            ]
+          },
+          "notification-url": "https://packagist.org/downloads/",
+          "license": [
+            "MIT"
+          ],
+          "description": "Asynchronous WebSocket client",
+          "keywords": [
+            "Ratchet",
+            "async",
+            "client",
+            "websocket",
+            "websocket client"
+          ],
+          "time": "2019-01-14T14:09:36+00:00"
+        },
+      {
+        "name": "ratchet/rfc6455",
+        "version": "v0.2.5",
+        "source": {
+          "type": "git",
+          "url": "https://github.com/ratchetphp/RFC6455.git",
+          "reference": "c62f7cd95ffbb6e94fd657be694fc7372ecd6e62"
+        },
+        "dist": {
+          "type": "zip",
+          "url": "https://api.github.com/repos/ratchetphp/RFC6455/zipball/c62f7cd95ffbb6e94fd657be694fc7372ecd6e62",
+          "reference": "c62f7cd95ffbb6e94fd657be694fc7372ecd6e62",
+          "shasum": ""
+        },
+        "require": {
+          "guzzlehttp/psr7": "^1.0",
+          "php": ">=5.4.2"
+        },
+        "require-dev": {
+          "phpunit/phpunit": "4.8.*",
+          "react/http": "^0.4.1",
+          "react/socket-client": "^0.4.3"
+        },
+        "type": "library",
+        "autoload": {
+          "psr-4": {
+            "Ratchet\\RFC6455\\": "src"
+          }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+          "MIT"
+        ],
+        "authors": [
+          {
+            "name": "Chris Boden",
+            "email": "cboden@gmail.com",
+            "role": "Developer"
+          }
+        ],
+        "description": "RFC6455 WebSocket protocol handler",
+        "homepage": "http://socketo.me",
+        "keywords": [
+          "WebSockets",
+          "rfc6455",
+          "websocket"
+        ],
+        "time": "2019-03-10T17:10:42+00:00"
+      },
+      {
             "name": "react/cache",
             "version": "v1.0.0",
             "source": {
@@ -953,16 +1052,16 @@
         },
         {
             "name": "symfony/yaml",
-          "version": "v4.3.5",
+          "version": "v4.3.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-              "reference": "41e16350a2a1c7383c4735aa2f9fce74cf3d1178"
+              "reference": "324cf4b19c345465fad14f3602050519e09e361d"
             },
             "dist": {
                 "type": "zip",
-              "url": "https://api.github.com/repos/symfony/yaml/zipball/41e16350a2a1c7383c4735aa2f9fce74cf3d1178",
-              "reference": "41e16350a2a1c7383c4735aa2f9fce74cf3d1178",
+              "url": "https://api.github.com/repos/symfony/yaml/zipball/324cf4b19c345465fad14f3602050519e09e361d",
+              "reference": "324cf4b19c345465fad14f3602050519e09e361d",
                 "shasum": ""
             },
             "require": {
@@ -1008,30 +1107,30 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-          "time": "2019-09-11T15:41:19+00:00"
+          "time": "2019-10-30T12:58:49+00:00"
         }
     ],
     "packages-dev": [
         {
             "name": "composer/xdebug-handler",
-            "version": "1.3.3",
+          "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/xdebug-handler.git",
-                "reference": "46867cbf8ca9fb8d60c506895449eb799db1184f"
+              "reference": "cbe23383749496fe0f373345208b79568e4bc248"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/xdebug-handler/zipball/46867cbf8ca9fb8d60c506895449eb799db1184f",
-                "reference": "46867cbf8ca9fb8d60c506895449eb799db1184f",
+              "url": "https://api.github.com/repos/composer/xdebug-handler/zipball/cbe23383749496fe0f373345208b79568e4bc248",
+              "reference": "cbe23383749496fe0f373345208b79568e4bc248",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.3.2 || ^7.0",
+              "php": "^5.3.2 || ^7.0 || ^8.0",
                 "psr/log": "^1.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8.35 || ^5.7 || ^6.5"
+              "phpunit/phpunit": "^4.8.35 || ^5.7 || 6.5 - 8"
             },
             "type": "library",
             "autoload": {
@@ -1049,12 +1148,12 @@
                     "email": "john-stevenson@blueyonder.co.uk"
                 }
             ],
-            "description": "Restarts a process without xdebug.",
+          "description": "Restarts a process without Xdebug.",
             "keywords": [
                 "Xdebug",
                 "performance"
             ],
-            "time": "2019-05-27T17:52:04+00:00"
+          "time": "2019-11-06T16:40:04+00:00"
         },
         {
             "name": "dg/bypass-finals",
@@ -1261,16 +1360,16 @@
         },
         {
             "name": "nette/bootstrap",
-            "version": "v3.0.0",
+          "version": "v3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/bootstrap.git",
-                "reference": "e1075af05c211915e03e0c86542f3ba5433df4a3"
+              "reference": "b45a1e33b6a44beb307756522396551e5a9ff249"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/bootstrap/zipball/e1075af05c211915e03e0c86542f3ba5433df4a3",
-                "reference": "e1075af05c211915e03e0c86542f3ba5433df4a3",
+              "url": "https://api.github.com/repos/nette/bootstrap/zipball/b45a1e33b6a44beb307756522396551e5a9ff249",
+              "reference": "b45a1e33b6a44beb307756522396551e5a9ff249",
                 "shasum": ""
             },
             "require": {
@@ -1278,6 +1377,9 @@
                 "nette/utils": "^3.0",
                 "php": ">=7.1"
             },
+          "conflict": {
+            "tracy/tracy": "<2.6"
+          },
             "require-dev": {
                 "latte/latte": "^2.2",
                 "nette/application": "^3.0",
@@ -1330,7 +1432,7 @@
                 "configurator",
                 "nette"
             ],
-            "time": "2019-03-26T12:59:07+00:00"
+          "time": "2019-09-30T08:19:38+00:00"
         },
         {
             "name": "nette/di",
@@ -1651,16 +1753,16 @@
         },
         {
             "name": "nette/schema",
-            "version": "v1.0.0",
+          "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/schema.git",
-                "reference": "6241d8d4da39e825dd6cb5bfbe4242912f4d7e4d"
+              "reference": "337117df1dade22e2ba1fdc4a4b832c1e9b06b76"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/schema/zipball/6241d8d4da39e825dd6cb5bfbe4242912f4d7e4d",
-                "reference": "6241d8d4da39e825dd6cb5bfbe4242912f4d7e4d",
+              "url": "https://api.github.com/repos/nette/schema/zipball/337117df1dade22e2ba1fdc4a4b832c1e9b06b76",
+              "reference": "337117df1dade22e2ba1fdc4a4b832c1e9b06b76",
                 "shasum": ""
             },
             "require": {
@@ -1704,20 +1806,20 @@
                 "config",
                 "nette"
             ],
-            "time": "2019-04-03T15:53:25+00:00"
+          "time": "2019-10-31T20:52:19+00:00"
         },
         {
             "name": "nette/utils",
-            "version": "v3.0.1",
+          "version": "v3.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/utils.git",
-                "reference": "bd961f49b211997202bda1d0fbc410905be370d4"
+              "reference": "c133e18c922dcf3ad07673077d92d92cef25a148"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/utils/zipball/bd961f49b211997202bda1d0fbc410905be370d4",
-                "reference": "bd961f49b211997202bda1d0fbc410905be370d4",
+              "url": "https://api.github.com/repos/nette/utils/zipball/c133e18c922dcf3ad07673077d92d92cef25a148",
+              "reference": "c133e18c922dcf3ad07673077d92d92cef25a148",
                 "shasum": ""
             },
             "require": {
@@ -1733,6 +1835,7 @@
                 "ext-intl": "to use Strings::webalize(), toAscii(), normalize() and compare()",
                 "ext-json": "to use Nette\\Utils\\Json",
                 "ext-mbstring": "to use Strings::lower() etc...",
+              "ext-tokenizer": "to use Nette\\Utils\\Reflection::getUseStatements()",
                 "ext-xml": "to use Strings::length() etc. when mbstring is not available"
             },
             "type": "library",
@@ -1780,20 +1883,20 @@
                 "utility",
                 "validation"
             ],
-            "time": "2019-03-22T01:00:30+00:00"
+          "time": "2019-10-21T20:40:16+00:00"
         },
         {
             "name": "nikic/php-parser",
-            "version": "v4.2.4",
+          "version": "v4.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "97e59c7a16464196a8b9c77c47df68e4a39a45c4"
+              "reference": "b76bbc3c51f22c570648de48e8c2d941ed5e2cf2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/97e59c7a16464196a8b9c77c47df68e4a39a45c4",
-                "reference": "97e59c7a16464196a8b9c77c47df68e4a39a45c4",
+              "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/b76bbc3c51f22c570648de48e8c2d941ed5e2cf2",
+              "reference": "b76bbc3c51f22c570648de48e8c2d941ed5e2cf2",
                 "shasum": ""
             },
             "require": {
@@ -1801,6 +1904,7 @@
                 "php": ">=7.0"
             },
             "require-dev": {
+              "ircmaxell/php-yacc": "0.0.4",
                 "phpunit/phpunit": "^6.5 || ^7.0 || ^8.0"
             },
             "bin": [
@@ -1831,7 +1935,7 @@
                 "parser",
                 "php"
             ],
-            "time": "2019-09-01T07:51:21+00:00"
+          "time": "2019-10-25T18:33:07+00:00"
         },
         {
             "name": "ocramius/package-versions",
@@ -2818,12 +2922,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-              "reference": "eb59d9f35a47f567ae15e7179d7c666489cd4b85"
+              "reference": "15eb463aecc9e315b89b744ee0feb0bb1b4c6787"
             },
             "dist": {
                 "type": "zip",
-              "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/eb59d9f35a47f567ae15e7179d7c666489cd4b85",
-              "reference": "eb59d9f35a47f567ae15e7179d7c666489cd4b85",
+              "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/15eb463aecc9e315b89b744ee0feb0bb1b4c6787",
+              "reference": "15eb463aecc9e315b89b744ee0feb0bb1b4c6787",
                 "shasum": ""
             },
             "conflict": {
@@ -2912,7 +3016,7 @@
                 "propel/propel": ">=2-alpha.1,<=2-alpha.7",
                 "propel/propel1": ">=1,<=1.7.1",
                 "pusher/pusher-php-server": "<2.2.1",
-                "robrichards/xmlseclibs": ">=1,<3.0.2",
+              "robrichards/xmlseclibs": ">=1,<3.0.4",
                 "sabre/dav": ">=1.6,<1.6.99|>=1.7,<1.7.11|>=1.8,<1.8.9",
                 "sensiolabs/connect": "<4.2.3",
                 "serluck/phpwhois": "<=4.2.6",
@@ -3026,7 +3130,7 @@
                 }
             ],
             "description": "Prevents installation of composer packages with known security vulnerabilities: no API, simply require it",
-          "time": "2019-10-09T14:04:58+00:00"
+          "time": "2019-11-07T10:12:47+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -3696,16 +3800,16 @@
         },
       {
         "name": "symfony/config",
-        "version": "v4.3.5",
+        "version": "v4.3.6",
         "source": {
           "type": "git",
           "url": "https://github.com/symfony/config.git",
-          "reference": "0acb26407a9e1a64a275142f0ae5e36436342720"
+          "reference": "f4ee0ebb91b16ca1ac105aa39f9284f3cac19a15"
         },
         "dist": {
           "type": "zip",
-          "url": "https://api.github.com/repos/symfony/config/zipball/0acb26407a9e1a64a275142f0ae5e36436342720",
-          "reference": "0acb26407a9e1a64a275142f0ae5e36436342720",
+          "url": "https://api.github.com/repos/symfony/config/zipball/f4ee0ebb91b16ca1ac105aa39f9284f3cac19a15",
+          "reference": "f4ee0ebb91b16ca1ac105aa39f9284f3cac19a15",
           "shasum": ""
         },
         "require": {
@@ -3756,20 +3860,20 @@
         ],
         "description": "Symfony Config Component",
         "homepage": "https://symfony.com",
-        "time": "2019-09-19T15:51:53+00:00"
+        "time": "2019-10-30T13:18:51+00:00"
         },
         {
             "name": "symfony/console",
-          "version": "v4.3.5",
+          "version": "v4.3.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-              "reference": "929ddf360d401b958f611d44e726094ab46a7369"
+              "reference": "136c4bd62ea871d00843d1bc0316de4c4a84bb78"
             },
             "dist": {
                 "type": "zip",
-              "url": "https://api.github.com/repos/symfony/console/zipball/929ddf360d401b958f611d44e726094ab46a7369",
-              "reference": "929ddf360d401b958f611d44e726094ab46a7369",
+              "url": "https://api.github.com/repos/symfony/console/zipball/136c4bd62ea871d00843d1bc0316de4c4a84bb78",
+              "reference": "136c4bd62ea871d00843d1bc0316de4c4a84bb78",
                 "shasum": ""
             },
             "require": {
@@ -3831,20 +3935,20 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-          "time": "2019-10-07T12:36:49+00:00"
+          "time": "2019-10-30T12:58:49+00:00"
         },
       {
         "name": "symfony/dependency-injection",
-        "version": "v4.3.5",
+        "version": "v4.3.6",
         "source": {
           "type": "git",
           "url": "https://github.com/symfony/dependency-injection.git",
-          "reference": "e1e0762a814b957a1092bff75a550db49724d05b"
+          "reference": "fc036941dfafa037a7485714b62593c7eaf68edd"
         },
         "dist": {
           "type": "zip",
-          "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/e1e0762a814b957a1092bff75a550db49724d05b",
-          "reference": "e1e0762a814b957a1092bff75a550db49724d05b",
+          "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/fc036941dfafa037a7485714b62593c7eaf68edd",
+          "reference": "fc036941dfafa037a7485714b62593c7eaf68edd",
           "shasum": ""
         },
         "require": {
@@ -3904,11 +4008,11 @@
         ],
         "description": "Symfony DependencyInjection Component",
         "homepage": "https://symfony.com",
-        "time": "2019-10-02T12:58:58+00:00"
+        "time": "2019-10-28T17:07:32+00:00"
       },
       {
         "name": "symfony/filesystem",
-        "version": "v4.3.5",
+        "version": "v4.3.6",
         "source": {
           "type": "git",
           "url": "https://github.com/symfony/filesystem.git",
@@ -3958,16 +4062,16 @@
         },
         {
             "name": "symfony/finder",
-          "version": "v4.3.5",
+          "version": "v4.3.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
-              "reference": "5e575faa95548d0586f6bedaeabec259714e44d1"
+              "reference": "72a068f77e317ae77c0a0495236ad292cfb5ce6f"
             },
             "dist": {
                 "type": "zip",
-              "url": "https://api.github.com/repos/symfony/finder/zipball/5e575faa95548d0586f6bedaeabec259714e44d1",
-              "reference": "5e575faa95548d0586f6bedaeabec259714e44d1",
+              "url": "https://api.github.com/repos/symfony/finder/zipball/72a068f77e317ae77c0a0495236ad292cfb5ce6f",
+              "reference": "72a068f77e317ae77c0a0495236ad292cfb5ce6f",
                 "shasum": ""
             },
             "require": {
@@ -4003,7 +4107,7 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "https://symfony.com",
-          "time": "2019-09-16T11:29:48+00:00"
+          "time": "2019-10-30T12:53:54+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",

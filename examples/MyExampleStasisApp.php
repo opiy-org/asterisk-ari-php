@@ -6,10 +6,10 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use NgVoice\AriClient\AsteriskStasisApplication;
 use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
 use NgVoice\AriClient\Models\Message\{ChannelHangupRequest, StasisEnd, StasisStart};
-use NgVoice\AriClient\RestClient\Channels;
+use NgVoice\AriClient\RestClient\ResourceClient\Channels;
+use NgVoice\AriClient\StasisApplicationInterface;
 
 /**
  * Example for usage of this library in a local application.
@@ -34,7 +34,7 @@ use NgVoice\AriClient\RestClient\Channels;
  * @author Ahmad Hussain <ahmad@ng-voice.com>
  * =======================================================================================
  */
-final class MyExampleStasisApp implements AsteriskStasisApplication
+final class MyExampleStasisApp implements StasisApplicationInterface
 {
     /**
      * @var Channels

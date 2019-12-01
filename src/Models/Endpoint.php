@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace NgVoice\AriClient\Models;
 
-
 /**
  * An external device that may offer/accept calls to/from Asterisk.
  * Unlike most resources, which have a single unique identifier,

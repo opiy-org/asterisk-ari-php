@@ -86,7 +86,8 @@ final class Channel implements ModelInterface
     /**
      * State of the channel.
      *
-     * @var string Possible values: ["Down", "Rsrved", "OffHook", "Dialing", "Ring", "Ringing",
+     * @var string Possible values:
+     * ["Down", "Rsrved", "OffHook", "Dialing", "Ring", "Ringing",
      * "Up", "Busy", "Dialing Offhook", "Pre-ring", "Unknown"]
      */
     private $state;

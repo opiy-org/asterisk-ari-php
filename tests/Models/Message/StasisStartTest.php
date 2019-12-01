@@ -6,7 +6,6 @@ declare(strict_types=1);
 
 namespace NgVoice\AriClient\Tests\Models\Message;
 
-
 use JsonMapper_Exception;
 use NgVoice\AriClient\Models\{Channel, Message\StasisStart};
 use NgVoice\AriClient\Tests\Helper;

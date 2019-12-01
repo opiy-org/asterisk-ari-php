@@ -6,7 +6,6 @@ declare(strict_types=1);
 
 namespace AriStasisApp\Tests\Models;
 
-
 use JsonMapper_Exception;
 use NgVoice\AriClient\Models\Application;
 use NgVoice\AriClient\Tests\Helper;

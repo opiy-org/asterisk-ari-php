@@ -30,7 +30,7 @@ class AsteriskRestInterfaceExceptionTest extends TestCase
             new AsteriskRestInterfaceException($mockedGuzzleObject);
         $this->assertInstanceOf(
             ServerException::class,
-            $guzzleExceptionTest->getGuzzleException()
+            $guzzleExceptionTest->getException()
         );
     }
 }
