@@ -33,9 +33,8 @@ Please run the following command to add the library to your project
 `composer require ng-voice/asterisk-ari-client`
 
 While installing, you might run into composer errors concerning missing php extensions.
-There are several ways to install them, depending on your operating system
-(e.g. `apt install php7.3-mbstring`). You might need to install php-dev first and
-then install and enable the extension via pecl.
+There are several ways to install them, depending on your operating system.
+You might need to install php-dev first and then install and enable the extension via pecl.
 
 ##### Asterisk
 You will have to start an Asterisk instance and configure it in order to use ARI.
@@ -43,7 +42,7 @@ The official Asterisk documentation shows you how to do so.
 
 https://wiki.asterisk.org/wiki/display/AST/Asterisk+Configuration+for+ARI
 
-Alternatively use our Dockerfile to fire up Asterisk from Deployment section below.
+Alternatively use our Dockerfile to fire up Asterisk (Deployment section below).
 
 ## Examples
 
@@ -213,7 +212,7 @@ Asterisk container.
 
 ## Licence
 
-##### MIT © ng-voice GmbH (2019)
+##### MIT © ng-voice GmbH (2020)
 
 ![](images/ng-voice-logo.png)
 
