@@ -189,8 +189,7 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
         try {
             $this->myApp->$functionName($messageObject);
         } catch (Throwable $throwable) {
-            $errorHandler = $this->errorHandler;
-            $errorHandler($ariEventType, $throwable);
+            ($this->errorHandler)($ariEventType, $throwable);
 
             return;
         }
