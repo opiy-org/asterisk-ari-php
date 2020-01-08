@@ -21,32 +21,26 @@
       "email": "lukas@ng-voice.com",
       "homepage": "https://ng-voice.com",
       "role": "Software Engineer"
-    },
-    {
-      "name": "Ahmad Hussain",
-      "email": "ahmad@ng-voice.com",
-      "homepage": "https://ng-voice.com",
-      "role": "Software Engineer"
     }
   ],
   "require": {
-    "php": "~7.3",
+    "php": ">=7.4",
+    "oktavlachs/data-mapping-service": "dev-master",
     "monolog/monolog": "~1.0||~2.0",
-    "guzzlehttp/guzzle": "~6.3",
-    "symfony/yaml": "~v4.3",
+    "guzzlehttp/guzzle": "~6.5",
+    "symfony/yaml": "~v4.3||~v5.0",
     "nekland/woketo": "~2.2",
     "ratchet/pawl": "~0.3",
-    "netresearch/jsonmapper": "~v1.6",
     "ext-json": "*"
   },
   "require-dev": {
     "roave/security-advisories": "dev-master",
-    "squizlabs/php_codesniffer": "3.5.0",
-    "phpunit/phpunit": "8.4.1",
-    "phpunit/php-code-coverage": "7.0.8",
-    "phpstan/phpstan": "0.11.16",
-    "phpmd/phpmd": "2.7.0",
-    "dg/bypass-finals": "1.1.2"
+    "squizlabs/php_codesniffer": "~3.5",
+    "phpunit/phpunit": "~8.4",
+    "phpunit/php-code-coverage": "~7.0",
+    "phpstan/phpstan": "~0.11",
+    "phpmd/phpmd": "~2.7",
+    "dg/bypass-finals": "~1.1"
   },
   "autoload": {
     "psr-4": {

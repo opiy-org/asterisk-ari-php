@@ -1,18 +1,18 @@
 <?php
 
-/** @copyright 2019 ng-voice GmbH */
+/** @copyright 2020 ng-voice GmbH */
 
 declare(strict_types=1);
 
 namespace NgVoice\AriClient;
 
 /**
- * Interface StasisApplicationInterface enables stasis applications
- * to use the @see FilteredMessageHandler provided by this library.
+ * An interface used as a generic class for Stasis application dependency
+ * injection within different contexts.
  *
- * In order to use type safety for the provided message handlers
- * constructor signature, stasis applications have to implement
- * this interface.
+ * Although it does not declare any functions, your Stasis applications
+ * must implement this interface in order to use some of the classes this
+ * library provides.
  *
  * @package NgVoice\AriClient
  *

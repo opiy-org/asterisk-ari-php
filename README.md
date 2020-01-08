@@ -3,10 +3,9 @@
 Client implementation of the Asterisk REST Interface and simple Stasis
 application development library.
 
-The idea is to make ARI calls safe and easy. Therefore, we wanted to get rid of 
-JSON parsing in our application code. Instead, we aim to make it as easy as possible 
-for anyone to talk to ARI without 
-worrying about an implementation of a client stub. We already did the work for you :)
+The idea is to make ARI calls safe and easy. Therefore, we wanted to get rid of
+JSON parsing in our application code. Instead, we aim to make it as easy as possible
+for anyone to talk to ARI without worrying about an implementation of a client stub.
 
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=ngvoice_asterisk-ari-client&metric=security_rating)](https://sonarcloud.io/dashboard?id=ngvoice_asterisk-ari-client)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=ngvoice_asterisk-ari-client&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=ngvoice_asterisk-ari-client)
@@ -60,19 +59,19 @@ Asterisk REST Interface.
     declare(strict_types=1);
 
     use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
-    use NgVoice\AriClient\RestClient\ResourceClient\Channels;
-    use NgVoice\AriClient\RestClient\Settings as AriRestClientSettings;
+    use NgVoice\AriClient\Client\RestClient\Resource\Channels as AriChannelsRestResourceClient;
+    use NgVoice\AriClient\Client\RestClient\Settings as AriRestClientSettings;
     
     require_once __DIR__ . '/vendor/autoload.php';
     
     // Of course inject your own REST client settings here.
-    $ariChannelsRestClient = new Channels(
+    $ariChannelsRestResourceClient = new AriChannelsRestResourceClient(
         new AriRestClientSettings('asterisk', 'asterisk')
     );
     
     try {
         // Call the specified number
-        $originatedChannel = $ariChannelsRestClient->originate(
+        $originatedChannel = $ariChannelsRestResourceClient->originate(
             'PJSIP/+4940123456789',
             [
                 'app' => 'MyExampleStasisApp'
@@ -102,7 +101,7 @@ In this case we are handling a `StasisStart` event.
     namespace My\Own\Project\Namespace;
     
     use NgVoice\AriClient\StasisApplicationInterface;
-    use NgVoice\AriClient\Models\Message\StasisStart;
+    use NgVoice\AriClient\Model\Message\Event\StasisStart;
     
     /**
      * Write your own Stasis application class that must implement the
@@ -110,10 +109,6 @@ In this case we are handling a `StasisStart` event.
      *
      * This application will register automatically in Asterisk as
      * soon as you start a WebSocketClient (@see the worker script example).
-     *
-     * @package My\Own\Project\Namespace
-     *
-     * @author Lukas Stermann <lukas@ng-voice.com>
      */
     class MyExampleStasisApp implements StasisApplicationInterface
     {
@@ -152,8 +147,8 @@ the background. We recommend 'supervisor' for linux.
 
     declare(strict_types=1);
     
-    use NgVoice\AriClient\WebSocketClient\Settings as AriWebSocketClientSettings;
-    use NgVoice\AriClient\WebSocketClient\Factory as AriWebSocketClientFactory;
+    use NgVoice\AriClient\Client\WebSocket\Settings as AriWebSocketClientSettings;
+    use NgVoice\AriClient\Client\WebSocket\Factory as AriWebSocketClientFactory;
     
     require_once __DIR__ . '/vendor/autoload.php';
     require_once __DIR__ . '/vendor/ng-voice/asterisk-ari-client/examples/MyExampleStasisApp.php';

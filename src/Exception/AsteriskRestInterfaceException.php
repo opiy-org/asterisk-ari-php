@@ -1,12 +1,13 @@
 <?php
 
-/** @copyright 2019 ng-voice GmbH */
+/** @copyright 2020 ng-voice GmbH */
 
 declare(strict_types=1);
 
 namespace NgVoice\AriClient\Exception;
 
 use Exception;
+use Throwable;
 
 /**
  * AsteriskRestInterfaceException wraps occurring exceptions
@@ -21,17 +22,15 @@ class AsteriskRestInterfaceException extends Exception
 {
     /**
      * The thrown exception.
-     *
-     * @var Exception
      */
-    private $exception;
+    private Throwable $exception;
 
     /**
      * AsteriskRestInterfaceException constructor.
      *
-     * @param Exception $exception The thrown exception.
+     * @param Throwable $exception The thrown exception.
      */
-    public function __construct(Exception $exception)
+    public function __construct(Throwable $exception)
     {
         parent::__construct(
             $exception->getMessage(),
@@ -47,7 +46,7 @@ class AsteriskRestInterfaceException extends Exception
      *
      * @return Exception
      */
-    public function getException(): Exception
+    public function getException(): Throwable
     {
         return $this->exception;
     }

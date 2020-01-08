@@ -1,10 +1,10 @@
 #
-# @copyright 2019 ng-voice GmbH
+# @copyright 2020 ng-voice GmbH
 #
 # Enable debug logging for a closer look at the communication between
 # the Asterisk REST Interface and your application logic.
 #
-# @author Lukas Stermann
+# @author Lukas Stermann <lukas@ng-voice.com>
 #
 
 # Allowed values: true/false

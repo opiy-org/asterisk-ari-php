@@ -1,5 +1,5 @@
 FROM debian:latest
-ARG asterisk_version=16.2.1
+ARG asterisk_version=16.7.0
 
 LABEL maintainer="Lukas Stermann <lukas@ng-voice.com>"
 LABEL Description="This is an Asterisk 16 image, configured to work with ARI"
@@ -22,7 +22,7 @@ RUN tar -zxvf asterisk-${asterisk_version}.tar.gz && rm asterisk-${asterisk_vers
 WORKDIR /tmp/asterisk-${asterisk_version}/contrib/scripts
 RUN echo 'Y' | ./install_prereq test
 RUN echo 'Y' | ./install_prereq install
-RUN echo 'Y' | ./install_prereq install-unpackaged
+#RUN echo 'Y' | ./install_prereq install-unpackaged
 # Should be run for self signed certificate (e.g. more secure WebRTC for browsers)
 # https://wiki.asterisk.org/wiki/display/AST/Configuring+Asterisk+for+WebRTC+Clients
 #RUN echo 'Y' | ./ast_tls_cert

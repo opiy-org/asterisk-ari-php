@@ -1,6 +1,6 @@
 <?php
 
-/** @copyright 2019 ng-voice GmbH */
+/** @copyright 2020 ng-voice GmbH */
 
 declare(strict_types=1);
 

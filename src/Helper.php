@@ -1,6 +1,6 @@
 <?php
 
-/** @copyright 2019 ng-voice GmbH */
+/** @copyright 2020 ng-voice GmbH */
 
 declare(strict_types=1);
 
@@ -21,20 +21,6 @@ use Symfony\Component\Yaml\Yaml;
  */
 final class Helper
 {
-    /**
-     * Get the short name of an objects class without the full namespace.
-     *
-     * @param object $object The object to get the class name from.
-     *
-     * @return string
-     */
-    public static function getShortClassName(object $object): string
-    {
-        $fullPathClassName = explode('\\', get_class($object));
-
-        return (string) end($fullPathClassName);
-    }
-
     /**
      * Create and configure a basic logger.
      *

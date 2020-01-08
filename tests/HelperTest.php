@@ -1,6 +1,6 @@
 <?php
 
-/** @copyright 2019 ng-voice GmbH */
+/** @copyright 2020 ng-voice GmbH */
 
 declare(strict_types=1);
 
@@ -9,6 +9,9 @@ declare(strict_types=1);
  */
 
 namespace NgVoice\AriClient {
+    /**
+     * @return bool
+     */
     function trigger_error($error_msg, $error_type = E_USER_NOTICE): bool
     {
         return true;
@@ -23,7 +26,10 @@ namespace NgVoice\AriClient {
      */
     class Yaml
     {
-        public static function parseFile()
+        /**
+         * @return array
+         */
+        public static function parseFile(): array
         {
             return ['debug_mode' => false];
         }
@@ -34,8 +40,9 @@ namespace NgVoice\AriClient\Tests {
     use Exception;
     use Monolog\Logger;
     use NgVoice\AriClient\Helper;
-    use NgVoice\AriClient\Models\Application;
+    use NgVoice\AriClient\Model\Application;
     use PHPUnit\Framework\TestCase;
+    use ReflectionObject;
 
     /**
      * Class helperTest
@@ -49,12 +56,9 @@ namespace NgVoice\AriClient\Tests {
     {
         public function testGetShortClassName(): void
         {
-            $this->assertEquals(
-                'Application',
-                Helper::getShortClassName(
-                    new Application()
-                )
-            );
+            $shortClassName = (new ReflectionObject(new Application()))->getShortName();
+
+            $this->assertEquals('Application', $shortClassName);
         }
 
         public function testInitLogger(): void

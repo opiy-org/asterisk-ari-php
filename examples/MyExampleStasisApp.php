@@ -1,14 +1,17 @@
 <?php
 
-/** @copyright 2019 ng-voice GmbH */
+/** @copyright 2020 ng-voice GmbH */
 
 declare(strict_types=1);
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
+use NgVoice\AriClient\Client\Rest\Resource\Channels;
 use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
-use NgVoice\AriClient\Models\Message\{ChannelHangupRequest, StasisEnd, StasisStart};
-use NgVoice\AriClient\RestClient\ResourceClient\Channels;
+use NgVoice\AriClient\Model\Message\Event\{ChannelHangupRequest,
+    ChannelUserevent,
+    StasisEnd,
+    StasisStart};
 use NgVoice\AriClient\StasisApplicationInterface;
 
 /**
@@ -16,30 +19,26 @@ use NgVoice\AriClient\StasisApplicationInterface;
  *
  * READ FIRST!
  * =======================================================================================
- * Open a terminal and start the example WebSocketClient worker script to receive
+ * Open a terminal and start the example WebSocket worker script to receive
  * Asterisk events:
- * 'php example_app_worker.php'
+ * 'php my_example_stasis_app_worker.php'
  *
- * Define public functions in your app class, named after the Message you want to handle
+ * Define public functions in your app class, named after the Event you want to handle
  * (lowerCamelCase!). e.g. function someMessage(SomeMessage $someMessage){...} Other
- * Asterisk Messages received by the WebSocketClient will be ignored.
+ * Asterisk Messages received by the WebSocket will be ignored.
  *
- * For a list of all supported Messages, have a look at the /src/Models/Message
+ * For a list of all supported Messages, have a look at the /src/Model/Event
  * folder in this library. Alternatively you can    look them up in the official Asterisk
  * documentation:
  *
  * @see https://wiki.asterisk.org/wiki/display/AST/Asterisk+16+REST+Data+Models#Asterisk16RESTDataModels-Event
+ * =======================================================================================
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
- * @author Ahmad Hussain <ahmad@ng-voice.com>
- * =======================================================================================
  */
 final class MyExampleStasisApp implements StasisApplicationInterface
 {
-    /**
-     * @var Channels
-     */
-    private $ariChannelsClient;
+    private Channels $ariChannelsClient;
 
     /**
      * MyExampleStasisApp constructor.
@@ -63,15 +62,22 @@ final class MyExampleStasisApp implements StasisApplicationInterface
     public function onAriEventStasisStart(StasisStart $stasisStart): void
     {
         $channelId = $stasisStart->getChannel()->getId();
-        echo "The channel {$channelId} has entered the MyExampleStasisApp.\n";
+        printf(
+            "The channel '%s' has entered the MyExampleStasisApp.\n",
+            $channelId
+        );
 
         /*
-         * Now we get the list of active channels available in the Application
-         * through Asterisk Rest Interface
+         * Now we get the list of active channels available in
+         * the Application through Asterisk Rest Interface.
          */
         foreach ($this->ariChannelsClient->list() as $activeChannel) {
-            echo "The channel id: {$activeChannel->getId()} and the channel name: "
-                . "{$activeChannel->getName()} is active in the MyExampleStasisApp.\n";
+            printf(
+                "The channel id: '%s' and the channel name: '%s' "
+                . "is active in the MyExampleStasisApp.\n",
+                $activeChannel->getId(),
+                $activeChannel->getName()
+            );
         }
     }
 
@@ -83,8 +89,10 @@ final class MyExampleStasisApp implements StasisApplicationInterface
     public function onAriEventChannelHangupRequest(
         ChannelHangupRequest $channelHangupRequest
     ): void {
-        echo 'This is the default hangup handler triggered by channel '
-            . "'{$channelHangupRequest->getChannel()->getId()}' :-)\n";
+        printf(
+            "This is the default hangup handler triggered by channel '%s' :-)\n",
+            $channelHangupRequest->getChannel()->getId()
+        );
     }
 
     /**
@@ -95,7 +103,31 @@ final class MyExampleStasisApp implements StasisApplicationInterface
      */
     public function onAriEventStasisEnd(StasisEnd $stasisEnd): void
     {
-        echo "The channel {$stasisEnd->getChannel()->getId()} "
-            . "has left your example app.\n";
+        printf(
+            "The channel '%s' has left your example app.\n",
+            $stasisEnd->getChannel()->getId()
+        );
+    }
+
+    /**
+     * While every other event is triggered by Asterisk,
+     * the ChannelUserevent can be triggered by yourself.
+     *
+     * When you execute the my_example_stasis_app_worker.php script,
+     * this event will be triggered every few seconds.
+     *
+     * @param ChannelUserevent $channelUserevent The ChannelUserevent
+     * which is triggered in my_example_stasis_app_worker.php
+     *
+     * @return void
+     */
+    public function onAriEventChannelUserevent(ChannelUserevent $channelUserevent): void
+    {
+        $errorMessage = sprintf(
+            "This is the unhandled exception for ChannelUserEvent '%s' !",
+            $channelUserevent->getEventname()
+        );
+
+        throw new RuntimeException($errorMessage);
     }
 }
