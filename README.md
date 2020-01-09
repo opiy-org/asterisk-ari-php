@@ -221,5 +221,3 @@ ng-voice is happy to help! Feel free to send us a message.
 We'd also like to hear about your application ideas and use cases :)
 
 Lukas Stermann (lukas@ng-voice.com)
-
-Ahmad Hussain  (ahmad@ng-voice.com)
