@@ -25,10 +25,9 @@
   ],
   "require": {
     "php": ">=7.4",
-    "oktavlachs/data-mapping-service": "dev-master",
+    "oktavlachs/data-mapping-service": "0.1.0",
     "monolog/monolog": "~1.0||~2.0",
     "guzzlehttp/guzzle": "~6.5",
-    "symfony/yaml": "~v4.3||~v5.0",
     "nekland/woketo": "~2.2",
     "ratchet/pawl": "~0.3",
     "ext-json": "*"

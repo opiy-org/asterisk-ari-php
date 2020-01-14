@@ -20,7 +20,7 @@ namespace NgVoice\AriClient\Collection;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class PlaybackState
+final class PlaybackStates
 {
     public const QUEUED = 'queued';
 

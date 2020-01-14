@@ -7,6 +7,7 @@ declare(strict_types=1);
 namespace NgVoice\AriClient\Tests;
 
 use NgVoice\AriClient\Model\Message\Event\Event;
+use Oktavlachs\DataMappingService\Collection\SourceNamingConventions;
 use Oktavlachs\DataMappingService\DataMappingService;
 
 /**
@@ -33,9 +34,9 @@ final class Helper
         object $target
     ): object {
         if (!isset(self::$dataMappingService)) {
-            self::$dataMappingService = new DataMappingService();
-            self::$dataMappingService
-                ->setIsAllowingDifferentSourcePropertyNamingConventions(true);
+            self::$dataMappingService = new DataMappingService(
+                SourceNamingConventions::LOWER_SNAKE_CASE
+            );
             self::$dataMappingService
                 ->setIsThrowingInvalidArgumentExceptionOnValidationError(true);
         }

@@ -6,7 +6,7 @@ declare(strict_types=1);
 
 namespace NgVoice\AriClient\Model;
 
-use NgVoice\AriClient\Collection\PlaybackState;
+use NgVoice\AriClient\Collection\PlaybackStates;
 
 /**
  * Object representing the playback of media to a channel.
@@ -63,7 +63,7 @@ final class Playback implements ModelInterface
     /**
      * Current state of the playback operation.
      *
-     * @see PlaybackState
+     * @see PlaybackStates
      *
      * @return string
      */

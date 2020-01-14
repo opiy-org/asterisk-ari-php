@@ -47,7 +47,7 @@ RUN make install-logrotate
 COPY ari.conf /etc/asterisk/
 COPY http.conf /etc/asterisk/
 COPY sorcery.conf /etc/asterisk/
-# TODO: This operation is not working at the moment!
+# TODO: Check if the modules file does the job.
 #COPY modules.conf /etc/asterisk/
 COPY docker-entrypoint.sh /tmp
 WORKDIR /tmp

@@ -9,7 +9,6 @@ namespace NgVoice\AriClient;
 use Exception;
 use Monolog\Handler\{NullHandler, StreamHandler};
 use Monolog\Logger;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  * Class Helper provides a collection of unsorted static functions for the library
@@ -21,6 +20,8 @@ use Symfony\Component\Yaml\Yaml;
  */
 final class Helper
 {
+    private static ?bool $isInDebugMode = null;
+
     /**
      * Create and configure a basic logger.
      *
@@ -38,12 +39,8 @@ final class Helper
             $logger = new Logger($name);
         }
 
-        $absoluteFilePath = __DIR__ . '/../debug_mode.yaml';
-
         try {
-            $settings = Yaml::parseFile($absoluteFilePath);
-
-            if ($settings['debug_mode']) {
+            if (self::isInDebugMode()) {
                 $logger->pushHandler(new StreamHandler(STDOUT, Logger::DEBUG));
             } else {
                 $logger->pushHandler(new NullHandler(Logger::DEBUG));
@@ -66,5 +63,38 @@ final class Helper
         }
 
         return $logger;
+    }
+
+    /**
+     * Return a flag, indicating if the ARI client library components
+     * are in debug mode.
+     *
+     * @return bool Flag, indicating if the ARI client
+     * library components are in debug mode.
+     */
+    private static function isInDebugMode(): bool
+    {
+        if (self::$isInDebugMode !== null) {
+            return self::$isInDebugMode;
+        }
+
+        $debugModeFile = fopen(__DIR__ . '/../debug_mode.yaml', 'rb');
+
+        /**
+         * @noinspection UnknownInspectionInspection The [EA] extension
+         * doesn't know about the noinspection annotation.
+         * @noinspection CallableInLoopTerminationConditionInspection File pointer
+         * for fgetc() call is moved with every iteration.
+         */
+        for ($charPointer = -1; fgetc($debugModeFile) !== ':'; $charPointer--) {
+            fseek($debugModeFile, $charPointer, SEEK_END);
+        }
+
+        $inDebugMode = trim(fgets($debugModeFile));
+        fclose($debugModeFile);
+
+        self::$isInDebugMode = $inDebugMode === 'true';
+
+        return self::$isInDebugMode;
     }
 }

@@ -14,6 +14,7 @@ use NgVoice\AriClient\{Collection\HttpMethods,
     Exception\AsteriskRestInterfaceException,
     Helper,
     Model\ModelInterface};
+use Oktavlachs\DataMappingService\Collection\SourceNamingConventions;
 use Oktavlachs\DataMappingService\DataMappingService;
 use Psr\Http\Message\ResponseInterface;
 use Throwable;
@@ -80,7 +81,9 @@ abstract class AbstractRestClient
         $this->restClient = $guzzleClient;
 
         if ($dataMappingService === null) {
-            $dataMappingService = new DataMappingService();
+            $dataMappingService = new DataMappingService(
+                SourceNamingConventions::LOWER_SNAKE_CASE
+            );
         }
 
         $this->dataMappingService = $dataMappingService;

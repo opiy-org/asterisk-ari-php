@@ -43,8 +43,10 @@ final class Settings extends AbstractSettings
     /**
      * Get the web socket error handler.
      *
-     * anonymous function, which contains the logic that executes
-     * when uncaught Throwables are thrown within your Stasis application.
+     * Anonymous function, which contains the logic that executes when uncaught
+     * Throwables are thrown within your Stasis application or the web socket
+     * client itself. This is the last error handler layer before the error
+     * handler of the process itself.
      *
      * @return Closure|null The handler, which shall be called on an error
      */

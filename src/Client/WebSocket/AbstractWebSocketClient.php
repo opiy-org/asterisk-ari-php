@@ -1,13 +1,11 @@
 <?php
 
 /**
+ * @copyright 2020 ng-voice GmbH
+ *
  * @noinspection UnknownInspectionInspection Plugin [EA] does not
  * recognize the noinspection annotation of PhpStorm
- * @noinspection PhpUndefinedClassInspection The correct JsonException
- * is chosen anyway. Therefore we ignore the warning.
  */
-
-/** @copyright 2020 ng-voice GmbH */
 
 declare(strict_types=1);
 
@@ -22,6 +20,7 @@ use NgVoice\AriClient\Client\Rest\Settings as RestClientSettings;
 use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
 use NgVoice\AriClient\Helper;
 use NgVoice\AriClient\StasisApplicationInterface;
+use Oktavlachs\DataMappingService\Collection\SourceNamingConventions;
 use Oktavlachs\DataMappingService\DataMappingService;
 use ReflectionFunction;
 use ReflectionMethod;
@@ -86,11 +85,10 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
         $this->logger = $logger;
 
         if ($dataMappingService === null) {
-            $dataMappingService = new DataMappingService();
-            $dataMappingService->setIsThrowingInvalidArgumentExceptionOnValidationError(
-                true
+            $dataMappingService = new DataMappingService(
+                SourceNamingConventions::LOWER_SNAKE_CASE
             );
-            $dataMappingService->setIsAllowingDifferentSourcePropertyNamingConventions(
+            $dataMappingService->setIsThrowingInvalidArgumentExceptionOnValidationError(
                 true
             );
         }
@@ -145,22 +143,17 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
     public function onMessageHandlerLogic(string $message): void
     {
         try {
-            $jsonAsArray = json_decode(
-                $message,
-                true,
-                512,
-                JSON_THROW_ON_ERROR
-            );
+            $jsonAsArray = json_decode($message, true, 512, JSON_THROW_ON_ERROR);
         } catch (JsonException $e) {
             $errorMessage = sprintf(
-                "JSON decode failed. Error message -> '%s' | Json -> '%s'",
+                "JSON decode ARI event failed. Error message -> '%s' | JSON -> '%s'",
                 $e->getMessage(),
                 $message
             );
 
             $this->logger->error($errorMessage, [__FUNCTION__]);
 
-            exit(1);
+            return;
         }
 
         $ariEventType = $jsonAsArray['type'];
@@ -179,9 +172,16 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
                 $invalidArgumentException->getMessage()
             );
 
-            $this->logger->error($errorMessage, [__FUNCTION__]);
+            ($this->errorHandler)(
+                $ariEventType,
+                new InvalidArgumentException(
+                    $errorMessage,
+                    $invalidArgumentException->getCode(),
+                    $invalidArgumentException
+                )
+            );
 
-            exit(1);
+            return;
         }
 
         $functionName = self::ARI_EVENT_HANDLER_FUNCTION_PREFIX . $ariEventType;
@@ -190,7 +190,6 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
             $this->myApp->$functionName($messageObject);
         } catch (Throwable $throwable) {
             ($this->errorHandler)($ariEventType, $throwable);
-
             return;
         }
 
