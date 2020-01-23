@@ -10,22 +10,21 @@ use Monolog\Logger;
 use NgVoice\AriClient\Client\Rest\Resource\Applications;
 use NgVoice\AriClient\Client\WebSocket\Woketo\{FilteredMessageHandler,
     ModifiedWoketoWebSocketClient,
-    OptionalSettings};
-use Oktavlachs\DataMappingService\DataMappingService;
+    Settings};
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class OptionalSettingsTest
+ * Class SettingsTest
  *
  * @package NgVoice\AriClient\Tests\WebSocket\Woketo
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-class OptionalSettingsTest extends TestCase
+class SettingsTest extends TestCase
 {
     public function testSubscribeAll(): void
     {
-        $optionalSettings = new OptionalSettings();
+        $optionalSettings = new Settings();
         $optionalSettings->setSubscribeAll(true);
 
         $this->assertTrue($optionalSettings->isSubscribeAll());
@@ -33,7 +32,7 @@ class OptionalSettingsTest extends TestCase
 
     public function testAriApplicationsClient(): void
     {
-        $optionalSettings = new OptionalSettings();
+        $optionalSettings = new Settings();
         $optionalSettings->setAriApplicationsClient(
             $this->createMock(Applications::class)
         );
@@ -44,35 +43,9 @@ class OptionalSettingsTest extends TestCase
         );
     }
 
-    public function testGetLogger(): void
-    {
-        $optionalSettings = new OptionalSettings();
-        $optionalSettings->setLogger(
-            $this->createMock(Logger::class)
-        );
-
-        $this->assertInstanceOf(
-            Logger::class,
-            $optionalSettings->getLogger()
-        );
-    }
-
-    public function testDataMappingService(): void
-    {
-        $optionalSettings = new OptionalSettings();
-        $optionalSettings->setDataMappingService(
-            $this->createMock(DataMappingService::class)
-        );
-
-        $this->assertInstanceOf(
-            DataMappingService::class,
-            $optionalSettings->getDataMappingService()
-        );
-    }
-
     public function testModifiedWoketoWebSocketClient(): void
     {
-        $optionalSettings = new OptionalSettings();
+        $optionalSettings = new Settings();
         $optionalSettings->setModifiedWoketoWebSocketClient(
             $this->createMock(ModifiedWoketoWebSocketClient::class)
         );
@@ -85,7 +58,7 @@ class OptionalSettingsTest extends TestCase
 
     public function testMessageHandlerInterface(): void
     {
-        $optionalSettings = new OptionalSettings();
+        $optionalSettings = new Settings();
         $optionalSettings->setMessageHandlerInterface(
             $this->createMock(FilteredMessageHandler::class)
         );

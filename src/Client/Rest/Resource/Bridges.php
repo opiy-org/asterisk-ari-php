@@ -7,7 +7,7 @@ declare(strict_types=1);
 namespace NgVoice\AriClient\Client\Rest\Resource;
 
 use NgVoice\AriClient\Client\Rest\AbstractRestClient;
-use NgVoice\AriClient\Collection\HttpMethods;
+use NgVoice\AriClient\Enum\HttpMethods;
 use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
 use NgVoice\AriClient\Model\{Bridge, LiveRecording, Playback};
 
@@ -138,8 +138,8 @@ final class Bridges extends AbstractRestClient
      * Add a channel to a bridge.
      *
      * @param string $bridgeId Bridge's id
-     * @param array $channel Ids of channels to add to bridge.
-     * @param array $options The options for the request
+     * @param array<int, string> $channel Ids of channels to add to bridge.
+     * @param array<string, mixed> $options The options for the request
      * role: string - Channel's role in the bridge
      * absorbDTMF: boolean - Absorb DTMF coming from this channel,
      * preventing it to pass through to the bridge
@@ -257,8 +257,8 @@ final class Bridges extends AbstractRestClient
      * the playback of media (pause, rewind, fast forward, etc.).
      *
      * @param string $bridgeId Bridge's id
-     * @param array $media List of media URIs to play.
-     * @param array $options The options for the request
+     * @param array<int, string> $media List of media URIs to play.
+     * @param array<string, mixed> $options The options for the request
      * lang: string - For sounds, selects language for sound.
      * offsetms: int - Number of milliseconds to skip before playing.
      *      Only applies to the first URI if multiple media URIs are specified. Allowed
@@ -293,8 +293,8 @@ final class Bridges extends AbstractRestClient
      *
      * @param string $bridgeId Bridge's id
      * @param string $playbackId Playback id
-     * @param array $media List of media URI's to play
-     * @param array $options The options for the request
+     * @param array<int, string> $media List of media URI's to play
+     * @param array<string, mixed> $options The options for the request
      * lang: string - For sounds, selects language for sound.
      * offsetms: int - Number of milliseconds to skip before playing.
      *      Only applies to the first URI if multiple media URIs are specified. Allowed
@@ -330,7 +330,7 @@ final class Bridges extends AbstractRestClient
      * @param string $bridgeId Bridge's id.
      * @param string $name Recording's filename.
      * @param string $format Format to encode audio in.
-     * @param array $options The options for the request
+     * @param array<string, mixed> $options The options for the request
      * maxDurationSeconds: int - Maximum duration of the recording, in seconds. 0 for no
      *     limit. Allowed range: Min: 0; Max: None maxSilenceSeconds: int - Maximum
      *     duration of silence, in seconds. 0 for no limit. Allowed range: Min: 0; Max:

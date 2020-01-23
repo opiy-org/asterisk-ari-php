@@ -7,7 +7,7 @@ declare(strict_types=1);
 namespace NgVoice\AriClient\Client\Rest\Resource;
 
 use NgVoice\AriClient\Client\Rest\AbstractRestClient;
-use NgVoice\AriClient\Collection\HttpMethods;
+use NgVoice\AriClient\Enum\HttpMethods;
 use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
 
 /**

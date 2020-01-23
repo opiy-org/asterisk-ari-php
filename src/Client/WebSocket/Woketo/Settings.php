@@ -6,10 +6,8 @@ declare(strict_types=1);
 
 namespace NgVoice\AriClient\Client\WebSocket\Woketo;
 
-use Monolog\Logger;
 use Nekland\Woketo\Message\MessageHandlerInterface;
 use NgVoice\AriClient\Client\Rest\Resource\Applications;
-use Oktavlachs\DataMappingService\DataMappingService;
 
 /**
  * A wrapper for optional nekland/woketo web socket settings.
@@ -18,7 +16,7 @@ use Oktavlachs\DataMappingService\DataMappingService;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class OptionalSettings
+final class Settings
 {
     /**
      * Subscribe to all Asterisk events.
@@ -32,10 +30,6 @@ final class OptionalSettings
      * ARI Applications REST client for event filtering on web socket connection.
      */
     private ?Applications $ariApplicationsClient = null;
-
-    private ?Logger $logger = null;
-
-    private ?DataMappingService $dataMappingService = null;
 
     private ?ModifiedWoketoWebSocketClient $modifiedWoketoWebSocketClient = null;
 
@@ -113,37 +107,5 @@ final class OptionalSettings
     public function setAriApplicationsClient(?Applications $ariApplicationsClient): void
     {
         $this->ariApplicationsClient = $ariApplicationsClient;
-    }
-
-    /**
-     * @return Logger|null
-     */
-    public function getLogger(): ?Logger
-    {
-        return $this->logger;
-    }
-
-    /**
-     * @param Logger|null $logger The logger for this client
-     */
-    public function setLogger(?Logger $logger): void
-    {
-        $this->logger = $logger;
-    }
-
-    /**
-     * @return DataMappingService|null
-     */
-    public function getDataMappingService(): ?DataMappingService
-    {
-        return $this->dataMappingService;
-    }
-
-    /**
-     * @param DataMappingService|null $dataMappingService Maps JSON onto objects
-     */
-    public function setDataMappingService(?DataMappingService $dataMappingService): void
-    {
-        $this->dataMappingService = $dataMappingService;
     }
 }

@@ -7,16 +7,16 @@ declare(strict_types=1);
 namespace NgVoice\AriClient\Client\WebSocket\Ratchet;
 
 use Exception;
-use NgVoice\AriClient\Client\WebSocket\{AbstractWebSocketClient,
-    Settings as WebSocketClientSettings};
-use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
-use NgVoice\AriClient\StasisApplicationInterface;
+use React\Socket\Connector as ReactConnector;
+use Ratchet\RFC6455\Messaging\MessageInterface;
 use Ratchet\Client\Connector as RatchetConnector;
 use Ratchet\Client\WebSocket as RatchetWebSocket;
-use Ratchet\RFC6455\Messaging\MessageInterface;
+use NgVoice\AriClient\StasisApplicationInterface;
+use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
+use NgVoice\AriClient\Client\WebSocket\{AbstractWebSocketClient,
+    Settings as WebSocketClientSettings};
 use React\EventLoop\{Factory as ReactPhpEventLoopFactory,
     LoopInterface as ReactPhpEventLoopInterface};
-use React\Socket\Connector as ReactConnector;
 
 /**
  * A Ratchet ARI web socket client implementation.
@@ -37,24 +37,22 @@ final class WebSocketClient extends AbstractWebSocketClient
      * @param WebSocketClientSettings $webSocketClientSettings The settings
      * for this web socket client
      * @param StasisApplicationInterface $myApp The web socket client
-     * @param OptionalSettings|null $optionalSettings Optional settings for
+     * @param Settings|null $optionalSettings Optional settings for
      * this web socket client
      */
     public function __construct(
         WebSocketClientSettings $webSocketClientSettings,
         StasisApplicationInterface $myApp,
-        OptionalSettings $optionalSettings = null
+        Settings $optionalSettings = null
     ) {
         if ($optionalSettings === null) {
-            $optionalSettings = new OptionalSettings();
+            $optionalSettings = new Settings();
         }
 
         parent::__construct(
             $webSocketClientSettings,
             $myApp,
             $optionalSettings->getAriApplicationsClient(),
-            $optionalSettings->getLogger(),
-            $optionalSettings->getDataMappingService()
         );
 
         $loop = $optionalSettings->getLoop();
@@ -133,13 +131,14 @@ final class WebSocketClient extends AbstractWebSocketClient
         $ratchetWebSocket->on(
             'message',
             function (MessageInterface $message) {
-                $this->logger->debug(
-                    sprintf(
+                if ($this->isInDebugMode) {
+                    $errorMessage = sprintf(
                         "Asterisk web socket server sent raw message: '%s'",
                         (string) $message
-                    ),
-                    [__FUNCTION__]
-                );
+                    );
+
+                    $this->logger->debug($errorMessage, [__FUNCTION__]);
+                }
 
                 parent::onMessageHandlerLogic((string) $message);
             }
@@ -157,15 +156,14 @@ final class WebSocketClient extends AbstractWebSocketClient
         $ratchetWebSocket->on(
             'close',
             function ($code = null, $reason = null) {
-                $this->logger->error(
-                    sprintf(
-                        'Connection to Asterisk web socket server closed. '
-                        . "ErrorCode '%s' | Event: '%s'",
-                        (string) $code,
-                        (string) $reason
-                    ),
-                    [__FUNCTION__]
+                $errorMessage = sprintf(
+                    'Connection to Asterisk web socket server closed. '
+                    . "ErrorCode '%s' | Event: '%s'",
+                    (string) $code,
+                    (string) $reason
                 );
+
+                $this->logger->error($errorMessage, [__FUNCTION__]);
             }
         );
     }

@@ -1,14 +1,14 @@
 <?php
 
 /**
+ * @copyright 2020 ng-voice GmbH
+ *
  * @noinspection UnknownInspectionInspection Plugin [EA] does not
  * recognize the noinspection annotation.
  * @noinspection PhpInternalEntityUsedInspection The internals from the woketo
  * web socket client are only used because we slightly modified the original
  * woketo web socket client. Therefore this is a valid use case.
  */
-
-/** @copyright 2020 ng-voice GmbH */
 
 declare(strict_types=1);
 
@@ -41,7 +41,6 @@ use function extension_loaded;
  * @package NgVoice\AriClient\WebSocket\Woketo
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
- * @author Ahmad Hussain <ahmad@ng-voice.com>
  * @internal
  *
  */
@@ -49,6 +48,9 @@ final class ModifiedWoketoWebSocketClient
 {
     private Url $url;
 
+    /**
+     * @var array<string, mixed>
+     */
     private array $config;
 
     private Connection $connection;
@@ -63,7 +65,7 @@ final class ModifiedWoketoWebSocketClient
      * ModifiedWoketoWebSocketClient constructor.
      *
      * @param string $url Url of the running server
-     * @param array $config Configuration List
+     * @param array<string, mixed> $config Configuration List
      * @param ConnectorFactoryInterface|null $connectorFactory Connector Interface
      */
     public function __construct(
@@ -177,7 +179,7 @@ final class ModifiedWoketoWebSocketClient
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
     public function getConfig(): array
     {
@@ -187,7 +189,7 @@ final class ModifiedWoketoWebSocketClient
     /**
      * Set the configuration parameters for this WebSocket
      *
-     * @param array $config Array of configuration parameters
+     * @param array<string, mixed> $config Array of configuration parameters
      *
      * @return self It return the Object itself
      */

@@ -22,86 +22,67 @@ use ReflectionException;
  */
 class ApplicationsTest extends TestCase
 {
-    /**
-     * @return array
-     */
-    public function applicationInstanceProvider(): array
-    {
-        return [
-            'example application' => [
-                [
-                    'name'              => 'TestApplication',
-                    'channel_ids'       => [],
-                    'endpoint_ids'      => [],
-                    'bridge_ids'        => [],
-                    'device_names'      => [],
-                    'events_allowed'    => [],
-                    'events_disallowed' => [],
-                ],
-            ],
-        ];
-    }
+    public const EXAMPLE = [
+        'name'              => 'TestApplication',
+        'channel_ids'       => [],
+        'endpoint_ids'      => [],
+        'bridge_ids'        => [],
+        'device_names'      => [],
+        'events_allowed'    => [],
+        'events_disallowed' => [],
+    ];
 
     /**
-     * @dataProvider applicationInstanceProvider
-     *
-     * @param array $exampleApplication
      *
      * @throws ReflectionException
      * @throws AsteriskRestInterfaceException
      */
-    public function testGet(array $exampleApplication): void
+    public function testGet(): void
     {
         $applicationsClient =
-            $this->createApplicationsClientWithGuzzleClientStub($exampleApplication);
+            $this->createApplicationsClientWithGuzzleClientStub(self::EXAMPLE);
         $resultChannel = $applicationsClient->get('12345');
 
         $this->assertInstanceOf(Application::class, $resultChannel);
     }
 
     /**
-     * @dataProvider applicationInstanceProvider
-     * @param array $exampleApplication
      *
      * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
-    public function testUnsubscribe(array $exampleApplication): void
+    public function testUnsubscribe(): void
     {
         $applicationsClient =
-            $this->createApplicationsClientWithGuzzleClientStub($exampleApplication);
+            $this->createApplicationsClientWithGuzzleClientStub(self::EXAMPLE);
         $resultApplication = $applicationsClient->unsubscribe('12345', []);
 
         $this->assertInstanceOf(Application::class, $resultApplication);
     }
 
     /**
-     * @dataProvider applicationInstanceProvider
-     * @param array $exampleApplication
      *
      * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
-    public function testSubscribe(array $exampleApplication): void
+    public function testSubscribe(): void
     {
         $applicationsClient =
-            $this->createApplicationsClientWithGuzzleClientStub($exampleApplication);
+            $this->createApplicationsClientWithGuzzleClientStub(self::EXAMPLE);
         $resultApplication = $applicationsClient->subscribe('12345', []);
 
         $this->assertInstanceOf(Application::class, $resultApplication);
     }
 
     /**
-     * @dataProvider applicationInstanceProvider
-     * @param string[] $exampleApplication
      *
      * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
-    public function testList(array $exampleApplication): void
+    public function testList(): void
     {
         $applicationsClient = $this->createApplicationsClientWithGuzzleClientStub(
-            [$exampleApplication, $exampleApplication, $exampleApplication]
+            [self::EXAMPLE, self::EXAMPLE, self::EXAMPLE]
         );
         $resultList = $applicationsClient->list();
 
@@ -112,16 +93,14 @@ class ApplicationsTest extends TestCase
     }
 
     /**
-     * @dataProvider applicationInstanceProvider
-     * @param array $exampleApplication
      *
      * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
      */
-    public function testFilter(array $exampleApplication): void
+    public function testFilter(): void
     {
         $applicationsClient =
-            $this->createApplicationsClientWithGuzzleClientStub($exampleApplication);
+            $this->createApplicationsClientWithGuzzleClientStub(self::EXAMPLE);
         $resultApplication = $applicationsClient->filter('12345');
         $this->assertInstanceOf(Application::class, $resultApplication);
         $resultApplication1 = $applicationsClient->filter(
@@ -156,11 +135,13 @@ class ApplicationsTest extends TestCase
                             )
                         );
 
+        $settings = new Settings('SomeUser', 'SomePw');
+
         /**
          * @var Client $guzzleClientStub
          */
         return new Applications(
-            new Settings('SomeUser', 'SomePw'),
+            $settings,
             $guzzleClientStub
         );
     }

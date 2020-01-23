@@ -6,7 +6,7 @@ declare(strict_types=1);
 
 namespace NgVoice\AriClient\Model;
 
-use NgVoice\AriClient\Collection\ChannelStates;
+use NgVoice\AriClient\Enum\ChannelStates;
 use stdClass;
 
 /**

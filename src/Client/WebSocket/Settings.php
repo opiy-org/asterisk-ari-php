@@ -23,6 +23,8 @@ final class Settings extends AbstractSettings
     private ?Closure $errorHandler = null;
 
     /**
+     * Check, if WSS is enabled.
+     *
      * @return bool Flag, indicating if
      * encryption for the web socket requests is enabled.
      */
@@ -32,6 +34,8 @@ final class Settings extends AbstractSettings
     }
 
     /**
+     * Set, if WSS is enabled.
+     *
      * @param bool $wssEnabled Flag, indicating if
      * encryption for the web socket requests is enabled.
      */

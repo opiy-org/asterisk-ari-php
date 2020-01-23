@@ -4,12 +4,12 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Collection;
+namespace NgVoice\AriClient\Enum;
 
 /**
  * A collection of HTTP methods.
  *
- * @package NgVoice\AriClient\Collection
+ * @package NgVoice\AriClient\Enum
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

@@ -1,23 +1,29 @@
 <?php
 
-/** @copyright 2020 ng-voice GmbH */
+/**
+ * @copyright 2020 ng-voice GmbH
+ *
+ * @noinspection UnknownInspectionInspection The [EA] extended
+ * plugin doesn't know about the noinspection annotation.
+ */
 
 declare(strict_types=1);
 
 namespace NgVoice\AriClient\Client\Rest;
 
-use GuzzleHttp\Client as GuzzleClient;
-use InvalidArgumentException;
-use JsonException;
-use Monolog\Logger;
-use NgVoice\AriClient\{Collection\HttpMethods,
-    Exception\AsteriskRestInterfaceException,
-    Helper,
-    Model\ModelInterface};
-use Oktavlachs\DataMappingService\Collection\SourceNamingConventions;
-use Oktavlachs\DataMappingService\DataMappingService;
-use Psr\Http\Message\ResponseInterface;
 use Throwable;
+use JsonException;
+use Psr\Log\LoggerInterface;
+use NgVoice\AriClient\Helper;
+use GuzzleHttp\Client as GuzzleClient;
+use NgVoice\AriClient\Enum\HttpMethods;
+use Psr\Http\Message\ResponseInterface;
+use NgVoice\AriClient\Model\ModelInterface;
+use Oktavlachs\DataMappingService\DataMappingService;
+use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
+use Oktavlachs\DataMappingService\Collection\SourceNamingConventions;
+use Oktavlachs\DataMappingService\Exception\DataMappingServiceException;
+use TypeError;
 
 /**
  * A basic HTTP client for the Asterisk REST Interface.
@@ -28,71 +34,64 @@ use Throwable;
  */
 abstract class AbstractRestClient
 {
-    /**
-     * The root Uri to the Asterisk REST Interface
-     */
     private string $rootUri;
 
-    private GuzzleClient $restClient;
+    private GuzzleClient $httpClient;
 
     private DataMappingService $dataMappingService;
 
-    protected Logger $logger;
+    protected LoggerInterface $logger;
+
+    private bool $isInDebugMode;
 
     /**
      * Resource constructor.
      *
-     * @param Settings $settings AriRestClient
+     * @param Settings $abstractClientSettings AriRestClient
      * connection settings
-     * @param GuzzleClient|null $guzzleClient GuzzleClient HTTP Connection Object
-     * @param DataMappingService|null $dataMappingService To map JSON strings
-     * onto an ARI Message objects
-     * @param Logger|null $logger Instance to log messages with
+     * @param GuzzleClient|null $httpClient GuzzleClient HTTP Connection Object
      */
-    public function __construct(
-        Settings $settings,
-        GuzzleClient $guzzleClient = null,
-        DataMappingService $dataMappingService = null,
-        Logger $logger = null
-    ) {
-        $httpType = $settings->isHttpsEnabled() ? 'https' : 'http';
+    public function __construct(Settings $abstractClientSettings, GuzzleClient $httpClient = null)
+    {
+        $httpType = $abstractClientSettings->isHttpsEnabled() ? 'https' : 'http';
 
         $baseUri = sprintf(
             '%s://%s:%u/',
             $httpType,
-            $settings->getHost(),
-            $settings->getPort()
+            $abstractClientSettings->getHost(),
+            $abstractClientSettings->getPort()
         );
 
-        $this->rootUri = $settings->getRootUri();
+        $this->rootUri = $abstractClientSettings->getRootUri();
 
-        if ($guzzleClient === null) {
-            $guzzleClient = new GuzzleClient(
+        if ($httpClient === null) {
+            $httpClient = new GuzzleClient(
                 [
                     'base_uri' => $baseUri,
                     'auth'     => [
-                        $settings->getUser(),
-                        $settings->getPassword(),
+                        $abstractClientSettings->getUser(),
+                        $abstractClientSettings->getPassword(),
                     ],
                 ]
             );
         }
 
-        $this->restClient = $guzzleClient;
+        $this->httpClient = $httpClient;
 
-        if ($dataMappingService === null) {
-            $dataMappingService = new DataMappingService(
-                SourceNamingConventions::LOWER_SNAKE_CASE
-            );
-        }
-
-        $this->dataMappingService = $dataMappingService;
+        $logger = $abstractClientSettings->getLoggerInterface();
 
         if ($logger === null) {
             $logger = Helper::initLogger(static::class);
         }
 
         $this->logger = $logger;
+
+        $this->dataMappingService = new DataMappingService(
+            SourceNamingConventions::LOWER_SNAKE_CASE
+        );
+
+        $this->dataMappingService->setIsUsingTargetObjectSetters(false);
+        $this->isInDebugMode = $abstractClientSettings->isInDebugMode();
     }
 
     /**
@@ -100,8 +99,8 @@ abstract class AbstractRestClient
      *
      * @param string $method Request Method
      * @param string $resourceUri URI Path
-     * @param array $queryParameters Array of Query Parameters
-     * @param array $body Body Content
+     * @param array<int|string, int|string> $queryParameters Array of Query Parameters
+     * @param array<string, int|string> $body Body Content
      */
     private function debugRequest(
         string $method,
@@ -127,8 +126,8 @@ abstract class AbstractRestClient
      * @param ResponseInterface $response Request Response
      * @param string $method Request Method
      * @param string $resourceUri URI Path
-     * @param array $queryParameters Array of Query Parameters
-     * @param array $body Body Content
+     * @param array<string, string> $queryParameters Array of Query Parameters
+     * @param array<string, mixed> $body Body Content
      */
     private function debugResponse(
         ResponseInterface $response,
@@ -162,9 +161,10 @@ abstract class AbstractRestClient
      * @param ModelInterface[] $resultArray Collection of mapped ModelInterface
      * instances
      *
-     * @noinspection PhpRedundantCatchClauseInspection We know that
-     * a JsonException can be thrown here because we explicitly set
-     * the flag.
+     * @return void
+     *
+     * @throws AsteriskRestInterfaceException In case the Asterisk REST Interface
+     * returns an invalid response
      */
     protected function responseToArrayOfAriModelInstances(
         ResponseInterface $response,
@@ -186,7 +186,7 @@ abstract class AbstractRestClient
             foreach ($decodedResponseBody as $modelAsArray) {
                 $targetModelInstance = new $ariModelClassName();
 
-                // Throws InvalidArgumentException
+                // Throws DataMappingServiceException
                 $this->dataMappingService->mapArrayOntoObject(
                     $modelAsArray,
                     $targetModelInstance
@@ -194,12 +194,15 @@ abstract class AbstractRestClient
 
                 $resultArray[] = $targetModelInstance;
             }
-        } catch (InvalidArgumentException | JsonException $e) {
+        }
+        /** @noinspection PhpRedundantCatchClauseInspection We know that
+         * a JsonException can be thrown here because we explicitly set
+         * the flag.
+         */
+        catch (DataMappingServiceException | JsonException $e) {
             /*
              * This would only happen if Asterisk changed the design of its JSON
              * responses without documenting it, so it is a very unlikely event.
-             * Just in case, we can make a log though,
-             * so the error message doesn't get lost.
              */
             $concatenatedExceptionMessages = $e->getMessage();
 
@@ -215,7 +218,9 @@ abstract class AbstractRestClient
                 (string) $response->getBody()
             );
 
-            $this->logger->error($errorMessage, [__FUNCTION__]);
+            throw new AsteriskRestInterfaceException(
+                new TypeError($errorMessage, $e->getCode(), $e)
+            );
         }
     }
 
@@ -224,6 +229,9 @@ abstract class AbstractRestClient
      *
      * @param ResponseInterface $response Request Response
      * @param ModelInterface $modelInterface The model instance to map onto
+     *
+     * @throws AsteriskRestInterfaceException In case the Asterisk REST Interface
+     * returns an invalid response
      */
     protected function responseToAriModelInstance(
         ResponseInterface $response,
@@ -233,12 +241,10 @@ abstract class AbstractRestClient
             $this
                 ->dataMappingService
                 ->mapRawJsonOntoObject((string) $response->getBody(), $modelInterface);
-        } catch (InvalidArgumentException $e) {
+        } catch (DataMappingServiceException $e) {
             /*
              * This would only happen if Asterisk changed the design of its JSON
-             * responses without documenting it, so it is a very unlikely event
-             * and mustn't stop the process. Just in case, we can make a log
-             * though, so the error message doesn't get lost.
+             * responses without documenting it, so it is a very unlikely event.
              */
             $concatenatedExceptionMessages = $e->getMessage();
 
@@ -255,7 +261,9 @@ abstract class AbstractRestClient
                 (string) $response->getBody()
             );
 
-            $this->logger->error($errorMessage, [__FUNCTION__]);
+            throw new AsteriskRestInterfaceException(
+                new TypeError($errorMessage, $e->getCode(), $e)
+            );
         }
     }
 
@@ -276,8 +284,12 @@ abstract class AbstractRestClient
     ): ResponseInterface {
         $fullUri = $this->appendToRootUri($resourceUri);
 
+        if ($this->isInDebugMode) {
+            $this->debugRequest(HttpMethods::GET, $resourceUri, [], []);
+        }
+
         try {
-            return $this->restClient->request(
+            $response = $this->httpClient->request(
                 HttpMethods::GET,
                 $fullUri,
                 ['sink' => $pathToFile]
@@ -285,6 +297,12 @@ abstract class AbstractRestClient
         } catch (Throwable $e) {
             throw new AsteriskRestInterfaceException($e);
         }
+
+        if ($this->isInDebugMode) {
+            $this->debugResponse($response, HttpMethods::GET, $resourceUri, [], []);
+        }
+
+        return $response;
     }
 
     /**
@@ -292,8 +310,8 @@ abstract class AbstractRestClient
      *
      * @param string $method The HTTP method that shall be used
      * @param string $resourceUri The requested resources URI
-     * @param array $queryParameters The query parameters
-     * @param array $body The body
+     * @param array<string, string> $queryParameters The query parameters
+     * @param array<string, mixed> $body The body
      *
      * @return ResponseInterface
      *
@@ -305,7 +323,9 @@ abstract class AbstractRestClient
         array $queryParameters = [],
         array $body = []
     ): ResponseInterface {
-        $this->debugRequest($method, $resourceUri, $queryParameters, $body);
+        if ($this->isInDebugMode) {
+            $this->debugRequest($method, $resourceUri, $queryParameters, $body);
+        }
 
         $requestOptions = [];
 
@@ -318,7 +338,7 @@ abstract class AbstractRestClient
         }
 
         try {
-            $response = $this->restClient->request(
+            $response = $this->httpClient->request(
                 $method,
                 $this->appendToRootUri($resourceUri),
                 $requestOptions
@@ -327,7 +347,15 @@ abstract class AbstractRestClient
             throw new AsteriskRestInterfaceException($e);
         }
 
-        $this->debugResponse($response, $method, $resourceUri, $queryParameters, $body);
+        if ($this->isInDebugMode) {
+            $this->debugResponse(
+                $response,
+                $method,
+                $resourceUri,
+                $queryParameters,
+                $body
+            );
+        }
 
         return $response;
     }

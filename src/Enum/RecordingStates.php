@@ -11,22 +11,26 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Collection;
+namespace NgVoice\AriClient\Enum;
 
 /**
- * Collection of possible Asterisk playback states.
+ * Enum of possible Asterisk recording states.
  *
- * @package NgVoice\AriClient\Collection
+ * @package NgVoice\AriClient\Enum
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class PlaybackStates
+final class RecordingStates
 {
     public const QUEUED = 'queued';
 
-    public const PLAYING = 'playing';
+    public const RECORDING = 'recording';
 
-    public const CONTINUING = 'continuing';
+    public const PAUSED = 'paused';
 
     public const DONE = 'done';
+
+    public const FAILED = 'failed';
+
+    public const CANCELED = 'canceled';
 }

@@ -6,7 +6,7 @@ declare(strict_types=1);
 
 namespace NgVoice\AriClient\Model;
 
-use NgVoice\AriClient\Collection\ContactStatus;
+use NgVoice\AriClient\Enum\ContactStatus;
 
 /**
  * Detailed information about a contact on an endpoint.

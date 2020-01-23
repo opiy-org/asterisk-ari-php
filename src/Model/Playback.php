@@ -6,7 +6,7 @@ declare(strict_types=1);
 
 namespace NgVoice\AriClient\Model;
 
-use NgVoice\AriClient\Collection\PlaybackStates;
+use NgVoice\AriClient\Enum\PlaybackStates;
 
 /**
  * Object representing the playback of media to a channel.

@@ -7,7 +7,7 @@ declare(strict_types=1);
 namespace NgVoice\AriClient\Client\Rest\Resource;
 
 use NgVoice\AriClient\Client\Rest\AbstractRestClient;
-use NgVoice\AriClient\Collection\HttpMethods;
+use NgVoice\AriClient\Enum\HttpMethods;
 use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
 use NgVoice\AriClient\Model\Application;
 
@@ -71,7 +71,7 @@ final class Applications extends AbstractRestClient
      * Returns the state of the application after the subscriptions have changed.
      *
      * @param string $applicationName Application's name.
-     * @param array $eventSource URI for events source
+     * @param array<int, string> $eventSource URI for events source
      * (channel:{channelId}, bridge:{bridgeId}, endpoint:{tech}[/{resource}],
      *     deviceState:{deviceName}
      *
@@ -98,7 +98,7 @@ final class Applications extends AbstractRestClient
      * Returns the state of the application after the subscriptions have changed.
      *
      * @param string $applicationName Name of the target Stasis application
-     * @param array $eventSource URI for events source
+     * @param array<int, string> $eventSource URI for events source
      * (channel:{channelId}, bridge:{bridgeId}, endpoint:{tech}[/{resource}],
      *     deviceState:{deviceName}
      *

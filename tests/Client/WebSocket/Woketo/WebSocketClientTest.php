@@ -4,14 +4,14 @@
 
 namespace NgVoice\AriClient\Tests\Client\WebSocket\Woketo;
 
-use Monolog\Logger;
-use NgVoice\AriClient\Client\WebSocket\Settings;
+use NgVoice\AriClient\Client\WebSocket\Woketo\Settings as WoketoSettings;
 use NgVoice\AriClient\Client\WebSocket\Woketo\{ModifiedWoketoWebSocketClient,
-    OptionalSettings,
     WebSocketClient};
+use NgVoice\AriClient\Client\WebSocket\Settings;
 use NgVoice\AriClient\Exception\XdebugEnabledException;
 use NgVoice\AriClient\StasisApplicationInterface;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 use React\EventLoop\LoopInterface;
 
 /**
@@ -26,14 +26,12 @@ class WebSocketClientTest extends TestCase
     public function testConstruct(): void
     {
         $stasisApp = $this->createMock(StasisApplicationInterface::class);
-        $webSocketSettings = $this->createMock(Settings::class);
-        $webSocketSettings->method('getHost')->willReturn('localhost');
-        $webSocketSettings->method('getPort')->willReturn(8088);
+        $webSocketSettings = new Settings('asterisk', 'asterisk');
 
         /**
          * @var Settings $webSocketSettings
          * @var StasisApplicationInterface $stasisApp
-         * @var OptionalSettings $optionalSettings
+         * @var Settings $optionalSettings
          */
         $this->assertInstanceOf(
             WebSocketClient::class,
@@ -47,15 +45,11 @@ class WebSocketClientTest extends TestCase
     public function testStart(): void
     {
         $stasisApp = $this->createMock(StasisApplicationInterface::class);
-        $webSocketSettings = $this->createMock(Settings::class);
-        $webSocketSettings->method('getHost')->willReturn('localhost');
-        $webSocketSettings->method('getPort')->willReturn(8088);
-        $optionalSettings = $this->createMock(OptionalSettings::class);
+        $webSocketSettings = new Settings('asterisk', 'asterisk');
 
         $webSocketClient = new WebSocketClient(
             $webSocketSettings,
-            $stasisApp,
-            $optionalSettings
+            $stasisApp
         );
 
         $webSocketClient->start();
@@ -63,12 +57,10 @@ class WebSocketClientTest extends TestCase
         $this->assertTrue(true, true);
     }
 
-    public function testStartThrowsException()
+    public function testStartThrowsException(): void
     {
         $stasisApp = $this->createMock(StasisApplicationInterface::class);
-        $webSocketSettings = $this->createMock(Settings::class);
-        $webSocketSettings->method('getHost')->willReturn('localhost');
-        $webSocketSettings->method('getPort')->willReturn(8088);
+        $webSocketSettings = new Settings('asterisk', 'asterisk');
 
         $modifiedWoketoWebSocketClient = $this->createMock(
             ModifiedWoketoWebSocketClient::class
@@ -78,13 +70,13 @@ class WebSocketClientTest extends TestCase
             ->willThrowException(new XdebugEnabledException('Haha, a test!'));
 
         // Don't actually log the Exception message
-        $logger = $this->createMock(Logger::class);
+        $logger = $this->createMock(LoggerInterface::class);
+        $webSocketSettings->setLoggerInterface($logger);
 
-        $optionalSettings = $this->createMock(OptionalSettings::class);
+        $optionalSettings = $this->createMock(WoketoSettings::class);
         $optionalSettings
             ->method('getModifiedWoketoWebSocketClient')
             ->willReturn($modifiedWoketoWebSocketClient);
-        $optionalSettings->method('getLogger')->willReturn($logger);
 
         $webSocketClient = new WebSocketClient(
             $webSocketSettings,
@@ -101,15 +93,11 @@ class WebSocketClientTest extends TestCase
     public function testGetLoop(): void
     {
         $stasisApp = $this->createMock(StasisApplicationInterface::class);
-        $webSocketSettings = $this->createMock(Settings::class);
-        $webSocketSettings->method('getHost')->willReturn('localhost');
-        $webSocketSettings->method('getPort')->willReturn(8088);
-        $optionalSettings = $this->createMock(OptionalSettings::class);
+        $webSocketSettings = new Settings('asterisk', 'asterisk');
 
         $webSocketClient = new WebSocketClient(
             $webSocketSettings,
             $stasisApp,
-            $optionalSettings
         );
 
         $this->assertInstanceOf(LoopInterface::class, $webSocketClient->getLoop());

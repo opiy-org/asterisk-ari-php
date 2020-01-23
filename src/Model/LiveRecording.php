@@ -6,7 +6,7 @@ declare(strict_types=1);
 
 namespace NgVoice\AriClient\Model;
 
-use NgVoice\AriClient\Collection\RecordingStates;
+use NgVoice\AriClient\Enum\RecordingStates;
 
 /**
  * A recording that is in progress.

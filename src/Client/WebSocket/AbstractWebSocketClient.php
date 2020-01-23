@@ -12,20 +12,21 @@ declare(strict_types=1);
 namespace NgVoice\AriClient\Client\WebSocket;
 
 use Closure;
-use InvalidArgumentException;
+use Throwable;
 use JsonException;
-use Monolog\Logger;
-use NgVoice\AriClient\Client\Rest\Resource\Applications;
-use NgVoice\AriClient\Client\Rest\Settings as RestClientSettings;
-use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
-use NgVoice\AriClient\Helper;
-use NgVoice\AriClient\StasisApplicationInterface;
-use Oktavlachs\DataMappingService\Collection\SourceNamingConventions;
-use Oktavlachs\DataMappingService\DataMappingService;
-use ReflectionFunction;
 use ReflectionMethod;
 use ReflectionObject;
-use Throwable;
+use ReflectionFunction;
+use Psr\Log\LoggerInterface;
+use InvalidArgumentException;
+use NgVoice\AriClient\Helper;
+use NgVoice\AriClient\StasisApplicationInterface;
+use Oktavlachs\DataMappingService\DataMappingService;
+use NgVoice\AriClient\Client\Rest\Resource\Applications;
+use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
+use NgVoice\AriClient\Client\Rest\Settings as RestClientSettings;
+use Oktavlachs\DataMappingService\Collection\SourceNamingConventions;
+use Oktavlachs\DataMappingService\Exception\DataMappingServiceException;
 
 /**
  * Implementation of a basic web socket client that avoids duplicated
@@ -37,7 +38,9 @@ use Throwable;
  */
 abstract class AbstractWebSocketClient implements WebSocketClientInterface
 {
-    protected Logger $logger;
+    protected bool $isInDebugMode;
+
+    protected LoggerInterface $logger;
 
     protected DataMappingService $dataMappingService;
 
@@ -52,19 +55,23 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
      *
      * @param Settings $webSocketClientSettings Configurable settings for this client
      * @param StasisApplicationInterface $myApp Your Stasis application
-     * @param Applications $ariApplicationsClient ARI applications REST client
-     * @param Logger|null $logger The logger service for this client
-     * @param DataMappingService|null $dataMappingService The service to map JSON
-     * onto objects with
+     * @param Applications|null $ariApplicationsClient ARI applications REST client
      */
     public function __construct(
         Settings $webSocketClientSettings,
         StasisApplicationInterface $myApp,
-        Applications $ariApplicationsClient = null,
-        Logger $logger = null,
-        DataMappingService $dataMappingService = null
+        Applications $ariApplicationsClient = null
     ) {
         $this->myApp = $myApp;
+
+        $logger = $webSocketClientSettings->getLoggerInterface();
+
+        if ($logger === null) {
+            $logger = Helper::initLogger(static::class);
+        }
+
+        $this->logger = $logger;
+
         $this->initializeErrorHandler($webSocketClientSettings->getErrorHandler());
 
         if ($ariApplicationsClient === null) {
@@ -78,22 +85,13 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
 
         $this->ariApplicationsClient = $ariApplicationsClient;
 
-        if ($logger === null) {
-            $logger = Helper::initLogger(static::class);
-        }
+        $this->dataMappingService = new DataMappingService(
+            SourceNamingConventions::LOWER_SNAKE_CASE
+        );
 
-        $this->logger = $logger;
+        $this->dataMappingService->setIsUsingTargetObjectSetters(false);
 
-        if ($dataMappingService === null) {
-            $dataMappingService = new DataMappingService(
-                SourceNamingConventions::LOWER_SNAKE_CASE
-            );
-            $dataMappingService->setIsThrowingInvalidArgumentExceptionOnValidationError(
-                true
-            );
-        }
-
-        $this->dataMappingService = $dataMappingService;
+        $this->isInDebugMode = $webSocketClientSettings->isInDebugMode();
     }
 
     /**
@@ -116,18 +114,20 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
 
         $this->ariApplicationsClient->filter($applicationName, $allowedMessages);
 
-        $this->logger->debug(
-            'Successfully set event filter for app in Asterisk',
-            [__FUNCTION__]
+        if ($this->isInDebugMode) {
+            $this->logger->debug(
+                'Successfully set event filter for app in Asterisk',
+                [__FUNCTION__]
+            );
+        }
+
+        $infoMessage = sprintf(
+            "Your Stasis app '%s' listens for the following events: '%s'",
+            $applicationName,
+            (string) print_r($allowedMessages, true)
         );
 
-        $this->logger->info(
-            sprintf(
-                "Your Stasis app '%s' listens for the following events: '%s'",
-                $applicationName,
-                (string) print_r($allowedMessages, true)
-            )
-        );
+        $this->logger->info($infoMessage);
     }
 
     /**
@@ -164,39 +164,41 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
 
         try {
             $this->dataMappingService->mapArrayOntoObject($jsonAsArray, $messageObject);
-        } catch (InvalidArgumentException $invalidArgumentException) {
+        } catch (DataMappingServiceException $dataMappingServiceException) {
             $errorMessage = sprintf(
                 'Mapping incoming JSON from ARI web socket server '
                 . "onto object '%s' failed | Error message: '%s'",
                 $eventClassNamespace,
-                $invalidArgumentException->getMessage()
+                $dataMappingServiceException->getMessage()
             );
 
             ($this->errorHandler)(
                 $ariEventType,
                 new InvalidArgumentException(
                     $errorMessage,
-                    $invalidArgumentException->getCode(),
-                    $invalidArgumentException
+                    $dataMappingServiceException->getCode(),
+                    $dataMappingServiceException
                 )
             );
 
             return;
         }
 
-        $functionName = self::ARI_EVENT_HANDLER_FUNCTION_PREFIX . $ariEventType;
-
         try {
-            $this->myApp->$functionName($messageObject);
+            $this->myApp->{
+                self::ARI_EVENT_HANDLER_FUNCTION_PREFIX . $ariEventType
+            }($messageObject);
         } catch (Throwable $throwable) {
             ($this->errorHandler)($ariEventType, $throwable);
             return;
         }
 
-        $this->logger->debug(
-            "Event successfully handled by your app: '{$message}'",
-            [__FUNCTION__]
-        );
+        if ($this->isInDebugMode) {
+            $this->logger->debug(
+                sprintf("Your app successfully handled the ARI Event -> '%s'", $message),
+                [__FUNCTION__]
+            );
+        }
     }
 
     /**
@@ -246,7 +248,9 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
             $subscribeAllParameter
         );
 
-        $this->logger->debug("URI to asterisk: '{$uri}'");
+        if ($this->isInDebugMode) {
+            $this->logger->debug("URI to asterisk: '{$uri}'");
+        }
 
         return $uri;
     }
@@ -329,14 +333,19 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
     private function initializeErrorHandler(?Closure $errorHandler): void
     {
         if ($errorHandler === null) {
-            $errorHandler = static function (string $messageType, Throwable $throwable) {
+            $errorLogger = $this->logger;
+
+            $errorHandler = static function (
+                string $messageType,
+                Throwable $throwable
+            ) use ($errorLogger) {
                 $errorMessage = sprintf(
                     "Error while handling message '%s' -------> '%s'",
                     $messageType,
                     $throwable->getMessage()
                 );
 
-                $this->logger->error($errorMessage);
+                $errorLogger->error($errorMessage);
             };
         } else {
             /**

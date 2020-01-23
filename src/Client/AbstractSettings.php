@@ -7,6 +7,7 @@ declare(strict_types=1);
 namespace NgVoice\AriClient\Client;
 
 use InvalidArgumentException;
+use Psr\Log\LoggerInterface;
 
 /**
  * A collection of client settings for the client implementations within this library.
@@ -17,35 +18,24 @@ use InvalidArgumentException;
  */
 abstract class AbstractSettings
 {
-    /**
-     * The Asterisk user name
-     */
     private string $user;
 
-    /**
-     * The Asterisk user password
-     */
     private string $password;
 
-    /**
-     * The hosts IP address or name of the Asterisk REST Interface host
-     */
     private string $host = '127.0.0.1';
 
-    /**
-     * The port on the Asterisk REST Interface host
-     */
     private int $port = 8088;
 
-    /**
-     * The root URI of the Asterisk REST Interface
-     */
     private string $rootUri = '/ari';
+
+    private bool $isInDebugMode = false;
+
+    private ?LoggerInterface $loggerInterface = null;
 
     /**
      * Settings constructor.
      *
-     * @param string $user Username for the ARI
+     * @param string $user Username for the Asterisk REST Interface
      * @param string $password Password for the ARI
      */
     public function __construct(
@@ -57,7 +47,9 @@ abstract class AbstractSettings
     }
 
     /**
-     * @return string
+     * Get the Asterisk REST Interface user name.
+     *
+     * @return string The Asterisk REST Interface user name
      */
     public function getUser(): string
     {
@@ -65,7 +57,9 @@ abstract class AbstractSettings
     }
 
     /**
-     * @return string
+     * Get the Asterisk REST Interface password.
+     *
+     * @return string The Asterisk REST Interface password
      */
     public function getPassword(): string
     {
@@ -73,7 +67,9 @@ abstract class AbstractSettings
     }
 
     /**
-     * @return string
+     * Get the hosts IP address or name of the Asterisk REST Interface host.
+     *
+     * @return string The hosts IP address or name of the Asterisk REST Interface host
      */
     public function getHost(): string
     {
@@ -81,7 +77,9 @@ abstract class AbstractSettings
     }
 
     /**
-     * @param string $host @see property $host
+     * Set the hosts IP address or name of the Asterisk REST Interface host.
+     *
+     * @param string The hosts IP address or name of the Asterisk REST Interface host
      */
     public function setHost(string $host): void
     {
@@ -89,7 +87,9 @@ abstract class AbstractSettings
     }
 
     /**
-     * @return int
+     * Get the port on the Asterisk REST Interface host.
+     *
+     * @return int The port on the Asterisk REST Interface host
      */
     public function getPort(): int
     {
@@ -97,7 +97,9 @@ abstract class AbstractSettings
     }
 
     /**
-     * @param int $port Port of ARI
+     * Set the port on the Asterisk REST Interface host.
+     *
+     * @param int $port The port on the Asterisk REST Interface host
      */
     public function setPort(int $port): void
     {
@@ -111,7 +113,9 @@ abstract class AbstractSettings
     }
 
     /**
-     * @return string
+     * Get the root URI of the Asterisk REST Interface.
+     *
+     * @return string The root URI of the Asterisk REST Interface
      */
     public function getRootUri(): string
     {
@@ -119,19 +123,69 @@ abstract class AbstractSettings
     }
 
     /**
-     * @param string $rootUri The default URI root path.
+     * Set the root URI of the Asterisk REST Interface.
+     *
+     * @param string $rootUri The root URI of the Asterisk REST Interface
      */
     public function setRootUri(string $rootUri): void
     {
         if (
-            (strpos($rootUri, '/') !== 0)
-            || (strrpos($rootUri, '/') === (strlen($rootUri) - 1))
+            (strpos($rootUri, '/') === 0)
+            && (strrpos($rootUri, '/') !== (strlen($rootUri) - 1))
         ) {
-            throw new InvalidArgumentException(
-                'Your root URI must start but not end with a slash character'
-            );
+            $this->rootUri = $rootUri;
+            return;
         }
 
-        $this->rootUri = $rootUri;
+        $errorMessage = sprintf(
+            "Your root URI must start but not end with a slash character. Provided '%s'",
+            $rootUri
+        );
+
+        throw new InvalidArgumentException($errorMessage);
+    }
+
+    /**
+     * Check, if this client is in debug mode.
+     *
+     * @return bool Flag, indicating if this client
+     * is in debug mode
+     */
+    public function isInDebugMode(): bool
+    {
+        return $this->isInDebugMode;
+    }
+
+    /**
+     * Put the client into debug mode and therefore log debug messages.
+     *
+     * @param bool $isInDebugMode Flag, indicating if this client
+     * is in debug mode
+     */
+    public function setIsInDebugMode(bool $isInDebugMode): void
+    {
+        $this->isInDebugMode = $isInDebugMode;
+    }
+
+    /**
+     * Set the logger interface for this client.
+     *
+     * @param LoggerInterface|null $loggerInterface The logger for this client
+     *
+     * @return void
+     */
+    public function setLoggerInterface(?LoggerInterface $loggerInterface): void
+    {
+        $this->loggerInterface = $loggerInterface;
+    }
+
+    /**
+     * Get the logger interface of this client.
+     *
+     * @return LoggerInterface|null The logger of this client
+     */
+    public function getLoggerInterface(): ?LoggerInterface
+    {
+        return $this->loggerInterface;
     }
 }

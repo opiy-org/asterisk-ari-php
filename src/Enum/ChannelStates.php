@@ -5,19 +5,18 @@
  *
  * @noinspection UnknownInspectionInspection Plugin [EA] does not
  * recognize the noinspection annotation of PhpStorm
- * @noinspection RedundantSuppression
  * @noinspection PhpUnused Some of these constants are just helpful for a user,
  * not for the library itself
  */
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Collection;
+namespace NgVoice\AriClient\Enum;
 
 /**
- * Collection of possible Asterisk channel states.
+ * Enum of possible Asterisk channel states.
  *
- * @package NgVoice\AriClient\Collection
+ * @package NgVoice\AriClient\Enum
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

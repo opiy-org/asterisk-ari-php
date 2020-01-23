@@ -6,9 +6,7 @@ declare(strict_types=1);
 
 namespace NgVoice\AriClient\Client\WebSocket\Ratchet;
 
-use Monolog\Logger;
 use NgVoice\AriClient\Client\Rest\Resource\Applications;
-use Oktavlachs\DataMappingService\DataMappingService;
 use Ratchet\Client\Connector as RatchetConnector;
 use React\EventLoop\LoopInterface;
 use React\Socket\Connector as ReactConnector;
@@ -20,7 +18,7 @@ use React\Socket\Connector as ReactConnector;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class OptionalSettings
+final class Settings
 {
     /**
      * If provided, a Stasis application will be subscribed to all ARI events,
@@ -41,10 +39,6 @@ final class OptionalSettings
     private ?ReactConnector $reactConnector = null;
 
     private ?RatchetConnector $ratchetConnector = null;
-
-    private ?Logger $logger = null;
-
-    private ?DataMappingService $dataMappingService = null;
 
     /**
      * @return bool
@@ -125,37 +119,5 @@ final class OptionalSettings
     public function setRatchetConnector(?RatchetConnector $ratchetConnector): void
     {
         $this->ratchetConnector = $ratchetConnector;
-    }
-
-    /**
-     * @return Logger|null
-     */
-    public function getLogger(): ?Logger
-    {
-        return $this->logger;
-    }
-
-    /**
-     * @param Logger|null $logger The logger for this client
-     */
-    public function setLogger(?Logger $logger): void
-    {
-        $this->logger = $logger;
-    }
-
-    /**
-     * @return DataMappingService|null
-     */
-    public function getDataMappingService(): ?DataMappingService
-    {
-        return $this->dataMappingService;
-    }
-
-    /**
-     * @param DataMappingService $dataMappingService Mapper for JSONs on objects
-     */
-    public function setDataMappingService(DataMappingService $dataMappingService): void
-    {
-        $this->dataMappingService = $dataMappingService;
     }
 }

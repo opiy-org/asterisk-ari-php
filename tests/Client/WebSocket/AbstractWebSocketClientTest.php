@@ -6,16 +6,24 @@ declare(strict_types=1);
 
 namespace NgVoice\AriClient\Tests\Client\WebSocket;
 
-use Monolog\Logger;
+use GuzzleHttp\Client;
+use InvalidArgumentException;
+use Psr\Log\LoggerInterface;
+use PHPUnit\Framework\TestCase;
+use React\EventLoop\LoopInterface;
+use Psr\Http\Message\StreamInterface;
+use Psr\Http\Message\ResponseInterface;
+use PHPUnit\Framework\MockObject\MockObject;
+use React\EventLoop\Factory as EventLoopFactory;
 use NgVoice\AriClient\Client\Rest\Resource\Applications;
-use NgVoice\AriClient\Client\WebSocket\{AbstractWebSocketClient, Settings};
 use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
+use NgVoice\AriClient\Client\WebSocket\{AbstractWebSocketClient,
+    Settings as WebSocketClientSettings};
 use NgVoice\AriClient\Model\Message\Event\ChannelUserevent;
 use NgVoice\AriClient\StasisApplicationInterface;
-use Oktavlachs\DataMappingService\DataMappingService;
-use PHPUnit\Framework\TestCase;
-use React\EventLoop\Factory as EventLoopFactory;
-use React\EventLoop\LoopInterface;
+use NgVoice\AriClient\Client\Rest\Settings as RestClientSettings;
+use NgVoice\AriClient\Tests\Client\Rest\ResourceClient\ApplicationsTest;
+use Throwable;
 
 /**
  * Class AbstractWebSocketClientTest
@@ -26,55 +34,121 @@ use React\EventLoop\LoopInterface;
  */
 class AbstractWebSocketClientTest extends TestCase
 {
-    public function testCreate(): void
-    {
-        $webSocketClientSettings = $this->createMock(Settings::class);
-        $myApp = $this->createMock(StasisApplicationInterface::class);
-        $ariApplicationsClient = $this->createMock(Applications::class);
-        $logger = $this->createMock(Logger::class);
-        $dataMappingService = $this->createMock(DataMappingService::class);
-        $loop = $this->createMock(LoopInterface::class);
+    private AbstractWebSocketClient $abstractWebSocketClient;
 
-        $this->assertInstanceOf(
-            AbstractWebSocketClient::class,
-            $this->getAbstractWebSocketClientImpl(
-                $webSocketClientSettings,
-                $myApp,
-                $ariApplicationsClient,
-                $logger,
-                $dataMappingService,
-                $loop
-            )
+    private WebSocketClientSettings $webSocketClientSettings;
+
+    private StasisApplicationInterface $stasisApplicationInterface;
+
+    /**
+     * @var MockObject|Applications
+     */
+    private $ariApplicationsClient;
+
+    /**
+     * @var MockObject|LoopInterface
+     */
+    private $loop;
+
+    /**
+     * @var MockObject|LoggerInterface
+     */
+    private $loggerInterface;
+
+    /**
+     * @var Client|MockObject
+     */
+    private $httpClient;
+
+    public function setUp(): void
+    {
+        $this->loggerInterface = $this->createMock(LoggerInterface::class);
+        $this->webSocketClientSettings = new WebSocketClientSettings('asterisk', 'asterisk');
+        $this->webSocketClientSettings->setLoggerInterface($this->loggerInterface);
+        $this->webSocketClientSettings->setIsInDebugMode(true);
+
+        $this->stasisApplicationInterface =
+            new class () implements StasisApplicationInterface {
+                /**
+                 * @param ChannelUserevent $channelUserevent
+                 *
+                 * @return void
+                 */
+                public function onAriEventChannelUserevent(
+                    ChannelUserevent $channelUserevent
+                ): void {
+                    if (((bool) $channelUserevent->getUserevent()->ThrowException) === true) {
+                        throw new InvalidArgumentException('jo');
+                    }
+                }
+            };
+
+        $this->httpClient = $this->createMock(Client::class);
+
+        $this->ariApplicationsClient = new Applications(
+            new RestClientSettings('asterisk', 'asterisk'),
+            $this->httpClient
         );
 
+        $this->loop = EventLoopFactory::create();
+
+        $this->abstractWebSocketClient = new class (
+            $this->webSocketClientSettings,
+            $this->stasisApplicationInterface,
+            $this->loop,
+            $this->ariApplicationsClient
+        ) extends AbstractWebSocketClient {
+            public function __construct(
+                WebSocketClientSettings $webSocketClientSettings,
+                StasisApplicationInterface $myApp,
+                LoopInterface $loop,
+                Applications $ariApplicationsClient = null
+            ) {
+                parent::__construct(
+                    $webSocketClientSettings, $myApp, $ariApplicationsClient
+                );
+
+                $this->loop = $loop;
+            }
+
+            public function triggerCreateUri(): string
+            {
+                return $this->createUri(
+                    new WebSocketClientSettings('asterisk', 'asterisk'),
+                    $this->myApp,
+                    true
+                );
+            }
+
+            /**
+             * @inheritDoc
+             */
+            public function start(): void
+            {
+            }
+
+            /**
+             * @inheritDoc
+             */
+            public function getLoop(): LoopInterface
+            {
+                return $this->loop;
+            }
+
+        };
+    }
+
+    public function testConstruct(): void
+    {
         $this->assertInstanceOf(
             AbstractWebSocketClient::class,
-            $this->getAbstractWebSocketClientImpl(
-                $webSocketClientSettings,
-                $myApp
-            )
+            $this->abstractWebSocketClient
         );
     }
 
     public function testGetLoop(): void
     {
-        $webSocketClientSettings = $this->createMock(Settings::class);
-        $myApp = $this->createMock(StasisApplicationInterface::class);
-        $ariApplicationsClient = $this->createMock(Applications::class);
-        $logger = $this->createMock(Logger::class);
-        $dataMappingService = $this->createMock(DataMappingService::class);
-        $loop = $this->createMock(LoopInterface::class);
-
-        $webSocketClient = $this->getAbstractWebSocketClientImpl(
-            $webSocketClientSettings,
-            $myApp,
-            $ariApplicationsClient,
-            $logger,
-            $dataMappingService,
-            $loop
-        );
-
-        $this->assertInstanceOf(LoopInterface::class, $webSocketClient->getLoop());
+        $this->assertSame($this->loop, $this->abstractWebSocketClient->getLoop());
     }
 
     /**
@@ -83,205 +157,139 @@ class AbstractWebSocketClientTest extends TestCase
      */
     public function testOnConnectionHandlerLogic(): void
     {
-        $webSocketClientSettings = $this->createMock(Settings::class);
-        $myApp = new class implements StasisApplicationInterface {
-            /**
-             * @param ChannelUserevent $channelUserevent
-             *
-             * @return void
-             */
-            public function onAriEventChannelUserevent(
-                ChannelUserevent $channelUserevent
-            ): void {
-            }
-        };
+        $streamInterface = $this->createMock(StreamInterface::class);
+        $streamInterface
+            ->method('__toString')
+            ->willReturn(json_encode(ApplicationsTest::EXAMPLE));
+        $response = $this->createMock(ResponseInterface::class);
+        $response->method('getBody')->willReturn($streamInterface);
+        $this->httpClient->method('request')->willReturn($response);
 
-        $ariApplicationsClient = $this->createMock(Applications::class);
-        $logger = $this->createMock(Logger::class);
-        $dataMappingService = $this->createMock(DataMappingService::class);
-        $loop = $this->createMock(LoopInterface::class);
-
-        $webSocketClient = $this->getAbstractWebSocketClientImpl(
-            $webSocketClientSettings,
-            $myApp,
-            $ariApplicationsClient,
-            $logger,
-            $dataMappingService,
-            $loop
-        );
-
-        $webSocketClient->onConnectionHandlerLogic();
-
+        $this->abstractWebSocketClient->onConnectionHandlerLogic();
         $this->assertTrue(true);
     }
 
     public function testOnMessageHandlerLogic(): void
     {
-        $webSocketClientSettings = $this->createMock(Settings::class);
-        $myApp = new class implements StasisApplicationInterface {
-            /**
-             * @param ChannelUserevent $channelUserevent
-             *
-             * @return void
-             */
-            public function onAriEventChannelUserevent(
-                ChannelUserevent $channelUserevent
-            ): void {
-            }
-        };
-
-        $ariApplicationsClient = $this->createMock(Applications::class);
-
-        $logger = $this->createMock(Logger::class);
-
-        $dataMappingService = $this->createMock(DataMappingService::class);
-        $dataMappingService->method('mapRawJsonOntoObject')->willReturn(true);
-
-        $loop = $this->createMock(LoopInterface::class);
-
-        $webSocketClient = $this->getAbstractWebSocketClientImpl(
-            $webSocketClientSettings,
-            $myApp,
-            $ariApplicationsClient,
-            $logger,
-            $dataMappingService,
-            $loop
+        $this->abstractWebSocketClient->onMessageHandlerLogic(
+            json_encode(
+                [
+                    'type' => 'ChannelUserevent',
+                    'application' => 'ExampleApplication',
+                    'timestamp' => 'someTimestamp',
+                    'eventname' => 'jo',
+                    'userevent' => ['ThrowException' => false]
+                ],
+                JSON_THROW_ON_ERROR
+            )
         );
 
-        $webSocketClient->onMessageHandlerLogic('{"type":"ChannelUserevent"}');
+        $this->assertTrue(true);
+    }
+
+    public function testOnMessageHandlerLogicHandlesLogicException(): void
+    {
+        $this->abstractWebSocketClient->onMessageHandlerLogic(
+            json_encode(
+                [
+                    'type' => 'ChannelUserevent',
+                    'application' => 'ExampleApplication',
+                    'timestamp' => 'someTimestamp',
+                    'eventname' => 'jo',
+                    'userevent' => ['ThrowException' => true]
+                ],
+                JSON_THROW_ON_ERROR
+            )
+        );
 
         $this->assertTrue(true);
     }
 
     public function testCreateUri(): void
     {
-        $webSocketClientSettings = $this->createMock(Settings::class);
-        $webSocketClientSettings
-            ->method('getHost')
-            ->willReturn('local-test-host');
-        $webSocketClientSettings->method('getPort')->willReturn(8088);
-        $webSocketClientSettings->method('getUser')->willReturn('testUser');
-        $webSocketClientSettings->method('getPassword')->willReturn('huhuhu');
-
-        $myApp = $this->createMock(StasisApplicationInterface::class);
-        $ariApplicationsClient = $this->createMock(Applications::class);
-        $logger = $this->createMock(Logger::class);
-        $dataMappingService = $this->createMock(DataMappingService::class);
-        $loop = $this->createMock(LoopInterface::class);
-
-        $webSocketClient = $this->getAbstractWebSocketClientImpl(
-            $webSocketClientSettings,
-            $myApp,
-            $ariApplicationsClient,
-            $logger,
-            $dataMappingService,
-            $loop
+        $this->assertStringContainsString(
+            'ws://127.0.0.1:8088/ari/events?api_key=asterisk:asterisk&app=',
+            $this->abstractWebSocketClient->triggerCreateUri()
         );
-
-        $this->assertTrue(
-            (bool) preg_match(
-                "/^ws:\/\/local-test-host:8088\/events\?"
-                . "api_key=testUser:huhuhu&app=.*&subscribeAll=false$/",
-                $webSocketClient->triggerCreateUri()
-            )
+        $this->assertStringContainsString(
+            '&subscribeAll=true',
+            $this->abstractWebSocketClient->triggerCreateUri()
         );
     }
 
-    /**
-     * @param Settings $webSocketClientSettings
-     * @param StasisApplicationInterface $myApp
-     * @param Applications|null $ariApplicationsClient
-     * @param Logger|null $logger
-     * @param DataMappingService|null $dataMappingService
-     * @param LoopInterface|null $loop
-     *
-     * @return AbstractWebSocketClient
-     */
-    private function getAbstractWebSocketClientImpl(
-        Settings $webSocketClientSettings,
-        StasisApplicationInterface $myApp,
-        Applications $ariApplicationsClient = null,
-        Logger $logger = null,
-        DataMappingService $dataMappingService = null,
-        LoopInterface $loop = null
-    ): AbstractWebSocketClient {
-        return new class (
+    public function testCreateWithUserErrorHandler(): void
+    {
+        $webSocketClientSettings = new WebSocketClientSettings('asterisk', 'asterisk');
+        $webSocketClientSettings->setErrorHandler(
+            static function (string $messageType, Throwable $throwable) {}
+        );
+
+        $this->abstractWebSocketClient = new class (
             $webSocketClientSettings,
-            $myApp,
-            $ariApplicationsClient,
-            $logger,
-            $dataMappingService,
-            $loop
-        ) extends AbstractWebSocketClient {
-            private $loop;
-
-            private Settings $webSocketClientSettings;
-
-            private bool $subscribeAll = false;
-
+            $this->createMock(StasisApplicationInterface::class)
+        ) extends AbstractWebSocketClient{
             /**
-             *  constructor.
-             *
-             * @param Settings $webSocketClientSettings
-             * @param StasisApplicationInterface $myApp
-             * @param Applications|null $ariApplicationsClient
-             * @param Logger|null $logger
-             * @param DataMappingService|null $dataMappingService
-             * @param LoopInterface|null $loop
-             */
-            public function __construct(
-                Settings $webSocketClientSettings,
-                StasisApplicationInterface $myApp,
-                Applications $ariApplicationsClient = null,
-                Logger $logger = null,
-                DataMappingService $dataMappingService = null,
-                LoopInterface $loop = null
-            ) {
-                parent::__construct(
-                    $webSocketClientSettings,
-                    $myApp,
-                    $ariApplicationsClient,
-                    $logger,
-                    $dataMappingService
-                );
-
-                if ($loop === null) {
-                    $loop = new EventLoopFactory();
-                }
-
-                $this->loop = $loop;
-                $this->webSocketClientSettings = $webSocketClientSettings;
-            }
-
-            /**
-             * @return string
-             */
-            public function triggerCreateUri(): string
-            {
-                return $this->createUri(
-                    $this->webSocketClientSettings,
-                    $this->myApp,
-                    $this->subscribeAll
-                );
-            }
-
-            /**
-             * Establish the connection to the WebSocket of your Asterisk instance
-             * and listen for specific incoming events.
+             * @inheritDoc
              */
             public function start(): void
             {
             }
 
             /**
-             * Get the event loop.
-             *
-             * @return LoopInterface
+             * @inheritDoc
              */
             public function getLoop(): LoopInterface
             {
-                return $this->loop;
+                return EventLoopFactory::create();
             }
         };
+
+        $this->assertInstanceOf(
+            AbstractWebSocketClient::class,
+            $this->abstractWebSocketClient
+        );
+    }
+
+    public function testCreateWithInvalidErrorHandler(): void
+    {
+        $webSocketClientSettings = new WebSocketClientSettings('asterisk', 'asterisk');
+        $webSocketClientSettings->setErrorHandler(
+            static function (string $e, Throwable $a) {}
+        );
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->abstractWebSocketClient = new class (
+            $webSocketClientSettings,
+            $this->createMock(StasisApplicationInterface::class)
+        ) extends AbstractWebSocketClient{
+            /**
+             * @inheritDoc
+             */
+            public function start(): void
+            {
+            }
+
+            /**
+             * @inheritDoc
+             */
+            public function getLoop(): LoopInterface
+            {
+                return EventLoopFactory::create();
+            }
+        };
+    }
+
+    public function testOnMessageHandlerHandlesInvalidAriEvent(): void
+    {
+        $this->abstractWebSocketClient->onMessageHandlerLogic(
+            json_encode(
+                [
+                    'type' => 'ChannelUserevent',
+                ],
+                JSON_THROW_ON_ERROR
+            )
+        );
+
+        $this->assertTrue(true);
     }
 }

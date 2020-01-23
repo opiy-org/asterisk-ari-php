@@ -7,7 +7,7 @@ declare(strict_types=1);
 namespace NgVoice\AriClient\Client\Rest\Resource;
 
 use NgVoice\AriClient\Client\Rest\AbstractRestClient;
-use NgVoice\AriClient\Collection\HttpMethods;
+use NgVoice\AriClient\Enum\HttpMethods;
 use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
 use NgVoice\AriClient\Model\{AsteriskInfo,
     AsteriskPing,
@@ -132,7 +132,7 @@ final class Asterisk extends AbstractRestClient
     /**
      * Gets Asterisk system information.
      *
-     * @param array $only Filter information returned. Allowed values: build, system,
+     * @param array<int, string> $only Filter information returned. Allowed values: build, system,
      *     config, status.
      *
      * @return AsteriskInfo

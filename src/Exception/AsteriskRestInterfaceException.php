@@ -44,7 +44,7 @@ class AsteriskRestInterfaceException extends Exception
     /**
      * Get the GuzzleException
      *
-     * @return Exception
+     * @return Throwable
      */
     public function getException(): Throwable
     {

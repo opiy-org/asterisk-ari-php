@@ -63,22 +63,21 @@ namespace NgVoice\AriClient\RestClient {
         return \json_decode($json, $assoc, 512, JSON_THROW_ON_ERROR);
     }
 }
-
 namespace NgVoice\AriClient\Tests\Client\Rest {
 
     use GuzzleHttp\Client as GuzzleClient;
     use GuzzleHttp\Exception\ClientException;
-    use InvalidArgumentException;
-    use Monolog\Logger;
     use NgVoice\AriClient\Client\Rest\{AbstractRestClient, Settings};
-    use NgVoice\AriClient\Collection\HttpMethods;
+    use NgVoice\AriClient\Enum\HttpMethods;
     use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
     use NgVoice\AriClient\Model\{AsteriskPing, Channel, ModelInterface};
-    use Oktavlachs\DataMappingService\DataMappingService;
+    use NgVoice\AriClient\Tests\Model\ChannelTest;
+    use PHPUnit\Framework\MockObject\MockObject;
     use PHPUnit\Framework\TestCase;
     use Psr\Http\Message\RequestInterface;
     use Psr\Http\Message\ResponseInterface;
     use Psr\Http\Message\StreamInterface;
+    use Psr\Log\LoggerInterface;
 
     /**
      * Class AbstractRestClientTest
@@ -89,93 +88,83 @@ namespace NgVoice\AriClient\Tests\Client\Rest {
      */
     class AbstractRestClientTest extends TestCase
     {
+        /**
+         * @var AbstractRestClient|MockObject
+         */
+        private $abstractRestClient;
+
+        /**
+         * @var GuzzleClient|MockObject
+         */
+        private $httpClient;
+
+        private Settings $settings;
+
+        /**
+         * @var MockObject|LoggerInterface
+         */
+        private $loggerInterface;
+
+        public function setUp(): void
+        {
+            $this->loggerInterface = $this->createMock(LoggerInterface::class);
+            $this->settings = new Settings('asterisk', 'asterisk');
+            $this->settings->setLoggerInterface($this->loggerInterface);
+            $this->settings->setIsInDebugMode(true);
+            $this->httpClient = $this->createMock(GuzzleClient::class);
+
+            $this->abstractRestClient = new class (
+                $this->settings,
+                $this->httpClient
+            ) extends AbstractRestClient {
+                public function triggerSendRequest(string $resourceUri, array $queryParameters, array $body): ResponseInterface
+                {
+                    return $this->sendRequest(HttpMethods::GET, $resourceUri, $queryParameters, $body);
+                }
+            };
+        }
+
         public function testCreate(): void
         {
-            $settings = $this->createMock(Settings::class);
-            $guzzleClient = $this->createMock(GuzzleClient::class);
-            $dataMappingService = $this->createMock(DataMappingService::class);
-
             $this->assertInstanceOf(
                 AbstractRestClient::class,
-                $this->getMockForAbstractClass(
-                    AbstractRestClient::class,
-                    [$settings, $guzzleClient, $dataMappingService]
-                )
+                $this->abstractRestClient
             );
 
-            $settings->method('getHost')->willReturn('local-test-host');
-            $settings->method('getPort')->willReturn(8088);
-
             $this->assertInstanceOf(
                 AbstractRestClient::class,
-                $this->getMockForAbstractClass(
-                    AbstractRestClient::class,
-                    [$settings]
-                )
+                new class ($this->settings) extends AbstractRestClient {}
             );
         }
 
-        public function testSendRequest(): ResponseInterface
+        public function testSendRequest(): void
         {
-            $settings = $this->createMock(Settings::class);
-            $guzzleClient = $this->createMock(GuzzleClient::class);
-            $dataMappingService = $this->createMock(DataMappingService::class);
-
-            $restClientExtensionClass = new class (
-                $settings,
-                $guzzleClient,
-                $dataMappingService
-            ) extends AbstractRestClient
-            {
-                public function triggerSendRequest(
-                    string $uri,
-                    array $queryParameters,
-                    array $body
-                ): ResponseInterface {
-                    return $this->sendRequest(
-                        HttpMethods::GET,
-                        $uri,
-                        $queryParameters,
-                        $body
-                    );
-                }
-            };
-
             $streamInterface = $this->createMock(StreamInterface::class);
             $streamInterface
                 ->method('__toString')
                 ->willReturn('{"dummyDataTestSendRequest":"Jo"}');
-
             $responseInterface = $this->createMock(ResponseInterface::class);
             $responseInterface->method('getBody')->willReturn($streamInterface);
+            $this->httpClient->method('request')->willReturn($responseInterface);
 
-            $guzzleClient
-                ->method('request')
-                ->willReturn(
-                    $responseInterface
-                );
-
-            $response = $restClientExtensionClass->triggerSendRequest(
+            $response = $this->abstractRestClient->triggerSendRequest(
                 '/someResource',
                 ['some' => 'queryParameter'],
                 ['some' => 'bodyParameter']
             );
 
-            $this->assertInstanceOf(ResponseInterface::class, $response);
-
-            return $response;
+            /** @noinspection PhpUndefinedMethodInspection */
+            $this->assertSame(
+                '{"dummyDataTestSendRequest":"Jo"}',
+                (string) $response->getBody()
+            );
         }
 
         public function testSendRequestThrowsAriException(): void
         {
-            $settings = $this->createMock(Settings::class);
-            $guzzleClient = $this->createMock(GuzzleClient::class);
-            $dataMappingService = $this->createMock(DataMappingService::class);
-
             $restClientExtensionClass = new class (
-                $settings,
-                $guzzleClient,
-                $dataMappingService
+                $this->settings,
+                $this->httpClient,
             ) extends AbstractRestClient
             {
                 public function triggerSendRequest(
@@ -192,7 +181,7 @@ namespace NgVoice\AriClient\Tests\Client\Rest {
                 }
             };
 
-            $guzzleClient
+            $this->httpClient
                 ->method('request')
                 ->willThrowException(
                     new ClientException(
@@ -209,94 +198,87 @@ namespace NgVoice\AriClient\Tests\Client\Rest {
             );
         }
 
-        /**
-         * @depends testSendRequest
-         *
-         * @param ResponseInterface $response An ARI response
-         */
-        public function testResponseToAriModelInstance(ResponseInterface $response): void
+        public function testResponseToAriModelInstance(): void
         {
-            $settings = $this->createMock(Settings::class);
-            $guzzleClient = $this->createMock(GuzzleClient::class);
-            $dataMappingService = $this->createMock(DataMappingService::class);
-            $dataMappingService->method('mapArrayOntoObject')->willReturn(true);
-
-            $restClientExtensionClass = new class (
-                $settings,
-                $guzzleClient,
-                $dataMappingService,
-            ) extends AbstractRestClient {
-                public function triggerResponseToAriModelInstance(
-                    ResponseInterface $response,
-                    ModelInterface $modelInterface
-                ): void {
-                    $this->responseToAriModelInstance(
-                        $response,
-                        $modelInterface
-                    );
-                }
-            };
-
-            $channel = new Channel();
-            $restClientExtensionClass->triggerResponseToAriModelInstance(
-                $response,
-                $channel
-            );
-
-            $this->assertInstanceOf(Channel::class, $channel);
-        }
-
-        /**
-         * @depends testSendRequest
-         *
-         * @param ResponseInterface $response An ARI response
-         */
-        public function testResponseToAriModelInstanceLogsException(
-            ResponseInterface $response
-        ): void {
-            $settings = $this->createMock(Settings::class);
-            $guzzleClient = $this->createMock(GuzzleClient::class);
-            $dataMappingService = $this->createMock(DataMappingService::class);
-            $dataMappingService->method('mapArrayOntoObject')->willThrowException(
-                new InvalidArgumentException()
-            );
-            $logger = $this->createMock(Logger::class);
-
-            $restClientExtensionClass = new class (
-                $settings,
-                $guzzleClient,
-                $dataMappingService,
-                $logger
-            ) extends AbstractRestClient {
-                public function triggerResponseToAriModelInstance(
-                    ResponseInterface $response,
-                    ModelInterface $modelInterface
-                ): void {
-                    $this->responseToAriModelInstance(
-                        $response,
-                        $modelInterface
-                    );
-                }
-            };
-
-            $channel = new Channel();
-
-            $restClientExtensionClass->triggerResponseToAriModelInstance(
-                $response,
-                $channel
-            );
-
-            $this->assertTrue(true);
-        }
-
-        public function testResponseToArrayOfAriModelInstances(): void
-        {
-            $settings = $this->createMock(Settings::class);
+            $settings = new Settings('asterisk', 'asterisk');
+            $settings->setLoggerInterface($this->createMock(LoggerInterface::class));
             $guzzleClient = $this->createMock(GuzzleClient::class);
 
             $restClientExtensionClass = new class (
                 $settings,
                 $guzzleClient
+            ) extends AbstractRestClient {
+                public function triggerResponseToAriModelInstance(
+                    ResponseInterface $response,
+                    ModelInterface $modelInterface
+                ): void {
+                    $this->responseToAriModelInstance(
+                        $response,
+                        $modelInterface
+                    );
+                }
+            };
+
+            $streamInterface = $this->createMock(StreamInterface::class);
+            $streamInterface
+                ->method('__toString')
+                ->willReturn(
+                    json_encode(
+                        ChannelTest::RAW_ARRAY_REPRESENTATION,
+                        JSON_THROW_ON_ERROR
+                    )
+                );
+            $responseInterface = $this->createMock(ResponseInterface::class);
+            $responseInterface->method('getBody')->willReturn($streamInterface);
+
+            $channel = new Channel();
+
+            $restClientExtensionClass
+                ->triggerResponseToAriModelInstance($responseInterface, $channel);
+
+            $this->assertSame('123456', $channel->getId());
+        }
+
+        public function testResponseToAriModelInstanceLogsException(): void
+        {
+            $settings = new Settings('asterisk', 'asterisk');
+            $settings->setLoggerInterface($this->createMock(LoggerInterface::class));
+            $guzzleClient = $this->createMock(GuzzleClient::class);
+
+            $restClientExtensionClass = new class (
+                $settings,
+                $guzzleClient
+            ) extends AbstractRestClient {
+                public function triggerResponseToAriModelInstance(
+                    ResponseInterface $response,
+                    ModelInterface $modelInterface
+                ): void {
+                    $this->responseToAriModelInstance(
+                        $response,
+                        $modelInterface
+                    );
+                }
+            };
+
+            $streamInterface = $this->createMock(StreamInterface::class);
+            $streamInterface
+                ->method('__toString')
+                ->willReturn(json_encode(['jo' => 'moin'], JSON_THROW_ON_ERROR));
+            $responseInterface = $this->createMock(ResponseInterface::class);
+            $responseInterface->method('getBody')->willReturn($streamInterface);
+
+            $channel = new Channel();
+
+            $this->expectException(AsteriskRestInterfaceException::class);
+            $restClientExtensionClass
+                ->triggerResponseToAriModelInstance($responseInterface, $channel);
+        }
+
+        public function testResponseToArrayOfAriModelInstances(): void
+        {
+            $restClientExtensionClass = new class (
+                $this->settings,
+                $this->httpClient
             ) extends AbstractRestClient
             {
                 public function triggerResponseToArrayOfAriModelInstances(
@@ -345,19 +327,9 @@ namespace NgVoice\AriClient\Tests\Client\Rest {
 
         public function testResponseToArrayOfAriModelInstancesLogsException(): void
         {
-            $settings = $this->createMock(Settings::class);
-            $guzzleClient = $this->createMock(GuzzleClient::class);
-            $dataMappingService = $this->createMock(DataMappingService::class);
-            $dataMappingService->method('mapArrayOntoObject')->willThrowException(
-                new InvalidArgumentException()
-            );
-            $logger = $this->createMock(Logger::class);
-
             $restClientExtensionClass = new class (
-                $settings,
-                $guzzleClient,
-                $dataMappingService,
-                $logger
+                $this->settings,
+                $this->httpClient
             ) extends AbstractRestClient {
                 public function triggerResponseToArrayOfAriModelInstances(
                     ResponseInterface $response,
@@ -381,29 +353,23 @@ namespace NgVoice\AriClient\Tests\Client\Rest {
             $responseInterface->method('getBody')->willReturn($streamInterface);
 
             $channels = [];
+            $this->expectException(AsteriskRestInterfaceException::class);
             $restClientExtensionClass->triggerResponseToArrayOfAriModelInstances(
                 $responseInterface,
                 new Channel(),
                 $channels
             );
-
-            $this->assertTrue(true);
         }
 
         public function testSendDownloadFileRequest(): void
         {
-            $settings = $this->createMock(Settings::class);
-            $guzzleClient = $this->createMock(GuzzleClient::class);
-            $guzzleClient
+            $this->httpClient
                 ->method('request')
                 ->willReturn($this->createMock(ResponseInterface::class));
 
-            $dataMappingService = $this->createMock(DataMappingService::class);
-
             $restClientExtensionClass = new class (
-                $settings,
-                $guzzleClient,
-                $dataMappingService
+                $this->settings,
+                $this->httpClient,
             ) extends AbstractRestClient {
                 public function triggerSendDownloadFileRequest(
                     string $resourceUri,
@@ -425,12 +391,10 @@ namespace NgVoice\AriClient\Tests\Client\Rest {
         {
             $settings = $this->createMock(Settings::class);
             $guzzleClient = $this->createMock(GuzzleClient::class);
-            $dataMappingService = $this->createMock(DataMappingService::class);
 
             $restClientExtensionClass = new class (
                 $settings,
                 $guzzleClient,
-                $dataMappingService
             ) extends AbstractRestClient
             {
                 public function triggerSendRequest(

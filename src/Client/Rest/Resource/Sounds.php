@@ -7,7 +7,7 @@ declare(strict_types=1);
 namespace NgVoice\AriClient\Client\Rest\Resource;
 
 use NgVoice\AriClient\Client\Rest\AbstractRestClient;
-use NgVoice\AriClient\Collection\HttpMethods;
+use NgVoice\AriClient\Enum\HttpMethods;
 use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
 use NgVoice\AriClient\Model\Sound;
 
@@ -26,11 +26,12 @@ final class Sounds extends AbstractRestClient
     /**
      * List all sounds.
      *
-     * @param array $options A collection of options when requesting a list of sounds.
+     * @param array<string, string> $options A collection
+     * of options when requesting a list of sounds.
      * lang: string - Lookup sound for a specific language.
      * format: string - Lookup sound in a specific format.
      *
-     * @return Sound[]
+     * @return array<Sound>
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
      */
@@ -42,7 +43,7 @@ final class Sounds extends AbstractRestClient
             $options
         );
 
-        /** @var Sound[] $sounds */
+        /** @var array<int, Sound> $sounds */
         $sounds = [];
         $this->responseToArrayOfAriModelInstances(
             $response,

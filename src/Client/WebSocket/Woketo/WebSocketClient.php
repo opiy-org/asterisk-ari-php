@@ -37,24 +37,22 @@ final class WebSocketClient extends AbstractWebSocketClient
      * @param WebSocketClientSettings $webSocketClientSettings The settings for
      * the asterisk web socket.
      * @param StasisApplicationInterface $myApp Application to subscribe to
-     * @param OptionalSettings $optionalSettings Optional settings for this web
-     * socket client
+     * @param Settings $optionalSettings Optional settings for this web
+     * socket client implementation
      */
     public function __construct(
         WebSocketClientSettings $webSocketClientSettings,
         StasisApplicationInterface $myApp,
-        OptionalSettings $optionalSettings = null
+        Settings $optionalSettings = null
     ) {
         if ($optionalSettings === null) {
-            $optionalSettings = new OptionalSettings();
+            $optionalSettings = new Settings();
         }
 
         parent::__construct(
             $webSocketClientSettings,
             $myApp,
             $optionalSettings->getAriApplicationsClient(),
-            $optionalSettings->getLogger(),
-            $optionalSettings->getDataMappingService()
         );
 
         $messageHandlerInterface = $optionalSettings->getMessageHandlerInterface();

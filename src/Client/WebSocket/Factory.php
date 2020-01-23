@@ -7,9 +7,9 @@ declare(strict_types=1);
 namespace NgVoice\AriClient\Client\WebSocket;
 
 use NgVoice\AriClient\Client\WebSocket\Ratchet\{
-    OptionalSettings as OptionalRatchetSettings,
+    Settings as OptionalRatchetSettings,
     WebSocketClient as RatchetWebSocketClient};
-use NgVoice\AriClient\Client\WebSocket\Woketo\{OptionalSettings as OptionalWoketoSettings,
+use NgVoice\AriClient\Client\WebSocket\Woketo\{Settings as OptionalWoketoSettings,
     WebSocketClient as WoketoWebSocketClient};
 use NgVoice\AriClient\StasisApplicationInterface;
 

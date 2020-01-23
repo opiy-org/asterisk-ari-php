@@ -7,8 +7,8 @@ declare(strict_types=1);
 namespace NgVoice\AriClient\Tests;
 
 use NgVoice\AriClient\Model\Message\Event\Event;
-use Oktavlachs\DataMappingService\Collection\SourceNamingConventions;
 use Oktavlachs\DataMappingService\DataMappingService;
+use Oktavlachs\DataMappingService\Collection\SourceNamingConventions;
 
 /**
  * Class Helper
@@ -28,6 +28,8 @@ final class Helper
      * @param object $target THe target to map onto
      *
      * @return object The mapped object
+     *
+     * @noinspection PhpDocMissingThrowsInspection
      */
     public static function mapOntoInstance(
         array $source,
@@ -37,10 +39,9 @@ final class Helper
             self::$dataMappingService = new DataMappingService(
                 SourceNamingConventions::LOWER_SNAKE_CASE
             );
-            self::$dataMappingService
-                ->setIsThrowingInvalidArgumentExceptionOnValidationError(true);
         }
 
+        /** @noinspection PhpUnhandledExceptionInspection */
         self::$dataMappingService->mapArrayOntoObject($source, $target);
 
         return $target;

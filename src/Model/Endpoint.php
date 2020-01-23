@@ -6,7 +6,7 @@ declare(strict_types=1);
 
 namespace NgVoice\AriClient\Model;
 
-use NgVoice\AriClient\Collection\EndpointStates;
+use NgVoice\AriClient\Enum\EndpointStates;
 
 /**
  * An external device that may offer/accept calls to/from Asterisk.

@@ -6,8 +6,8 @@ declare(strict_types=1);
 
 namespace NgVoice\AriClient\Client\Rest\Resource;
 
+use NgVoice\AriClient\Enum\HttpMethods;
 use NgVoice\AriClient\Client\Rest\AbstractRestClient;
-use NgVoice\AriClient\Collection\HttpMethods;
 use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
 use NgVoice\AriClient\Model\{Channel, LiveRecording, Playback, RTPstat, Variable};
 
@@ -56,7 +56,7 @@ final class Channels extends AbstractRestClient
      * to the originated channel for further events and updates.
      *
      * @param string $endpoint e.g. SIP/alice
-     * @param array $options A collection of options for the call.
+     * @param array<string, mixed> $options A collection of options for the call.
      * extension: string - The extension to dial after the endpoint answers. Mutually
      *     exclusive with 'app'.
      * context: string - The context to dial after the endpoint answers.
@@ -169,7 +169,7 @@ final class Channels extends AbstractRestClient
      *
      * @param string $channelId The unique id to assign the channel on creation.
      * @param string $endpoint Endpoint to call.
-     * @param array $options A collection of options when originating a channel.
+     * @param array<string, mixed> $options A collection of options when originating a channel.
      * extension: string - The extension to dial after the endpoint answers. Mutually
      *     exclusive with 'app'.
      * context: string - The context to dial after the endpoint answers. If omitted, uses
@@ -194,7 +194,7 @@ final class Channels extends AbstractRestClient
      * formats: string - The format name capability list to use if originator is not
      *     specified. Ex. "ulaw,slin16". Format names can be found with "core show codecs"
      *     in Asterisk.
-     * @param string[] $channelVariables Variables to be set before the channel is
+     * @param array<string, string> $channelVariables Variables to be set before the channel is
      *     originated.
      *
      * @return Channel
@@ -351,7 +351,7 @@ final class Channels extends AbstractRestClient
      *
      * @param string $channelId Channel's id.
      * @param string $dtmf DTMF To send.
-     * @param array $options A collection of options when sending DTMF.
+     * @param array<string, mixed> $options A collection of options when sending DTMF.
      * before: int - Amount of time to wait before DTMF digits (specified in milliseconds)
      *     start.
      * between: int - Amount of time in between DTMF digits (specified in milliseconds).
@@ -502,8 +502,9 @@ final class Channels extends AbstractRestClient
      * (pause, rewind, fast forward, etc.).
      *
      * @param string $channelId Channel's id.
-     * @param string[] $media Media URIs to play.
-     * @param array $options A collection of options when playing media to a channel.
+     * @param array<int, string> $media Media URIs to play.
+     * @param array<string, mixed> $options A collection of options
+     * when playing media to a channel.
      * lang: string - For sounds, selects language for sound.
      * offsetms: int - Number of milliseconds to skip before playing.
      *      Only applies to the first URI if multiple media URIs are specified.
@@ -538,8 +539,8 @@ final class Channels extends AbstractRestClient
      *
      * @param string $channelId Channel's id.
      * @param string $playbackId Playback ID.
-     * @param string[] $media Media URIs to play.
-     * @param array $options A collection of options when playing media to a channel.
+     * @param array<int, string> $media Media URIs to play.
+     * @param array<string, mixed> $options A collection of options when playing media to a channel.
      * lang: string - For sounds, selects language for sound.
      * offsetms: int - Number of milliseconds to skip before playing.
      *      Only applies to the first URI if multiple media URIs are specified.
@@ -576,7 +577,8 @@ final class Channels extends AbstractRestClient
      * @param string $channelId Channel's id.
      * @param string $name Recording's filename.
      * @param string $format Format to encode audio in.
-     * @param array $options A collection of options when recording a channel-
+     * @param array<string, mixed> $options A collection of options
+     * when recording a channel
      * maxDurationSeconds: int - Maximum duration of the recording, in seconds. 0 for no
      *     limit. Allowed range: Min: 0; Max: None
      * maxSilenceSeconds: int - Maximum duration of silence, in seconds. 0 for no limit.
@@ -742,7 +744,7 @@ final class Channels extends AbstractRestClient
         }
 
         if ($timeout > 0) {
-            $queryParameters['timeout'] = $timeout;
+            $queryParameters['timeout'] = (string) $timeout;
         }
 
         $this->sendRequest(
@@ -790,7 +792,7 @@ final class Channels extends AbstractRestClient
      * There is no negotiation. The format you specify is the format you'll get.
      * The channel driver will automatically transcode the bridge's native
      * media into this format.
-     * @param array $options Optional parameters.
+     * @param array<string, string> $options Optional parameters.
      * channelId: string - The unique id to assign the channel on creation.
      * encapsulation: string - Payload encapsulation protocol
      *      Default: rtp
@@ -804,7 +806,7 @@ final class Channels extends AbstractRestClient
      * direction: string - External media direction
      *      Default: both
      *      Allowed values: both
-     * @param array $channelVariables The "variables" key in the body object
+     * @param array<string, string> $channelVariables The "variables" key in the body object
      * holds variable key/value pairs to set on the channel on creation.
      *
      * @return Channel

@@ -5,27 +5,28 @@
  *
  * @noinspection UnknownInspectionInspection Plugin [EA] does not
  * recognize the noinspection annotation of PhpStorm
- * @noinspection RedundantSuppression
  * @noinspection PhpUnused Some of these constants are just helpful for a user,
  * not for the library itself
  */
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Collection;
+namespace NgVoice\AriClient\Enum;
 
 /**
- * Collection of possible Asterisk endpoint states.
+ * Enum of possible Asterisk playback states.
  *
- * @package NgVoice\AriClient\Collection
+ * @package NgVoice\AriClient\Enum
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class EndpointStates
+final class PlaybackStates
 {
-    public const UNKNOWN = 'unknown';
+    public const QUEUED = 'queued';
 
-    public const OFFLINE = 'offline';
+    public const PLAYING = 'playing';
 
-    public const ONLINE = 'online';
+    public const CONTINUING = 'continuing';
+
+    public const DONE = 'done';
 }
