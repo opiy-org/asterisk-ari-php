@@ -7,7 +7,6 @@ declare(strict_types=1);
 namespace NgVoice\AriClient\Client\WebSocket\Woketo;
 
 use Nekland\Woketo\Message\MessageHandlerInterface;
-use NgVoice\AriClient\Client\Rest\Resource\Applications;
 
 /**
  * A wrapper for optional nekland/woketo web socket settings.
@@ -18,24 +17,11 @@ use NgVoice\AriClient\Client\Rest\Resource\Applications;
  */
 final class Settings
 {
-    /**
-     * Subscribe to all Asterisk events.
-     * If provided, the application will be subscribed to all events,
-     * effectively disabling the application specific subscriptions.
-     */
-    private bool $subscribeAll = false;
-
-    /**
-     * ARI Applications REST client for event filtering on web socket connection.
-     */
-    private ?Applications $ariApplicationsClient = null;
-
     private ?ModifiedWoketoWebSocketClient $modifiedWoketoWebSocketClient = null;
 
     /**
-     * Handles incoming Event from Asterisk.
-     * Look at AriMessageHandler and RemoteAppMessageHandler
-     * for examples.
+     * Handles incoming Events from Asterisk.
+     * Look at AriMessageHandler and RemoteAppMessageHandler for examples.
      */
     private ?MessageHandlerInterface $messageHandlerInterface = null;
 
@@ -73,38 +59,5 @@ final class Settings
         ?MessageHandlerInterface $messageHandlerInterface
     ): void {
         $this->messageHandlerInterface = $messageHandlerInterface;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isSubscribeAll(): bool
-    {
-        return $this->subscribeAll;
-    }
-
-    /**
-     * @param bool $subscribeAll @see property $subscribeAll
-     */
-    public function setSubscribeAll(bool $subscribeAll): void
-    {
-        $this->subscribeAll = $subscribeAll;
-    }
-
-    /**
-     * @return Applications|null
-     */
-    public function getAriApplicationsClient(): ?Applications
-    {
-        return $this->ariApplicationsClient;
-    }
-
-    /**
-     * @param Applications|null $ariApplicationsClient @see property
-     * $ariApplicationsClient
-     */
-    public function setAriApplicationsClient(?Applications $ariApplicationsClient): void
-    {
-        $this->ariApplicationsClient = $ariApplicationsClient;
     }
 }

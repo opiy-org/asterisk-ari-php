@@ -8,6 +8,7 @@ namespace NgVoice\AriClient\Client\WebSocket;
 
 use Closure;
 use NgVoice\AriClient\Client\AbstractSettings;
+use NgVoice\AriClient\Client\Rest\Resource\Applications;
 
 /**
  * Encapsulates settings for a web socket client.
@@ -18,9 +19,13 @@ use NgVoice\AriClient\Client\AbstractSettings;
  */
 final class Settings extends AbstractSettings
 {
+    private bool $isSubscribeAll = false;
+
     private bool $wssEnabled = false;
 
     private ?Closure $errorHandler = null;
+
+    private ?Applications $ariApplicationsClient = null;
 
     /**
      * Check, if WSS is enabled.
@@ -68,5 +73,50 @@ final class Settings extends AbstractSettings
     public function setErrorHandler(?Closure $errorHandler): void
     {
         $this->errorHandler = $errorHandler;
+    }
+
+
+    /**
+     * Check, if the Stasis application subscribes to all ARI events,
+     * effectively disabling the application specific subscriptions.
+     *
+     * @return bool Flag, indicating if the this application should
+     * subscribe to all Asterisk REST Interface events
+     */
+    public function isSubscribeAll(): bool
+    {
+        return $this->isSubscribeAll;
+    }
+
+    /**
+     * Set the option to subscribe to all Asterisk REST Interface events,
+     * effectively disabling the application specific subscriptions.
+     *
+     * @param $subscribeAll bool Flag, indicating if the this application should
+     * subscribe to all Asterisk REST Interface events
+     */
+    public function setIsSubscribeAll(bool $subscribeAll): void
+    {
+        $this->isSubscribeAll = $subscribeAll;
+    }
+
+    /**
+     * Get the ARI Applications REST client for event filtering on web socket connection.
+     *
+     * @return Applications|null The REST client
+     */
+    public function getAriApplicationsClient(): ?Applications
+    {
+        return $this->ariApplicationsClient;
+    }
+
+    /**
+     * Set the ARI Applications REST client for event filtering on web socket connection.
+     *
+     * @param Applications $ariApplicationsClient The REST client
+     */
+    public function setAriApplicationsClient(?Applications $ariApplicationsClient): void
+    {
+        $this->ariApplicationsClient = $ariApplicationsClient;
     }
 }

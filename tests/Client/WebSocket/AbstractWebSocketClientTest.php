@@ -62,8 +62,16 @@ class AbstractWebSocketClientTest extends TestCase
 
     public function setUp(): void
     {
-        $this->loggerInterface = $this->createMock(LoggerInterface::class);
+        $this->httpClient = $this->createMock(Client::class);
+
+        $this->ariApplicationsClient = new Applications(
+            new RestClientSettings('asterisk', 'asterisk'),
+            $this->httpClient
+        );
+
         $this->webSocketClientSettings = new WebSocketClientSettings('asterisk', 'asterisk');
+        $this->webSocketClientSettings->setAriApplicationsClient($this->ariApplicationsClient);
+        $this->loggerInterface = $this->createMock(LoggerInterface::class);
         $this->webSocketClientSettings->setLoggerInterface($this->loggerInterface);
         $this->webSocketClientSettings->setIsInDebugMode(true);
 
@@ -83,40 +91,32 @@ class AbstractWebSocketClientTest extends TestCase
                 }
             };
 
-        $this->httpClient = $this->createMock(Client::class);
-
-        $this->ariApplicationsClient = new Applications(
-            new RestClientSettings('asterisk', 'asterisk'),
-            $this->httpClient
-        );
-
         $this->loop = EventLoopFactory::create();
 
         $this->abstractWebSocketClient = new class (
             $this->webSocketClientSettings,
             $this->stasisApplicationInterface,
             $this->loop,
-            $this->ariApplicationsClient
         ) extends AbstractWebSocketClient {
             public function __construct(
                 WebSocketClientSettings $webSocketClientSettings,
                 StasisApplicationInterface $myApp,
-                LoopInterface $loop,
-                Applications $ariApplicationsClient = null
+                LoopInterface $loop
             ) {
-                parent::__construct(
-                    $webSocketClientSettings, $myApp, $ariApplicationsClient
-                );
+                parent::__construct($webSocketClientSettings, $myApp);
 
                 $this->loop = $loop;
             }
 
             public function triggerCreateUri(): string
             {
+                $webSocketClientSettings =
+                    new WebSocketClientSettings('asterisk', 'asterisk');
+                $webSocketClientSettings->setIsSubscribeAll(true);
+
                 return $this->createUri(
-                    new WebSocketClientSettings('asterisk', 'asterisk'),
+                    $webSocketClientSettings,
                     $this->myApp,
-                    true
                 );
             }
 

@@ -6,7 +6,6 @@ declare(strict_types=1);
 
 namespace NgVoice\AriClient\Client\WebSocket\Ratchet;
 
-use NgVoice\AriClient\Client\Rest\Resource\Applications;
 use Ratchet\Client\Connector as RatchetConnector;
 use React\EventLoop\LoopInterface;
 use React\Socket\Connector as ReactConnector;
@@ -20,59 +19,11 @@ use React\Socket\Connector as ReactConnector;
  */
 final class Settings
 {
-    private bool $subscribeAll = false;
-
-    private ?Applications $ariApplicationsClient = null;
-
     private ?LoopInterface $loop = null;
 
     private ?ReactConnector $reactConnector = null;
 
     private ?RatchetConnector $ratchetConnector = null;
-
-    /**
-     * Check, if the Stasis application subscribes to all ARI events,
-     * effectively disabling the application specific subscriptions.
-     *
-     * @return bool Flag, indicating if the this application should
-     * subscribe to all Asterisk REST Interface events
-     */
-    public function isSubscribeAll(): bool
-    {
-        return $this->subscribeAll;
-    }
-
-    /**
-     * Set the option to subscribe to all Asterisk REST Interface events,
-     * effectively disabling the application specific subscriptions.
-     *
-     * @param $subscribeAll bool Flag, indicating if the this application should
-     * subscribe to all Asterisk REST Interface events
-     */
-    public function setSubscribeAll(bool $subscribeAll): void
-    {
-        $this->subscribeAll = $subscribeAll;
-    }
-
-    /**
-     * Get the ARI Applications REST client for event filtering on web socket connection.
-     *
-     * @return Applications|null The REST client
-     */
-    public function getAriApplicationsClient(): ?Applications
-    {
-        return $this->ariApplicationsClient;
-    }
-
-    /**
-     * Set the ARI Applications REST client for event filtering on web socket connection.
-     *
-     * @param Applications $ariApplicationsClient The REST client
-     */
-    public function setAriApplicationsClient(Applications $ariApplicationsClient): void
-    {
-        $this->ariApplicationsClient = $ariApplicationsClient;
-    }
 
     /**
      * @return LoopInterface|null

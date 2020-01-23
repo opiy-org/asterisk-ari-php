@@ -6,7 +6,6 @@ declare(strict_types=1);
 
 namespace NgVoice\AriClient\Tests\Client\WebSocket\Ratchet;
 
-use NgVoice\AriClient\Client\Rest\Resource\Applications;
 use NgVoice\AriClient\Client\WebSocket\Ratchet\Settings;
 use PHPUnit\Framework\TestCase;
 use Ratchet\Client\Connector as RatchetConnector;
@@ -22,27 +21,6 @@ use React\Socket\Connector as ReactConnector;
  */
 class SettingsTest extends TestCase
 {
-    public function testSubscribeAll(): void
-    {
-        $optionalSettings = new Settings();
-        $optionalSettings->setSubscribeAll(true);
-
-        $this->assertTrue($optionalSettings->isSubscribeAll());
-    }
-
-    public function testAriApplicationsClient(): void
-    {
-        $optionalSettings = new Settings();
-        $optionalSettings->setAriApplicationsClient(
-            $this->createMock(Applications::class)
-        );
-
-        $this->assertInstanceOf(
-            Applications::class,
-            $optionalSettings->getAriApplicationsClient()
-        );
-    }
-
     public function testLoop(): void
     {
         $optionalSettings = new Settings();

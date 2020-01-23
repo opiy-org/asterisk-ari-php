@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 namespace AriStasisApp\Tests\WebSocketClient;
 
+use NgVoice\AriClient\Client\Rest\Resource\Applications;
 use NgVoice\AriClient\Client\WebSocket\Settings;
 use PHPUnit\Framework\TestCase;
 
@@ -41,5 +42,25 @@ class SettingsTest extends TestCase
     {
         $this->settings->setWssEnabled(true);
         $this->assertTrue($this->settings->isWssEnabled());
+    }
+
+
+    public function testIsSubscribeAll(): void
+    {
+        $this->settings->setIsSubscribeAll(true);
+
+        $this->assertTrue($this->settings->isSubscribeAll());
+    }
+
+    public function testAriApplicationsClient(): void
+    {
+        $this->settings->setAriApplicationsClient(
+            $this->createMock(Applications::class)
+        );
+
+        $this->assertInstanceOf(
+            Applications::class,
+            $this->settings->getAriApplicationsClient()
+        );
     }
 }

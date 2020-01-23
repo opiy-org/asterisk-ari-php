@@ -49,11 +49,7 @@ final class WebSocketClient extends AbstractWebSocketClient
             $optionalSettings = new Settings();
         }
 
-        parent::__construct(
-            $webSocketClientSettings,
-            $myApp,
-            $optionalSettings->getAriApplicationsClient(),
-        );
+        parent::__construct($webSocketClientSettings, $myApp);
 
         $messageHandlerInterface = $optionalSettings->getMessageHandlerInterface();
 
@@ -63,11 +59,7 @@ final class WebSocketClient extends AbstractWebSocketClient
 
         $this->messageHandlerInterface = $messageHandlerInterface;
 
-        $uri = $this->createUri(
-            $webSocketClientSettings,
-            $myApp,
-            $optionalSettings->isSubscribeAll()
-        );
+        $uri = $this->createUri($webSocketClientSettings, $myApp);
 
         $modifiedWoketoWebSocketClient = $optionalSettings
             ->getModifiedWoketoWebSocketClient();

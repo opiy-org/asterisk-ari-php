@@ -6,8 +6,6 @@ declare(strict_types=1);
 
 namespace NgVoice\AriClient\Tests\Client\WebSocket\Woketo;
 
-use Monolog\Logger;
-use NgVoice\AriClient\Client\Rest\Resource\Applications;
 use NgVoice\AriClient\Client\WebSocket\Woketo\{FilteredMessageHandler,
     ModifiedWoketoWebSocketClient,
     Settings};
@@ -22,27 +20,6 @@ use PHPUnit\Framework\TestCase;
  */
 class SettingsTest extends TestCase
 {
-    public function testSubscribeAll(): void
-    {
-        $optionalSettings = new Settings();
-        $optionalSettings->setSubscribeAll(true);
-
-        $this->assertTrue($optionalSettings->isSubscribeAll());
-    }
-
-    public function testAriApplicationsClient(): void
-    {
-        $optionalSettings = new Settings();
-        $optionalSettings->setAriApplicationsClient(
-            $this->createMock(Applications::class)
-        );
-
-        $this->assertInstanceOf(
-            Applications::class,
-            $optionalSettings->getAriApplicationsClient()
-        );
-    }
-
     public function testModifiedWoketoWebSocketClient(): void
     {
         $optionalSettings = new Settings();

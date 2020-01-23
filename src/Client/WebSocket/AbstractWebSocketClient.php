@@ -55,12 +55,10 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
      *
      * @param Settings $webSocketClientSettings Configurable settings for this client
      * @param StasisApplicationInterface $myApp Your Stasis application
-     * @param Applications|null $ariApplicationsClient ARI applications REST client
      */
     public function __construct(
         Settings $webSocketClientSettings,
-        StasisApplicationInterface $myApp,
-        Applications $ariApplicationsClient = null
+        StasisApplicationInterface $myApp
     ) {
         $this->myApp = $myApp;
 
@@ -73,6 +71,8 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
         $this->logger = $logger;
 
         $this->initializeErrorHandler($webSocketClientSettings->getErrorHandler());
+
+        $ariApplicationsClient = $webSocketClientSettings->getAriApplicationsClient();
 
         if ($ariApplicationsClient === null) {
             $ariApplicationsClient = new Applications(
@@ -209,15 +209,12 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
      *
      * @param Settings $webSocketClientSettings The settings for a web socket client
      * @param StasisApplicationInterface $stasisApplication The event handling Stasis app
-     * @param bool $subscribeAll If the web socket should subscribe to all available
-     * ARI events, instead of specific ones for a single application.
      *
      * @return string The URI for the web socket client
      */
     protected function createUri(
         Settings $webSocketClientSettings,
-        StasisApplicationInterface $stasisApplication,
-        bool $subscribeAll
+        StasisApplicationInterface $stasisApplication
     ): string {
         /*
          * Within this library you should only either subscribe to one or all running
@@ -237,7 +234,8 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
             $webSocketClientSettings->getRootUri()
         );
 
-        $subscribeAllParameter = $subscribeAll ? 'true' : 'false';
+        $subscribeAllParameter =
+            $webSocketClientSettings->isSubscribeAll() ? 'true' : 'false';
 
         $uri = sprintf(
             '%s/events?api_key=%s:%s&app=%s&subscribeAll=%s',

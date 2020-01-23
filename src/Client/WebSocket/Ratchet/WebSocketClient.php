@@ -49,11 +49,7 @@ final class WebSocketClient extends AbstractWebSocketClient
             $optionalSettings = new Settings();
         }
 
-        parent::__construct(
-            $webSocketClientSettings,
-            $myApp,
-            $optionalSettings->getAriApplicationsClient(),
-        );
+        parent::__construct($webSocketClientSettings, $myApp);
 
         $loop = $optionalSettings->getLoop();
 
@@ -76,11 +72,7 @@ final class WebSocketClient extends AbstractWebSocketClient
         }
 
         // Configure the event handlers for the web socket client
-        $uri = $this->createUri(
-            $webSocketClientSettings,
-            $myApp,
-            $optionalSettings->isSubscribeAll()
-        );
+        $uri = $this->createUri($webSocketClientSettings, $myApp);
 
         $ratchetConnector($uri)
             ->then(
