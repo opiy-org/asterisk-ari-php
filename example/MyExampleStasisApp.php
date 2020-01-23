@@ -6,13 +6,13 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
+use NgVoice\AriClient\StasisApplicationInterface;
 use NgVoice\AriClient\Client\Rest\Resource\Channels;
 use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
 use NgVoice\AriClient\Model\Message\Event\{ChannelHangupRequest,
     ChannelUserevent,
     StasisEnd,
     StasisStart};
-use NgVoice\AriClient\StasisApplicationInterface;
 
 /**
  * Example for usage of this library in a local application.
@@ -128,6 +128,6 @@ final class MyExampleStasisApp implements StasisApplicationInterface
             $channelUserevent->getEventname()
         );
 
-        throw new RuntimeException($errorMessage);
+        throw new InvalidArgumentException($errorMessage);
     }
 }

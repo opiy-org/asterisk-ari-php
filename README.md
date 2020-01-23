@@ -34,7 +34,8 @@ Please run the following command to add the library to your project
 
 While installing, you might run into composer errors concerning missing php extensions.
 There are several ways to install them, depending on your operating system.
-You might need to install php-dev first and then install and enable the extension via pecl.
+In some very unlikely cases you might need to install php-dev first and then install
+and enable the extension via pecl. But that is generally not required.
 
 ##### Asterisk
 You will have to start an Asterisk instance and configure it in order to use ARI.
@@ -47,19 +48,18 @@ Alternatively use our Dockerfile to fire up Asterisk (Deployment section below).
 ## Examples
 
 #### REST Clients
-Talk to your asterisk instance by the given RestClients.
+Talk to the Asterisk REST Interface through the given REST clients.
 All requests and responses are mapped onto objects that are easy to understand.
 
-Following example originates a call using the Channels resource of the
-Asterisk REST Interface.
+Following example originates a call using the Channels resource.
 
     <?php
-
+    
     declare(strict_types=1);
-
+    
     use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
-    use NgVoice\AriClient\Client\RestClient\Resource\Channels as AriChannelsRestResourceClient;
-    use NgVoice\AriClient\Client\RestClient\Settings as AriRestClientSettings;
+    use NgVoice\AriClient\Client\Rest\Resource\Channels as AriChannelsRestResourceClient;
+    use NgVoice\AriClient\Client\Rest\Settings as AriRestClientSettings;
     
     require_once __DIR__ . '/vendor/autoload.php';
     
@@ -77,16 +77,15 @@ Asterisk REST Interface.
             ]
         );
     } catch (AsteriskRestInterfaceException $e) {
-        echo "Error occurred: {$e->getMessage()}\n";
+        printf("Error occurred: '%s'}''\n", $e->getMessage());
     }
     
-    echo "The originated channel has the ID '{$originatedChannel->getId()}'\n";
+    printf("The originated channel has the ID '%s'\n", $originatedChannel->getId());
 
 
 #### Web socket client
 
-Connects to Asterisk and subscribes to a 
-Stasis application running on your Asterisk instance. Following example shows 
+Connect to Asterisk and subscribes to a Stasis application. Following example shows 
 how to define an application and how to handle a specific incoming event, which
 is related to the application.
 
@@ -98,7 +97,7 @@ In this case we are handling a `StasisStart` event.
     
     // TODO: Change to your own project namespace.
     namespace My\Own\Project\Namespace;
-    
+        
     use NgVoice\AriClient\StasisApplicationInterface;
     use NgVoice\AriClient\Model\Message\Event\StasisStart;
     
@@ -131,8 +130,11 @@ In this case we are handling a `StasisStart` event.
          */
         public function onAriEventStasisStart(StasisStart $stasisStart): void
         {
-            echo 'This is the channels StasisStart event handler triggered by '
-                . "channel '{$stasisStart->getChannel()->getId()}' :-)\n";
+            printf(
+                'This is the channels StasisStart event '
+                . "handler triggered by channel '%s' :-)\n",
+                $stasisStart->getChannel()->getId()
+            );
         }
     }
 
@@ -150,7 +152,7 @@ the background. We recommend 'supervisor' for linux.
     use NgVoice\AriClient\Client\WebSocket\Factory as AriWebSocketClientFactory;
     
     require_once __DIR__ . '/vendor/autoload.php';
-    require_once __DIR__ . '/vendor/ng-voice/asterisk-ari-client/examples/MyExampleStasisApp.php';
+    require_once __DIR__ . '/MyExampleStasisApp.php';
     
     /*
      * Initialize an ARI web socket client to
@@ -167,14 +169,21 @@ the background. We recommend 'supervisor' for linux.
 
 
 
-You can find a detailed example in the `examples` directory.
+You can find a detailed example with more options in the `example` directory.
 
 ## Debug logs
 To debug your ARI communication, this client library ships with a simple debug log switch.
-Simply en-/disable it in the `debug_mode.yaml` file located in the root directory
-of this project.
+Simply en-/disable it as an option in the REST/web socket client settings object.
 
 The logs will appear on STDOUT.
+
+## Error handler
+As described in `example/my_example_stasis_app_worker.php`, you can add a custom error
+handler to your application. This is a layer between the logic in your
+Stasis application (`e.g. example/MyExampleStasisApp`) and the PHP process error handler,
+which means that you can decide what to do with a Throwable which is not caught
+within your application logic and would normally cause the application to crash.
+Why not report it to BugSnag for example?
 
 ## Running the tests
 
@@ -201,7 +210,7 @@ Preferably use the provided Dockerfile in this library to compile your own
 Asterisk container.
     
     cd docker/asterisk
-    docker build -t --build-arg asterisk_version=16.2.1 asterisk:latest .
+    docker build -t --build-arg asterisk_version=WHATEVER_VERSION_YOU_LIKE asterisk:latest .
     docker run -d --name some-asterisk -p 8088:8088 -p 5060:5060 -p 5060:5060/udp asterisk:latest
 
     !!! PLEASE NOTE !!!

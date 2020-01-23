@@ -6,13 +6,13 @@ declare(strict_types=1);
 
 namespace NgVoice\AriClient\Client\WebSocket\Woketo;
 
-use Monolog\Logger;
+use Psr\Log\LoggerInterface;
+use NgVoice\AriClient\Helper;
 use Nekland\Woketo\Core\AbstractConnection;
 use Nekland\Woketo\Exception\WebsocketException;
 use Nekland\Woketo\Message\MessageHandlerInterface;
 use NgVoice\AriClient\Client\WebSocket\AbstractWebSocketClient;
 use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
-use NgVoice\AriClient\Helper;
 
 /**
  * Class FilteredMessageHandler tells Asterisk to send only messages to the
@@ -24,7 +24,7 @@ use NgVoice\AriClient\Helper;
  */
 final class FilteredMessageHandler implements MessageHandlerInterface
 {
-    protected Logger $logger;
+    protected LoggerInterface $logger;
 
     private AbstractWebSocketClient $abstractWebSocketClient;
 
@@ -33,11 +33,11 @@ final class FilteredMessageHandler implements MessageHandlerInterface
      *
      * @param AbstractWebSocketClient $abstractWebSocketClient For helpful
      * methods that avoid duplicated code
-     * @param Logger|null $logger The logger for the message handler
+     * @param LoggerInterface|null $logger The logger for the message handler
      */
     public function __construct(
         AbstractWebSocketClient $abstractWebSocketClient,
-        Logger $logger = null
+        LoggerInterface $logger = null
     ) {
         $this->abstractWebSocketClient = $abstractWebSocketClient;
 
