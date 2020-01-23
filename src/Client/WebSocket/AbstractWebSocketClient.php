@@ -32,7 +32,7 @@ use Oktavlachs\DataMappingService\Exception\DataMappingServiceException;
  * Implementation of a basic web socket client that avoids duplicated
  * code for web socket event handler logic.
  *
- * @package NgVoice\AriClient\WebSocket
+ * @package NgVoice\AriClient\Client\WebSocket
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

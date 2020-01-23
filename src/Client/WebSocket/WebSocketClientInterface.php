@@ -11,7 +11,7 @@ use React\EventLoop\LoopInterface;
 /**
  * Define the basic features a web socket client implementation must offer.
  *
- * @package NgVoice\AriClient\WebSocket
+ * @package NgVoice\AriClient\Client\WebSocket
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

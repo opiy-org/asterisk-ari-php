@@ -12,7 +12,7 @@ use Psr\Log\LoggerInterface;
 /**
  * A collection of client settings for the client implementations within this library.
  *
- * @package NgVoice\AriClient
+ * @package NgVoice\AriClient\Client
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

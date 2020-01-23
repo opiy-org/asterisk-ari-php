@@ -21,7 +21,7 @@ use React\EventLoop\{Factory as ReactPhpEventLoopFactory,
 /**
  * A Ratchet ARI web socket client implementation.
  *
- * @package NgVoice\AriClient\WebSocket\Ratchet
+ * @package NgVoice\AriClient\Client\WebSocket\Ratchet
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  * @internal

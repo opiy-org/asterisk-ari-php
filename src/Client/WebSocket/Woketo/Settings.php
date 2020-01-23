@@ -12,7 +12,7 @@ use NgVoice\AriClient\Client\Rest\Resource\Applications;
 /**
  * A wrapper for optional nekland/woketo web socket settings.
  *
- * @package NgVoice\AriClient\WebSocket\Woketo
+ * @package NgVoice\AriClient\Client\WebSocket\Woketo
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
@@ -22,7 +22,6 @@ final class Settings
      * Subscribe to all Asterisk events.
      * If provided, the application will be subscribed to all events,
      * effectively disabling the application specific subscriptions.
-     * Default is 'false'.
      */
     private bool $subscribeAll = false;
 

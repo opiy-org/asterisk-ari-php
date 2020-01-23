@@ -17,7 +17,7 @@ use NgVoice\AriClient\Model\{Channel, LiveRecording, Playback, RTPstat, Variable
  *
  * @see https://wiki.asterisk.org/wiki/display/AST/Asterisk+16+Channels+REST+API
  *
- * @package NgVoice\AriClient\RestClient\Resource
+ * @package NgVoice\AriClient\Client\Rest\Resource
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

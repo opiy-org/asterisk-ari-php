@@ -17,13 +17,13 @@ use NgVoice\AriClient\Client\AbstractSettings;
  */
 final class Settings extends AbstractSettings
 {
-    /**
-     * Flag that says if encryption for the HTTP requests is enabled.
-     */
     private bool $httpsEnabled = false;
 
     /**
-     * @return bool
+     * Get the HTTPS enabled options value.
+     *
+     * @return bool Flag, indicating if encryption is enabled
+     * for HTTP calls to the Asterisk REST Interface.
      */
     public function isHttpsEnabled(): bool
     {
@@ -31,7 +31,8 @@ final class Settings extends AbstractSettings
     }
 
     /**
-     * @param bool $httpsEnabled If HTTPS is enabled in ARI
+     * @param bool $httpsEnabled Flag, indicating if encryption
+     * for HTTP calls to the Asterisk REST Interface must be enabled.
      */
     public function setHttpsEnabled(bool $httpsEnabled): void
     {

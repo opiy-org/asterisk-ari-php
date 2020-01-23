@@ -14,24 +14,14 @@ use React\Socket\Connector as ReactConnector;
 /**
  * A wrapper for optional ratchet web socket settings.
  *
- * @package NgVoice\AriClient\WebSocket\Ratchet
+ * @package NgVoice\AriClient\Client\WebSocket\Ratchet
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
 final class Settings
 {
-    /**
-     * If provided, a Stasis application will be subscribed to all ARI events,
-     * effectively disabling the application specific subscriptions. Default is 'false'.
-     */
     private bool $subscribeAll = false;
 
-    /**
-     * The client for the applications resource in Asterisk.
-     *
-     * This is used for event filtering on connection with the
-     * web socket server.
-     */
     private ?Applications $ariApplicationsClient = null;
 
     private ?LoopInterface $loop = null;
@@ -41,7 +31,11 @@ final class Settings
     private ?RatchetConnector $ratchetConnector = null;
 
     /**
-     * @return bool
+     * Check, if the Stasis application subscribes to all ARI events,
+     * effectively disabling the application specific subscriptions.
+     *
+     * @return bool Flag, indicating if the this application should
+     * subscribe to all Asterisk REST Interface events
      */
     public function isSubscribeAll(): bool
     {
@@ -49,7 +43,11 @@ final class Settings
     }
 
     /**
-     * @param bool $subscribeAll @see property $subscribeAll
+     * Set the option to subscribe to all Asterisk REST Interface events,
+     * effectively disabling the application specific subscriptions.
+     *
+     * @param $subscribeAll bool Flag, indicating if the this application should
+     * subscribe to all Asterisk REST Interface events
      */
     public function setSubscribeAll(bool $subscribeAll): void
     {
@@ -57,7 +55,9 @@ final class Settings
     }
 
     /**
-     * @return Applications|null
+     * Get the ARI Applications REST client for event filtering on web socket connection.
+     *
+     * @return Applications|null The REST client
      */
     public function getAriApplicationsClient(): ?Applications
     {
@@ -65,7 +65,9 @@ final class Settings
     }
 
     /**
-     * @param Applications $ariApplicationsClient @see property $ariApplicationsClient
+     * Set the ARI Applications REST client for event filtering on web socket connection.
+     *
+     * @param Applications $ariApplicationsClient The REST client
      */
     public function setAriApplicationsClient(Applications $ariApplicationsClient): void
     {
@@ -81,8 +83,8 @@ final class Settings
     }
 
     /**
-     * @param LoopInterface|null $loop The event loop for this
-     * web socket client
+     * @param LoopInterface|null $loop The event loop
+     * for this web socket client
      */
     public function setLoop(?LoopInterface $loop): void
     {

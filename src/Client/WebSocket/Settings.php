@@ -12,7 +12,7 @@ use NgVoice\AriClient\Client\AbstractSettings;
 /**
  * Encapsulates settings for a web socket client.
  *
- * @package NgVoice\AriClient\WebSocket
+ * @package NgVoice\AriClient\Client\WebSocket
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
@@ -25,8 +25,8 @@ final class Settings extends AbstractSettings
     /**
      * Check, if WSS is enabled.
      *
-     * @return bool Flag, indicating if
-     * encryption for the web socket requests is enabled.
+     * @return bool Flag, indicating if encryption
+     * for the web socket requests is enabled.
      */
     public function isWssEnabled(): bool
     {

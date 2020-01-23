@@ -17,7 +17,7 @@ use NgVoice\AriClient\StasisApplicationInterface;
  * Factory class to create new instances of an ARI web socket client
  * depending on the implementation preferred.
  *
- * @package NgVoice\AriClient\WebSocket
+ * @package NgVoice\AriClient\Client\WebSocket
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

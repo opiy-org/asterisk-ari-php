@@ -18,7 +18,7 @@ use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
  * Class FilteredMessageHandler tells Asterisk to send only messages to the
  * Stasis application that are actually handled.
  *
- * @package NgVoice\AriClient\WebSocket\Woketo
+ * @package NgVoice\AriClient\Client\WebSocket\Woketo
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

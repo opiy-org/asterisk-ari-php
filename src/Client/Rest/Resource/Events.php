@@ -19,7 +19,7 @@ use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
  * GET /events is not part of this API because it has to be a WebSocket connection (ws://
  * or wss://) and is handled separately in the WebSocket of this library.
  *
- * @package NgVoice\AriClient\RestClient\Resource
+ * @package NgVoice\AriClient\Client\Rest\Resource
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

@@ -38,7 +38,7 @@ use function extension_loaded;
  * application context, this class provides a public getter
  * for the used loop.
  *
- * @package NgVoice\AriClient\WebSocket\Woketo
+ * @package NgVoice\AriClient\Client\WebSocket\Woketo
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  * @internal

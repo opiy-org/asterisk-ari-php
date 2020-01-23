@@ -21,7 +21,7 @@ use React\EventLoop\LoopInterface;
  * of 'separation of concerns' - to have a worker process for each of your applications,
  * so your code doesn't get messy.
  *
- * @package NgVoice\ArClient\WeSocketClient\Woketo
+ * @package NgVoice\AriClient\Client\WebSocket\Woketo
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
