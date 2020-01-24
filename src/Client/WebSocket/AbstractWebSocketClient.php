@@ -104,15 +104,20 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
         $myAppAsReflectionObject = new ReflectionObject($this->myApp);
 
         $myAppPublicClassMethodNames =
-            $this->extractPublicFunctionNames($myAppAsReflectionObject);
+            $this->extractPublicMethodNames($myAppAsReflectionObject);
 
-        // Only use functions, that are named after a valid Asterisk message type
-        $allowedMessages = $this
-            ->filterAsteriskEventMessageFunctions($myAppPublicClassMethodNames);
+        // Only use methods, that are named after a valid Asterisk event type
+        $allowedEvents =
+            $this->extractHandledAsteriskEvents($myAppPublicClassMethodNames);
 
         $applicationName = $myAppAsReflectionObject->getShortName();
 
-        $this->ariApplicationsClient->filter($applicationName, $allowedMessages);
+        /**
+         * Tell Asterisk to only send events that are actually handled by the
+         * given StasisApplicationInterface. This boosts the performance a lot.
+         * @see https://blogs.asterisk.org/2019/02/27/filtering-event-types-ari/
+         */
+        $this->ariApplicationsClient->filter($applicationName, $allowedEvents);
 
         if ($this->isInDebugMode) {
             $this->logger->debug(
@@ -124,7 +129,7 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
         $infoMessage = sprintf(
             "Your Stasis app '%s' listens for the following events: '%s'",
             $applicationName,
-            (string) print_r($allowedMessages, true)
+            (string) print_r($allowedEvents, true)
         );
 
         $this->logger->info($infoMessage);
@@ -132,23 +137,24 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
 
     /**
      * Define what happens in case the web socket
-     * client receives a new messsage.
+     * client receives a new message.
      *
-     * @param string $message The message to handle
+     * @param string $ariEventAsJson The Asterisk REST Interface event as a JSON string
      *
      * @noinspection PhpRedundantCatchClauseInspection We know that
      * a JsonException can be thrown here because we explicitly set
      * the flag.
      */
-    public function onMessageHandlerLogic(string $message): void
+    public function onMessageHandlerLogic(string $ariEventAsJson): void
     {
         try {
-            $jsonAsArray = json_decode($message, true, 512, JSON_THROW_ON_ERROR);
+            $ariEventAsArray =
+                json_decode($ariEventAsJson, true, 512, JSON_THROW_ON_ERROR);
         } catch (JsonException $e) {
             $errorMessage = sprintf(
-                "JSON decode ARI event failed. Error message -> '%s' | JSON -> '%s'",
+                "Decoding JSON ARI event failed. Error message -> '%s' | JSON -> '%s'",
                 $e->getMessage(),
-                $message
+                $ariEventAsJson
             );
 
             $this->logger->error($errorMessage, [__FUNCTION__]);
@@ -156,19 +162,21 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
             return;
         }
 
-        $ariEventType = $jsonAsArray['type'];
-        $eventClassNamespace =
+        $ariEventType = $ariEventAsArray['type'];
+        $ariEventNamespace =
             "NgVoice\\AriClient\\Model\\Message\\Event\\" . $ariEventType;
 
-        $messageObject = new $eventClassNamespace();
+        $ariEventAsObject = new $ariEventNamespace();
 
         try {
-            $this->dataMappingService->mapArrayOntoObject($jsonAsArray, $messageObject);
+            $this
+                ->dataMappingService
+                ->mapArrayOntoObject($ariEventAsArray, $ariEventAsObject);
         } catch (DataMappingServiceException $dataMappingServiceException) {
             $errorMessage = sprintf(
                 'Mapping incoming JSON from ARI web socket server '
                 . "onto object '%s' failed | Error message: '%s'",
-                $eventClassNamespace,
+                $ariEventNamespace,
                 $dataMappingServiceException->getMessage()
             );
 
@@ -185,9 +193,11 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
         }
 
         try {
-            $this->myApp->{
-                self::ARI_EVENT_HANDLER_FUNCTION_PREFIX . $ariEventType
-            }($messageObject);
+            $this
+                ->myApp
+                ->{self::ARI_EVENT_HANDLER_METHOD_PREFIX . $ariEventType}(
+                    $ariEventAsObject
+                );
         } catch (Throwable $throwable) {
             ($this->errorHandler)($ariEventType, $throwable);
             return;
@@ -195,7 +205,10 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
 
         if ($this->isInDebugMode) {
             $this->logger->debug(
-                sprintf("Your app successfully handled the ARI Event -> '%s'", $message),
+                sprintf(
+                    "Your app successfully handled the ARI Event -> '%s'",
+                    $ariEventAsJson
+                ),
                 [__FUNCTION__]
             );
         }
@@ -247,75 +260,86 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
         );
 
         if ($this->isInDebugMode) {
-            $this->logger->debug("URI to asterisk: '{$uri}'");
+            $this->logger->debug(sprintf("URI to asterisk: '%s'", $uri), [__FUNCTION__]);
         }
 
         return $uri;
     }
 
     /**
-     * Extract the available public function names from a Stasis application.
+     * Extract the available public method names from a Stasis application.
      *
-     * @param ReflectionObject $myAppAsReflectionObject The Stasis app to extract the
-     * public function names from as a ReflectionObject
+     * @param ReflectionObject $myAppAsReflectionObject The Stasis app to extract
+     * the public method names from
      *
      * @return array<int, string>
      */
-    private function extractPublicFunctionNames(
+    private function extractPublicMethodNames(
         ReflectionObject $myAppAsReflectionObject
     ): array {
         $publicReflectionMethods = $myAppAsReflectionObject->getMethods(
             ReflectionMethod::IS_PUBLIC & ~ReflectionMethod::IS_STATIC
         );
 
-        $publicFunctionNames = [];
+        $publicMethodNames = [];
 
-        foreach ($publicReflectionMethods as $method) {
-            $publicFunctionNames[] = $method->getName();
+        foreach ($publicReflectionMethods as $publicMethod) {
+            $publicMethodNames[] = $publicMethod->getName();
         }
 
-        return $publicFunctionNames;
+        return $publicMethodNames;
     }
 
     /**
-     * Go through a list of available public class function names and
-     * filter the functions with the reserved ARI event handler function prefix.
+     * Collect the names of Asterisk events the Stasis application class handles.
      *
-     * @param string[] $myAppPublicClassFunctionNames Public function names of a class
+     * Go through a list of public method names and filter the method names
+     * starting with the reserved ARI event handler method prefix.
+     * Extract the event name from the method name and add it to a result list.
      *
-     * @return string[]
+     * @param array<int, string> $myAppPublicMethodNames Names of the
+     * public methods of a given StasisApplicationInterface
+     *
+     * @return array<int, string> The list of Asterisk events, handled by
+     * the given StasisApplicationInterface
      */
-    private function filterAsteriskEventMessageFunctions(
-        array $myAppPublicClassFunctionNames
+    private function extractHandledAsteriskEvents(
+        array $myAppPublicMethodNames
     ): array {
-        /** @var string[] $ariEventFunctionNames */
-        $ariEventFunctionNames = [];
+        /** @var array<int, string> $handledAriEvents */
+        $handledAriEvents = [];
+        $eventHandlerMethodPrefixStringLength =
+            strlen(self::ARI_EVENT_HANDLER_METHOD_PREFIX);
 
-        foreach ($myAppPublicClassFunctionNames as $publicFunctionName) {
+        foreach ($myAppPublicMethodNames as $publicMethodName) {
             // Check for correct prefix syntax on incoming ARI events
-            if (
-                strpos(
-                    $publicFunctionName,
-                    self::ARI_EVENT_HANDLER_FUNCTION_PREFIX
-                ) === 0
-            ) {
-                $publicFunctionName = (string) substr(
-                    $publicFunctionName,
-                    strlen(self::ARI_EVENT_HANDLER_FUNCTION_PREFIX)
+            if (strpos($publicMethodName, self::ARI_EVENT_HANDLER_METHOD_PREFIX) === 0) {
+                $eventName = (string) substr(
+                    $publicMethodName,
+                    $eventHandlerMethodPrefixStringLength
                 );
 
                 if (
                     class_exists(
-                        "NgVoice\\AriClient\\Model\\Message\\Event\\"
-                        . $publicFunctionName
+                        "NgVoice\\AriClient\\Model\\Message\\Event\\" . $eventName
                     )
                 ) {
-                    $ariEventFunctionNames[] = $publicFunctionName;
+                    $handledAriEvents[] = $eventName;
+                } else {
+                    $errorMessage = sprintf(
+                        "The method '%s' in your Stasis application class '%s' "
+                        . 'has the correct ARI event handler method prefix but '
+                        . 'does not specify a valid ARI event name suffix.',
+                        $publicMethodName,
+                        get_class($this->myApp)
+                    );
+
+                    throw new InvalidArgumentException($errorMessage);
                 }
             }
         }
 
-        return $ariEventFunctionNames;
+        return $handledAriEvents;
     }
 
     /**

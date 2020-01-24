@@ -43,7 +43,7 @@ final class WebSocketClient extends AbstractWebSocketClient
     public function __construct(
         WebSocketClientSettings $webSocketClientSettings,
         StasisApplicationInterface $myApp,
-        Settings $optionalSettings = null
+        ?Settings $optionalSettings = null
     ) {
         if ($optionalSettings === null) {
             $optionalSettings = new Settings();

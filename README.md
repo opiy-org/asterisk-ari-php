@@ -1,11 +1,11 @@
-# Asterisk REST Interface (ARI) Client
+# Asterisk REST Interface (ARI) Application Client
 
-Client implementation of the Asterisk REST Interface and simple Stasis
+A client implementation of the Asterisk REST Interface and simple Stasis
 application development library.
 
 The idea is to make ARI calls safe and easy. Therefore, we wanted to get rid of
 JSON parsing in our application code. Instead, we aim to make it as easy as possible
-for anyone to talk to ARI without worrying about an implementation of a client stub.
+for anyone to talk to ARI without worrying about the implementation of a client stub.
 
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=ngvoice_asterisk-ari-client&metric=security_rating)](https://sonarcloud.io/dashboard?id=ngvoice_asterisk-ari-client)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=ngvoice_asterisk-ari-client&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=ngvoice_asterisk-ari-client)
@@ -18,40 +18,44 @@ for anyone to talk to ARI without worrying about an implementation of a client s
 
 ![Licence](https://img.shields.io/badge/licence-MIT-blue.svg)
 
-![](image/AriClientSketch.png)
+![Diagram of the ARI communication](image/AriClientSketch.png)
 
 ## Prerequisites
-Download and install composer from the following link
+
+Download and install composer from the following link:
 
 https://getcomposer.org/download/
 
 ## Installing
 
 ##### Composer
-Please run the following command to add the library to your project
+
+Please run the following command to add the library to your project:
 
 `composer require ng-voice/asterisk-ari-client`
 
-While installing, you might run into composer errors concerning missing php extensions.
+While installing, you might run into composer errors concerning missing PHP extensions.
 There are several ways to install them, depending on your operating system.
-In some very unlikely cases you might need to install php-dev first and then install
-and enable the extension via pecl. But that is generally not required.
+In some very unlikely cases, you might need to install `php-dev` first and then install
+and enable the extension via PECL. But that is generally not required.
 
 ##### Asterisk
+
 You will have to start an Asterisk instance and configure it in order to use ARI.
 The official Asterisk documentation shows you how to do so. 
 
 https://wiki.asterisk.org/wiki/display/AST/Asterisk+Configuration+for+ARI
 
-Alternatively use our Dockerfile to fire up Asterisk (Deployment section below).
+Alternatively, use our Dockerfile to fire up Asterisk ([See Deployment](#deployment).
 
 ## Examples
 
 #### REST Clients
+
 Talk to the Asterisk REST Interface through the given REST clients.
 All requests and responses are mapped onto objects that are easy to understand.
 
-Following example originates a call using the Channels resource.
+The following example originates a call using the Channels resource:
 
     <?php
     
@@ -82,14 +86,13 @@ Following example originates a call using the Channels resource.
     
     printf("The originated channel has the ID '%s'\n", $originatedChannel->getId());
 
-
 #### Web socket client
 
-Connects to Asterisk and subscribes to a Stasis application. The following example shows 
-how to define an application and how to handle a specific incoming event, which
-is emitted by a channel that is part of the application context.
+Connects to Asterisk and subscribes to a Stasis application. The following example shows
+how to define your Stasis application and how to handle specific incoming events, which
+are emitted by a channel that is part of the application context.
 
-In this case we are handling a `StasisStart` event.
+In this example, we are handling a `StasisStart` event:
     
     <?php
     
@@ -119,8 +122,8 @@ In this case we are handling a `StasisStart` event.
          *
          * Of course you can define any other functions within this class
          * that do not handle incoming ARI events (leave out the prefix ;-)).
-         * Think of your Stasis application class as a data structure
-         * encapsulating your application logic.
+         * Think of your Stasis application class as container for your
+         * application logic.
          *
          * The StasisStart event for example is triggered for
          * channels when they enter your application.
@@ -138,11 +141,9 @@ In this case we are handling a `StasisStart` event.
         }
     }
 
-
-
 Write a PHP script to start your WebSocketClient worker process.
 This is a blocking process! For production, you should use a process manager to run it in
-the background. We recommend 'supervisor' for linux.
+the background. We recommend [supervisor](http://supervisord.org/) for Linux.
 
     <?php
 
@@ -167,17 +168,17 @@ the background. We recommend 'supervisor' for linux.
     
     $ariWebSocketClient->start();
 
-
-
 You can find a detailed example with more options in the `example` directory.
 
 ## Debug logs
+
 To debug your ARI communication, this client library ships with a simple debug log switch.
 Simply en-/disable it as an option in the REST/web socket client settings object.
 
-The logs will appear on STDOUT.
+Error logs will write to STDERR. All other logs will write to STDOUT.
 
 ## Error handler
+
 As described in `example/my_example_stasis_app_worker.php`, you can add a custom error
 handler to your application. This is a layer between the logic in your
 Stasis application (`e.g. example/MyExampleStasisApp`) and the PHP process error handler,
@@ -203,11 +204,11 @@ For static code analysis
 
 ## Deployment
 
-We added the Dockerfile in the `docker/asterisk/` directory where you can also find some 
+We added a Dockerfile in the `docker/asterisk/` directory, where you can also find some
 example configuration files for your own Asterisk instance.
 
-Preferably use the provided Dockerfile in this library to compile your own 
-Asterisk container.
+Preferably use the provided Dockerfile in this library to compile your own Asterisk
+container.
     
     cd docker/asterisk
     docker build -t --build-arg asterisk_version=WHATEVER_VERSION_YOU_LIKE asterisk:latest .
@@ -217,23 +218,26 @@ Asterisk container.
     Compiling Asterisk sometimes is bound to the hardware you are compiling it on.
     Currently, we compile a separate container for every machine we run Asterisk on,
     to make sure it will work.
-    Alternatively you can set generic compiler flags at your own risk.
+    Alternatively, you can set generic compiler flags at your own risk.
 
 ## Licence
 
 ##### MIT © ng-voice GmbH (2020)
 
-![](image/ng-voice-logo.png)
+![ng-voice logo](image/ng-voice-logo.png)
 
 ng-voice is happy to help! Feel free to send us a message.
-We'd also like to hear about your application ideas and use cases :)
+We'd also like to hear about your application ideas and use cases. :)
 
 ## Contributors
-We are happy to see your pull requests. Please stick to the PSR-12 coding standards if
+
+Your pull requests are welcome. Please stick to the PSR-12 coding standards if
 you want to contribute.
 
 ### Maintainer
+
 * [Lukas Stermann](https://gitlab.com/Oktavlachs) (lukas@ng-voice.com)
 
 ### Others
+
 * [Benedikt Vollmerhaus](https://gitlab.com/BVollmerhaus) (Project Review)

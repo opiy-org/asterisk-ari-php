@@ -37,7 +37,7 @@ final class FilteredMessageHandler implements MessageHandlerInterface
      */
     public function __construct(
         AbstractWebSocketClient $abstractWebSocketClient,
-        LoggerInterface $logger = null
+        ?LoggerInterface $logger = null
     ) {
         $this->abstractWebSocketClient = $abstractWebSocketClient;
 

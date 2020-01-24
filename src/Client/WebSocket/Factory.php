@@ -58,7 +58,7 @@ final class Factory
     public static function createRatchet(
         Settings $ariWebSocketClientSettings,
         StasisApplicationInterface $myStasisApp,
-        OptionalRatchetSettings $optionalRatchetSettings = null
+        ?OptionalRatchetSettings $optionalRatchetSettings = null
     ): RatchetWebSocketClient {
         return new RatchetWebSocketClient(
             $ariWebSocketClientSettings,
@@ -84,7 +84,7 @@ final class Factory
     public static function createWoketo(
         Settings $ariWebSocketClientSettings,
         StasisApplicationInterface $myStasisApp,
-        OptionalWoketoSettings $optionalWoketoSettings = null
+        ?OptionalWoketoSettings $optionalWoketoSettings = null
     ): WoketoWebSocketClient {
         return new WoketoWebSocketClient(
             $ariWebSocketClientSettings,

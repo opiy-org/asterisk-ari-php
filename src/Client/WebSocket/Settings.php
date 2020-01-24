@@ -28,9 +28,9 @@ final class Settings extends AbstractSettings
     private ?Applications $ariApplicationsClient = null;
 
     /**
-     * Check, if WSS is enabled.
+     * Check if WSS is enabled.
      *
-     * @return bool Flag, indicating if encryption
+     * @return bool Flag indicating if encryption
      * for the web socket requests is enabled.
      */
     public function isWssEnabled(): bool
@@ -39,9 +39,9 @@ final class Settings extends AbstractSettings
     }
 
     /**
-     * Set, if WSS is enabled.
+     * Set if WSS is enabled.
      *
-     * @param bool $wssEnabled Flag, indicating if
+     * @param bool $wssEnabled Flag indicating if
      * encryption for the web socket requests is enabled.
      */
     public function setWssEnabled(bool $wssEnabled): void

@@ -18,10 +18,10 @@ use React\EventLoop\LoopInterface;
 interface WebSocketClientInterface
 {
     /**
-     * Function prefix that implies that a function defined within an
+     * Method prefix that implies that a method defined within an
      * StasisApplication class handles a certain ARI event.
      */
-    public const ARI_EVENT_HANDLER_FUNCTION_PREFIX = 'onAriEvent';
+    public const ARI_EVENT_HANDLER_METHOD_PREFIX = 'onAriEvent';
 
     /**
      * Establish the connection to the WebSocket of your Asterisk instance

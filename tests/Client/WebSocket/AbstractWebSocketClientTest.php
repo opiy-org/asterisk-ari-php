@@ -169,6 +169,75 @@ class AbstractWebSocketClientTest extends TestCase
         $this->assertTrue(true);
     }
 
+    /**
+     * @throws AsteriskRestInterfaceException Will never throw this!
+     * It is just an annotation supposed to suppress warnings.
+     */
+    public function testOnConnectionHandlerDoesNotAcceptInvalidAriMethodNames(): void
+    {
+        $this->httpClient = $this->createMock(Client::class);
+
+        $this->ariApplicationsClient = new Applications(
+            new RestClientSettings('asterisk', 'asterisk'),
+            $this->httpClient
+        );
+
+        $this->webSocketClientSettings = new WebSocketClientSettings('asterisk', 'asterisk');
+        $this->webSocketClientSettings->setAriApplicationsClient($this->ariApplicationsClient);
+        $this->loggerInterface = $this->createMock(LoggerInterface::class);
+        $this->webSocketClientSettings->setLoggerInterface($this->loggerInterface);
+        $this->webSocketClientSettings->setIsInDebugMode(true);
+
+        $this->stasisApplicationInterface =
+            new class () implements StasisApplicationInterface {
+                /**
+                 * @param ChannelUserevent $channelUserevent
+                 *
+                 * @return void
+                 */
+                public function onAriEventThisIsNotAValidMethodName(
+                    ChannelUserevent $channelUserevent
+                ): void {}
+            };
+
+        $this->loop = EventLoopFactory::create();
+
+        $this->abstractWebSocketClient = new class (
+            $this->webSocketClientSettings,
+            $this->stasisApplicationInterface,
+            $this->loop,
+        ) extends AbstractWebSocketClient {
+            public function __construct(
+                WebSocketClientSettings $webSocketClientSettings,
+                StasisApplicationInterface $myApp,
+                LoopInterface $loop
+            ) {
+                parent::__construct($webSocketClientSettings, $myApp);
+
+                $this->loop = $loop;
+            }
+
+            /**
+             * @inheritDoc
+             */
+            public function start(): void
+            {
+            }
+
+            /**
+             * @inheritDoc
+             */
+            public function getLoop(): LoopInterface
+            {
+                return $this->loop;
+            }
+
+        };
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->abstractWebSocketClient->onConnectionHandlerLogic();
+    }
+
     public function testOnMessageHandlerLogic(): void
     {
         $this->abstractWebSocketClient->onMessageHandlerLogic(

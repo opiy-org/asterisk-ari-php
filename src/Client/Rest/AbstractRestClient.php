@@ -51,8 +51,10 @@ abstract class AbstractRestClient
      * connection settings
      * @param GuzzleClient|null $httpClient GuzzleClient HTTP Connection Object
      */
-    public function __construct(Settings $abstractClientSettings, GuzzleClient $httpClient = null)
-    {
+    public function __construct(
+        Settings $abstractClientSettings,
+        ?GuzzleClient $httpClient = null
+    ) {
         $httpType = $abstractClientSettings->isHttpsEnabled() ? 'https' : 'http';
 
         $baseUri = sprintf(

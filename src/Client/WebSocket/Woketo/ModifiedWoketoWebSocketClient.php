@@ -71,7 +71,7 @@ final class ModifiedWoketoWebSocketClient
     public function __construct(
         string $url,
         array $config = [],
-        ConnectorFactoryInterface $connectorFactory = null
+        ?ConnectorFactoryInterface $connectorFactory = null
     ) {
         $this->url = new Url($url);
         $this->connectorFactory = $connectorFactory;
@@ -89,8 +89,8 @@ final class ModifiedWoketoWebSocketClient
      */
     public function start(
         MessageHandlerInterface $handler,
-        Connection $connection = null,
-        LoopInterface $loop = null
+        ?Connection $connection = null,
+        ?LoopInterface $loop = null
     ): void {
         if ($this->config['prod'] && extension_loaded('xdebug')) {
             throw new XdebugEnabledException(

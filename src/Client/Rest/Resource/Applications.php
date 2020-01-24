@@ -162,8 +162,8 @@ final class Applications extends AbstractRestClient
      */
     public function filter(
         string $applicationName,
-        $allowed = null,
-        $disallowed = null
+        ?array $allowed = null,
+        ?array $disallowed = null
     ): Application {
         $body = [];
 
