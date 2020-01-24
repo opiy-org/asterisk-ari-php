@@ -18,7 +18,7 @@ for anyone to talk to ARI without worrying about an implementation of a client s
 
 ![Licence](https://img.shields.io/badge/licence-MIT-blue.svg)
 
-![](images/AriClientSketch.png)
+![](image/AriClientSketch.png)
 
 ## Prerequisites
 Download and install composer from the following link
@@ -85,9 +85,9 @@ Following example originates a call using the Channels resource.
 
 #### Web socket client
 
-Connect to Asterisk and subscribes to a Stasis application. Following example shows 
+Connects to Asterisk and subscribes to a Stasis application. The following example shows 
 how to define an application and how to handle a specific incoming event, which
-is related to the application.
+is emitted by a channel that is part of the application context.
 
 In this case we are handling a `StasisStart` event.
     
@@ -131,7 +131,7 @@ In this case we are handling a `StasisStart` event.
         public function onAriEventStasisStart(StasisStart $stasisStart): void
         {
             printf(
-                'This is the channels StasisStart event '
+                'This is the channel's StasisStart event '
                 . "handler triggered by channel '%s' :-)\n",
                 $stasisStart->getChannel()->getId()
             );
@@ -215,7 +215,7 @@ Asterisk container.
 
     !!! PLEASE NOTE !!!
     Compiling Asterisk sometimes is bound to the hardware you are compiling it on.
-    Right now we compile an own container for every machine we run Asterisk on,
+    Currently, we compile a separate container for every machine we run Asterisk on,
     to make sure it will work.
     Alternatively you can set generic compiler flags at your own risk.
 
@@ -223,10 +223,17 @@ Asterisk container.
 
 ##### MIT © ng-voice GmbH (2020)
 
-![](images/ng-voice-logo.png)
+![](image/ng-voice-logo.png)
 
-## Contact
 ng-voice is happy to help! Feel free to send us a message.
 We'd also like to hear about your application ideas and use cases :)
 
-Lukas Stermann (lukas@ng-voice.com)
+## Contributors
+We are happy to see your pull requests. Please stick to the PSR-12 coding standards if
+you want to contribute.
+
+### Maintainer
+* [Lukas Stermann](https://gitlab.com/Oktavlachs) (lukas@ng-voice.com)
+
+### Others
+* [Benedikt Vollmerhaus](https://gitlab.com/BVollmerhaus) (Project Review)
