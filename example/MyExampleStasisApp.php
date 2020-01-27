@@ -68,15 +68,14 @@ final class MyExampleStasisApp implements StasisApplicationInterface
         );
 
         /*
-         * Now we get the list of active channels available in
-         * the Application through Asterisk Rest Interface.
+         * Now we make a call to the Asterisk REST Interface in order
+         * to get the list of active channels on your Asterisk instance.
          */
         foreach ($this->ariChannelsClient->list() as $activeChannel) {
             printf(
-                "The channel id: '%s' and the channel name: '%s' "
-                . "is active in the MyExampleStasisApp.\n",
+                "The channel (id: '%s' state: '%s') is active on your Asterisk server.\n",
                 $activeChannel->getId(),
-                $activeChannel->getName()
+                $activeChannel->getState()
             );
         }
     }

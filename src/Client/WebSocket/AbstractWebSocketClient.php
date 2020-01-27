@@ -38,29 +38,30 @@ use Oktavlachs\DataMappingService\Exception\DataMappingServiceException;
  */
 abstract class AbstractWebSocketClient implements WebSocketClientInterface
 {
+    private Closure $errorHandler;
+
+    private Applications $ariApplicationsClient;
+
     protected bool $isInDebugMode;
 
     protected LoggerInterface $logger;
 
     protected DataMappingService $dataMappingService;
 
-    protected StasisApplicationInterface $myApp;
-
-    private Applications $ariApplicationsClient;
-
-    private Closure $errorHandler;
+    protected StasisApplicationInterface $stasisApplication;
 
     /**
      * AbstractWebSocketClient constructor.
      *
      * @param Settings $webSocketClientSettings Configurable settings for this client
-     * @param StasisApplicationInterface $myApp Your Stasis application
+     * @param StasisApplicationInterface $stasisApplication A Stasis application
+     * class containing your event handler logic
      */
     public function __construct(
         Settings $webSocketClientSettings,
-        StasisApplicationInterface $myApp
+        StasisApplicationInterface $stasisApplication
     ) {
-        $this->myApp = $myApp;
+        $this->stasisApplication = $stasisApplication;
 
         $logger = $webSocketClientSettings->getLoggerInterface();
 
@@ -101,7 +102,7 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
      */
     public function onConnectionHandlerLogic(): void
     {
-        $myAppAsReflectionObject = new ReflectionObject($this->myApp);
+        $myAppAsReflectionObject = new ReflectionObject($this->stasisApplication);
 
         $myAppPublicClassMethodNames =
             $this->extractPublicMethodNames($myAppAsReflectionObject);
@@ -150,14 +151,14 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
         try {
             $ariEventAsArray =
                 json_decode($ariEventAsJson, true, 512, JSON_THROW_ON_ERROR);
-        } catch (JsonException $e) {
-            $errorMessage = sprintf(
-                "Decoding JSON ARI event failed. Error message -> '%s' | JSON -> '%s'",
-                $e->getMessage(),
+        } catch (JsonException $jsonException) {
+            $context = sprintf(
+                "Decoding JSON from ARI failed. Error message -> '%s' | JSON -> '%s'",
+                $jsonException->getMessage(),
                 $ariEventAsJson
             );
 
-            $this->logger->error($errorMessage, [__FUNCTION__]);
+            ($this->errorHandler)($context, $jsonException);
 
             return;
         }
@@ -173,40 +174,40 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
                 ->dataMappingService
                 ->mapArrayOntoObject($ariEventAsArray, $ariEventAsObject);
         } catch (DataMappingServiceException $dataMappingServiceException) {
-            $errorMessage = sprintf(
+            $context = sprintf(
                 'Mapping incoming JSON from ARI web socket server '
                 . "onto object '%s' failed | Error message: '%s'",
                 $ariEventNamespace,
                 $dataMappingServiceException->getMessage()
             );
 
-            ($this->errorHandler)(
-                $ariEventType,
-                new InvalidArgumentException(
-                    $errorMessage,
-                    $dataMappingServiceException->getCode(),
-                    $dataMappingServiceException
-                )
-            );
+            ($this->errorHandler)($context, $dataMappingServiceException);
 
             return;
         }
 
+        // Call the event handler method in the provided Stasis application class
         try {
             $this
-                ->myApp
+                ->stasisApplication
                 ->{self::ARI_EVENT_HANDLER_METHOD_PREFIX . $ariEventType}(
                     $ariEventAsObject
                 );
         } catch (Throwable $throwable) {
-            ($this->errorHandler)($ariEventType, $throwable);
+            $errorMessage = sprintf(
+                "Error in Stasis application '%s' while handling ARI event: '%s'",
+                get_class($this->stasisApplication),
+                $ariEventType
+            );
+
+            ($this->errorHandler)($errorMessage, $throwable);
             return;
         }
 
         if ($this->isInDebugMode) {
             $this->logger->debug(
                 sprintf(
-                    "Your app successfully handled the ARI Event -> '%s'",
+                    "Your app successfully handled the ARI event -> '%s'",
                     $ariEventAsJson
                 ),
                 [__FUNCTION__]
@@ -303,40 +304,36 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
      * @return array<int, string> The list of Asterisk events, handled by
      * the given StasisApplicationInterface
      */
-    private function extractHandledAsteriskEvents(
-        array $myAppPublicMethodNames
-    ): array {
+    private function extractHandledAsteriskEvents(array $myAppPublicMethodNames): array
+    {
         /** @var array<int, string> $handledAriEvents */
         $handledAriEvents = [];
-        $eventHandlerMethodPrefixStringLength =
-            strlen(self::ARI_EVENT_HANDLER_METHOD_PREFIX);
+        $eventHandlerMethodPrefixLength = strlen(self::ARI_EVENT_HANDLER_METHOD_PREFIX);
 
-        foreach ($myAppPublicMethodNames as $publicMethodName) {
+        foreach ($myAppPublicMethodNames as $methodName) {
             // Check for correct prefix syntax on incoming ARI events
-            if (strpos($publicMethodName, self::ARI_EVENT_HANDLER_METHOD_PREFIX) === 0) {
-                $eventName = (string) substr(
-                    $publicMethodName,
-                    $eventHandlerMethodPrefixStringLength
+            if (strpos($methodName, self::ARI_EVENT_HANDLER_METHOD_PREFIX) !== 0) {
+                // Allow any public methods without the prefix
+                continue;
+            }
+
+            $eventName = (string) substr($methodName, $eventHandlerMethodPrefixLength);
+
+            if (
+                !class_exists("NgVoice\\AriClient\\Model\\Message\\Event\\" . $eventName)
+            ) {
+                $errorMessage = sprintf(
+                    "The method '%s' in your Stasis application class '%s' "
+                    . 'has the correct ARI event handler method prefix but '
+                    . 'does not specify a valid ARI event name suffix.',
+                    $methodName,
+                    get_class($this->stasisApplication)
                 );
 
-                if (
-                    class_exists(
-                        "NgVoice\\AriClient\\Model\\Message\\Event\\" . $eventName
-                    )
-                ) {
-                    $handledAriEvents[] = $eventName;
-                } else {
-                    $errorMessage = sprintf(
-                        "The method '%s' in your Stasis application class '%s' "
-                        . 'has the correct ARI event handler method prefix but '
-                        . 'does not specify a valid ARI event name suffix.',
-                        $publicMethodName,
-                        get_class($this->myApp)
-                    );
-
-                    throw new InvalidArgumentException($errorMessage);
-                }
+                throw new InvalidArgumentException($errorMessage);
             }
+
+            $handledAriEvents[] = $eventName;
         }
 
         return $handledAriEvents;
@@ -358,38 +355,41 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
             $errorLogger = $this->logger;
 
             $errorHandler = static function (
-                string $messageType,
+                string $context,
                 Throwable $throwable
             ) use ($errorLogger) {
                 $errorMessage = sprintf(
-                    "Error while handling message '%s' -------> '%s'",
-                    $messageType,
+                    "Error while handling '%s' -------> '%s'",
+                    $context,
                     $throwable->getMessage()
                 );
 
                 $errorLogger->error($errorMessage);
             };
-        } else {
-            /**
-             * @noinspection PhpUnhandledExceptionInspection By declaring
-             * $errorHandler as a Closure, this exception is never thrown.
-             */
-            $parameters = (new ReflectionFunction($errorHandler))->getParameters();
 
-            if (
-                !isset($parameters[0], $parameters[1])
-                || ($parameters[0]->getName() !== 'messageType')
-                || (($typeOne = $parameters[0]->getType()) === null)
-                || ($typeOne->getName() !== 'string')
-                || ($parameters[1]->getName() !== 'throwable')
-                || (($typeTwo = $parameters[1]->getType()) === null)
-                || ($typeTwo->getName() !== Throwable::class)
-            ) {
-                throw new InvalidArgumentException(
-                    "The provided error handlers signature must start with 'static "
-                    . "function (string \$messageType, Throwable \$throwable) ...'"
-                );
-            }
+            $this->errorHandler = $errorHandler;
+            return;
+        }
+
+        /**
+         * @noinspection PhpUnhandledExceptionInspection Because
+         * $errorHandler is a Closure, this exception is never thrown.
+         */
+        $parameters = (new ReflectionFunction($errorHandler))->getParameters();
+
+        if (
+            !isset($parameters[0], $parameters[1])
+            || ($parameters[0]->getName() !== 'context')
+            || (($typeOne = $parameters[0]->getType()) === null)
+            || ($typeOne->getName() !== 'string')
+            || ($parameters[1]->getName() !== 'throwable')
+            || (($typeTwo = $parameters[1]->getType()) === null)
+            || ($typeTwo->getName() !== Throwable::class)
+        ) {
+            throw new InvalidArgumentException(
+                "The provided error handlers signature must start with 'static "
+                . "function (string \$context, Throwable \$throwable) ...'"
+            );
         }
 
         $this->errorHandler = $errorHandler;

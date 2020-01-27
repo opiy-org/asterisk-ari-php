@@ -22,9 +22,9 @@ final class DialplanCEP implements ModelInterface
 
     private string $exten;
 
-    private string $appData;
+    private ?string $appData = null;
 
-    private string $appName;
+    private ?string $appName = null;
 
     private string $context;
 
@@ -51,9 +51,9 @@ final class DialplanCEP implements ModelInterface
     /**
      * Parameter of current dialplan application.
      *
-     * @return string
+     * @return string|null
      */
-    public function getAppData(): string
+    public function getAppData(): ?string
     {
         return $this->appData;
     }
@@ -61,9 +61,9 @@ final class DialplanCEP implements ModelInterface
     /**
      * Name of current dialplan application.
      *
-     * @return string
+     * @return string|null
      */
-    public function getAppName(): string
+    public function getAppName(): ?string
     {
         return $this->appName;
     }

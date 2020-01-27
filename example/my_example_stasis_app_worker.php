@@ -49,11 +49,11 @@ $ariWebSocketClientSettings = new AriWebSocketClientSettings(
  * will therefore get lost.
  */
 $ariWebSocketClientSettings->setErrorHandler(
-    static function (string $messageType, Throwable $throwable) {
+    static function (string $context, Throwable $throwable) {
         printf(
-            "\n\nThis is the error handler, triggered in message '%s'. "
+            "\n\nThis is the error handler, triggered in context '%s'. "
             . "Throwable message: '%s'\n\n",
-            $messageType,
+            $context,
             $throwable->getMessage()
         );
     }

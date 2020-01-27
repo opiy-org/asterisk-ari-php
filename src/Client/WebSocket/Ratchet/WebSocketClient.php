@@ -36,20 +36,20 @@ final class WebSocketClient extends AbstractWebSocketClient
      *
      * @param WebSocketClientSettings $webSocketClientSettings The settings
      * for this web socket client
-     * @param StasisApplicationInterface $myApp The web socket client
+     * @param StasisApplicationInterface $stasisApplication The web socket client
      * @param Settings|null $optionalSettings Optional settings for
      * this web socket client
      */
     public function __construct(
         WebSocketClientSettings $webSocketClientSettings,
-        StasisApplicationInterface $myApp,
+        StasisApplicationInterface $stasisApplication,
         ?Settings $optionalSettings = null
     ) {
         if ($optionalSettings === null) {
             $optionalSettings = new Settings();
         }
 
-        parent::__construct($webSocketClientSettings, $myApp);
+        parent::__construct($webSocketClientSettings, $stasisApplication);
 
         $loop = $optionalSettings->getLoop();
 
@@ -72,7 +72,7 @@ final class WebSocketClient extends AbstractWebSocketClient
         }
 
         // Configure the event handlers for the web socket client
-        $uri = $this->createUri($webSocketClientSettings, $myApp);
+        $uri = $this->createUri($webSocketClientSettings, $stasisApplication);
 
         $ratchetConnector($uri)
             ->then(

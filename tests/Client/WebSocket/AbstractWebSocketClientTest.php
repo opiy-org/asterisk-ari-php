@@ -77,17 +77,16 @@ class AbstractWebSocketClientTest extends TestCase
 
         $this->stasisApplicationInterface =
             new class () implements StasisApplicationInterface {
-                /**
-                 * @param ChannelUserevent $channelUserevent
-                 *
-                 * @return void
-                 */
                 public function onAriEventChannelUserevent(
                     ChannelUserevent $channelUserevent
                 ): void {
                     if (((bool) $channelUserevent->getUserevent()->ThrowException) === true) {
                         throw new InvalidArgumentException('jo');
                     }
+                }
+
+                public function thisIsNotRelevantButAValidMethod(): void
+                {
                 }
             };
 
@@ -100,10 +99,10 @@ class AbstractWebSocketClientTest extends TestCase
         ) extends AbstractWebSocketClient {
             public function __construct(
                 WebSocketClientSettings $webSocketClientSettings,
-                StasisApplicationInterface $myApp,
+                StasisApplicationInterface $stasisApplication,
                 LoopInterface $loop
             ) {
-                parent::__construct($webSocketClientSettings, $myApp);
+                parent::__construct($webSocketClientSettings, $stasisApplication);
 
                 $this->loop = $loop;
             }
@@ -116,7 +115,7 @@ class AbstractWebSocketClientTest extends TestCase
 
                 return $this->createUri(
                     $webSocketClientSettings,
-                    $this->myApp,
+                    $this->stasisApplication,
                 );
             }
 
@@ -190,11 +189,6 @@ class AbstractWebSocketClientTest extends TestCase
 
         $this->stasisApplicationInterface =
             new class () implements StasisApplicationInterface {
-                /**
-                 * @param ChannelUserevent $channelUserevent
-                 *
-                 * @return void
-                 */
                 public function onAriEventThisIsNotAValidMethodName(
                     ChannelUserevent $channelUserevent
                 ): void {}
@@ -290,7 +284,7 @@ class AbstractWebSocketClientTest extends TestCase
     {
         $webSocketClientSettings = new WebSocketClientSettings('asterisk', 'asterisk');
         $webSocketClientSettings->setErrorHandler(
-            static function (string $messageType, Throwable $throwable) {}
+            static function (string $context, Throwable $throwable) {}
         );
 
         $this->abstractWebSocketClient = new class (

@@ -1,7 +1,7 @@
 {
   "name": "ng-voice/asterisk-ari-client",
   "type": "library",
-  "description": "An object oriented client for the Asterisk REST Interface (ARI). Handles ARI calls and events for you.",
+  "description": "An object-oriented client for the Asterisk REST Interface (ARI). Handles ARI calls and events for you.",
   "keywords": [
     "ari",
     "asterisk",
@@ -14,7 +14,7 @@
   ],
   "homepage": "https://bitbucket.org/ngvoice/asterisk-ari-client",
   "license": "MIT",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "authors": [
     {
       "name": "Lukas Stermann",

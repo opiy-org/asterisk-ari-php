@@ -20,13 +20,13 @@ abstract class AbstractSettings
 {
     private string $user;
 
-    private string $password;
-
-    private string $host = '127.0.0.1';
-
     private int $port = 8088;
 
+    private string $password;
+
     private string $rootUri = '/ari';
+
+    private string $host = '127.0.0.1';
 
     private bool $isInDebugMode = false;
 

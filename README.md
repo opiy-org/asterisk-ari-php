@@ -46,14 +46,14 @@ The official Asterisk documentation shows you how to do so.
 
 https://wiki.asterisk.org/wiki/display/AST/Asterisk+Configuration+for+ARI
 
-Alternatively, use our Dockerfile to fire up Asterisk ([See Deployment](#deployment).
+Alternatively, use our Dockerfile to fire up Asterisk ([See Deployment](#deployment)).
 
 ## Examples
 
 #### REST Clients
 
 Talk to the Asterisk REST Interface through the given REST clients.
-All requests and responses are mapped onto objects that are easy to understand.
+All requests and responses are objects and easy to understand.
 
 The following example originates a call using the Channels resource:
 
@@ -62,8 +62,8 @@ The following example originates a call using the Channels resource:
     declare(strict_types=1);
     
     use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
-    use NgVoice\AriClient\Client\Rest\Resource\Channels as AriChannelsRestResourceClient;
     use NgVoice\AriClient\Client\Rest\Settings as AriRestClientSettings;
+    use NgVoice\AriClient\Client\Rest\Resource\Channels as AriChannelsRestResourceClient;
     
     require_once __DIR__ . '/vendor/autoload.php';
     
@@ -81,7 +81,7 @@ The following example originates a call using the Channels resource:
             ]
         );
     } catch (AsteriskRestInterfaceException $e) {
-        printf("Error occurred: '%s'}''\n", $e->getMessage());
+        printf("Error occurred: '%s'\n", $e->getMessage());
     }
     
     printf("The originated channel has the ID '%s'\n", $originatedChannel->getId());
@@ -108,8 +108,8 @@ In this example, we are handling a `StasisStart` event:
      * Write your own Stasis application class that must implement the
      * StasisApplicationInterface.
      *
-     * This application will register automatically in Asterisk as
-     * soon as you start a WebSocketClient (@see the worker script example).
+     * This application will register automatically in Asterisk as soon
+     * as you start a WebSocketClient (@see example/my_example_stasis_app_worker.php).
      */
     class MyExampleStasisApp implements StasisApplicationInterface
     {
@@ -148,9 +148,9 @@ the background. We recommend [supervisor](http://supervisord.org/) for Linux.
     <?php
 
     declare(strict_types=1);
-    
+
+    use NgVoice\AriClient\Client\WebSocket\Factory as AriWebSocketClientFactory;    
     use NgVoice\AriClient\Client\WebSocket\Settings as AriWebSocketClientSettings;
-    use NgVoice\AriClient\Client\WebSocket\Factory as AriWebSocketClientFactory;
     
     require_once __DIR__ . '/vendor/autoload.php';
     require_once __DIR__ . '/MyExampleStasisApp.php';
@@ -173,18 +173,20 @@ You can find a detailed example with more options in the `example` directory.
 ## Debug logs
 
 To debug your ARI communication, this client library ships with a simple debug log switch.
-Simply en-/disable it as an option in the REST/web socket client settings object.
+Simply en-/disable it as an option in the REST/web socket client settings object. Error
+logs will write to STDERR. All other logs will write to STDOUT.
 
-Error logs will write to STDERR. All other logs will write to STDOUT.
+Alternatively, use your own Logger and pass it to the REST client and/or web socket
+client constructor.
 
 ## Error handler
 
 As described in `example/my_example_stasis_app_worker.php`, you can add a custom error
 handler to your application. This is a layer between the logic in your
-Stasis application (`e.g. example/MyExampleStasisApp`) and the PHP process error handler,
-which means that you can decide what to do with a Throwable which is not caught
-within your application logic and would normally cause the application to crash.
-Why not report it to BugSnag for example?
+Stasis application (`e.g. example/MyExampleStasisApp`), and the PHP process error handler.
+That means you can decide what to do with a Throwable which is not caught
+within your application logic and would normally cause the application (and likely the
+whole process) to crash. Why not report it to BugSnag for example?
 
 ## Running the tests
 
