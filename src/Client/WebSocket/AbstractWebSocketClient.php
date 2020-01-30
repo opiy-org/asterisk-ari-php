@@ -352,22 +352,16 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
     private function initializeErrorHandler(?Closure $errorHandler): void
     {
         if ($errorHandler === null) {
-            $errorLogger = $this->logger;
-
-            $errorHandler = static function (
-                string $context,
-                Throwable $throwable
-            ) use ($errorLogger) {
+            $this->errorHandler = function (string $context, Throwable $throwable) {
                 $errorMessage = sprintf(
                     "Error while handling '%s' -------> '%s'",
                     $context,
                     $throwable->getMessage()
                 );
 
-                $errorLogger->error($errorMessage);
+                $this->logger->error($errorMessage);
             };
 
-            $this->errorHandler = $errorHandler;
             return;
         }
 
@@ -387,8 +381,8 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
             || ($typeTwo->getName() !== Throwable::class)
         ) {
             throw new InvalidArgumentException(
-                "The provided error handlers signature must start with 'static "
-                . "function (string \$context, Throwable \$throwable) ...'"
+                'The provided error handlers signature must start with '
+                . "'function (string \$context, Throwable \$throwable) ...'"
             );
         }
 

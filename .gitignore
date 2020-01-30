@@ -9,3 +9,4 @@ vendor
 
 # Own composer specific files
 composer.phar
+composer.lock
