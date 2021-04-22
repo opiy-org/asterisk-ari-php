@@ -68,6 +68,7 @@ namespace NgVoice\AriClient\Tests\Client\Rest {
     use GuzzleHttp\Client as GuzzleClient;
     use GuzzleHttp\Exception\ClientException;
     use NgVoice\AriClient\Client\Rest\{AbstractRestClient, Settings};
+    use GuzzleHttp\Psr7\Response;
     use NgVoice\AriClient\Enum\HttpMethods;
     use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
     use NgVoice\AriClient\Model\{AsteriskPing, Channel, ModelInterface};
@@ -186,7 +187,8 @@ namespace NgVoice\AriClient\Tests\Client\Rest {
                 ->willThrowException(
                     new ClientException(
                         'Client error',
-                        $this->createMock(RequestInterface::class)
+                        $this->createMock(RequestInterface::class),
+                        new Response(),
                     )
                 );
 
@@ -410,7 +412,8 @@ namespace NgVoice\AriClient\Tests\Client\Rest {
                 ->willThrowException(
                     new ClientException(
                         'Client error',
-                        $this->createMock(RequestInterface::class)
+                        $this->createMock(RequestInterface::class),
+                        new Response(),
                     )
                 );
 

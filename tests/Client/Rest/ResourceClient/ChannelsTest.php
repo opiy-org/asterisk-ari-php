@@ -524,7 +524,8 @@ class ChannelsTest extends TestCase
             ->willThrowException(
                 new ServerException(
                     'Internal Server Error',
-                    new Request('POST', '/channels/test')
+                    new Request('POST', '/channels/test'),
+                    new Response(),
                 )
             );
 

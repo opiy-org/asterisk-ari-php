@@ -1,5 +1,5 @@
 {
-  "name": "ng-voice/asterisk-ari-client",
+  "name": "opiy-org/asterisk-ari-php",
   "type": "library",
   "description": "An object-oriented client for the Asterisk REST Interface (ARI). Handles ARI calls and events for you.",
   "keywords": [
@@ -14,7 +14,7 @@
   ],
   "homepage": "https://bitbucket.org/ngvoice/asterisk-ari-client",
   "license": "MIT",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "authors": [
     {
       "name": "Lukas Stermann",
@@ -27,7 +27,7 @@
     "php": ">=7.4",
     "oktavlachs/data-mapping-service": "0.3.1",
     "monolog/monolog": "~1.0||~2.0",
-    "guzzlehttp/guzzle": "~6.5",
+    "guzzlehttp/guzzle": "^7.0",
     "nekland/woketo": "~2.2",
     "ratchet/pawl": "~0.3",
     "ext-json": "*"

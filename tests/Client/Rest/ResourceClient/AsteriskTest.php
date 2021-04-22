@@ -340,7 +340,8 @@ class AsteriskTest extends TestCase
             ->willThrowException(
                 new ServerException(
                     'Internal Server Error',
-                    new Request('PUT', '/asterisk/test')
+                    new Request('PUT', '/asterisk/test'),
+                    new Response(),
                 )
             );
 
