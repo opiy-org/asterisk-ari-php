@@ -4,15 +4,15 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Tests\Client\Rest;
+namespace OpiyOrg\AriClient\Tests\Client\Rest;
 
-use NgVoice\AriClient\Client\Rest\Settings;
+use OpiyOrg\AriClient\Client\Rest\Settings;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Class SettingsTest
  *
- * @package NgVoice\AriClient\Tests\Rest
+ * @package OpiyOrg\AriClient\Tests\Rest
  *
  * @author Ahmad Hussain <ahmad@ng-voice.com>
  */

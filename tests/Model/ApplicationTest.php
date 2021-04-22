@@ -6,15 +6,15 @@ declare(strict_types=1);
 
 namespace AriStasisApp\Tests\Model;
 
-use NgVoice\AriClient\Model\Application;
-use NgVoice\AriClient\Model\Message\Message;
-use NgVoice\AriClient\Tests\Helper;
+use OpiyOrg\AriClient\Model\Application;
+use OpiyOrg\AriClient\Model\Message\Message;
+use OpiyOrg\AriClient\Tests\Helper;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Class ApplicationTest
  *
- * @package NgVoice\AriClient\Tests\Model
+ * @package OpiyOrg\AriClient\Tests\Model
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

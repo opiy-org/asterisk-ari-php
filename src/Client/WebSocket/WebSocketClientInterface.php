@@ -4,14 +4,14 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Client\WebSocket;
+namespace OpiyOrg\AriClient\Client\WebSocket;
 
 use React\EventLoop\LoopInterface;
 
 /**
  * Define the basic features a web socket client implementation must offer.
  *
- * @package NgVoice\AriClient\Client\WebSocket
+ * @package OpiyOrg\AriClient\Client\WebSocket
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

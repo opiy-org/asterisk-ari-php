@@ -8,10 +8,10 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use NgVoice\AriClient\Client\Rest\Resource\Channels;
-use NgVoice\AriClient\Client\Rest\Settings;
-use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
-use NgVoice\AriClient\Model\{Channel, LiveRecording, Playback, Variable};
+use OpiyOrg\AriClient\Client\Rest\Resource\Channels;
+use OpiyOrg\AriClient\Client\Rest\Settings;
+use OpiyOrg\AriClient\Exception\AsteriskRestInterfaceException;
+use OpiyOrg\AriClient\Model\{Channel, LiveRecording, Playback, Variable};
 use PHPUnit\Framework\TestCase;
 use ReflectionException;
 

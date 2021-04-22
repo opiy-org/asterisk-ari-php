@@ -2,14 +2,14 @@
 
 /** @copyright 2020 ng-voice GmbH */
 
-namespace NgVoice\AriClient\Tests\Client\WebSocket\Woketo;
+namespace OpiyOrg\AriClient\Tests\Client\WebSocket\Woketo;
 
-use NgVoice\AriClient\Client\WebSocket\Woketo\Settings as WoketoSettings;
-use NgVoice\AriClient\Client\WebSocket\Woketo\{ModifiedWoketoWebSocketClient,
+use OpiyOrg\AriClient\Client\WebSocket\Woketo\Settings as WoketoSettings;
+use OpiyOrg\AriClient\Client\WebSocket\Woketo\{ModifiedWoketoWebSocketClient,
     WebSocketClient};
-use NgVoice\AriClient\Client\WebSocket\Settings;
-use NgVoice\AriClient\Exception\XdebugEnabledException;
-use NgVoice\AriClient\StasisApplicationInterface;
+use OpiyOrg\AriClient\Client\WebSocket\Settings;
+use OpiyOrg\AriClient\Exception\XdebugEnabledException;
+use OpiyOrg\AriClient\StasisApplicationInterface;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use React\EventLoop\LoopInterface;
@@ -17,7 +17,7 @@ use React\EventLoop\LoopInterface;
 /**
  * Class WebSocketClientTest
  *
- * @package NgVoice\AriClient\Tests\WebSocket\Woketo
+ * @package OpiyOrg\AriClient\Tests\WebSocket\Woketo
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

@@ -2,21 +2,21 @@
 
 /** @copyright 2020 ng-voice GmbH */
 
-namespace NgVoice\AriClient\Tests\Client\Rest\ResourceClient;
+namespace OpiyOrg\AriClient\Tests\Client\Rest\ResourceClient;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
-use NgVoice\AriClient\Client\Rest\Resource\Bridges;
-use NgVoice\AriClient\Client\Rest\Settings;
-use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
-use NgVoice\AriClient\Model\{Bridge, LiveRecording, Playback};
+use OpiyOrg\AriClient\Client\Rest\Resource\Bridges;
+use OpiyOrg\AriClient\Client\Rest\Settings;
+use OpiyOrg\AriClient\Exception\AsteriskRestInterfaceException;
+use OpiyOrg\AriClient\Model\{Bridge, LiveRecording, Playback};
 use PHPUnit\Framework\TestCase;
 use ReflectionException;
 
 /**
  * Class BridgesTest
  *
- * @package NgVoice\AriClient\Tests\Rest
+ * @package OpiyOrg\AriClient\Tests\Rest
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

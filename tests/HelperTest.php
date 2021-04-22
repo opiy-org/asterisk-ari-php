@@ -8,7 +8,7 @@ declare(strict_types=1);
  * Overriding built-in PHP Class when testing in order to mock them.
  */
 
-namespace NgVoice\AriClient {
+namespace OpiyOrg\AriClient {
     /**
      * @return bool
      */
@@ -20,7 +20,7 @@ namespace NgVoice\AriClient {
     /**
      * Dummy class
      *
-     * @package NgVoice\AriClient
+     * @package OpiyOrg\AriClient
      *
      * @author Lukas Stermann <lukas@ng-voice.com>
      */
@@ -35,19 +35,19 @@ namespace NgVoice\AriClient {
         }
     }
 }
-namespace NgVoice\AriClient\Tests {
+namespace OpiyOrg\AriClient\Tests {
 
     use Exception;
     use Monolog\Logger;
-    use NgVoice\AriClient\Helper;
-    use NgVoice\AriClient\Model\Application;
+    use OpiyOrg\AriClient\Helper;
+    use OpiyOrg\AriClient\Model\Application;
     use PHPUnit\Framework\TestCase;
     use ReflectionObject;
 
     /**
      * Class helperTest
      *
-     * @package NgVoice\AriClient\Tests
+     * @package OpiyOrg\AriClient\Tests
      *
      * @author Lukas Stermann <lukas@ng-voice.com>
      * @author Ahmad Hussain <ahmad@ng-voice.com>

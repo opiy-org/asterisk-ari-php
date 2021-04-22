@@ -2,15 +2,15 @@
 
 /** @copyright 2020 ng-voice GmbH */
 
-namespace NgVoice\AriClient\Tests\Client\Rest\ResourceClient;
+namespace OpiyOrg\AriClient\Tests\Client\Rest\ResourceClient;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Psr7\{Request, Response};
-use NgVoice\AriClient\Client\Rest\Resource\Asterisk;
-use NgVoice\AriClient\Client\Rest\Settings;
-use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
-use NgVoice\AriClient\Model\{AsteriskInfo,
+use OpiyOrg\AriClient\Client\Rest\Resource\Asterisk;
+use OpiyOrg\AriClient\Client\Rest\Settings;
+use OpiyOrg\AriClient\Exception\AsteriskRestInterfaceException;
+use OpiyOrg\AriClient\Model\{AsteriskInfo,
     AsteriskPing,
     ConfigTuple,
     LogChannel,
@@ -22,7 +22,7 @@ use ReflectionException;
 /**
  * Class AsteriskTest
  *
- * @package NgVoice\AriClient\Tests\Client\Rest\ResourceClient
+ * @package OpiyOrg\AriClient\Tests\Client\Rest\ResourceClient
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

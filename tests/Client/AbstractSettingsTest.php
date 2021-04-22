@@ -4,17 +4,17 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Tests\Client;
+namespace OpiyOrg\AriClient\Tests\Client;
 
 use InvalidArgumentException;
 use Monolog\Logger;
-use NgVoice\AriClient\Client\AbstractSettings;
+use OpiyOrg\AriClient\Client\AbstractSettings;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Class AbstractSettingsTest
  *
- * @package NgVoice\AriClient\Tests\Client
+ * @package OpiyOrg\AriClient\Tests\Client
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

@@ -4,10 +4,10 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Tests\Model;
+namespace OpiyOrg\AriClient\Tests\Model;
 
-use NgVoice\AriClient\Model\Sound;
-use NgVoice\AriClient\Tests\Helper;
+use OpiyOrg\AriClient\Model\Sound;
+use OpiyOrg\AriClient\Tests\Helper;
 use PHPUnit\Framework\TestCase;
 
 /**

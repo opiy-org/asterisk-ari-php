@@ -4,14 +4,14 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Model;
+namespace OpiyOrg\AriClient\Model;
 
 /**
  * The merging of media from one or more channels.
  *
  * Everyone on the bridge receives the same audio.
  *
- * @package NgVoice\AriClient\Model
+ * @package OpiyOrg\AriClient\Model
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

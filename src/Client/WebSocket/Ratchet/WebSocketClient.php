@@ -4,16 +4,16 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Client\WebSocket\Ratchet;
+namespace OpiyOrg\AriClient\Client\WebSocket\Ratchet;
 
 use Exception;
 use React\Socket\Connector as ReactConnector;
 use Ratchet\RFC6455\Messaging\MessageInterface;
 use Ratchet\Client\Connector as RatchetConnector;
 use Ratchet\Client\WebSocket as RatchetWebSocket;
-use NgVoice\AriClient\StasisApplicationInterface;
-use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
-use NgVoice\AriClient\Client\WebSocket\{AbstractWebSocketClient,
+use OpiyOrg\AriClient\StasisApplicationInterface;
+use OpiyOrg\AriClient\Exception\AsteriskRestInterfaceException;
+use OpiyOrg\AriClient\Client\WebSocket\{AbstractWebSocketClient,
     Settings as WebSocketClientSettings};
 use React\EventLoop\{Factory as ReactPhpEventLoopFactory,
     LoopInterface as ReactPhpEventLoopInterface};
@@ -21,7 +21,7 @@ use React\EventLoop\{Factory as ReactPhpEventLoopFactory,
 /**
  * A Ratchet ARI web socket client implementation.
  *
- * @package NgVoice\AriClient\Client\WebSocket\Ratchet
+ * @package OpiyOrg\AriClient\Client\WebSocket\Ratchet
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  * @internal

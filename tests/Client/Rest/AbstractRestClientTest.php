@@ -4,9 +4,9 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\RestClient {
+namespace OpiyOrg\AriClient\RestClient {
 
-    use NgVoice\AriClient\Model\Channel;
+    use OpiyOrg\AriClient\Model\Channel;
     use stdClass;
 
     /**
@@ -63,16 +63,16 @@ namespace NgVoice\AriClient\RestClient {
         return \json_decode($json, $assoc, 512, JSON_THROW_ON_ERROR);
     }
 }
-namespace NgVoice\AriClient\Tests\Client\Rest {
+namespace OpiyOrg\AriClient\Tests\Client\Rest {
 
     use GuzzleHttp\Client as GuzzleClient;
     use GuzzleHttp\Exception\ClientException;
-    use NgVoice\AriClient\Client\Rest\{AbstractRestClient, Settings};
+    use OpiyOrg\AriClient\Client\Rest\{AbstractRestClient, Settings};
     use GuzzleHttp\Psr7\Response;
-    use NgVoice\AriClient\Enum\HttpMethods;
-    use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
-    use NgVoice\AriClient\Model\{AsteriskPing, Channel, ModelInterface};
-    use NgVoice\AriClient\Tests\Model\ChannelTest;
+    use OpiyOrg\AriClient\Enum\HttpMethods;
+    use OpiyOrg\AriClient\Exception\AsteriskRestInterfaceException;
+    use OpiyOrg\AriClient\Model\{AsteriskPing, Channel, ModelInterface};
+    use OpiyOrg\AriClient\Tests\Model\ChannelTest;
     use PHPUnit\Framework\MockObject\MockObject;
     use PHPUnit\Framework\TestCase;
     use Psr\Http\Message\RequestInterface;
@@ -83,7 +83,7 @@ namespace NgVoice\AriClient\Tests\Client\Rest {
     /**
      * Class AbstractRestClientTest
      *
-     * @package NgVoice\AriClient\Tests\Rest
+     * @package OpiyOrg\AriClient\Tests\Rest
      *
      * @author Ahmad Hussain <ahmad@ng-voice.com>
      */

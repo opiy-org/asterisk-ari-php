@@ -4,21 +4,21 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Client\WebSocket\Woketo;
+namespace OpiyOrg\AriClient\Client\WebSocket\Woketo;
 
 use Psr\Log\LoggerInterface;
-use NgVoice\AriClient\Helper;
+use OpiyOrg\AriClient\Helper;
 use Nekland\Woketo\Core\AbstractConnection;
 use Nekland\Woketo\Exception\WebsocketException;
 use Nekland\Woketo\Message\MessageHandlerInterface;
-use NgVoice\AriClient\Client\WebSocket\AbstractWebSocketClient;
-use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
+use OpiyOrg\AriClient\Client\WebSocket\AbstractWebSocketClient;
+use OpiyOrg\AriClient\Exception\AsteriskRestInterfaceException;
 
 /**
  * Class FilteredMessageHandler tells Asterisk to send only messages to the
  * Stasis application that are actually handled.
  *
- * @package NgVoice\AriClient\Client\WebSocket\Woketo
+ * @package OpiyOrg\AriClient\Client\WebSocket\Woketo
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

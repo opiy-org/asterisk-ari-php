@@ -4,7 +4,7 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Client;
+namespace OpiyOrg\AriClient\Client;
 
 use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
@@ -12,7 +12,7 @@ use Psr\Log\LoggerInterface;
 /**
  * A collection of client settings for the client implementations within this library.
  *
- * @package NgVoice\AriClient\Client
+ * @package OpiyOrg\AriClient\Client
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

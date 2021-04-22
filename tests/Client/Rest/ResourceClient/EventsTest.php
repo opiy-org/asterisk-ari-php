@@ -2,20 +2,20 @@
 
 /** @copyright 2020 ng-voice GmbH */
 
-namespace NgVoice\AriClient\Tests\Client\Rest;
+namespace OpiyOrg\AriClient\Tests\Client\Rest;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
-use NgVoice\AriClient\Client\Rest\Resource\Events;
-use NgVoice\AriClient\Client\Rest\Settings;
-use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
+use OpiyOrg\AriClient\Client\Rest\Resource\Events;
+use OpiyOrg\AriClient\Client\Rest\Settings;
+use OpiyOrg\AriClient\Exception\AsteriskRestInterfaceException;
 use PHPUnit\Framework\TestCase;
 use ReflectionException;
 
 /**
  * Class EventsTest
  *
- * @package NgVoice\AriClient\Tests\Rest
+ * @package OpiyOrg\AriClient\Tests\Rest
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

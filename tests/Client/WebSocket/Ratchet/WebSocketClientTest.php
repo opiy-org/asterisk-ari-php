@@ -4,11 +4,11 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Tests\Client\WebSocket\Ratchet;
+namespace OpiyOrg\AriClient\Tests\Client\WebSocket\Ratchet;
 
-use NgVoice\AriClient\Client\WebSocket\Settings;
-use NgVoice\AriClient\Client\WebSocket\Ratchet\{Settings as RatchetSettings, WebSocketClient};
-use NgVoice\AriClient\StasisApplicationInterface;
+use OpiyOrg\AriClient\Client\WebSocket\Settings;
+use OpiyOrg\AriClient\Client\WebSocket\Ratchet\{Settings as RatchetSettings, WebSocketClient};
+use OpiyOrg\AriClient\StasisApplicationInterface;
 use PHPUnit\Framework\TestCase;
 use Ratchet\Client\Connector as RatchetConnector;
 use React\EventLoop\LoopInterface;
@@ -18,7 +18,7 @@ use React\Socket\Connector as ReactConnector;
 /**
  * Class WebSocketClientTest
  *
- * @package NgVoice\AriClient\Tests\WebSocket\Ratchet
+ * @package OpiyOrg\AriClient\Tests\WebSocket\Ratchet
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

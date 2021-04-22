@@ -4,16 +4,16 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Tests\Model;
+namespace OpiyOrg\AriClient\Tests\Model;
 
-use NgVoice\AriClient\Model\Variable;
-use NgVoice\AriClient\Tests\Helper;
+use OpiyOrg\AriClient\Model\Variable;
+use OpiyOrg\AriClient\Tests\Helper;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Class VariableTest
  *
- * @package NgVoice\AriClient\Tests\Model
+ * @package OpiyOrg\AriClient\Tests\Model
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

@@ -4,19 +4,19 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Tests\Model\Message\Event;
+namespace OpiyOrg\AriClient\Tests\Model\Message\Event;
 
-use NgVoice\AriClient\Model\{Bridge, Channel, Endpoint};
-use NgVoice\AriClient\Model\Message\Event\ChannelUserevent;
-use NgVoice\AriClient\Tests\Helper;
-use NgVoice\AriClient\Tests\Model\BridgeTest;
-use NgVoice\AriClient\Tests\Model\ChannelTest;
+use OpiyOrg\AriClient\Model\{Bridge, Channel, Endpoint};
+use OpiyOrg\AriClient\Model\Message\Event\ChannelUserevent;
+use OpiyOrg\AriClient\Tests\Helper;
+use OpiyOrg\AriClient\Tests\Model\BridgeTest;
+use OpiyOrg\AriClient\Tests\Model\ChannelTest;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Class ChannelUsereventTest
  *
- * @package NgVoice\AriClient\Tests\Model\Event
+ * @package OpiyOrg\AriClient\Tests\Model\Event
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

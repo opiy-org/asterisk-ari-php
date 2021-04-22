@@ -11,12 +11,12 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Enum;
+namespace OpiyOrg\AriClient\Enum;
 
 /**
  * Enum of possible Asterisk device states.
  *
- * @package NgVoice\AriClient\Enum
+ * @package OpiyOrg\AriClient\Enum
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

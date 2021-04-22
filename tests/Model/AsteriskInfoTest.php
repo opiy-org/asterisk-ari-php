@@ -14,18 +14,18 @@ declare(strict_types=1);
 
 namespace AriStasisApp\Tests\Model;
 
-use NgVoice\AriClient\Model\{AsteriskInfo, BuildInfo, ConfigInfo, StatusInfo, SystemInfo};
-use NgVoice\AriClient\Tests\Helper;
-use NgVoice\AriClient\Tests\Model\BuildInfoTest;
-use NgVoice\AriClient\Tests\Model\ConfigInfoTest;
-use NgVoice\AriClient\Tests\Model\StatusInfoTest;
-use NgVoice\AriClient\Tests\Model\SystemInfoTest;
+use OpiyOrg\AriClient\Model\{AsteriskInfo, BuildInfo, ConfigInfo, StatusInfo, SystemInfo};
+use OpiyOrg\AriClient\Tests\Helper;
+use OpiyOrg\AriClient\Tests\Model\BuildInfoTest;
+use OpiyOrg\AriClient\Tests\Model\ConfigInfoTest;
+use OpiyOrg\AriClient\Tests\Model\StatusInfoTest;
+use OpiyOrg\AriClient\Tests\Model\SystemInfoTest;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Class AsteriskInfoTest
  *
- * @package NgVoice\AriClient\Tests\Model
+ * @package OpiyOrg\AriClient\Tests\Model
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

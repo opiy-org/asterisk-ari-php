@@ -11,12 +11,12 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Enum;
+namespace OpiyOrg\AriClient\Enum;
 
 /**
  * Enum of Asterisk contact statuses.
  *
- * @package NgVoice\AriClient\Enum
+ * @package OpiyOrg\AriClient\Enum
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

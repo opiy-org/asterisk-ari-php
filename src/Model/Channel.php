@@ -4,15 +4,15 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Model;
+namespace OpiyOrg\AriClient\Model;
 
-use NgVoice\AriClient\Enum\ChannelStates;
+use OpiyOrg\AriClient\Enum\ChannelStates;
 use stdClass;
 
 /**
  * A specific communication connection between Asterisk and an Endpoint.
  *
- * @package NgVoice\AriClient\Model
+ * @package OpiyOrg\AriClient\Model
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

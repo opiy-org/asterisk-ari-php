@@ -64,9 +64,9 @@ The following example originates a call using the Channels resource:
     
     declare(strict_types=1);
     
-    use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
-    use NgVoice\AriClient\Client\Rest\Settings as AriRestClientSettings;
-    use NgVoice\AriClient\Client\Rest\Resource\Channels as AriChannelsRestResourceClient;
+    use OpiyOrg\AriClient\Exception\AsteriskRestInterfaceException;
+    use OpiyOrg\AriClient\Client\Rest\Settings as AriRestClientSettings;
+    use OpiyOrg\AriClient\Client\Rest\Resource\Channels as AriChannelsRestResourceClient;
     
     require_once __DIR__ . '/vendor/autoload.php';
     
@@ -104,8 +104,8 @@ In this example, we are handling a `StasisStart` event:
     // TODO: Change to your own project namespace.
     namespace My\Own\Project\Namespace;
         
-    use NgVoice\AriClient\StasisApplicationInterface;
-    use NgVoice\AriClient\Model\Message\Event\StasisStart;
+    use OpiyOrg\AriClient\StasisApplicationInterface;
+    use OpiyOrg\AriClient\Model\Message\Event\StasisStart;
     
     /**
      * Write your own Stasis application class that must implement the
@@ -152,8 +152,8 @@ the background. We recommend [supervisor](http://supervisord.org/) for Linux.
 
     declare(strict_types=1);
 
-    use NgVoice\AriClient\Client\WebSocket\Factory as AriWebSocketClientFactory;    
-    use NgVoice\AriClient\Client\WebSocket\Settings as AriWebSocketClientSettings;
+    use OpiyOrg\AriClient\Client\WebSocket\Factory as AriWebSocketClientFactory;    
+    use OpiyOrg\AriClient\Client\WebSocket\Settings as AriWebSocketClientSettings;
     
     require_once __DIR__ . '/vendor/autoload.php';
     require_once __DIR__ . '/MyExampleStasisApp.php';

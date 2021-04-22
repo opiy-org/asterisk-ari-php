@@ -4,16 +4,16 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Client\WebSocket;
+namespace OpiyOrg\AriClient\Client\WebSocket;
 
 use Closure;
-use NgVoice\AriClient\Client\AbstractSettings;
-use NgVoice\AriClient\Client\Rest\Resource\Applications;
+use OpiyOrg\AriClient\Client\AbstractSettings;
+use OpiyOrg\AriClient\Client\Rest\Resource\Applications;
 
 /**
  * Encapsulates settings for a web socket client.
  *
- * @package NgVoice\AriClient\Client\WebSocket
+ * @package OpiyOrg\AriClient\Client\WebSocket
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

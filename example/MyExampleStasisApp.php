@@ -6,10 +6,10 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use NgVoice\AriClient\StasisApplicationInterface;
-use NgVoice\AriClient\Client\Rest\Resource\Channels;
-use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
-use NgVoice\AriClient\Model\Message\Event\{ChannelHangupRequest,
+use OpiyOrg\AriClient\StasisApplicationInterface;
+use OpiyOrg\AriClient\Client\Rest\Resource\Channels;
+use OpiyOrg\AriClient\Exception\AsteriskRestInterfaceException;
+use OpiyOrg\AriClient\Model\Message\Event\{ChannelHangupRequest,
     ChannelUserevent,
     StasisEnd,
     StasisStart};

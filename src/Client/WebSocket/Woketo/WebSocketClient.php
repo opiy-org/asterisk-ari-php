@@ -4,13 +4,13 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Client\WebSocket\Woketo;
+namespace OpiyOrg\AriClient\Client\WebSocket\Woketo;
 
 use Nekland\Woketo\Message\MessageHandlerInterface;
-use NgVoice\AriClient\Client\WebSocket\{AbstractWebSocketClient,
+use OpiyOrg\AriClient\Client\WebSocket\{AbstractWebSocketClient,
     Settings as WebSocketClientSettings};
-use NgVoice\AriClient\Exception\XdebugEnabledException;
-use NgVoice\AriClient\StasisApplicationInterface;
+use OpiyOrg\AriClient\Exception\XdebugEnabledException;
+use OpiyOrg\AriClient\StasisApplicationInterface;
 use React\EventLoop\LoopInterface;
 
 /**
@@ -21,7 +21,7 @@ use React\EventLoop\LoopInterface;
  * of 'separation of concerns' - to have a worker process for each of your applications,
  * so your code doesn't get messy.
  *
- * @package NgVoice\AriClient\Client\WebSocket\Woketo
+ * @package OpiyOrg\AriClient\Client\WebSocket\Woketo
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

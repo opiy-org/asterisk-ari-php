@@ -4,12 +4,12 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Client\Rest\Resource;
+namespace OpiyOrg\AriClient\Client\Rest\Resource;
 
-use NgVoice\AriClient\Client\Rest\AbstractRestClient;
-use NgVoice\AriClient\Enum\HttpMethods;
-use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
-use NgVoice\AriClient\Model\Endpoint;
+use OpiyOrg\AriClient\Client\Rest\AbstractRestClient;
+use OpiyOrg\AriClient\Enum\HttpMethods;
+use OpiyOrg\AriClient\Exception\AsteriskRestInterfaceException;
+use OpiyOrg\AriClient\Model\Endpoint;
 
 /**
  * An implementation of the Endpoints REST client for the
@@ -17,7 +17,7 @@ use NgVoice\AriClient\Model\Endpoint;
  *
  * @see https://wiki.asterisk.org/wiki/display/AST/Asterisk+16+Endpoints+REST+API
  *
- * @package NgVoice\AriClient\Client\Rest\Resource
+ * @package OpiyOrg\AriClient\Client\Rest\Resource
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

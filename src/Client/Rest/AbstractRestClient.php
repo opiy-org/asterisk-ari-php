@@ -9,18 +9,18 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Client\Rest;
+namespace OpiyOrg\AriClient\Client\Rest;
 
 use Throwable;
 use JsonException;
 use Psr\Log\LoggerInterface;
-use NgVoice\AriClient\Helper;
+use OpiyOrg\AriClient\Helper;
 use GuzzleHttp\Client as GuzzleClient;
-use NgVoice\AriClient\Enum\HttpMethods;
+use OpiyOrg\AriClient\Enum\HttpMethods;
 use Psr\Http\Message\ResponseInterface;
-use NgVoice\AriClient\Model\ModelInterface;
+use OpiyOrg\AriClient\Model\ModelInterface;
 use Oktavlachs\DataMappingService\DataMappingService;
-use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
+use OpiyOrg\AriClient\Exception\AsteriskRestInterfaceException;
 use Oktavlachs\DataMappingService\Collection\SourceNamingConventions;
 use Oktavlachs\DataMappingService\Exception\DataMappingServiceException;
 use TypeError;
@@ -28,7 +28,7 @@ use TypeError;
 /**
  * A basic HTTP client for the Asterisk REST Interface.
  *
- * @package NgVoice\AriClient\RestClient
+ * @package OpiyOrg\AriClient\RestClient
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

@@ -4,7 +4,7 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient;
+namespace OpiyOrg\AriClient;
 
 /**
  * An interface used as a generic class for Stasis application dependency
@@ -14,7 +14,7 @@ namespace NgVoice\AriClient;
  * must implement this interface in order to use some of the classes this
  * library provides.
  *
- * @package NgVoice\AriClient
+ * @package OpiyOrg\AriClient
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

@@ -4,14 +4,14 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Client\WebSocket\Woketo;
+namespace OpiyOrg\AriClient\Client\WebSocket\Woketo;
 
 use Nekland\Woketo\Message\MessageHandlerInterface;
 
 /**
  * A wrapper for optional nekland/woketo web socket settings.
  *
- * @package NgVoice\AriClient\Client\WebSocket\Woketo
+ * @package OpiyOrg\AriClient\Client\WebSocket\Woketo
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

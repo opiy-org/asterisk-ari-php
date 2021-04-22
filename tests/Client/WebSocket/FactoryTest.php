@@ -4,18 +4,18 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Tests\Client\WebSocket;
+namespace OpiyOrg\AriClient\Tests\Client\WebSocket;
 
-use NgVoice\AriClient\Client\WebSocket\Factory;
-use NgVoice\AriClient\Client\WebSocket\Settings;
-use NgVoice\AriClient\Client\WebSocket\WebSocketClientInterface;
-use NgVoice\AriClient\StasisApplicationInterface;
+use OpiyOrg\AriClient\Client\WebSocket\Factory;
+use OpiyOrg\AriClient\Client\WebSocket\Settings;
+use OpiyOrg\AriClient\Client\WebSocket\WebSocketClientInterface;
+use OpiyOrg\AriClient\StasisApplicationInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Class FactoryTest
  *
- * @package NgVoice\AriClient\Tests\WebSocket
+ * @package OpiyOrg\AriClient\Tests\WebSocket
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

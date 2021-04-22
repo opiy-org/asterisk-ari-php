@@ -4,16 +4,16 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Tests\Model\Message\Event;
+namespace OpiyOrg\AriClient\Tests\Model\Message\Event;
 
-use NgVoice\AriClient\Model\Message\Event\Event;
-use NgVoice\AriClient\Tests\Helper;
+use OpiyOrg\AriClient\Model\Message\Event\Event;
+use OpiyOrg\AriClient\Tests\Helper;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Class EventTest
  *
- * @package NgVoice\AriClient\Tests\Model\Event
+ * @package OpiyOrg\AriClient\Tests\Model\Event
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

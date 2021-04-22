@@ -4,7 +4,7 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient;
+namespace OpiyOrg\AriClient;
 
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
@@ -14,7 +14,7 @@ use Psr\Log\LoggerInterface;
  * Class Helper provides a collection of unsorted static functions for the library
  * components.
  *
- * @package NgVoice\AriClient
+ * @package OpiyOrg\AriClient
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

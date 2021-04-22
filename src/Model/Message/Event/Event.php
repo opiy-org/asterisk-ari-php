@@ -4,14 +4,14 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Model\Message\Event;
+namespace OpiyOrg\AriClient\Model\Message\Event;
 
-use NgVoice\AriClient\Model\Message\Message;
+use OpiyOrg\AriClient\Model\Message\Message;
 
 /**
  * Base type for asynchronous events from Asterisk.
  *
- * @package NgVoice\AriClient\Model\Message\Event
+ * @package OpiyOrg\AriClient\Model\Message\Event
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

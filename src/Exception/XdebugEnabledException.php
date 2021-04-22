@@ -4,7 +4,7 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Exception;
+namespace OpiyOrg\AriClient\Exception;
 
 use RuntimeException;
 
@@ -12,7 +12,7 @@ use RuntimeException;
  * Wrap a RuntimeException in case the PHP Xdebug extension
  * is still enabled in a production environment.
  *
- * @package NgVoice\AriClient\Exception
+ * @package OpiyOrg\AriClient\Exception
  *
  * @author Ahmad Hussain <ahmad@ng-voice.com>
  */

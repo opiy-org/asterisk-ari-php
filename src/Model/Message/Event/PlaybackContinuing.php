@@ -4,15 +4,15 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Model\Message\Event;
+namespace OpiyOrg\AriClient\Model\Message\Event;
 
-use NgVoice\AriClient\Model\Playback;
+use OpiyOrg\AriClient\Model\Playback;
 
 /**
  * Event showing the continuation of a media playback operation
  * from one media URI to the next in the list.
  *
- * @package NgVoice\AriClient\Model\Message\Event
+ * @package OpiyOrg\AriClient\Model\Message\Event
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

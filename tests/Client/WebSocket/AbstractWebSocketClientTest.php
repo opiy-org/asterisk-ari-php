@@ -4,7 +4,7 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Tests\Client\WebSocket;
+namespace OpiyOrg\AriClient\Tests\Client\WebSocket;
 
 use GuzzleHttp\Client;
 use InvalidArgumentException;
@@ -15,20 +15,20 @@ use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\ResponseInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use React\EventLoop\Factory as EventLoopFactory;
-use NgVoice\AriClient\Client\Rest\Resource\Applications;
-use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
-use NgVoice\AriClient\Client\WebSocket\{AbstractWebSocketClient,
+use OpiyOrg\AriClient\Client\Rest\Resource\Applications;
+use OpiyOrg\AriClient\Exception\AsteriskRestInterfaceException;
+use OpiyOrg\AriClient\Client\WebSocket\{AbstractWebSocketClient,
     Settings as WebSocketClientSettings};
-use NgVoice\AriClient\Model\Message\Event\ChannelUserevent;
-use NgVoice\AriClient\StasisApplicationInterface;
-use NgVoice\AriClient\Client\Rest\Settings as RestClientSettings;
-use NgVoice\AriClient\Tests\Client\Rest\ResourceClient\ApplicationsTest;
+use OpiyOrg\AriClient\Model\Message\Event\ChannelUserevent;
+use OpiyOrg\AriClient\StasisApplicationInterface;
+use OpiyOrg\AriClient\Client\Rest\Settings as RestClientSettings;
+use OpiyOrg\AriClient\Tests\Client\Rest\ResourceClient\ApplicationsTest;
 use Throwable;
 
 /**
  * Class AbstractWebSocketClientTest
  *
- * @package NgVoice\AriClient\Tests\WebSocket
+ * @package OpiyOrg\AriClient\Tests\WebSocket
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

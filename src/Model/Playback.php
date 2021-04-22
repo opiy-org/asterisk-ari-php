@@ -4,14 +4,14 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Model;
+namespace OpiyOrg\AriClient\Model;
 
-use NgVoice\AriClient\Enum\PlaybackStates;
+use OpiyOrg\AriClient\Enum\PlaybackStates;
 
 /**
  * Object representing the playback of media to a channel.
  *
- * @package NgVoice\AriClient\Model
+ * @package OpiyOrg\AriClient\Model
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

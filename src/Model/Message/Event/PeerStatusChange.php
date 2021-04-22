@@ -4,14 +4,14 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Model\Message\Event;
+namespace OpiyOrg\AriClient\Model\Message\Event;
 
-use NgVoice\AriClient\Model\{Endpoint, Peer};
+use OpiyOrg\AriClient\Model\{Endpoint, Peer};
 
 /**
  * The state of a peer associated with an endpoint has changed.
  *
- * @package NgVoice\AriClient\Model\Message\Event
+ * @package OpiyOrg\AriClient\Model\Message\Event
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

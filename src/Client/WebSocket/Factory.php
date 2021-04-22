@@ -4,20 +4,20 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Client\WebSocket;
+namespace OpiyOrg\AriClient\Client\WebSocket;
 
-use NgVoice\AriClient\Client\WebSocket\Ratchet\{
+use OpiyOrg\AriClient\Client\WebSocket\Ratchet\{
     Settings as OptionalRatchetSettings,
     WebSocketClient as RatchetWebSocketClient};
-use NgVoice\AriClient\Client\WebSocket\Woketo\{Settings as OptionalWoketoSettings,
+use OpiyOrg\AriClient\Client\WebSocket\Woketo\{Settings as OptionalWoketoSettings,
     WebSocketClient as WoketoWebSocketClient};
-use NgVoice\AriClient\StasisApplicationInterface;
+use OpiyOrg\AriClient\StasisApplicationInterface;
 
 /**
  * Factory class to create new instances of an ARI web socket client
  * depending on the implementation preferred.
  *
- * @package NgVoice\AriClient\Client\WebSocket
+ * @package OpiyOrg\AriClient\Client\WebSocket
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

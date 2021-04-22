@@ -2,20 +2,20 @@
 
 /** @copyright 2020 ng-voice GmbH */
 
-namespace NgVoice\AriClient\Tests\Client\WebSocket\Woketo;
+namespace OpiyOrg\AriClient\Tests\Client\WebSocket\Woketo;
 
 use Monolog\Logger;
 use Nekland\Woketo\Core\AbstractConnection;
 use Nekland\Woketo\Exception\WebsocketException;
-use NgVoice\AriClient\Client\WebSocket\AbstractWebSocketClient;
-use NgVoice\AriClient\Client\WebSocket\Woketo\{FilteredMessageHandler, WebSocketClient};
-use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
+use OpiyOrg\AriClient\Client\WebSocket\AbstractWebSocketClient;
+use OpiyOrg\AriClient\Client\WebSocket\Woketo\{FilteredMessageHandler, WebSocketClient};
+use OpiyOrg\AriClient\Exception\AsteriskRestInterfaceException;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Class FilteredMessageHandlerTest
  *
- * @package NgVoice\AriClient\Tests\WebSocket\Woketo
+ * @package OpiyOrg\AriClient\Tests\WebSocket\Woketo
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  * @author Ahmad Hussain <ahmad@ng-voice.com>

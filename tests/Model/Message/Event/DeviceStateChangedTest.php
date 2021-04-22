@@ -4,17 +4,17 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Tests\Model\Message\Event;
+namespace OpiyOrg\AriClient\Tests\Model\Message\Event;
 
-use NgVoice\AriClient\Model\DeviceState;
-use NgVoice\AriClient\Model\Message\Event\DeviceStateChanged;
-use NgVoice\AriClient\Tests\Helper;
+use OpiyOrg\AriClient\Model\DeviceState;
+use OpiyOrg\AriClient\Model\Message\Event\DeviceStateChanged;
+use OpiyOrg\AriClient\Tests\Helper;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Class DeviceStateChangedTest
  *
- * @package NgVoice\AriClient\Tests\Model\Event
+ * @package OpiyOrg\AriClient\Tests\Model\Event
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

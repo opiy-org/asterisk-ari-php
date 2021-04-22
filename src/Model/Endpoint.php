@@ -4,16 +4,16 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Model;
+namespace OpiyOrg\AriClient\Model;
 
-use NgVoice\AriClient\Enum\EndpointStates;
+use OpiyOrg\AriClient\Enum\EndpointStates;
 
 /**
  * An external device that may offer/accept calls to/from Asterisk.
  * Unlike most resources, which have a single unique identifier,
  * an endpoint is uniquely identified by the technology/resource pair.
  *
- * @package NgVoice\AriClient\Model
+ * @package OpiyOrg\AriClient\Model
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

@@ -4,12 +4,12 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Client\Rest\Resource;
+namespace OpiyOrg\AriClient\Client\Rest\Resource;
 
-use NgVoice\AriClient\Enum\HttpMethods;
-use NgVoice\AriClient\Client\Rest\AbstractRestClient;
-use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
-use NgVoice\AriClient\Model\{Channel, LiveRecording, Playback, RTPstat, Variable};
+use OpiyOrg\AriClient\Enum\HttpMethods;
+use OpiyOrg\AriClient\Client\Rest\AbstractRestClient;
+use OpiyOrg\AriClient\Exception\AsteriskRestInterfaceException;
+use OpiyOrg\AriClient\Model\{Channel, LiveRecording, Playback, RTPstat, Variable};
 
 /**
  * An implementation of the Channels REST client for the
@@ -17,7 +17,7 @@ use NgVoice\AriClient\Model\{Channel, LiveRecording, Playback, RTPstat, Variable
  *
  * @see https://wiki.asterisk.org/wiki/display/AST/Asterisk+16+Channels+REST+API
  *
- * @package NgVoice\AriClient\Client\Rest\Resource
+ * @package OpiyOrg\AriClient\Client\Rest\Resource
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

@@ -12,7 +12,7 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Client\WebSocket\Woketo;
+namespace OpiyOrg\AriClient\Client\WebSocket\Woketo;
 
 use Nekland\Woketo\Client\{Connection, ConnectorFactory, ConnectorFactoryInterface};
 use Nekland\Woketo\Http\Url;
@@ -24,7 +24,7 @@ use Nekland\Woketo\Rfc6455\{FrameFactory,
     FrameHandler\WrongOpcodeFrameHandler,
     MessageFactory,
     MessageProcessor};
-use NgVoice\AriClient\Exception\XdebugEnabledException;
+use OpiyOrg\AriClient\Exception\XdebugEnabledException;
 use React\EventLoop\{Factory as LoopFactory, LoopInterface};
 
 use function extension_loaded;
@@ -38,7 +38,7 @@ use function extension_loaded;
  * application context, this class provides a public getter
  * for the used loop.
  *
- * @package NgVoice\AriClient\Client\WebSocket\Woketo
+ * @package OpiyOrg\AriClient\Client\WebSocket\Woketo
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  * @internal

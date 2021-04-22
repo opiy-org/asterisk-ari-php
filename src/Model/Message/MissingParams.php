@@ -4,12 +4,12 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Model\Message;
+namespace OpiyOrg\AriClient\Model\Message;
 
 /**
  * Error event sent when required params are missing.
  *
- * @package NgVoice\AriClient\Model\Message\Event
+ * @package OpiyOrg\AriClient\Model\Message\Event
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

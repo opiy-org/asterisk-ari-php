@@ -14,16 +14,16 @@ declare(strict_types=1);
 
 namespace AriClient\Tests\Model;
 
-use NgVoice\AriClient\Model\Channel;
-use NgVoice\AriClient\Model\Message\Event\ChannelDestroyed;
-use NgVoice\AriClient\Tests\Helper;
-use NgVoice\AriClient\Tests\Model\ChannelTest;
+use OpiyOrg\AriClient\Model\Channel;
+use OpiyOrg\AriClient\Model\Message\Event\ChannelDestroyed;
+use OpiyOrg\AriClient\Tests\Helper;
+use OpiyOrg\AriClient\Tests\Model\ChannelTest;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Class ChannelDestroyedTest
  *
- * @package NgVoice\AriClient\Tests\Model\Message\Event
+ * @package OpiyOrg\AriClient\Tests\Model\Message\Event
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

@@ -4,14 +4,14 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Model;
+namespace OpiyOrg\AriClient\Model;
 
-use NgVoice\AriClient\Enum\ContactStatus;
+use OpiyOrg\AriClient\Enum\ContactStatus;
 
 /**
  * Detailed information about a contact on an endpoint.
  *
- * @package NgVoice\AriClient\Model
+ * @package OpiyOrg\AriClient\Model
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

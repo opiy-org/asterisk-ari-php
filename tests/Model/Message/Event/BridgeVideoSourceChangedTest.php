@@ -12,18 +12,18 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Tests\Model\Message\Event;
+namespace OpiyOrg\AriClient\Tests\Model\Message\Event;
 
-use NgVoice\AriClient\Model\Bridge;
-use NgVoice\AriClient\Model\Message\Event\BridgeVideoSourceChanged;
-use NgVoice\AriClient\Tests\Helper;
-use NgVoice\AriClient\Tests\Model\BridgeTest;
+use OpiyOrg\AriClient\Model\Bridge;
+use OpiyOrg\AriClient\Model\Message\Event\BridgeVideoSourceChanged;
+use OpiyOrg\AriClient\Tests\Helper;
+use OpiyOrg\AriClient\Tests\Model\BridgeTest;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Class BridgeVideoSourceChangedTest
  *
- * @package NgVoice\AriClient\Tests\Model\Message\Event
+ * @package OpiyOrg\AriClient\Tests\Model\Message\Event
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

@@ -4,16 +4,16 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Tests;
+namespace OpiyOrg\AriClient\Tests;
 
-use NgVoice\AriClient\Model\Message\Event\Event;
+use OpiyOrg\AriClient\Model\Message\Event\Event;
 use Oktavlachs\DataMappingService\DataMappingService;
 use Oktavlachs\DataMappingService\Collection\SourceNamingConventions;
 
 /**
  * Class Helper
  *
- * @package NgVoice\AriClient\Tests
+ * @package OpiyOrg\AriClient\Tests
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

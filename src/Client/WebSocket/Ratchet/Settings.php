@@ -4,7 +4,7 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Client\WebSocket\Ratchet;
+namespace OpiyOrg\AriClient\Client\WebSocket\Ratchet;
 
 use Ratchet\Client\Connector as RatchetConnector;
 use React\EventLoop\LoopInterface;
@@ -13,7 +13,7 @@ use React\Socket\Connector as ReactConnector;
 /**
  * A wrapper for optional ratchet web socket settings.
  *
- * @package NgVoice\AriClient\Client\WebSocket\Ratchet
+ * @package OpiyOrg\AriClient\Client\WebSocket\Ratchet
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

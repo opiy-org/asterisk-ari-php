@@ -4,7 +4,7 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Tests;
+namespace OpiyOrg\AriClient\Tests;
 
 use DG\BypassFinals;
 use PHPUnit\Runner\BeforeTestHook;
@@ -15,7 +15,7 @@ use PHPUnit\Runner\BeforeTestHook;
  *
  * @see https://www.tomasvotruba.cz/blog/2019/03/28/how-to-mock-final-classes-in-phpunit/
  *
- * @package NgVoice\AriClient\Tests
+ * @package OpiyOrg\AriClient\Tests
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

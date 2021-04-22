@@ -4,14 +4,14 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Model\Message\Event;
+namespace OpiyOrg\AriClient\Model\Message\Event;
 
-use NgVoice\AriClient\Model\{ContactInfo, Endpoint};
+use OpiyOrg\AriClient\Model\{ContactInfo, Endpoint};
 
 /**
  * The state of a contact on an endpoint has changed.
  *
- * @package NgVoice\AriClient\Model\Message\Event
+ * @package OpiyOrg\AriClient\Model\Message\Event
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

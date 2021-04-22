@@ -4,13 +4,13 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Tests\Exception;
+namespace OpiyOrg\AriClient\Tests\Exception;
 
-use NgVoice\AriClient\Exception\XdebugEnabledException;
+use OpiyOrg\AriClient\Exception\XdebugEnabledException;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @package NgVoice\AriClient\Exception
+ * @package OpiyOrg\AriClient\Exception
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  * @author Ahmad Hussain <ahmad@ng-voice.com>

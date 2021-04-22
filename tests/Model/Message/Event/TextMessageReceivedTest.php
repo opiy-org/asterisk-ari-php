@@ -4,19 +4,19 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Tests\Model\Message\Event;
+namespace OpiyOrg\AriClient\Tests\Model\Message\Event;
 
-use NgVoice\AriClient\Model\Endpoint;
-use NgVoice\AriClient\Model\Message\Event\TextMessageReceived;
-use NgVoice\AriClient\Model\TextMessage;
-use NgVoice\AriClient\Tests\Helper;
-use NgVoice\AriClient\Tests\Model\EndpointTest;
+use OpiyOrg\AriClient\Model\Endpoint;
+use OpiyOrg\AriClient\Model\Message\Event\TextMessageReceived;
+use OpiyOrg\AriClient\Model\TextMessage;
+use OpiyOrg\AriClient\Tests\Helper;
+use OpiyOrg\AriClient\Tests\Model\EndpointTest;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Class TextMessageReceivedTest
  *
- * @package NgVoice\AriClient\Tests\Model\Event
+ * @package OpiyOrg\AriClient\Tests\Model\Event
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

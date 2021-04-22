@@ -4,15 +4,15 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Model\Message\Event;
+namespace OpiyOrg\AriClient\Model\Message\Event;
 
-use NgVoice\AriClient\Model\{Bridge, Channel, Endpoint};
+use OpiyOrg\AriClient\Model\{Bridge, Channel, Endpoint};
 use stdClass;
 
 /**
  * User-generated event with additional user-defined fields in the object.
  *
- * @package NgVoice\AriClient\Model\Message\Event
+ * @package OpiyOrg\AriClient\Model\Message\Event
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

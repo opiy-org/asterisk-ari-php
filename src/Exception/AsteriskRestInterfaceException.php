@@ -4,7 +4,7 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Exception;
+namespace OpiyOrg\AriClient\Exception;
 
 use Exception;
 use Throwable;
@@ -14,7 +14,7 @@ use Throwable;
  * in order to make the context of an exception during the communication
  * with the ARI server clearer in the users code.
  *
- * @package NgVoice\AriClient\Exception
+ * @package OpiyOrg\AriClient\Exception
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

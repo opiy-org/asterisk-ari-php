@@ -43,12 +43,12 @@
   },
   "autoload": {
     "psr-4": {
-      "NgVoice\\AriClient\\": "src/"
+      "OpiyOrg\\AriClient\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "NgVoice\\AriClient\\Tests\\": "tests/"
+      "OpiyOrg\\AriClient\\Tests\\": "tests/"
     }
   },
   "scripts": {

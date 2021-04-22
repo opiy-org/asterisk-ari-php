@@ -4,16 +4,16 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Tests\Model\Message;
+namespace OpiyOrg\AriClient\Tests\Model\Message;
 
-use NgVoice\AriClient\Model\Message\Message;
-use NgVoice\AriClient\Tests\Helper;
+use OpiyOrg\AriClient\Model\Message\Message;
+use OpiyOrg\AriClient\Tests\Helper;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Class MessageTest
  *
- * @package NgVoice\AriClient\Tests\Model\Message
+ * @package OpiyOrg\AriClient\Tests\Model\Message
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

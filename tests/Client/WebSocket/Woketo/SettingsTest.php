@@ -4,9 +4,9 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Tests\Client\WebSocket\Woketo;
+namespace OpiyOrg\AriClient\Tests\Client\WebSocket\Woketo;
 
-use NgVoice\AriClient\Client\WebSocket\Woketo\{FilteredMessageHandler,
+use OpiyOrg\AriClient\Client\WebSocket\Woketo\{FilteredMessageHandler,
     ModifiedWoketoWebSocketClient,
     Settings};
 use PHPUnit\Framework\TestCase;
@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * Class SettingsTest
  *
- * @package NgVoice\AriClient\Tests\WebSocket\Woketo
+ * @package OpiyOrg\AriClient\Tests\WebSocket\Woketo
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

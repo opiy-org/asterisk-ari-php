@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Client\WebSocket;
+namespace OpiyOrg\AriClient\Client\WebSocket;
 
 use Closure;
 use Throwable;
@@ -19,12 +19,12 @@ use ReflectionObject;
 use ReflectionFunction;
 use Psr\Log\LoggerInterface;
 use InvalidArgumentException;
-use NgVoice\AriClient\Helper;
-use NgVoice\AriClient\StasisApplicationInterface;
+use OpiyOrg\AriClient\Helper;
+use OpiyOrg\AriClient\StasisApplicationInterface;
 use Oktavlachs\DataMappingService\DataMappingService;
-use NgVoice\AriClient\Client\Rest\Resource\Applications;
-use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
-use NgVoice\AriClient\Client\Rest\Settings as RestClientSettings;
+use OpiyOrg\AriClient\Client\Rest\Resource\Applications;
+use OpiyOrg\AriClient\Exception\AsteriskRestInterfaceException;
+use OpiyOrg\AriClient\Client\Rest\Settings as RestClientSettings;
 use Oktavlachs\DataMappingService\Collection\SourceNamingConventions;
 use Oktavlachs\DataMappingService\Exception\DataMappingServiceException;
 
@@ -32,7 +32,7 @@ use Oktavlachs\DataMappingService\Exception\DataMappingServiceException;
  * Implementation of a basic web socket client that avoids duplicated
  * code for web socket event handler logic.
  *
- * @package NgVoice\AriClient\Client\WebSocket
+ * @package OpiyOrg\AriClient\Client\WebSocket
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
@@ -165,7 +165,7 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
 
         $ariEventType = $ariEventAsArray['type'];
         $ariEventNamespace =
-            "NgVoice\\AriClient\\Model\\Message\\Event\\" . $ariEventType;
+            "OpiyOrg\\AriClient\\Model\\Message\\Event\\" . $ariEventType;
 
         $ariEventAsObject = new $ariEventNamespace();
 
@@ -320,7 +320,7 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
             $eventName = (string) substr($methodName, $eventHandlerMethodPrefixLength);
 
             if (
-                !class_exists("NgVoice\\AriClient\\Model\\Message\\Event\\" . $eventName)
+                !class_exists("OpiyOrg\\AriClient\\Model\\Message\\Event\\" . $eventName)
             ) {
                 $errorMessage = sprintf(
                     "The method '%s' in your Stasis application class '%s' "

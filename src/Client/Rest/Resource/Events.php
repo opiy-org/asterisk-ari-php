@@ -4,11 +4,11 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Client\Rest\Resource;
+namespace OpiyOrg\AriClient\Client\Rest\Resource;
 
-use NgVoice\AriClient\Client\Rest\AbstractRestClient;
-use NgVoice\AriClient\Enum\HttpMethods;
-use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
+use OpiyOrg\AriClient\Client\Rest\AbstractRestClient;
+use OpiyOrg\AriClient\Enum\HttpMethods;
+use OpiyOrg\AriClient\Exception\AsteriskRestInterfaceException;
 
 /**
  * An implementation of the Events REST client for the
@@ -19,7 +19,7 @@ use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
  * GET /events is not part of this API because it has to be a WebSocket connection (ws://
  * or wss://) and is handled separately in the WebSocket of this library.
  *
- * @package NgVoice\AriClient\Client\Rest\Resource
+ * @package OpiyOrg\AriClient\Client\Rest\Resource
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

@@ -4,14 +4,14 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Model;
+namespace OpiyOrg\AriClient\Model;
 
-use NgVoice\AriClient\Enum\RecordingStates;
+use OpiyOrg\AriClient\Enum\RecordingStates;
 
 /**
  * A recording that is in progress.
  *
- * @package NgVoice\AriClient\Model
+ * @package OpiyOrg\AriClient\Model
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

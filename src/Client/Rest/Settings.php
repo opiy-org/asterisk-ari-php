@@ -4,14 +4,14 @@
 
 declare(strict_types=1);
 
-namespace NgVoice\AriClient\Client\Rest;
+namespace OpiyOrg\AriClient\Client\Rest;
 
-use NgVoice\AriClient\Client\AbstractSettings;
+use OpiyOrg\AriClient\Client\AbstractSettings;
 
 /**
  * Encapsulates the settings for a Resource.
  *
- * @package NgVoice\AriClient
+ * @package OpiyOrg\AriClient
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

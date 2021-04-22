@@ -2,21 +2,21 @@
 
 /** @copyright 2020 ng-voice GmbH */
 
-namespace NgVoice\AriClient\Tests\Client\Rest\ResourceClient;
+namespace OpiyOrg\AriClient\Tests\Client\Rest\ResourceClient;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
-use NgVoice\AriClient\Client\Rest\Resource\Recordings;
-use NgVoice\AriClient\Client\Rest\Settings;
-use NgVoice\AriClient\Exception\AsteriskRestInterfaceException;
-use NgVoice\AriClient\Model\{LiveRecording, StoredRecording};
+use OpiyOrg\AriClient\Client\Rest\Resource\Recordings;
+use OpiyOrg\AriClient\Client\Rest\Settings;
+use OpiyOrg\AriClient\Exception\AsteriskRestInterfaceException;
+use OpiyOrg\AriClient\Model\{LiveRecording, StoredRecording};
 use PHPUnit\Framework\TestCase;
 use ReflectionException;
 
 /**
  * Class RecordingsTest
  *
- * @package NgVoice\AriClient\Tests\Rest
+ * @package OpiyOrg\AriClient\Tests\Rest
  * @author Lukas Stermann <lukas@ng-voice.com>
  * @author Ahmad Hussain <ahmad@ng-voice.com>
  */

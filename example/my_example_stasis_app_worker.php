@@ -17,10 +17,10 @@ declare(strict_types=1);
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/MyExampleStasisApp.php';
 
-use NgVoice\AriClient\Client\Rest\Resource\{Channels as AriChannelsRestResourceClient,
+use OpiyOrg\AriClient\Client\Rest\Resource\{Channels as AriChannelsRestResourceClient,
     Events as AriEventsResourceRestClient};
-use NgVoice\AriClient\Client\Rest\Settings as AriRestClientSettings;
-use NgVoice\AriClient\Client\WebSocket\{Factory as AriWebSocketClientFactory,
+use OpiyOrg\AriClient\Client\Rest\Settings as AriRestClientSettings;
+use OpiyOrg\AriClient\Client\WebSocket\{Factory as AriWebSocketClientFactory,
     Settings as AriWebSocketClientSettings};
 
 //////////////////////////////////////////////////////////////////////////////////////////

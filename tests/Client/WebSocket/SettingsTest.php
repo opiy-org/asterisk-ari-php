@@ -6,14 +6,14 @@ declare(strict_types=1);
 
 namespace AriStasisApp\Tests\WebSocketClient;
 
-use NgVoice\AriClient\Client\Rest\Resource\Applications;
-use NgVoice\AriClient\Client\WebSocket\Settings;
+use OpiyOrg\AriClient\Client\Rest\Resource\Applications;
+use OpiyOrg\AriClient\Client\WebSocket\Settings;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Class WebSocketSettingsTest
  *
- * @package NgVoice\AriClient\Tests\WebSocket
+ * @package OpiyOrg\AriClient\Tests\WebSocket
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
