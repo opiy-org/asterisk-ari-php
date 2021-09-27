@@ -31,10 +31,11 @@ final class Helper
     {
         $logger = new Logger($name);
 
-        $logger->pushHandler(new StreamHandler(STDOUT, Logger::DEBUG));
-        $logger->pushHandler(new StreamHandler(STDOUT, Logger::INFO));
-        $logger->pushHandler(new StreamHandler(STDOUT, Logger::WARNING));
-        $logger->pushHandler(new StreamHandler(STDERR, Logger::ERROR));
+        $stdOut = fopen('php://stdout', 'wb');
+        $logger->pushHandler(new StreamHandler($stdOut, Logger::DEBUG));
+        $logger->pushHandler(new StreamHandler($stdOut, Logger::INFO));
+        $logger->pushHandler(new StreamHandler($stdOut, Logger::WARNING));
+        $logger->pushHandler(new StreamHandler($stdOut, Logger::ERROR));
 
         return $logger;
     }
