@@ -9,7 +9,6 @@ vendor
 
 # Own composer specific files
 composer.phar
-composer.lock
 
 .phpunit.result.cache
 tests/code-coverage-report.xml
