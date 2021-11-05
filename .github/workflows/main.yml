@@ -1,0 +1,38 @@
+name: run-tests
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [ ubuntu-latest, windows-latest ]
+        php: [ 7.4, 8.0 ]
+
+    name:  OS:${{ matrix.os }}, PHP:${{ matrix.php }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, libxml, mbstring, pdo, sqlite, pdo_sqlite, bcmath, json, fileinfo
+          coverage: none
+
+      - name: Setup problem matchers
+        run: |
+          echo "::add-matcher::${{ runner.tool_cache }}/php.json"
+          echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+      - name: Install dependencies
+        run: composer install --no-ansi --no-interaction --no-progress
+      - name: Execute tests
+        run: composer test
