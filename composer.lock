@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "082a7e6c7f842e9bd2282467b667a641",
+    "content-hash": "a53671ba64eb73ea9232e73f16352117",
     "packages": [
         {
             "name": "evenement/evenement",
@@ -557,16 +557,16 @@
         },
         {
             "name": "oktavlachs/data-mapping-service",
-            "version": "0.3.1",
+            "version": "0.3.2",
             "source": {
                 "type": "git",
                 "url": "https://gitlab.com/flachslan/php-data-mapping-service.git",
-                "reference": "e6fff194c5df6b36c7baed2f3e14f9466366811d"
+                "reference": "73302f12a2f5eb4b332c604e39f7f587d5c79b9d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://gitlab.com/api/v4/projects/flachslan%2Fphp-data-mapping-service/repository/archive.zip?sha=e6fff194c5df6b36c7baed2f3e14f9466366811d",
-                "reference": "e6fff194c5df6b36c7baed2f3e14f9466366811d",
+                "url": "https://gitlab.com/api/v4/projects/flachslan%2Fphp-data-mapping-service/repository/archive.zip?sha=73302f12a2f5eb4b332c604e39f7f587d5c79b9d",
+                "reference": "73302f12a2f5eb4b332c604e39f7f587d5c79b9d",
                 "shasum": ""
             },
             "require": {
@@ -628,7 +628,7 @@
             "support": {
                 "issues": "https://gitlab.com/api/v4/projects/16048395/issues"
             },
-            "time": "2020-01-23T08:15:48+00:00"
+            "time": "2020-03-03T11:00:57+00:00"
         },
         {
             "name": "psr/http-client",
@@ -4631,5 +4631,5 @@
         "ext-json": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.3.0"
 }

@@ -38,7 +38,7 @@ final class Factory
         Settings $ariWebSocketClientSettings,
         StasisApplicationInterface $myStasisApp
     ): WebSocketClientInterface {
-        return self::createWoketo($ariWebSocketClientSettings, $myStasisApp);
+        return self::createRatchet($ariWebSocketClientSettings, $myStasisApp);
     }
 
     /**

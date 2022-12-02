@@ -40,10 +40,14 @@ abstract class AbstractSettings
      */
     public function __construct(
         string $user,
-        string $password
+        string $password,
+        string $host = '127.0.0.1',
+        int $port = 8088
     ) {
         $this->user = $user;
         $this->password = $password;
+        $this->host = $host;
+        $this->port = $port;
     }
 
     /**
@@ -79,7 +83,7 @@ abstract class AbstractSettings
     /**
      * Set the hosts IP address or name of the Asterisk REST Interface host.
      *
-     * @param string The hosts IP address or name of the Asterisk REST Interface host
+     * @param string $host The hosts IP address or name of the Asterisk REST Interface host
      */
     public function setHost(string $host): void
     {

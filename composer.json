@@ -24,8 +24,8 @@
     }
   ],
   "require": {
-    "php": "^7.4",
-    "oktavlachs/data-mapping-service": "0.3.1",
+    "php": "^7.4||^8.*",
+    "oktavlachs/data-mapping-service": "^0.3.2",
     "monolog/monolog": "~1.0||~2.0",
     "guzzlehttp/guzzle": "^7.0",
     "nekland/woketo": "dev-master",
