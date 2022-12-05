@@ -18,7 +18,7 @@ use Psr\Log\LoggerInterface;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class Helper
+class Helper
 {
     /**
      * Create and configure a basic logger.

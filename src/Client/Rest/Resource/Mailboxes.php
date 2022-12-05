@@ -21,7 +21,7 @@ use OpiyOrg\AriClient\Model\Mailbox;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class Mailboxes extends AbstractRestClient
+class Mailboxes extends AbstractRestClient
 {
     /**
      * List all mailboxes.

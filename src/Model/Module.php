@@ -13,17 +13,17 @@ namespace OpiyOrg\AriClient\Model;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class Module implements ModelInterface
+class Module implements ModelInterface
 {
-    private int $useCount;
+    public int $useCount;
 
-    private string $status;
+    public string $status;
 
-    private string $supportLevel;
+    public string $supportLevel;
 
-    private string $name;
+    public string $name;
 
-    private string $description;
+    public string $description;
 
     /**
      * The number of times this module is being used.

@@ -20,7 +20,7 @@ namespace OpiyOrg\AriClient\Enum;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class ChannelStates
+class ChannelStates
 {
     public const DOWN = 'Down';
 

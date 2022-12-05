@@ -35,7 +35,7 @@ final class MissingParamsTest extends TestCase
     {
         $params = ['param1', 'param2'];
 
-        Helper::mapOntoInstance(
+        $this->missingParams = Helper::mapOntoInstance(
             ['params' => $params, 'type' => 'MissingParams'],
             $this->missingParams
         );

@@ -17,7 +17,7 @@ use OpiyOrg\AriClient\Client\Rest\Resource\Applications;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class Settings extends AbstractSettings
+class Settings extends AbstractSettings
 {
     private bool $isSubscribeAll = false;
 

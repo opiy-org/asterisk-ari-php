@@ -13,11 +13,11 @@ namespace OpiyOrg\AriClient\Model;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class ConfigTuple implements ModelInterface
+class ConfigTuple implements ModelInterface
 {
-    private string $attribute;
+    public string $attribute;
 
-    private string $value;
+    public string $value;
 
     /**
      * A configuration object attribute.

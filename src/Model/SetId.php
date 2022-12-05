@@ -13,11 +13,11 @@ namespace OpiyOrg\AriClient\Model;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class SetId implements ModelInterface
+class SetId implements ModelInterface
 {
-    private string $group;
+    public string $group;
 
-    private string $user;
+    public string $user;
 
     /**
      * Effective group id.

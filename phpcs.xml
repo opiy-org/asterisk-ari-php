@@ -31,14 +31,14 @@
     <rule ref="Generic.Files.LineLength">
         <properties>
             <property name="lineLimit" value="80"/>
-            <property name="absoluteLineLimit" value="90"/>
+            <property name="absoluteLineLimit" value="125"/>
             <property name="ignoreComments" value="false"/>
         </properties>
     </rule>
 
     <rule ref="Generic.Formatting.SpaceAfterCast">
         <properties>
-            <property name="spacing" value="1"/>
+            <property name="spacing" value="0"/>
         </properties>
     </rule>
 
@@ -89,7 +89,6 @@
     </rule>
 
     <!-- Rules for commenting -->
-    <rule ref="Squiz.Commenting.FunctionComment.EmptyThrows"/>
     <rule ref="Squiz.Commenting.FileComment.EmptyCopyrightTag"/>
     <rule ref="Squiz.Commenting.ClassComment.SpacingAfter"/>
     <rule ref="Generic.Commenting.DocComment.NonParamGroup"/>

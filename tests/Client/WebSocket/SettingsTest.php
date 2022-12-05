@@ -4,7 +4,7 @@
 
 declare(strict_types=1);
 
-namespace AriStasisApp\Tests\WebSocketClient;
+namespace OpiyOrg\AriClient\Tests\Client\WebSocket;
 
 use OpiyOrg\AriClient\Client\Rest\Resource\Applications;
 use OpiyOrg\AriClient\Client\WebSocket\Settings;

@@ -13,13 +13,13 @@ namespace OpiyOrg\AriClient\Model;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class Mailbox implements ModelInterface
+class Mailbox implements ModelInterface
 {
-    private int $oldMessages;
+    public int $oldMessages;
 
-    private string $name;
+    public string $name;
 
-    private int $newMessages;
+    public int $newMessages;
 
     /**
      * Count of old Event in the mailbox.
@@ -34,9 +34,9 @@ final class Mailbox implements ModelInterface
     /**
      * Name of the mailbox.
      *
-     * @return string
+     * @return string|null
      */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }

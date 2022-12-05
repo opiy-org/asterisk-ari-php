@@ -14,7 +14,7 @@
   ],
   "homepage": "https://bitbucket.org/ngvoice/asterisk-ari-client",
   "license": "MIT",
-  "version": "1.1.4",
+  "version": "2.0",
   "authors": [
     {
       "name": "Lukas Stermann",
@@ -24,22 +24,21 @@
     }
   ],
   "require": {
-    "php": "^7.4||^8.1",
-    "oktavlachs/data-mapping-service": "^0.3.2",
+    "php": "^8.0|^8.1",
     "monolog/monolog": "~1.0||~2.0",
     "guzzlehttp/guzzle": "^7.0",
-    "nekland/woketo": "dev-master",
     "ratchet/pawl": "~0.3",
-    "ext-json": "*"
+    "ext-json": "*",
+    "cuyz/valinor": "dev-master"
   },
   "require-dev": {
     "roave/security-advisories": "dev-master",
     "squizlabs/php_codesniffer": "~3.5",
-    "phpunit/phpunit": "~8.4",
-    "phpunit/php-code-coverage": "~7.0",
-    "phpstan/phpstan": "~0.11",
-    "phpmd/phpmd": "~2.7",
-    "dg/bypass-finals": "~1.1"
+    "phpunit/phpunit": "^9.5",
+    "phpunit/php-code-coverage": "^9.2",
+    "phpstan/phpstan": "^1.9",
+    "phpmd/phpmd": "^2.13",
+    "dg/bypass-finals": "^1.4"
   },
   "autoload": {
     "psr-4": {

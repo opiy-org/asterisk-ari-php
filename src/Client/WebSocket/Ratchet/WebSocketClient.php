@@ -27,7 +27,7 @@ use React\EventLoop\{Factory as ReactPhpEventLoopFactory,
  * @internal
  *
  */
-final class WebSocketClient extends AbstractWebSocketClient
+class WebSocketClient extends AbstractWebSocketClient
 {
     private ReactPhpEventLoopInterface $loop;
 

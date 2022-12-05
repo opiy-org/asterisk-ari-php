@@ -13,11 +13,11 @@ namespace OpiyOrg\AriClient\Model;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class DeviceState implements ModelInterface
+class DeviceState implements ModelInterface
 {
-    private string $name;
+    public string $name;
 
-    private string $state;
+    public string $state;
 
     /**
      * Name of the device.

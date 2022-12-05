@@ -15,9 +15,9 @@ use OpiyOrg\AriClient\Model\Channel;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class ChannelStateChange extends Event
+class ChannelStateChange extends Event
 {
-    private Channel $channel;
+    public Channel $channel;
 
     /**
      * @return Channel

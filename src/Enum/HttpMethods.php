@@ -13,7 +13,7 @@ namespace OpiyOrg\AriClient\Enum;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class HttpMethods
+class HttpMethods
 {
     public const GET = 'GET';
 

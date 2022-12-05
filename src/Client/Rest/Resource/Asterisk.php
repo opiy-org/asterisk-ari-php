@@ -9,12 +9,7 @@ namespace OpiyOrg\AriClient\Client\Rest\Resource;
 use OpiyOrg\AriClient\Client\Rest\AbstractRestClient;
 use OpiyOrg\AriClient\Enum\HttpMethods;
 use OpiyOrg\AriClient\Exception\AsteriskRestInterfaceException;
-use OpiyOrg\AriClient\Model\{AsteriskInfo,
-    AsteriskPing,
-    ConfigTuple,
-    LogChannel,
-    Module,
-    Variable};
+use OpiyOrg\AriClient\Model\{AsteriskInfo, AsteriskPing, ConfigTuple, LogChannel, Module, Variable};
 
 /**
  * An implementation of the Asterisk REST client for the
@@ -26,7 +21,7 @@ use OpiyOrg\AriClient\Model\{AsteriskInfo,
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class Asterisk extends AbstractRestClient
+class Asterisk extends AbstractRestClient
 {
     /**
      * Retrieve a dynamic configuration object.

@@ -4,71 +4,12 @@
 
 declare(strict_types=1);
 
-namespace OpiyOrg\AriClient\RestClient {
-
-    use OpiyOrg\AriClient\Model\Channel;
-    use stdClass;
-
-    /**
-     * (PHP 5 &gt;= 5.2.0, PECL json &gt;= 1.2.0)<br/>
-     * Decodes a JSON string
-     *
-     * @link https://php.net/manual/en/function.json-decode.php
-     *
-     * @param string $json <p>
-     * The <i>json</i> string being decoded.
-     * </p>
-     * <p>
-     * This function only works with UTF-8 encoded strings.
-     * </p>
-     * <p>PHP implements a superset of
-     * JSON - it will also encode and decode scalar types and <b>NULL</b>. The JSON
-     * standard
-     * only supports these values when they are nested inside an array or an object.
-     * </p>
-     * @param bool $assoc [optional] <p>
-     * When <b>TRUE</b>, returned objects will be converted into
-     * associative arrays.
-     * </p>
-     * @param int $depth [optional] <p>
-     * User specified recursion depth.
-     * </p>
-     * @param int $options [optional] <p>
-     * Bitmask of JSON decode options. Currently only
-     * <b>JSON_BIGINT_AS_STRING</b>
-     * is supported (default is to cast large integers as floats)
-     *
-     * <b>JSON_THROW_ON_ERROR</b> when passed this flag, the error behaviour of these
-     * functions is changed. The global error state is left untouched, and if an error
-     * occurs that would otherwise set it, these functions instead throw a JsonException
-     * </p>
-     *
-     * @return mixed the value encoded in <i>json</i> in appropriate
-     * PHP type. Values true, false and
-     * null (case-insensitive) are returned as <b>TRUE</b>, <b>FALSE</b>
-     * and <b>NULL</b> respectively. <b>NULL</b> is returned if the
-     * <i>json</i> cannot be decoded or if the encoded
-     * data is deeper than the recursion limit.
-     */
-    function json_decode($json, $assoc = false, $depth = 512, $options = 0)
-    {
-        if ($json === 'testDataArrayOfModels') {
-            return [new Channel(), new Channel()];
-        }
-
-        if ($json === 'dummyDataTestSendRequest') {
-            return new stdClass();
-        }
-
-        return \json_decode($json, $assoc, 512, JSON_THROW_ON_ERROR);
-    }
-}
 namespace OpiyOrg\AriClient\Tests\Client\Rest {
 
     use GuzzleHttp\Client as GuzzleClient;
     use GuzzleHttp\Exception\ClientException;
-    use OpiyOrg\AriClient\Client\Rest\{AbstractRestClient, Settings};
     use GuzzleHttp\Psr7\Response;
+    use OpiyOrg\AriClient\Client\Rest\{AbstractRestClient, Settings};
     use OpiyOrg\AriClient\Enum\HttpMethods;
     use OpiyOrg\AriClient\Exception\AsteriskRestInterfaceException;
     use OpiyOrg\AriClient\Model\{AsteriskPing, Channel, ModelInterface};
@@ -118,8 +59,11 @@ namespace OpiyOrg\AriClient\Tests\Client\Rest {
                 $this->settings,
                 $this->httpClient
             ) extends AbstractRestClient {
-                public function triggerSendRequest(string $resourceUri, array $queryParameters, array $body): ResponseInterface
-                {
+                public function triggerSendRequest(
+                    string $resourceUri,
+                    array $queryParameters,
+                    array $body
+                ): ResponseInterface {
                     return $this->sendRequest(HttpMethods::GET, $resourceUri, $queryParameters, $body);
                 }
             };
@@ -134,7 +78,8 @@ namespace OpiyOrg\AriClient\Tests\Client\Rest {
 
             $this->assertInstanceOf(
                 AbstractRestClient::class,
-                new class ($this->settings) extends AbstractRestClient {}
+                new class ($this->settings) extends AbstractRestClient {
+                }
             );
         }
 
@@ -154,10 +99,9 @@ namespace OpiyOrg\AriClient\Tests\Client\Rest {
                 ['some' => 'bodyParameter']
             );
 
-            /** @noinspection PhpUndefinedMethodInspection */
             $this->assertSame(
                 '{"dummyDataTestSendRequest":"Jo"}',
-                (string) $response->getBody()
+                (string)$response->getBody()
             );
         }
 
@@ -166,8 +110,7 @@ namespace OpiyOrg\AriClient\Tests\Client\Rest {
             $restClientExtensionClass = new class (
                 $this->settings,
                 $this->httpClient,
-            ) extends AbstractRestClient
-            {
+            ) extends AbstractRestClient {
                 public function triggerSendRequest(
                     string $uri,
                     array $queryParameters,
@@ -212,7 +155,7 @@ namespace OpiyOrg\AriClient\Tests\Client\Rest {
             ) extends AbstractRestClient {
                 public function triggerResponseToAriModelInstance(
                     ResponseInterface $response,
-                    ModelInterface $modelInterface
+                    ModelInterface &$modelInterface
                 ): void {
                     $this->responseToAriModelInstance(
                         $response,
@@ -281,8 +224,7 @@ namespace OpiyOrg\AriClient\Tests\Client\Rest {
             $restClientExtensionClass = new class (
                 $this->settings,
                 $this->httpClient
-            ) extends AbstractRestClient
-            {
+            ) extends AbstractRestClient {
                 public function triggerResponseToArrayOfAriModelInstances(
                     ResponseInterface $response,
                     ModelInterface $ariModelInterface,
@@ -349,7 +291,7 @@ namespace OpiyOrg\AriClient\Tests\Client\Rest {
             $streamInterface = $this->createMock(StreamInterface::class);
             $streamInterface
                 ->method('__toString')
-                ->willReturn('[["testDataArrayOfModels":"Jo"]]');
+                ->willReturn('[{"testDataArrayOfModels":"Jo"}]');
 
             $responseInterface = $this->createMock(ResponseInterface::class);
             $responseInterface->method('getBody')->willReturn($streamInterface);
@@ -397,8 +339,7 @@ namespace OpiyOrg\AriClient\Tests\Client\Rest {
             $restClientExtensionClass = new class (
                 $settings,
                 $guzzleClient,
-            ) extends AbstractRestClient
-            {
+            ) extends AbstractRestClient {
                 public function triggerSendRequest(
                     string $uri,
                     string $location

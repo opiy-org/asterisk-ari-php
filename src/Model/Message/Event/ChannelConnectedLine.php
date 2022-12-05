@@ -15,9 +15,9 @@ use OpiyOrg\AriClient\Model\Channel;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class ChannelConnectedLine extends Event
+class ChannelConnectedLine extends Event
 {
-    private Channel $channel;
+    public Channel $channel;
 
     /**
      * The channel whose connected line has changed.

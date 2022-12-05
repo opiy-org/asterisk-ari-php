@@ -21,7 +21,7 @@ use OpiyOrg\AriClient\Model\DeviceState;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class DeviceStates extends AbstractRestClient
+class DeviceStates extends AbstractRestClient
 {
     /**
      * List all ARI controlled device states.

@@ -12,21 +12,18 @@ declare(strict_types=1);
 namespace OpiyOrg\AriClient\Client\WebSocket;
 
 use Closure;
-use Throwable;
-use JsonException;
-use ReflectionMethod;
-use ReflectionObject;
-use ReflectionFunction;
-use Psr\Log\LoggerInterface;
 use InvalidArgumentException;
+use JsonException;
+use OpiyOrg\AriClient\Client\Rest\Resource\Applications;
+use OpiyOrg\AriClient\Client\Rest\Settings as RestClientSettings;
+use OpiyOrg\AriClient\Exception\AsteriskRestInterfaceException;
 use OpiyOrg\AriClient\Helper;
 use OpiyOrg\AriClient\StasisApplicationInterface;
-use Oktavlachs\DataMappingService\DataMappingService;
-use OpiyOrg\AriClient\Client\Rest\Resource\Applications;
-use OpiyOrg\AriClient\Exception\AsteriskRestInterfaceException;
-use OpiyOrg\AriClient\Client\Rest\Settings as RestClientSettings;
-use Oktavlachs\DataMappingService\Collection\SourceNamingConventions;
-use Oktavlachs\DataMappingService\Exception\DataMappingServiceException;
+use Psr\Log\LoggerInterface;
+use ReflectionFunction;
+use ReflectionMethod;
+use ReflectionObject;
+use Throwable;
 
 /**
  * Implementation of a basic web socket client that avoids duplicated
@@ -45,8 +42,6 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
     protected bool $isInDebugMode;
 
     protected LoggerInterface $logger;
-
-    protected DataMappingService $dataMappingService;
 
     protected StasisApplicationInterface $stasisApplication;
 
@@ -86,12 +81,6 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
 
         $this->ariApplicationsClient = $ariApplicationsClient;
 
-        $this->dataMappingService = new DataMappingService(
-            SourceNamingConventions::LOWER_SNAKE_CASE
-        );
-
-        $this->dataMappingService->setIsUsingTargetObjectSetters(false);
-
         $this->isInDebugMode = $webSocketClientSettings->isInDebugMode();
     }
 
@@ -130,7 +119,7 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
         $infoMessage = sprintf(
             "Your Stasis app '%s' listens for the following events: '%s'",
             $applicationName,
-            (string) print_r($allowedEvents, true)
+            print_r($allowedEvents, true)
         );
 
         $this->logger->info($infoMessage);
@@ -142,9 +131,6 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
      *
      * @param string $ariEventAsJson The Asterisk REST Interface event as a JSON string
      *
-     * @noinspection PhpRedundantCatchClauseInspection We know that
-     * a JsonException can be thrown here because we explicitly set
-     * the flag.
      */
     public function onMessageHandlerLogic(string $ariEventAsJson): void
     {
@@ -173,15 +159,15 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
             $this
                 ->dataMappingService
                 ->mapArrayOntoObject($ariEventAsArray, $ariEventAsObject);
-        } catch (DataMappingServiceException $dataMappingServiceException) {
+        } catch (Throwable $exception) {
             $context = sprintf(
                 'Mapping incoming JSON from ARI web socket server '
                 . "onto object '%s' failed | Error message: '%s'",
                 $ariEventNamespace,
-                $dataMappingServiceException->getMessage()
+                $exception->getMessage()
             );
 
-            ($this->errorHandler)($context, $dataMappingServiceException);
+            ($this->errorHandler)($context, $exception);
 
             return;
         }
@@ -244,7 +230,7 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
             '%s://%s:%s%s',
             $wsType,
             $webSocketClientSettings->getHost(),
-            (string) $webSocketClientSettings->getPort(),
+            $webSocketClientSettings->getPort(),
             $webSocketClientSettings->getRootUri()
         );
 
@@ -312,12 +298,12 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
 
         foreach ($myAppPublicMethodNames as $methodName) {
             // Check for correct prefix syntax on incoming ARI events
-            if (strpos($methodName, self::ARI_EVENT_HANDLER_METHOD_PREFIX) !== 0) {
+            if (!str_starts_with($methodName, self::ARI_EVENT_HANDLER_METHOD_PREFIX)) {
                 // Allow any public methods without the prefix
                 continue;
             }
 
-            $eventName = (string) substr($methodName, $eventHandlerMethodPrefixLength);
+            $eventName = substr($methodName, $eventHandlerMethodPrefixLength);
 
             if (
                 !class_exists("OpiyOrg\\AriClient\\Model\\Message\\Event\\" . $eventName)

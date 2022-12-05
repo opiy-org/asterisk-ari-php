@@ -15,11 +15,11 @@ use OpiyOrg\AriClient\Model\{Endpoint, Peer};
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class PeerStatusChange extends Event
+class PeerStatusChange extends Event
 {
-    private Peer $peer;
+    public Peer $peer;
 
-    private Endpoint $endpoint;
+    public Endpoint $endpoint;
 
     /**
      * @return Peer

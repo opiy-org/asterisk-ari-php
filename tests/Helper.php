@@ -6,9 +6,11 @@ declare(strict_types=1);
 
 namespace OpiyOrg\AriClient\Tests;
 
+use CuyZ\Valinor\Mapper\MappingError;
+use CuyZ\Valinor\Mapper\Source\Source;
+use CuyZ\Valinor\Mapper\TreeMapper;
+use CuyZ\Valinor\MapperBuilder;
 use OpiyOrg\AriClient\Model\Message\Event\Event;
-use Oktavlachs\DataMappingService\DataMappingService;
-use Oktavlachs\DataMappingService\Collection\SourceNamingConventions;
 
 /**
  * Class Helper
@@ -19,7 +21,7 @@ use Oktavlachs\DataMappingService\Collection\SourceNamingConventions;
  */
 final class Helper
 {
-    private static DataMappingService $dataMappingService;
+    private static TreeMapper $dataMappingService;
 
     /**
      * Map an array onto an object.
@@ -27,24 +29,23 @@ final class Helper
      * @param array $source The source to map from
      * @param object $target THe target to map onto
      *
-     * @return object The mapped object
-     *
-     * @noinspection PhpDocMissingThrowsInspection
+     * @return mixed The mapped object
+     * @throws MappingError
      */
     public static function mapOntoInstance(
         array $source,
         object $target
     ): object {
         if (!isset(self::$dataMappingService)) {
-            self::$dataMappingService = new DataMappingService(
-                SourceNamingConventions::LOWER_SNAKE_CASE
-            );
+            self::$dataMappingService = (new MapperBuilder())
+                ->enableFlexibleCasting()
+                ->allowSuperfluousKeys()
+                ->allowPermissiveTypes()
+                ->mapper();
         }
 
-        /** @noinspection PhpUnhandledExceptionInspection */
-        self::$dataMappingService->mapArrayOntoObject($source, $target);
-
-        return $target;
+        return self::$dataMappingService
+            ->map($target::class, Source::array($source)->camelCaseKeys());
     }
 
     /**
@@ -54,6 +55,7 @@ final class Helper
      * @param array $eventAsArray The event in an array representation
      *
      * @return Event The mapped event
+     * @throws MappingError
      */
     public static function mapOntoAriEvent(string $eventType, array $eventAsArray): Event
     {
@@ -66,8 +68,6 @@ final class Helper
         $eventAsArray['application'] = 'someApplication';
         $eventAsArray['timestamp'] = '2016-12-20 13:45:28 UTC';
 
-        self::mapOntoInstance($eventAsArray, $result);
-
-        return $result;
+        return self::mapOntoInstance($eventAsArray, $result);
     }
 }

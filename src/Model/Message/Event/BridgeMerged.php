@@ -15,11 +15,11 @@ use OpiyOrg\AriClient\Model\Bridge;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class BridgeMerged extends Event
+class BridgeMerged extends Event
 {
-    private Bridge $bridge;
+    public Bridge $bridge;
 
-    private Bridge $bridgeFrom;
+    public Bridge $bridgeFrom;
 
     /**
      * @return Bridge

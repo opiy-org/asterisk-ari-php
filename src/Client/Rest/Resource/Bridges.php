@@ -21,7 +21,7 @@ use OpiyOrg\AriClient\Model\{Bridge, LiveRecording, Playback};
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class Bridges extends AbstractRestClient
+class Bridges extends AbstractRestClient
 {
     /**
      * List all active bridges in Asterisk.

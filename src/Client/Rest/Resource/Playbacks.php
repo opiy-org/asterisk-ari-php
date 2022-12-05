@@ -21,7 +21,7 @@ use OpiyOrg\AriClient\Model\Playback;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class Playbacks extends AbstractRestClient
+class Playbacks extends AbstractRestClient
 {
     /**
      * Get a playback's details.

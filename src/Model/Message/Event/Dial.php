@@ -15,19 +15,19 @@ use OpiyOrg\AriClient\Model\Channel;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class Dial extends Event
+class Dial extends Event
 {
-    private ?Channel $forwarded = null;
+    public ?Channel $forwarded = null;
 
-    private ?Channel $caller = null;
+    public ?Channel $caller = null;
 
-    private string $dialstatus;
+    public string $dialstatus;
 
-    private ?string $forward = null;
+    public ?string $forward = null;
 
-    private ?string $dialstring = null;
+    public ?string $dialstring = null;
 
-    private Channel $peer;
+    public Channel $peer;
 
     /**
      * Channel that the caller has been forwarded to.

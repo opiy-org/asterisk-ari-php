@@ -21,7 +21,7 @@ use OpiyOrg\AriClient\Model\Application;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class Applications extends AbstractRestClient
+class Applications extends AbstractRestClient
 {
     /**
      * List all applications on the asterisk.

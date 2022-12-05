@@ -31,17 +31,17 @@ final class ChannelUsereventTest extends TestCase
             ChannelUserevent::class,
             [
                 'eventname' => 'ExampleEvent',
-                'bridge'    => BridgeTest::RAW_ARRAY_REPRESENTATION,
+                'bridge' => BridgeTest::RAW_ARRAY_REPRESENTATION,
                 'userevent' => [
                     'someEvent' => 'someValue',
                 ],
-                'endpoint'  => [
-                    'state'       => 'online',
-                    'technology'  => 'ExampleTechnology',
+                'endpoint' => [
+                    'state' => 'online',
+                    'technology' => 'ExampleTechnology',
                     'channel_ids' => [],
-                    'resource'    => 'ExampleResource',
+                    'resource' => 'ExampleResource',
                 ],
-                'channel'   => ChannelTest::RAW_ARRAY_REPRESENTATION,
+                'channel' => ChannelTest::RAW_ARRAY_REPRESENTATION,
             ]
         );
         $this->assertSame('ExampleEvent', $channelUserEvent->getEventname());

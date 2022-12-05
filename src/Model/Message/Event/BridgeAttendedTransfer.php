@@ -15,39 +15,39 @@ use OpiyOrg\AriClient\Model\{Bridge, Channel};
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class BridgeAttendedTransfer extends Event
+class BridgeAttendedTransfer extends Event
 {
-    private ?string $destinationApplication = null;
+    public ?string $destinationApplication = null;
 
-    private ?string $destinationBridge = null;
+    public ?string $destinationBridge = null;
 
-    private ?Channel $destinationLinkFirstLeg = null;
+    public ?Channel $destinationLinkFirstLeg = null;
 
-    private ?Channel $destinationLinkSecondLeg = null;
+    public ?Channel $destinationLinkSecondLeg = null;
 
-    private ?Bridge $destinationThreewayBridge = null;
+    public ?Bridge $destinationThreewayBridge = null;
 
-    private ?Channel $destinationThreewayChannel = null;
+    public ?Channel $destinationThreewayChannel = null;
 
-    private string $destinationType;
+    public string $destinationType;
 
-    private bool $isExternal;
+    public bool $isExternal;
 
-    private ?Channel $replaceChannel = null;
+    public ?Channel $replaceChannel = null;
 
-    private string $result;
+    public string $result;
 
-    private ?Channel $transferTarget = null;
+    public ?Channel $transferTarget = null;
 
-    private ?Channel $transferee = null;
+    public ?Channel $transferee = null;
 
-    private Channel $transfererFirstLeg;
+    public Channel $transfererFirstLeg;
 
-    private ?Bridge $transfererFirstLegBridge = null;
+    public ?Bridge $transfererFirstLegBridge = null;
 
-    private Channel $transfererSecondLeg;
+    public Channel $transfererSecondLeg;
 
-    private ?Bridge $transfererSecondLegBridge = null;
+    public ?Bridge $transfererSecondLegBridge = null;
 
     /**
      * Application that has been transferred into.

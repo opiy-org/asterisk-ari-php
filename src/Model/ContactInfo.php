@@ -15,15 +15,15 @@ use OpiyOrg\AriClient\Enum\ContactStatus;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class ContactInfo implements ModelInterface
+class ContactInfo implements ModelInterface
 {
-    private string $uri;
+    public string $uri;
 
-    private string $contactStatus;
+    public string $contactStatus;
 
-    private string $aor;
+    public string $aor;
 
-    private ?string $roundtripUsec = null;
+    public ?string $roundtripUsec = null;
 
     /**
      * The location of the contact.

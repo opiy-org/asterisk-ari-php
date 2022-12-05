@@ -48,18 +48,4 @@ class FactoryTest extends TestCase
             )
         );
     }
-
-    public function testCreateWoketo(): void
-    {
-        $webSocketClientSettings = new Settings('asterisk', 'asterisk');
-        $stasisApp = $this->createMock(StasisApplicationInterface::class);
-
-        $this->assertInstanceOf(
-            WebSocketClientInterface::class,
-            Factory::createWoketo(
-                $webSocketClientSettings,
-                $stasisApp
-            )
-        );
-    }
 }

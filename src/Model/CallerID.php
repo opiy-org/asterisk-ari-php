@@ -13,11 +13,11 @@ namespace OpiyOrg\AriClient\Model;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class CallerID implements ModelInterface
+class CallerID implements ModelInterface
 {
-    private string $name;
+    public string $name;
 
-    private string $number;
+    public string $number;
 
     /**
      * Get the name.

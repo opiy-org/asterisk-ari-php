@@ -15,16 +15,16 @@ use OpiyOrg\AriClient\Model\Channel;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class ApplicationMoveFailed extends Event
+class ApplicationMoveFailed extends Event
 {
     /**
      * @var array<int, mixed>
      */
-    private array $args = [];
+    public array $args = [];
 
-    private string $destination;
+    public string $destination;
 
-    private Channel $channel;
+    public Channel $channel;
 
     /**
      * Arguments to the application

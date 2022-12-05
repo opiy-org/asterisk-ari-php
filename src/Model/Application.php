@@ -15,39 +15,39 @@ use OpiyOrg\AriClient\Model\Message\Message;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class Application implements ModelInterface
+class Application implements ModelInterface
 {
-    private string $name;
+    public string $name;
 
     /**
      * @var array<int, string>
      */
-    private array $endpointIds = [];
+    public array $endpointIds = [];
 
     /**
      * @var array<int, string>
      */
-    private array $channelIds = [];
+    public array $channelIds = [];
 
     /**
      * @var array<int, string>
      */
-    private array $deviceNames = [];
+    public array $deviceNames = [];
 
     /**
      * @var array<int, Message>
      */
-    private array $eventsDisallowed = [];
+    public array $eventsDisallowed = [];
 
     /**
      * @var array<int, string>
      */
-    private array $bridgeIds = [];
+    public array $bridgeIds = [];
 
     /**
      * @var array<int, Message>
      */
-    private array $eventsAllowed = [];
+    public array $eventsAllowed = [];
 
     /**
      * Get the name of this application.

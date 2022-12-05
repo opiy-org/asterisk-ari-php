@@ -15,11 +15,11 @@ use OpiyOrg\AriClient\Model\{Bridge, Channel};
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class ChannelEnteredBridge extends Event
+class ChannelEnteredBridge extends Event
 {
-    private Channel $channel;
+    public Channel $channel;
 
-    private Bridge $bridge;
+    public Bridge $bridge;
 
     /**
      * @return Channel

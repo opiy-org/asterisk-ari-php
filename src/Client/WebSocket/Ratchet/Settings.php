@@ -17,7 +17,7 @@ use React\Socket\Connector as ReactConnector;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class Settings
+class Settings
 {
     private ?LoopInterface $loop = null;
 

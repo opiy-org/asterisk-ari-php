@@ -15,11 +15,11 @@ use OpiyOrg\AriClient\Model\Channel;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class ChannelHold extends Event
+class ChannelHold extends Event
 {
-    private ?string $musicclass = null;
+    public ?string $musicclass = null;
 
-    private Channel $channel;
+    public Channel $channel;
 
     /**
      * The music on hold class that the initiator requested.

@@ -20,7 +20,7 @@ namespace OpiyOrg\AriClient\Enum;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class RecordingStates
+class RecordingStates
 {
     public const QUEUED = 'queued';
 

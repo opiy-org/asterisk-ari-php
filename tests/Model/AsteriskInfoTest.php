@@ -12,8 +12,9 @@
 
 declare(strict_types=1);
 
-namespace AriStasisApp\Tests\Model;
+namespace Tests\Model;
 
+use CuyZ\Valinor\Mapper\MappingError;
 use OpiyOrg\AriClient\Model\{AsteriskInfo, BuildInfo, ConfigInfo, StatusInfo, SystemInfo};
 use OpiyOrg\AriClient\Tests\Helper;
 use OpiyOrg\AriClient\Tests\Model\BuildInfoTest;
@@ -38,43 +39,62 @@ final class AsteriskInfoTest extends TestCase
         $this->asteriskInfo = new AsteriskInfo();
     }
 
+    /**
+     * @return void
+     */
     public function testCreate(): void
     {
         $this->assertInstanceOf(AsteriskInfo::class, $this->asteriskInfo);
     }
 
+    /**
+     * @return void
+     * @throws MappingError
+     */
     public function testSetAndGetStatusInfo(): void
     {
         $statusInfo = StatusInfoTest::RAW_ARRAY_REPRESENTATION;
 
-        Helper::mapOntoInstance(['status' => $statusInfo], $this->asteriskInfo);
+        $this->asteriskInfo = Helper::mapOntoInstance(['status' => $statusInfo], $this->asteriskInfo);
 
         $this->assertInstanceOf(StatusInfo::class, $this->asteriskInfo->getStatus());
     }
 
+    /**
+     * @return void
+     * @throws MappingError
+     */
     public function testSetAndGetConfigInfo(): void
     {
         $configInfo = ConfigInfoTest::RAW_ARRAY_REPRESENTATION;
 
-        Helper::mapOntoInstance(['config' => $configInfo], $this->asteriskInfo);
+        $this->asteriskInfo = Helper::mapOntoInstance(['config' => $configInfo], $this->asteriskInfo);
 
         $this->assertInstanceOf(ConfigInfo::class, $this->asteriskInfo->getConfig());
     }
 
+    /**
+     * @return void
+     * @throws MappingError
+     */
     public function testSetAndGetBuildInfo(): void
     {
         $buildInfo = BuildInfoTest::RAW_ARRAY_REPRESENTATION;
 
-        Helper::mapOntoInstance(['build' => $buildInfo], $this->asteriskInfo);
+        $this->asteriskInfo = Helper::mapOntoInstance(['build' => $buildInfo], $this->asteriskInfo);
 
         $this->assertInstanceOf(BuildInfo::class, $this->asteriskInfo->getBuild());
     }
 
+    /**
+     * @return void
+     * @throws MappingError
+     */
     public function testSetAndGetSystemInfo(): void
     {
         $systemInfo = SystemInfoTest::RAW_ARRAY_REPRESENTATION;
 
-        Helper::mapOntoInstance(['system' => $systemInfo], $this->asteriskInfo);
+        $this->asteriskInfo = Helper::mapOntoInstance(['system' => $systemInfo], $this->asteriskInfo);
 
         $this->assertInstanceOf(SystemInfo::class, $this->asteriskInfo->getSystem());
     }

@@ -13,22 +13,22 @@ namespace OpiyOrg\AriClient\Model;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class LogChannel implements ModelInterface
+class LogChannel implements ModelInterface
 {
-    private string $status;
+    public string $status;
 
-    private string $configuration;
+    public string $configuration;
 
-    private string $type;
+    public string $type;
 
-    private string $channel;
+    public string $channel;
 
     /**
-     * Whether or not a log type is enabled.
+     * Whether a log type is enabled.
      *
-     * @return string
+     * @return string|null
      */
-    public function getStatus(): string
+    public function getStatus(): ?string
     {
         return $this->status;
     }

@@ -13,19 +13,19 @@ namespace OpiyOrg\AriClient\Model;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class BuildInfo implements ModelInterface
+class BuildInfo implements ModelInterface
 {
-    private string $kernel;
+    public string $kernel;
 
-    private string $machine;
+    public string $machine;
 
-    private string $user;
+    public string $user;
 
-    private string $date;
+    public string $date;
 
-    private string $os;
+    public string $os;
 
-    private string $options;
+    public string $options;
 
     /**
      * Kernel version Asterisk was built on.

@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * Class SoundTest
  *
- * @package AriStasisApp\Tests\Model
+ * @package OpiyOrg\AriClient\Tests\Model
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

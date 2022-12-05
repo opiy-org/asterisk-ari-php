@@ -13,12 +13,14 @@ namespace OpiyOrg\AriClient\Model;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class Variable implements ModelInterface
+class Variable implements ModelInterface
 {
-    private string $value;
+    private ?string $key;
+
+    public string $value;
 
     /**
-     * The value of the variable requested.
+     * The value of the variable.
      *
      * @return string
      */

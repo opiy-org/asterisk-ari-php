@@ -15,23 +15,23 @@ use OpiyOrg\AriClient\Enum\RecordingStates;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class LiveRecording implements ModelInterface
+class LiveRecording implements ModelInterface
 {
-    private ?int $talkingDuration = null;
+    public ?int $talkingDuration = null;
 
-    private string $name;
+    public string $name;
 
-    private string $targetUri;
+    public string $targetUri;
 
-    private string $format;
+    public string $format;
 
-    private ?string $cause = null;
+    public ?string $cause = null;
 
-    private string $state;
+    public string $state;
 
-    private ?int $duration = null;
+    public ?int $duration = null;
 
-    private ?int $silenceDuration = null;
+    public ?int $silenceDuration = null;
 
     /**
      * Duration of talking, in seconds, detected in the recording.

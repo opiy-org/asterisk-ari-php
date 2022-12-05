@@ -2,7 +2,7 @@
 
 /** @copyright 2020 ng-voice GmbH */
 
-namespace AriStasisApp\Tests\RestClient\ResourceClient;
+namespace Tests\Client\Rest\ResourceClient;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ServerException;
@@ -18,7 +18,7 @@ use ReflectionException;
 /**
  * Class ChannelsTest
  *
- * @package AriStasisApp\Tests\Rest
+ * @package OpiyOrg\AriClient\Tests\Rest
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */

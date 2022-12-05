@@ -15,9 +15,9 @@ use OpiyOrg\AriClient\Model\Channel;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class ChannelCreated extends Event
+class ChannelCreated extends Event
 {
-    private Channel $channel;
+    public Channel $channel;
 
     /**
      * The affected channel.

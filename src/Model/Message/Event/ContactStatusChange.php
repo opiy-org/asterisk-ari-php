@@ -15,11 +15,11 @@ use OpiyOrg\AriClient\Model\{ContactInfo, Endpoint};
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class ContactStatusChange extends Event
+class ContactStatusChange extends Event
 {
-    private Endpoint $endpoint;
+    public Endpoint $endpoint;
 
-    private ContactInfo $contactInfo;
+    public ContactInfo $contactInfo;
 
     /**
      * @return Endpoint

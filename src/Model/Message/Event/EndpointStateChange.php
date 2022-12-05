@@ -15,9 +15,9 @@ use OpiyOrg\AriClient\Model\Endpoint;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class EndpointStateChange extends Event
+class EndpointStateChange extends Event
 {
-    private Endpoint $endpoint;
+    public Endpoint $endpoint;
 
     /**
      * @return Endpoint

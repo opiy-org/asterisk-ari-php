@@ -21,7 +21,7 @@ use OpiyOrg\AriClient\Model\Sound;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class Sounds extends AbstractRestClient
+class Sounds extends AbstractRestClient
 {
     /**
      * List all sounds.

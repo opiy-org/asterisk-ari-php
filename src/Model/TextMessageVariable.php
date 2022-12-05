@@ -13,11 +13,11 @@ namespace OpiyOrg\AriClient\Model;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class TextMessageVariable implements ModelInterface
+class TextMessageVariable implements ModelInterface
 {
-    private string $key;
+    public string $key;
 
-    private string $value;
+    public string $value;
 
     /**
      * A unique key identifying the variable.

@@ -17,18 +17,18 @@ use OpiyOrg\AriClient\Enum\EndpointStates;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class Endpoint implements ModelInterface
+class Endpoint implements ModelInterface
 {
-    private string $resource;
+    public string $resource;
 
-    private ?string $state = null;
+    public ?string $state = null;
 
-    private string $technology;
+    public string $technology;
 
     /**
      * @var array<int, string>
      */
-    private array $channelIds = [];
+    public array $channelIds = [];
 
     /**
      * Identifier of the endpoint, specific to the given technology.

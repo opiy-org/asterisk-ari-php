@@ -4,7 +4,7 @@
 
 declare(strict_types=1);
 
-namespace AriStasisApp\Tests\Model;
+namespace OpiyOrg\AriClient\Tests\Model;
 
 use OpiyOrg\AriClient\Model\Application;
 use OpiyOrg\AriClient\Model\Message\Message;
@@ -36,7 +36,7 @@ final class ApplicationTest extends TestCase
     {
         $name = 'someName';
 
-        Helper::mapOntoInstance(['name' => $name], $this->application);
+        $this->application = Helper::mapOntoInstance(['name' => $name], $this->application);
 
         $this->assertSame($name, $this->application->getName());
     }
@@ -45,9 +45,9 @@ final class ApplicationTest extends TestCase
     {
         $channelIds = ['channelId1', 'channelId2'];
 
-        Helper::mapOntoInstance(
+        $this->application = Helper::mapOntoInstance(
             [
-                'name'        => 'wurst',
+                'name' => 'wurst',
                 'channel_ids' => $channelIds,
             ],
             $this->application
@@ -60,9 +60,9 @@ final class ApplicationTest extends TestCase
     {
         $endpointIds = ['endpointId1', 'endpointId2'];
 
-        Helper::mapOntoInstance(
+        $this->application = Helper::mapOntoInstance(
             [
-                'name'         => 'wurst',
+                'name' => 'wurst',
                 'endpoint_ids' => $endpointIds,
             ],
             $this->application
@@ -74,9 +74,9 @@ final class ApplicationTest extends TestCase
     {
         $bridgeIds = ['bridgeId1', 'bridgeId2'];
 
-        Helper::mapOntoInstance(
+        $this->application = Helper::mapOntoInstance(
             [
-                'name'       => 'wurst',
+                'name' => 'wurst',
                 'bridge_ids' => $bridgeIds,
             ],
             $this->application
@@ -88,9 +88,9 @@ final class ApplicationTest extends TestCase
     {
         $deviceNames = ['deviceName1', 'deviceName2'];
 
-        Helper::mapOntoInstance(
+        $this->application = Helper::mapOntoInstance(
             [
-                'name'         => 'wurst',
+                'name' => 'wurst',
                 'device_names' => $deviceNames,
             ],
             $this->application
@@ -104,9 +104,9 @@ final class ApplicationTest extends TestCase
             ['type' => 'eventAllowed1'],
             ['type' => 'eventAllowed2'],
         ];
-        Helper::mapOntoInstance(
+        $this->application = Helper::mapOntoInstance(
             [
-                'name'           => 'wurst',
+                'name' => 'wurst',
                 'events_allowed' => $eventsAllowed,
             ],
             $this->application
@@ -124,9 +124,9 @@ final class ApplicationTest extends TestCase
             ['type' => 'eventDisallowed2'],
         ];
 
-        Helper::mapOntoInstance(
+        $this->application = Helper::mapOntoInstance(
             [
-                'name'              => 'wurst',
+                'name' => 'wurst',
                 'events_disallowed' => $eventsDisallowed,
             ],
             $this->application

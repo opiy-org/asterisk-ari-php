@@ -15,9 +15,9 @@ use OpiyOrg\AriClient\Model\LiveRecording;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class RecordingFinished extends Event
+class RecordingFinished extends Event
 {
-    private LiveRecording $recording;
+    public LiveRecording $recording;
 
     /**
      * Recording control object.

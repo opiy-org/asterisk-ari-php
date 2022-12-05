@@ -13,12 +13,12 @@ namespace OpiyOrg\AriClient\Model\Message;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class MissingParams extends Message
+class MissingParams extends Message
 {
     /**
      * @var array<int, string>
      */
-    private array $params;
+    public array $params;
 
     /**
      * A list of the missing parameters.

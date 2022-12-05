@@ -13,17 +13,17 @@ namespace OpiyOrg\AriClient\Model;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class Peer implements ModelInterface
+class Peer implements ModelInterface
 {
-    private string $peerStatus;
+    public string $peerStatus;
 
-    private ?string $time = null;
+    public ?string $time = null;
 
-    private ?string $cause = null;
+    public ?string $cause = null;
 
-    private ?string $port = null;
+    public ?string $port = null;
 
-    private ?string $address = null;
+    public ?string $address = null;
 
     /**
      * The current state of the peer.

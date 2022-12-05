@@ -16,17 +16,17 @@ use stdClass;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class ChannelUserevent extends Event
+class ChannelUserevent extends Event
 {
-    private string $eventname;
+    public string $eventname;
 
-    private ?Bridge $bridge = null;
+    public ?Bridge $bridge = null;
 
-    private stdClass $userevent;
+    public array $userevent = [];
 
-    private ?Endpoint $endpoint = null;
+    public ?Endpoint $endpoint = null;
 
-    private ?Channel $channel = null;
+    public ?Channel $channel = null;
 
     /**
      * The name of the user event.
@@ -55,7 +55,7 @@ final class ChannelUserevent extends Event
      */
     public function getUserevent(): stdClass
     {
-        return $this->userevent;
+        return (object)$this->userevent;
     }
 
     /**

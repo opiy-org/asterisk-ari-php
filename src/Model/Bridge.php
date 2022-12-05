@@ -15,30 +15,30 @@ namespace OpiyOrg\AriClient\Model;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class Bridge implements ModelInterface
+class Bridge implements ModelInterface
 {
-    private string $bridgeType;
+    public string $bridgeType;
 
-    private string $name;
+    public string $name;
 
-    private string $creator;
+    public string $creator;
 
-    private ?string $videoMode = null;
+    public ?string $videoMode = null;
 
-    private string $creationtime;
+    public string $creationtime;
 
     /**
      * @var array<int, string>
      */
-    private array $channels = [];
+    public array $channels = [];
 
-    private ?string $videoSourceId = null;
+    public ?string $videoSourceId = null;
 
-    private string $bridgeClass;
+    public string $bridgeClass;
 
-    private string $technology;
+    public string $technology;
 
-    private string $id;
+    public string $id;
 
     /**
      * Type of bridge technology (mixing | holding).
