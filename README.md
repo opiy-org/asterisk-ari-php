@@ -34,7 +34,11 @@ https://getcomposer.org/download/
 
 Please run the following command to add the library to your project:
 
-`composer require opiy-org/asterisk-ari-php`
+PHP 7.4
+`composer require opiy-org/asterisk-ari-php` 
+
+PHP 8.0|8.1
+`composer require opiy-org/asterisk-ari-php:2` 
 
 While installing, you might run into composer errors concerning missing PHP extensions.
 There are several ways to install them, depending on your operating system.

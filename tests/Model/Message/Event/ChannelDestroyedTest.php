@@ -12,7 +12,7 @@
 
 declare(strict_types=1);
 
-namespace AriClient\Tests\Model;
+namespace OpiyOrg\AriClient\Tests\Model\Message\Event;
 
 use OpiyOrg\AriClient\Model\Channel;
 use OpiyOrg\AriClient\Model\Message\Event\ChannelDestroyed;
@@ -37,9 +37,9 @@ final class ChannelDestroyedTest extends TestCase
         $channelDestroyed = Helper::mapOntoAriEvent(
             ChannelDestroyed::class,
             [
-                'cause'     => 23,
+                'cause' => 23,
                 'cause_txt' => 'SomeCauseTxt',
-                'channel'   => ChannelTest::RAW_ARRAY_REPRESENTATION,
+                'channel' => ChannelTest::RAW_ARRAY_REPRESENTATION,
             ]
         );
         $this->assertInstanceOf(Channel::class, $channelDestroyed->getChannel());

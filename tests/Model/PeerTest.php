@@ -21,10 +21,10 @@ final class PeerTest extends TestCase
 {
     public const RAW_ARRAY_REPRESENTATION = [
         'peer_status' => 'Up',
-        'time'        => '2016-12-20 13:45:28 UTC',
-        'cause'       => 'The reason for everything!',
-        'port'        => '8000',
-        'address'     => '172.0.0.1',
+        'time' => '2016-12-20 13:45:28 UTC',
+        'cause' => 'The reason for everything!',
+        'port' => '8000',
+        'address' => '172.0.0.1',
     ];
 
     public function testParametersMappedCorrectly(): void

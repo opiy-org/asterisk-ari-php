@@ -38,9 +38,9 @@ class ContactInfo implements ModelInterface
     /**
      * The current status of the contact.
      *
+     * @return string
      * @see ContactStatus
      *
-     * @return string
      */
     public function getContactStatus(): string
     {

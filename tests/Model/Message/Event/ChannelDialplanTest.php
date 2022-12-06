@@ -29,9 +29,9 @@ final class ChannelDialplanTest extends TestCase
         $channelDialplan = Helper::mapOntoAriEvent(
             ChannelDialplan::class,
             [
-                'dialplan_app'      => 'MyExampleStasisApp',
+                'dialplan_app' => 'MyExampleStasisApp',
                 'dialplan_app_data' => 'ExampleAppData',
-                'channel'           => ChannelTest::RAW_ARRAY_REPRESENTATION,
+                'channel' => ChannelTest::RAW_ARRAY_REPRESENTATION,
             ]
         );
         $this->assertInstanceOf(Channel::class, $channelDialplan->getChannel());

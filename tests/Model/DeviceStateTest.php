@@ -27,7 +27,7 @@ final class DeviceStateTest extends TestCase
         $deviceState = Helper::mapOntoInstance(
             [
                 'state' => 'BUSY',
-                'name'  => 'ExampleName',
+                'name' => 'ExampleName',
             ],
             new DeviceState()
         );

@@ -75,7 +75,6 @@ class Settings extends AbstractSettings
         $this->errorHandler = $errorHandler;
     }
 
-
     /**
      * Check, if the Stasis application subscribes to all ARI events,
      * effectively disabling the application specific subscriptions.

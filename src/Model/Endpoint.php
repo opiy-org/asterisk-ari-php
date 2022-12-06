@@ -43,9 +43,9 @@ class Endpoint implements ModelInterface
     /**
      * Endpoint's state.
      *
+     * @return string|null
      * @see EndpointStates
      *
-     * @return string|null
      */
     public function getState(): ?string
     {

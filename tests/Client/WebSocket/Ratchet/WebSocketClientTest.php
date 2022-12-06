@@ -6,8 +6,8 @@ declare(strict_types=1);
 
 namespace OpiyOrg\AriClient\Tests\Client\WebSocket\Ratchet;
 
-use OpiyOrg\AriClient\Client\WebSocket\Settings;
 use OpiyOrg\AriClient\Client\WebSocket\Ratchet\{Settings as RatchetSettings, WebSocketClient};
+use OpiyOrg\AriClient\Client\WebSocket\Settings;
 use OpiyOrg\AriClient\StasisApplicationInterface;
 use PHPUnit\Framework\TestCase;
 use Ratchet\Client\Connector as RatchetConnector;

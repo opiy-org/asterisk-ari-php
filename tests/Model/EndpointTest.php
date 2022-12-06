@@ -20,13 +20,13 @@ use PHPUnit\Framework\TestCase;
 final class EndpointTest extends TestCase
 {
     public const RAW_ARRAY_REPRESENTATION = [
-        'state'       => 'online',
-        'technology'  => 'ExampleTechnology',
+        'state' => 'online',
+        'technology' => 'ExampleTechnology',
         'channel_ids' => [
             'firstChannel',
             'secondChannel',
         ],
-        'resource'    => 'ExampleResource',
+        'resource' => 'ExampleResource',
     ];
 
     public function testParametersMappedCorrectly(): void

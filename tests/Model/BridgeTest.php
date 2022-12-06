@@ -20,16 +20,16 @@ use PHPUnit\Framework\TestCase;
 final class BridgeTest extends TestCase
 {
     public const RAW_ARRAY_REPRESENTATION = [
-        'bridge_class'    => 'ExampleClass',
-        'bridge_type'     => 'mixing',
-        'channels'        => [],
-        'creator'         => 'ExampleCreator',
-        'id'              => 'id1',
-        'name'            => 'ExampleName',
-        'technology'      => 'ExampleTechnology',
-        'video_mode'      => 'none',
+        'bridge_class' => 'ExampleClass',
+        'bridge_type' => 'mixing',
+        'channels' => [],
+        'creator' => 'ExampleCreator',
+        'id' => 'id1',
+        'name' => 'ExampleName',
+        'technology' => 'ExampleTechnology',
+        'video_mode' => 'none',
         'video_source_id' => 'VideoId',
-        'creationtime'    => '2019-09-10 13:45:28 UTC',
+        'creationtime' => '2019-09-10 13:45:28 UTC',
     ];
 
     public function testParametersMappedCorrectly(): void

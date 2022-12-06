@@ -6,8 +6,7 @@ declare(strict_types=1);
 
 namespace OpiyOrg\AriClient\Client\WebSocket;
 
-use OpiyOrg\AriClient\Client\WebSocket\Ratchet\{
-    Settings as OptionalRatchetSettings,
+use OpiyOrg\AriClient\Client\WebSocket\Ratchet\{Settings as OptionalRatchetSettings,
     WebSocketClient as RatchetWebSocketClient};
 use OpiyOrg\AriClient\StasisApplicationInterface;
 

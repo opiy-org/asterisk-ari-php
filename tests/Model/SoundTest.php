@@ -26,14 +26,14 @@ final class SoundTest extends TestCase
          */
         $sound = Helper::mapOntoInstance(
             [
-                'id'      => 'ExampleId',
+                'id' => 'ExampleId',
                 'formats' => [
                     [
-                        'format'   => 'X',
+                        'format' => 'X',
                         'language' => 'Y',
                     ],
                 ],
-                'text'    => 'ExampleText',
+                'text' => 'ExampleText',
             ],
             new Sound()
         );

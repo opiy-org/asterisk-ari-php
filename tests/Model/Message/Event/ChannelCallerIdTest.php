@@ -37,8 +37,8 @@ final class ChannelCallerIdTest extends TestCase
         $channelCallerId = Helper::mapOntoAriEvent(
             ChannelCallerId::class,
             [
-                'channel'                 => ChannelTest::RAW_ARRAY_REPRESENTATION,
-                'caller_presentation'     => 15,
+                'channel' => ChannelTest::RAW_ARRAY_REPRESENTATION,
+                'caller_presentation' => 15,
                 'caller_presentation_txt' => 'SomeTxt',
             ]
         );

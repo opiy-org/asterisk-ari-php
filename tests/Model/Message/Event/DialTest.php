@@ -29,12 +29,12 @@ final class DialTest extends TestCase
         $dial = Helper::mapOntoAriEvent(
             Dial::class,
             [
-                'forwarded'  => ChannelTest::RAW_ARRAY_REPRESENTATION,
-                'caller'     => ChannelTest::RAW_ARRAY_REPRESENTATION,
+                'forwarded' => ChannelTest::RAW_ARRAY_REPRESENTATION,
+                'caller' => ChannelTest::RAW_ARRAY_REPRESENTATION,
                 'dialstatus' => 'DialStatus',
-                'forward'    => 'Forward',
+                'forward' => 'Forward',
                 'dialstring' => 'Dialstring',
-                'peer'       => ChannelTest::RAW_ARRAY_REPRESENTATION,
+                'peer' => ChannelTest::RAW_ARRAY_REPRESENTATION,
             ]
         );
         $this->assertInstanceOf(Channel::class, $dial->getForwarded());

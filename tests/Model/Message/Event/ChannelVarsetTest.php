@@ -30,8 +30,8 @@ final class ChannelVarsetTest extends TestCase
             ChannelVarset::class,
             [
                 'variable' => 'TestVar',
-                'value'    => 'TestValue',
-                'channel'  => ChannelTest::RAW_ARRAY_REPRESENTATION,
+                'value' => 'TestValue',
+                'channel' => ChannelTest::RAW_ARRAY_REPRESENTATION,
             ]
         );
         $this->assertInstanceOf(Channel::class, $channelVarSet->getChannel());

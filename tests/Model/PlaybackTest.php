@@ -21,11 +21,11 @@ final class PlaybackTest extends TestCase
 {
     public const RAW_ARRAY_REPRESENTATION = [
         'next_media_uri' => 'ExampleUri',
-        'target_uri'     => 'ExampleTargetUri',
-        'language'       => 'en',
-        'state'          => 'queued',
-        'media_uri'      => 'ExampleMediaRui',
-        'id'             => 'ExampleId',
+        'target_uri' => 'ExampleTargetUri',
+        'language' => 'en',
+        'state' => 'queued',
+        'media_uri' => 'ExampleMediaRui',
+        'id' => 'ExampleId',
     ];
 
     public function testParametersMappedCorrectly(): void

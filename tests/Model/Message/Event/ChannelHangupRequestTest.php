@@ -29,8 +29,8 @@ final class ChannelHangupRequestTest extends TestCase
         $channelHangupRequest = Helper::mapOntoAriEvent(
             ChannelHangupRequest::class,
             [
-                'soft'    => true,
-                'cause'   => 45,
+                'soft' => true,
+                'cause' => 45,
                 'channel' => ChannelTest::RAW_ARRAY_REPRESENTATION,
             ]
         );

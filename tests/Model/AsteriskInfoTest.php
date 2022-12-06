@@ -12,15 +12,11 @@
 
 declare(strict_types=1);
 
-namespace Tests\Model;
+namespace OpiyOrg\AriClient\Tests\Model;
 
 use CuyZ\Valinor\Mapper\MappingError;
 use OpiyOrg\AriClient\Model\{AsteriskInfo, BuildInfo, ConfigInfo, StatusInfo, SystemInfo};
 use OpiyOrg\AriClient\Tests\Helper;
-use OpiyOrg\AriClient\Tests\Model\BuildInfoTest;
-use OpiyOrg\AriClient\Tests\Model\ConfigInfoTest;
-use OpiyOrg\AriClient\Tests\Model\StatusInfoTest;
-use OpiyOrg\AriClient\Tests\Model\SystemInfoTest;
 use PHPUnit\Framework\TestCase;
 
 /**

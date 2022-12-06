@@ -33,7 +33,8 @@ class SettingsTest extends TestCase
 
     public function testErrorHandler(): void
     {
-        $errorHandlerFunction = static function () {};
+        $errorHandlerFunction = static function () {
+        };
         $this->settings->setErrorHandler($errorHandlerFunction);
         $this->assertSame($errorHandlerFunction, $this->settings->getErrorHandler());
     }
@@ -43,7 +44,6 @@ class SettingsTest extends TestCase
         $this->settings->setWssEnabled(true);
         $this->assertTrue($this->settings->isWssEnabled());
     }
-
 
     public function testIsSubscribeAll(): void
     {

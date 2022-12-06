@@ -2,6 +2,8 @@
 
 /** @copyright 2020 ng-voice GmbH */
 
+declare(strict_types=1);
+
 namespace OpiyOrg\AriClient\Tests\Client\Rest\ResourceClient;
 
 use GuzzleHttp\Client;
@@ -30,16 +32,16 @@ class BridgesTest extends TestCase
         return [
             'example bridge' => [
                 [
-                    'bridge_class'    => 'ExampleClass',
-                    'bridge_type'     => 'mixing',
-                    'channels'        => [],
-                    'creator'         => 'ExampleCreator',
-                    'id'              => 'id1',
-                    'name'            => 'ExampleName',
-                    'technology'      => 'ExampleTechnology',
-                    'video_mode'      => 'none',
+                    'bridge_class' => 'ExampleClass',
+                    'bridge_type' => 'mixing',
+                    'channels' => [],
+                    'creator' => 'ExampleCreator',
+                    'id' => 'id1',
+                    'name' => 'ExampleName',
+                    'technology' => 'ExampleTechnology',
+                    'video_mode' => 'none',
                     'video_source_id' => 'VideoId',
-                    'creationtime'    => '1234567',
+                    'creationtime' => '1234567',
                 ],
             ],
         ];
@@ -53,7 +55,7 @@ class BridgesTest extends TestCase
     {
         $bridgesClient = $this->createBridgesClientWithGuzzleClientStub([]);
         $bridgesClient->stopMoh('SomeBridgeId');
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**
@@ -78,12 +80,12 @@ class BridgesTest extends TestCase
     {
         $bridgesClient = $this->createBridgesClientWithGuzzleClientStub(
             [
-            'next_media_uri' => 'ExampleUri',
-            'target_uri' => 'ExampleTargetUri',
-            'language' => 'en',
-            'state' => 'queued',
-            'media_uri' => 'ExampleMediaRui',
-            'id' => 'ExampleId'
+                'next_media_uri' => 'ExampleUri',
+                'target_uri' => 'ExampleTargetUri',
+                'language' => 'en',
+                'state' => 'queued',
+                'media_uri' => 'ExampleMediaRui',
+                'id' => 'ExampleId',
             ]
         );
         $resultPlayback = $bridgesClient->play('12345', ['sound:exampleSound']);
@@ -99,7 +101,7 @@ class BridgesTest extends TestCase
     {
         $bridgesClient = $this->createBridgesClientWithGuzzleClientStub([]);
         $bridgesClient->startMoh('SomeBridgeId', 'SomeMohClass');
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**
@@ -110,7 +112,7 @@ class BridgesTest extends TestCase
     {
         $bridgesClient = $this->createBridgesClientWithGuzzleClientStub([]);
         $bridgesClient->destroy('SomeChannelId');
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**
@@ -154,7 +156,7 @@ class BridgesTest extends TestCase
     {
         $bridgesClient = $this->createBridgesClientWithGuzzleClientStub([]);
         $bridgesClient->setVideoSource('SomeChannelId', 'SomeChannelId');
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**
@@ -165,12 +167,12 @@ class BridgesTest extends TestCase
     {
         $bridgesClient = $this->createBridgesClientWithGuzzleClientStub(
             [
-            'next_media_uri' => 'ExampleUri',
-            'target_uri' => 'ExampleTargetUri',
-            'language' => 'en',
-            'state' => 'queued',
-            'media_uri' => 'ExampleMediaRui',
-            'id' => 'ExampleId'
+                'next_media_uri' => 'ExampleUri',
+                'target_uri' => 'ExampleTargetUri',
+                'language' => 'en',
+                'state' => 'queued',
+                'media_uri' => 'ExampleMediaRui',
+                'id' => 'ExampleId',
             ]
         );
         $resultPlayback = $bridgesClient->playWithId('12345', 'SomePlaybackId', ['sound:exampleSound']);
@@ -200,7 +202,7 @@ class BridgesTest extends TestCase
     {
         $bridgesClient = $this->createBridgesClientWithGuzzleClientStub([]);
         $bridgesClient->clearVideoSource('SomeChannelId');
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**
@@ -212,12 +214,12 @@ class BridgesTest extends TestCase
         $bridgesClient = $this->createBridgesClientWithGuzzleClientStub(
             [
                 'talking_duration' => 3,
-                'name'             => 'ExampleName',
-                'target_uri'       => 'ExampleUri',
-                'format'           => 'wav',
-                'cause'            => 'ExampleCause',
-                'state'            => 'paused',
-                'duration'         => 4,
+                'name' => 'ExampleName',
+                'target_uri' => 'ExampleUri',
+                'format' => 'wav',
+                'cause' => 'ExampleCause',
+                'state' => 'paused',
+                'duration' => 4,
                 'silence_duration' => 2,
             ]
         );
@@ -234,7 +236,7 @@ class BridgesTest extends TestCase
     {
         $bridgesClient = $this->createBridgesClientWithGuzzleClientStub([]);
         $bridgesClient->addChannel('SomeChannelId', []);
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**
@@ -245,7 +247,7 @@ class BridgesTest extends TestCase
     {
         $bridgesClient = $this->createBridgesClientWithGuzzleClientStub([]);
         $bridgesClient->removeChannel('SomeChannelId', []);
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**

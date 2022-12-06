@@ -32,9 +32,9 @@ class DeviceState implements ModelInterface
     /**
      * Device's state.
      *
+     * @return string
      * @see DeviceStates
      *
-     * @return string
      */
     public function getState(): string
     {

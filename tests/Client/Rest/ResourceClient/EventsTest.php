@@ -1,8 +1,8 @@
 <?php
 
-/** @copyright 2020 ng-voice GmbH */
+declare(strict_types=1);
 
-namespace OpiyOrg\AriClient\Tests\Client\Rest;
+namespace OpiyOrg\AriClient\Tests\Client\Rest\ResourceClient;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
@@ -34,13 +34,12 @@ class EventsTest extends TestCase
             ['SourceType1' => 'ExampleSource', 'SourceType2' => 'ExampleSource1', 'SourceType3' => 'ExampleSource2'],
             ['var1' => 'val1', 'var2' => 'val2', 'var3' => 'val3']
         );
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**
      * @param $expectedResponse
      * @return Events
-     * @throws ReflectionException
      */
     private function createEventsClientWithGuzzleClientStub($expectedResponse): Events
     {

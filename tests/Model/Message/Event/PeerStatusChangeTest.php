@@ -31,7 +31,7 @@ final class PeerStatusChangeTest extends TestCase
         $peerStatusChange = Helper::mapOntoAriEvent(
             PeerStatusChange::class,
             [
-                'peer'     => PeerTest::RAW_ARRAY_REPRESENTATION,
+                'peer' => PeerTest::RAW_ARRAY_REPRESENTATION,
                 'endpoint' => EndpointTest::RAW_ARRAY_REPRESENTATION,
             ]
         );

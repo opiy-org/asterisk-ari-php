@@ -21,12 +21,12 @@ final class LiveRecordingTest extends TestCase
 {
     public const RAW_ARRAY_REPRESENTATION = [
         'talking_duration' => 3,
-        'name'             => 'ExampleName',
-        'target_uri'       => 'ExampleUri',
-        'format'           => 'wav',
-        'cause'            => 'ExampleCause',
-        'state'            => 'paused',
-        'duration'         => 4,
+        'name' => 'ExampleName',
+        'target_uri' => 'ExampleUri',
+        'format' => 'wav',
+        'cause' => 'ExampleCause',
+        'state' => 'paused',
+        'duration' => 4,
         'silence_duration' => 2,
     ];
 
