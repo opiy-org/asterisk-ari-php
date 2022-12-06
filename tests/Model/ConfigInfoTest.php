@@ -20,22 +20,22 @@ use PHPUnit\Framework\TestCase;
 final class ConfigInfoTest extends TestCase
 {
     public const RAW_ARRAY_REPRESENTATION = [
-        'name'             => 'SomeName',
+        'name' => 'SomeName',
         'default_language' => 'en',
-        'setid'            => [
-            'user'  => 'SomeUser',
+        'setid' => [
+            'user' => 'SomeUser',
             'group' => 'SomeGroup',
         ],
-        'max_channels'     => 3,
-        'max_load'         => 13.2,
-        'max_open_files'   => 14,
+        'max_channels' => 3,
+        'max_load' => 13.2,
+        'max_open_files' => 14,
     ];
 
     public function testParametersMappedCorrectly(): void
     {
         $configInfo = new ConfigInfo();
 
-        Helper::mapOntoInstance(self::RAW_ARRAY_REPRESENTATION, $configInfo);
+        $configInfo = Helper::mapOntoInstance(self::RAW_ARRAY_REPRESENTATION, $configInfo);
 
         $this->assertInstanceOf(ConfigInfo::class, $configInfo);
         $this->assertSame('SomeName', $configInfo->getName());

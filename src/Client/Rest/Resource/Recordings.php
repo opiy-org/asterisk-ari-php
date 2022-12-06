@@ -21,7 +21,7 @@ use OpiyOrg\AriClient\Model\{LiveRecording, StoredRecording};
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class Recordings extends AbstractRestClient
+class Recordings extends AbstractRestClient
 {
     /**
      * List recordings that are complete.

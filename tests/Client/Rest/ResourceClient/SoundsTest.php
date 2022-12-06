@@ -1,6 +1,6 @@
 <?php
 
-/** @copyright 2020 ng-voice GmbH */
+declare(strict_types=1);
 
 namespace OpiyOrg\AriClient\Tests\Client\Rest\ResourceClient;
 
@@ -32,12 +32,12 @@ class SoundsTest extends TestCase
                     'formats' => [
                         [
                             'format' => 'X',
-                            'language' => 'Y'
-                        ]
+                            'language' => 'Y',
+                        ],
                     ],
-                    'text' => 'ExampleText'
-                ]
-            ]
+                    'text' => 'ExampleText',
+                ],
+            ],
         ];
     }
 

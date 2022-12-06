@@ -15,13 +15,13 @@ use OpiyOrg\AriClient\Model\Channel;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class ChannelDialplan extends Event
+class ChannelDialplan extends Event
 {
-    private string $dialplanAppData;
+    public string $dialplanAppData;
 
-    private Channel $channel;
+    public Channel $channel;
 
-    private string $dialplanApp;
+    public string $dialplanApp;
 
     /**
      * The data to be passed to the application.

@@ -1,6 +1,6 @@
 <?php
 
-/** @copyright 2020 ng-voice GmbH */
+declare(strict_types=1);
 
 namespace OpiyOrg\AriClient\Tests\Client\Rest\ResourceClient;
 
@@ -31,15 +31,15 @@ class RecordingsTest extends TestCase
             'example live recording' => [
                 [
                     'talking_duration' => 3,
-                    'name'             => 'ExampleName',
-                    'target_uri'       => 'ExampleUri',
-                    'format'           => 'wav',
-                    'cause'            => 'ExampleCause',
-                    'state'            => 'paused',
-                    'duration'         => 4,
+                    'name' => 'ExampleName',
+                    'target_uri' => 'ExampleUri',
+                    'format' => 'wav',
+                    'cause' => 'ExampleCause',
+                    'state' => 'paused',
+                    'duration' => 4,
                     'silence_duration' => 2,
                 ],
-            ]
+            ],
         ];
     }
 
@@ -68,7 +68,7 @@ class RecordingsTest extends TestCase
             'ExampleRecordingName',
             '/recordings/stored/filename'
         );
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**
@@ -79,7 +79,7 @@ class RecordingsTest extends TestCase
     {
         $exampleStoredRecording = [
             'format' => 'ExampleFormat',
-            'name' => 'ExampleName'
+            'name' => 'ExampleName',
         ];
         $recordingsClient = $this->createRecordingsClientWithGuzzleClientStub($exampleStoredRecording);
         $resultRecording = $recordingsClient->copyStored('ExampeRecordingName', 'ExampleDestinationRecordingName');
@@ -95,7 +95,7 @@ class RecordingsTest extends TestCase
     {
         $exampleStoredRecording = [
             'format' => 'ExampleFormat',
-            'name' => 'ExampleName'
+            'name' => 'ExampleName',
         ];
         $recordingsClient = $this->createRecordingsClientWithGuzzleClientStub($exampleStoredRecording);
         $resultRecording = $recordingsClient->getStored('12345');
@@ -111,7 +111,7 @@ class RecordingsTest extends TestCase
     {
         $exampleStoredRecording = [
             'format' => 'ExampleFormat',
-            'name' => 'ExampleName'
+            'name' => 'ExampleName',
         ];
         $recordingsClient = $this->createRecordingsClientWithGuzzleClientStub(
             [$exampleStoredRecording, $exampleStoredRecording, $exampleStoredRecording]
@@ -132,7 +132,7 @@ class RecordingsTest extends TestCase
     {
         $recordingsClient = $this->createRecordingsClientWithGuzzleClientStub([]);
         $recordingsClient->deleteStored('ExampleRecordingName');
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**
@@ -143,7 +143,7 @@ class RecordingsTest extends TestCase
     {
         $recordingsClient = $this->createRecordingsClientWithGuzzleClientStub([]);
         $recordingsClient->cancel('ExampleRecordingName');
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**
@@ -154,7 +154,7 @@ class RecordingsTest extends TestCase
     {
         $recordingsClient = $this->createRecordingsClientWithGuzzleClientStub([]);
         $recordingsClient->stop('ExampleRecordingName');
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**
@@ -165,7 +165,7 @@ class RecordingsTest extends TestCase
     {
         $recordingsClient = $this->createRecordingsClientWithGuzzleClientStub([]);
         $recordingsClient->pause('ExampleRecordingName');
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**
@@ -176,7 +176,7 @@ class RecordingsTest extends TestCase
     {
         $recordingsClient = $this->createRecordingsClientWithGuzzleClientStub([]);
         $recordingsClient->unpause('ExampleRecordingName');
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**
@@ -187,7 +187,7 @@ class RecordingsTest extends TestCase
     {
         $recordingsClient = $this->createRecordingsClientWithGuzzleClientStub([]);
         $recordingsClient->mute('ExampleRecordingName');
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**
@@ -198,7 +198,7 @@ class RecordingsTest extends TestCase
     {
         $recordingsClient = $this->createRecordingsClientWithGuzzleClientStub([]);
         $recordingsClient->unmute('ExampleRecordingName');
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**

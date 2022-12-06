@@ -18,13 +18,13 @@ use OpiyOrg\AriClient\Model\Channel;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class ChannelDtmfReceived extends Event
+class ChannelDtmfReceived extends Event
 {
-    private int $durationMs;
+    public int $durationMs;
 
-    private string $digit;
+    public string $digit;
 
-    private Channel $channel;
+    public Channel $channel;
 
     /**
      * Number of milliseconds DTMF was received.

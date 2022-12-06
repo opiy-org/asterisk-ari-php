@@ -20,7 +20,7 @@ namespace OpiyOrg\AriClient\Enum;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class ContactStatus
+class ContactStatus
 {
     public const UNREACHABLE = 'Unreachable';
 

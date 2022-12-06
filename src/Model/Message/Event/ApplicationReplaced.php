@@ -16,6 +16,6 @@ namespace OpiyOrg\AriClient\Model\Message\Event;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class ApplicationReplaced extends Event
+class ApplicationReplaced extends Event
 {
 }

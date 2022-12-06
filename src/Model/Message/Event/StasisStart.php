@@ -15,16 +15,16 @@ use OpiyOrg\AriClient\Model\Channel;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class StasisStart extends Event
+class StasisStart extends Event
 {
     /**
      * @var array<int, string> Arguments to the application.
      */
-    private array $args = [];
+    public array $args = [];
 
-    private ?Channel $replaceChannel = null;
+    public ?Channel $replaceChannel = null;
 
-    private Channel $channel;
+    public Channel $channel;
 
     /**
      * @return array<int, string>

@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * Class SoundTest
  *
- * @package AriStasisApp\Tests\Model
+ * @package OpiyOrg\AriClient\Tests\Model
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
@@ -26,14 +26,14 @@ final class SoundTest extends TestCase
          */
         $sound = Helper::mapOntoInstance(
             [
-                'id'      => 'ExampleId',
+                'id' => 'ExampleId',
                 'formats' => [
                     [
-                        'format'   => 'X',
+                        'format' => 'X',
                         'language' => 'Y',
                     ],
                 ],
-                'text'    => 'ExampleText',
+                'text' => 'ExampleText',
             ],
             new Sound()
         );

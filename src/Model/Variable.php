@@ -13,17 +13,35 @@ namespace OpiyOrg\AriClient\Model;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class Variable implements ModelInterface
+class Variable implements ModelInterface
 {
-    private string $value;
+    public string $value;
+
+    private ?string $key;
 
     /**
-     * The value of the variable requested.
+     * The value of the variable.
      *
      * @return string
      */
     public function getValue(): string
     {
         return $this->value;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getKey(): ?string
+    {
+        return $this->key;
+    }
+
+    /**
+     * @param string|null $key
+     */
+    public function setKey(?string $key): void
+    {
+        $this->key = $key;
     }
 }

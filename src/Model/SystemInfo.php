@@ -13,11 +13,11 @@ namespace OpiyOrg\AriClient\Model;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class SystemInfo implements ModelInterface
+class SystemInfo implements ModelInterface
 {
-    private string $entityId;
+    public string $entityId;
 
-    private string $version;
+    public string $version;
 
     /**
      * Entities id.

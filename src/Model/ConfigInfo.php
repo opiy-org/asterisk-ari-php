@@ -13,19 +13,19 @@ namespace OpiyOrg\AriClient\Model;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class ConfigInfo implements ModelInterface
+class ConfigInfo implements ModelInterface
 {
-    private string $name;
+    public string $name;
 
-    private string $defaultLanguage;
+    public string $defaultLanguage;
 
-    private ?float $maxLoad = null;
+    public ?float $maxLoad = null;
 
-    private SetId $setid;
+    public SetId $setid;
 
-    private ?int $maxOpenFiles = null;
+    public ?int $maxOpenFiles = null;
 
-    private ?int $maxChannels = null;
+    public ?int $maxChannels = null;
 
     /**
      * Asterisk system name.

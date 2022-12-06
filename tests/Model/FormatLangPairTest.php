@@ -27,7 +27,7 @@ final class FormatLangPairTest extends TestCase
         $formatLangPair = Helper::mapOntoInstance(
             [
                 'language' => 'en',
-                'format'   => 'ExampleFormat',
+                'format' => 'ExampleFormat',
             ],
             new FormatLangPair()
         );

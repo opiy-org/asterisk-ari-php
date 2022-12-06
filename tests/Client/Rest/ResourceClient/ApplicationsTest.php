@@ -2,6 +2,8 @@
 
 /** @copyright 2020 ng-voice GmbH */
 
+declare(strict_types=1);
+
 namespace OpiyOrg\AriClient\Tests\Client\Rest\ResourceClient;
 
 use GuzzleHttp\Client;
@@ -23,12 +25,12 @@ use ReflectionException;
 class ApplicationsTest extends TestCase
 {
     public const EXAMPLE = [
-        'name'              => 'TestApplication',
-        'channel_ids'       => [],
-        'endpoint_ids'      => [],
-        'bridge_ids'        => [],
-        'device_names'      => [],
-        'events_allowed'    => [],
+        'name' => 'TestApplication',
+        'channel_ids' => [],
+        'endpoint_ids' => [],
+        'bridge_ids' => [],
+        'device_names' => [],
+        'events_allowed' => [],
         'events_disallowed' => [],
     ];
 
@@ -125,15 +127,15 @@ class ApplicationsTest extends TestCase
         $guzzleClientStub->method('request')
             // TODO: Test for correct parameter translation via with() method here?
             //  ->with()
-                        ->willReturn(
-                            new Response(
-                                200,
-                                [],
-                                json_encode($expectedResponse),
-                                '1.1',
-                                'SomeReason'
-                            )
-                        );
+            ->willReturn(
+                new Response(
+                    200,
+                    [],
+                    json_encode($expectedResponse),
+                    '1.1',
+                    'SomeReason'
+                )
+            );
 
         $settings = new Settings('SomeUser', 'SomePw');
 

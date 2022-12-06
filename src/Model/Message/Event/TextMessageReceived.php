@@ -15,11 +15,11 @@ use OpiyOrg\AriClient\Model\{Endpoint, TextMessage};
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class TextMessageReceived extends Event
+class TextMessageReceived extends Event
 {
-    private TextMessage $message;
+    public TextMessage $message;
 
-    private ?Endpoint $endpoint = null;
+    public ?Endpoint $endpoint = null;
 
     /**
      * @return TextMessage

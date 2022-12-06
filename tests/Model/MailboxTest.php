@@ -26,7 +26,7 @@ final class MailboxTest extends TestCase
          */
         $mailbox = Helper::mapOntoInstance(
             [
-                'name'         => 'ExampleName',
+                'name' => 'ExampleName',
                 'old_messages' => 5,
                 'new_messages' => 2,
             ],

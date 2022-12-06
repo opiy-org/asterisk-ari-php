@@ -15,9 +15,9 @@ use OpiyOrg\AriClient\Model\Channel;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class ChannelUnhold extends Event
+class ChannelUnhold extends Event
 {
-    private Channel $channel;
+    public Channel $channel;
 
     /**
      * The channel that initiated the unhold event.

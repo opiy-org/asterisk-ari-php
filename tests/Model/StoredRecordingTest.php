@@ -27,7 +27,7 @@ final class StoredRecordingTest extends TestCase
         $storedRecording = Helper::mapOntoInstance(
             [
                 'format' => 'ExampleFormat',
-                'name'   => 'ExampleName',
+                'name' => 'ExampleName',
             ],
             new StoredRecording()
         );

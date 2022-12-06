@@ -38,14 +38,14 @@ final class BridgeBlindTransferTest extends TestCase
         $bridgeBlindTransfer = Helper::mapOntoAriEvent(
             BridgeBlindTransfer::class,
             [
-                'bridge'          => BridgeTest::RAW_ARRAY_REPRESENTATION,
+                'bridge' => BridgeTest::RAW_ARRAY_REPRESENTATION,
                 'replace_channel' => ChannelTest::RAW_ARRAY_REPRESENTATION,
-                'is_external'     => true,
-                'exten'           => 'ExampleExten',
-                'result'          => 'Result',
-                'context'         => 'ExampleContext',
-                'transferee'      => ChannelTest::RAW_ARRAY_REPRESENTATION,
-                'channel'         => ChannelTest::RAW_ARRAY_REPRESENTATION,
+                'is_external' => true,
+                'exten' => 'ExampleExten',
+                'result' => 'Result',
+                'context' => 'ExampleContext',
+                'transferee' => ChannelTest::RAW_ARRAY_REPRESENTATION,
+                'channel' => ChannelTest::RAW_ARRAY_REPRESENTATION,
             ]
         );
         $this->assertInstanceOf(Bridge::class, $bridgeBlindTransfer->getBridge());

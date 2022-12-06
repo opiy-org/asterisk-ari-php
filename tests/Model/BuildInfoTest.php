@@ -20,18 +20,18 @@ use PHPUnit\Framework\TestCase;
 final class BuildInfoTest extends TestCase
 {
     public const RAW_ARRAY_REPRESENTATION = [
-        'os'      => 'Linux',
-        'kernel'  => '4.9.0-7-amd64',
+        'os' => 'Linux',
+        'kernel' => '4.9.0-7-amd64',
         'machine' => 'x86_64',
         'options' => 'OPTIONAL_API',
-        'date'    => '2016-12-20 13:45:28 UTC',
-        'user'    => 'root',
+        'date' => '2016-12-20 13:45:28 UTC',
+        'user' => 'root',
     ];
 
     public function testParametersMappedCorrectly(): void
     {
         $buildInfo = new BuildInfo();
-        Helper::mapOntoInstance(self::RAW_ARRAY_REPRESENTATION, $buildInfo);
+        $buildInfo = Helper::mapOntoInstance(self::RAW_ARRAY_REPRESENTATION, $buildInfo);
 
         $this->assertSame('root', $buildInfo->getUser());
         $this->assertSame('Linux', $buildInfo->getOs());

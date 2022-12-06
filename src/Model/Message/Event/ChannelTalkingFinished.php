@@ -15,11 +15,11 @@ use OpiyOrg\AriClient\Model\Channel;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class ChannelTalkingFinished extends Event
+class ChannelTalkingFinished extends Event
 {
-    private int $duration;
+    public int $duration;
 
-    private Channel $channel;
+    public Channel $channel;
 
     /**
      * The length of time, in milliseconds, that talking was detected on the channel

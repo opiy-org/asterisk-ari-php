@@ -31,7 +31,7 @@ final class ChannelLeftBridgeTest extends TestCase
         $channelLeftBridge = Helper::mapOntoAriEvent(
             ChannelLeftBridge::class,
             [
-                'bridge'  => BridgeTest::RAW_ARRAY_REPRESENTATION,
+                'bridge' => BridgeTest::RAW_ARRAY_REPRESENTATION,
                 'channel' => ChannelTest::RAW_ARRAY_REPRESENTATION,
             ]
         );

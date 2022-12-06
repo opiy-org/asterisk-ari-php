@@ -15,9 +15,9 @@ use OpiyOrg\AriClient\Model\Bridge;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class BridgeCreated extends Event
+class BridgeCreated extends Event
 {
-    private Bridge $bridge;
+    public Bridge $bridge;
 
     /**
      * @return Bridge

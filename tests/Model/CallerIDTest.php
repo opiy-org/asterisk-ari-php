@@ -26,7 +26,7 @@ final class CallerIDTest extends TestCase
          */
         $callerId = Helper::mapOntoInstance(
             [
-                'name'   => 'ExampleName',
+                'name' => 'ExampleName',
                 'number' => 'ExampleNumber',
             ],
             new CallerID()

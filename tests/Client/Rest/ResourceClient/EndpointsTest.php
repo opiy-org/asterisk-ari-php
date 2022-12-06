@@ -1,6 +1,6 @@
 <?php
 
-/** @copyright 2020 ng-voice GmbH */
+declare(strict_types=1);
 
 namespace OpiyOrg\AriClient\Tests\Client\Rest\ResourceClient;
 
@@ -34,11 +34,11 @@ class EndpointsTest extends TestCase
                     'technology' => 'ExampleTechnology',
                     'channel_ids' => [
                         'firstChannel',
-                        'secondChannel'
+                        'secondChannel',
                     ],
-                    'resource' => 'ExampleResource'
-                ]
-            ]
+                    'resource' => 'ExampleResource',
+                ],
+            ],
         ];
     }
 
@@ -102,7 +102,7 @@ class EndpointsTest extends TestCase
     {
         $endpointsClient = $this->createEndpointsClient([]);
         $endpointsClient->sendMessage('Stefan', 'Lukas', 'This is a message for you.');
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**
@@ -113,7 +113,7 @@ class EndpointsTest extends TestCase
     {
         $endpointsClient = $this->createEndpointsClient([]);
         $endpointsClient->sendMessageToEndpoint('SomeTech', 'ExampleResource', 'This is a message.');
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**

@@ -20,14 +20,14 @@ use PHPUnit\Framework\TestCase;
 final class SystemInfoTest extends TestCase
 {
     public const RAW_ARRAY_REPRESENTATION = [
-        'version'   => '16.1.0',
+        'version' => '16.1.0',
         'entity_id' => '02:42:ac:11:00:01',
     ];
 
     public function testParametersMappedCorrectly(): void
     {
         $systemInfo = new SystemInfo();
-        Helper::mapOntoInstance(self::RAW_ARRAY_REPRESENTATION, $systemInfo);
+        $systemInfo = Helper::mapOntoInstance(self::RAW_ARRAY_REPRESENTATION, $systemInfo);
 
         $this->assertInstanceOf(SystemInfo::class, $systemInfo);
         $this->assertSame('02:42:ac:11:00:01', $systemInfo->getEntityId());

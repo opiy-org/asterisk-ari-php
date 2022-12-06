@@ -9,14 +9,7 @@ The idea is to make ARI calls safe and easy. Therefore, we wanted to get rid of
 JSON parsing in our application code. Instead, we aim to make it as easy as possible
 for anyone to talk to ARI without worrying about the implementation of a client stub.
 
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=ngvoice_asterisk-ari-client&metric=security_rating)](https://sonarcloud.io/dashboard?id=ngvoice_asterisk-ari-client)
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=ngvoice_asterisk-ari-client&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=ngvoice_asterisk-ari-client)
-[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=ngvoice_asterisk-ari-client&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=ngvoice_asterisk-ari-client)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=ngvoice_asterisk-ari-client&metric=coverage)](https://sonarcloud.io/dashboard?id=ngvoice_asterisk-ari-client)
-
-[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=ngvoice_asterisk-ari-client&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=ngvoice_asterisk-ari-client)
-[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=ngvoice_asterisk-ari-client&metric=sqale_index)](https://sonarcloud.io/dashboard?id=ngvoice_asterisk-ari-client)
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=ngvoice_asterisk-ari-client&metric=ncloc)](https://sonarcloud.io/dashboard?id=ngvoice_asterisk-ari-client)
+https://github.com/opiy-org/asterisk-ari-php/actions/workflows/main.yml/badge.svg
 
 ![Licence](https://img.shields.io/badge/licence-MIT-blue.svg)
 
@@ -34,7 +27,11 @@ https://getcomposer.org/download/
 
 Please run the following command to add the library to your project:
 
-`composer require opiy-org/asterisk-ari-php`
+PHP 7.4
+`composer require opiy-org/asterisk-ari-php` 
+
+PHP 8.0|8.1
+`composer require opiy-org/asterisk-ari-php:2` 
 
 While installing, you might run into composer errors concerning missing PHP extensions.
 There are several ways to install them, depending on your operating system.
@@ -226,12 +223,9 @@ container.
 
 ## Licence
 
-##### MIT © ng-voice GmbH (2020)
+##### MIT
 
-![ng-voice logo](image/ng-voice-logo.png)
-
-ng-voice is happy to help! Feel free to send us a message.
-We'd also like to hear about your application ideas and use cases. :)
+Originally: [ngvoice/asterisk-ari-client](https://bitbucket.org/ngvoice/asterisk-ari-client) (by ng-voice)
 
 ## Contributors
 
@@ -239,9 +233,9 @@ Your pull requests are welcome. Please stick to the PSR-12 coding standards if
 you want to contribute.
 
 ### Maintainer
+* [opiy](https://github.com/opiy-org) (opiy@opiy.org)
 
+
+### Authors
 * [Lukas Stermann](https://gitlab.com/Oktavlachs) (lukas@ng-voice.com)
-
-### Others
-
 * [Benedikt Vollmerhaus](https://gitlab.com/BVollmerhaus) (Project Review)

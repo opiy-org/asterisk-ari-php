@@ -15,13 +15,13 @@ use OpiyOrg\AriClient\Model\Channel;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class ChannelCallerId extends Event
+class ChannelCallerId extends Event
 {
-    private string $callerPresentationTxt;
+    public string $callerPresentationTxt;
 
-    private int $callerPresentation;
+    public int $callerPresentation;
 
-    private Channel $channel;
+    public Channel $channel;
 
     /**
      * The text representation of the Caller Presentation value.

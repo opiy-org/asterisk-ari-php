@@ -13,15 +13,15 @@ namespace OpiyOrg\AriClient\Model;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class AsteriskInfo implements ModelInterface
+class AsteriskInfo implements ModelInterface
 {
-    private ?StatusInfo $status = null;
+    public ?StatusInfo $status = null;
 
-    private ?ConfigInfo $config = null;
+    public ?ConfigInfo $config = null;
 
-    private ?BuildInfo $build = null;
+    public ?BuildInfo $build = null;
 
-    private ?SystemInfo $system = null;
+    public ?SystemInfo $system = null;
 
     /**
      * Info about Asterisk status.

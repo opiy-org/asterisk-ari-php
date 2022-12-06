@@ -15,19 +15,19 @@ use OpiyOrg\AriClient\Enum\PlaybackStates;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class Playback implements ModelInterface
+class Playback implements ModelInterface
 {
-    private ?string $nextMediaUri = null;
+    public ?string $nextMediaUri = null;
 
-    private string $targetUri;
+    public string $targetUri;
 
-    private ?string $language = null;
+    public ?string $language = null;
 
-    private string $state;
+    public string $state;
 
-    private string $mediaUri;
+    public string $mediaUri;
 
-    private string $id;
+    public string $id;
 
     /**
      * If a list of URIs is being played, the next media URI to be played back.
@@ -63,9 +63,9 @@ final class Playback implements ModelInterface
     /**
      * Current state of the playback operation.
      *
+     * @return string
      * @see PlaybackStates
      *
-     * @return string
      */
     public function getState(): string
     {

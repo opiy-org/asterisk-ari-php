@@ -20,14 +20,14 @@ use PHPUnit\Framework\TestCase;
 final class StatusInfoTest extends TestCase
 {
     public const RAW_ARRAY_REPRESENTATION = [
-        'startup_time'     => '2019-02-19T22:43:31.820+0000',
+        'startup_time' => '2019-02-19T22:43:31.820+0000',
         'last_reload_time' => '2019-02-19T22:43:31.820+0000',
     ];
 
     public function testParametersMappedCorrectly(): void
     {
         $statusInfo = new StatusInfo();
-        Helper::mapOntoInstance(self::RAW_ARRAY_REPRESENTATION, $statusInfo);
+        $statusInfo = Helper::mapOntoInstance(self::RAW_ARRAY_REPRESENTATION, $statusInfo);
 
         $this->assertSame(
             '2019-02-19T22:43:31.820+0000',

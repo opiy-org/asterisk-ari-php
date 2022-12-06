@@ -13,7 +13,7 @@ jobs:
       fail-fast: true
       matrix:
         os: [ ubuntu-latest, windows-latest ]
-        php: [ 7.4 ]
+        php: [ 8.0, 8.1 ]
 
     name:  OS:${{ matrix.os }}, PHP:${{ matrix.php }}
 
@@ -33,6 +33,10 @@ jobs:
           echo "::add-matcher::${{ runner.tool_cache }}/php.json"
           echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
       - name: Install dependencies
-        run: composer install --no-ansi --no-interaction --no-progress
+        run: composer update --no-ansi --no-interaction --no-progress
       - name: Execute tests
         run: composer test
+      - name: PhpStan
+        run: composer sca
+      - name: PhpCS
+        run: composer lint

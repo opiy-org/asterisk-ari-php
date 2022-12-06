@@ -15,9 +15,9 @@ use OpiyOrg\AriClient\Model\Playback;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class PlaybackFinished extends Event
+class PlaybackFinished extends Event
 {
-    private Playback $playback;
+    public Playback $playback;
 
     /**
      * Playback control object.

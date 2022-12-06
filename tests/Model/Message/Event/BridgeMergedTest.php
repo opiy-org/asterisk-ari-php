@@ -37,7 +37,7 @@ final class BridgeMergedTest extends TestCase
         $bridgeMerged = Helper::mapOntoAriEvent(
             BridgeMerged::class,
             [
-                'bridge'      => BridgeTest::RAW_ARRAY_REPRESENTATION,
+                'bridge' => BridgeTest::RAW_ARRAY_REPRESENTATION,
                 'bridge_from' => BridgeTest::RAW_ARRAY_REPRESENTATION,
             ]
         );

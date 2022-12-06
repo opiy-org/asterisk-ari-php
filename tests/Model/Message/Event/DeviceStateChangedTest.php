@@ -30,7 +30,7 @@ final class DeviceStateChangedTest extends TestCase
             [
                 'device_state' => [
                     'state' => 'BUSY',
-                    'name'  => 'ExampleName',
+                    'name' => 'ExampleName',
                 ],
             ]
         );

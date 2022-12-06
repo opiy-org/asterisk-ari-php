@@ -13,11 +13,11 @@ namespace OpiyOrg\AriClient\Model;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class FormatLangPair implements ModelInterface
+class FormatLangPair implements ModelInterface
 {
-    private string $language;
+    public string $language;
 
-    private string $format;
+    public string $format;
 
     /**
      * @return string

@@ -15,9 +15,9 @@ namespace OpiyOrg\AriClient\Model\Message;
  */
 class Message
 {
-    private string $type;
+    public string $type;
 
-    private ?string $asteriskId = null;
+    public ?string $asteriskId = null;
 
     /**
      * Indicates the type of this message.

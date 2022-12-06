@@ -37,7 +37,7 @@ final class BridgeVideoSourceChangedTest extends TestCase
         $bridgeVideoSourceChanged = Helper::mapOntoAriEvent(
             BridgeVideoSourceChanged::class,
             [
-                'bridge'              => BridgeTest::RAW_ARRAY_REPRESENTATION,
+                'bridge' => BridgeTest::RAW_ARRAY_REPRESENTATION,
                 'old_video_source_id' => '15g5',
             ]
         );

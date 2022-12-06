@@ -11,18 +11,19 @@ declare(strict_types=1);
 
 namespace OpiyOrg\AriClient\Client\Rest;
 
-use Throwable;
-use JsonException;
-use Psr\Log\LoggerInterface;
-use OpiyOrg\AriClient\Helper;
+use CuyZ\Valinor\Mapper\MappingError;
+use CuyZ\Valinor\Mapper\Source\Source;
+use CuyZ\Valinor\Mapper\TreeMapper;
+use CuyZ\Valinor\MapperBuilder;
 use GuzzleHttp\Client as GuzzleClient;
+use JsonException;
 use OpiyOrg\AriClient\Enum\HttpMethods;
-use Psr\Http\Message\ResponseInterface;
-use OpiyOrg\AriClient\Model\ModelInterface;
-use Oktavlachs\DataMappingService\DataMappingService;
 use OpiyOrg\AriClient\Exception\AsteriskRestInterfaceException;
-use Oktavlachs\DataMappingService\Collection\SourceNamingConventions;
-use Oktavlachs\DataMappingService\Exception\DataMappingServiceException;
+use OpiyOrg\AriClient\Helper;
+use OpiyOrg\AriClient\Model\ModelInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Log\LoggerInterface;
+use Throwable;
 use TypeError;
 
 /**
@@ -38,7 +39,7 @@ abstract class AbstractRestClient
 
     private GuzzleClient $httpClient;
 
-    private DataMappingService $dataMappingService;
+    private TreeMapper $dataMappingService;
 
     protected LoggerInterface $logger;
 
@@ -70,7 +71,7 @@ abstract class AbstractRestClient
             $httpClient = new GuzzleClient(
                 [
                     'base_uri' => $baseUri,
-                    'auth'     => [
+                    'auth' => [
                         $abstractClientSettings->getUser(),
                         $abstractClientSettings->getPassword(),
                     ],
@@ -88,11 +89,12 @@ abstract class AbstractRestClient
 
         $this->logger = $logger;
 
-        $this->dataMappingService = new DataMappingService(
-            SourceNamingConventions::LOWER_SNAKE_CASE
-        );
+        $this->dataMappingService = (new MapperBuilder())
+            ->enableFlexibleCasting()
+            ->allowSuperfluousKeys()
+            ->allowPermissiveTypes()
+            ->mapper();
 
-        $this->dataMappingService->setIsUsingTargetObjectSetters(false);
         $this->isInDebugMode = $abstractClientSettings->isInDebugMode();
     }
 
@@ -166,6 +168,7 @@ abstract class AbstractRestClient
      * @return void
      *
      * @throws AsteriskRestInterfaceException In case the Asterisk REST Interface
+     * @throws JsonException
      * returns an invalid response
      */
     protected function responseToArrayOfAriModelInstances(
@@ -174,54 +177,43 @@ abstract class AbstractRestClient
         array &$resultArray
     ): void {
         try {
-            // Throws JsonException
-            /** @var array<int, array<mixed>> $decodedResponseBody */
             $decodedResponseBody = json_decode(
-                (string) $response->getBody(),
+                (string)$response->getBody(),
                 true,
                 512,
                 JSON_THROW_ON_ERROR
             );
 
-            $ariModelClassName = get_class($ariModelInterface);
-
             foreach ($decodedResponseBody as $modelAsArray) {
-                $targetModelInstance = new $ariModelClassName();
-
-                // Throws DataMappingServiceException
-                $this->dataMappingService->mapArrayOntoObject(
-                    $modelAsArray,
-                    $targetModelInstance
-                );
+                $targetModelInstance = $this->dataMappingService
+                    ->map(
+                        $ariModelInterface::class,
+                        Source::array($modelAsArray)->camelCaseKeys()
+                    );
 
                 $resultArray[] = $targetModelInstance;
             }
-        }
-        /** @noinspection PhpRedundantCatchClauseInspection We know that
-         * a JsonException can be thrown here because we explicitly set
-         * the flag.
-         */
-        catch (DataMappingServiceException | JsonException $e) {
+        } catch (MappingError $exception) {
             /*
              * This would only happen if Asterisk changed the design of its JSON
              * responses without documenting it, so it is a very unlikely event.
              */
-            $concatenatedExceptionMessages = $e->getMessage();
+            $concatenatedExceptionMessages = $exception->getMessage();
 
-            if ($e->getPrevious() !== null) {
+            if ($exception->getPrevious() !== null) {
                 $concatenatedExceptionMessages .=
-                    ' ------> ' . $e->getPrevious()->getMessage();
+                    ' ------> ' . $exception->getPrevious()->getMessage();
             }
 
             $errorMessage = sprintf(
                 "%s: Event -> '%s' HTTP response body was: '%s'",
-                get_class($e),
+                get_class($exception),
                 $concatenatedExceptionMessages,
-                (string) $response->getBody()
+                $response->getBody()
             );
 
             throw new AsteriskRestInterfaceException(
-                new TypeError($errorMessage, $e->getCode(), $e)
+                new TypeError($errorMessage, $exception->getCode(), $exception)
             );
         }
     }
@@ -233,26 +225,36 @@ abstract class AbstractRestClient
      * @param ModelInterface $modelInterface The model instance to map onto
      *
      * @throws AsteriskRestInterfaceException In case the Asterisk REST Interface
+     * @throws JsonException
      * returns an invalid response
      */
     protected function responseToAriModelInstance(
         ResponseInterface $response,
-        ModelInterface $modelInterface
+        ModelInterface &$modelInterface
     ): void {
         try {
-            $this
-                ->dataMappingService
-                ->mapRawJsonOntoObject((string) $response->getBody(), $modelInterface);
-        } catch (DataMappingServiceException $e) {
+            $decodedResponseBody = json_decode(
+                (string)$response->getBody(),
+                true,
+                512,
+                JSON_THROW_ON_ERROR
+            );
+
+            $modelInterface = $this->dataMappingService
+                ->map(
+                    $modelInterface::class,
+                    Source::array($decodedResponseBody)->camelCaseKeys()
+                );
+        } catch (MappingError $exception) {
             /*
              * This would only happen if Asterisk changed the design of its JSON
              * responses without documenting it, so it is a very unlikely event.
              */
-            $concatenatedExceptionMessages = $e->getMessage();
+            $concatenatedExceptionMessages = $exception->getMessage();
 
-            if ($e->getPrevious() !== null) {
+            if ($exception->getPrevious() !== null) {
                 $concatenatedExceptionMessages .=
-                    ' ------> ' . $e->getPrevious()->getMessage();
+                    ' ------> ' . $exception->getPrevious()->getMessage();
             }
 
             $errorMessage = sprintf(
@@ -260,17 +262,17 @@ abstract class AbstractRestClient
                 . "HTTP response body was: '%s'",
                 get_class($modelInterface),
                 $concatenatedExceptionMessages,
-                (string) $response->getBody()
+                $response->getBody()
             );
 
             throw new AsteriskRestInterfaceException(
-                new TypeError($errorMessage, $e->getCode(), $e)
+                new TypeError($errorMessage, $exception->getCode(), $exception)
             );
         }
     }
 
     /**
-     * Send a HTTP request to the Asterisk REST Interface,
+     * Send HTTP request to the Asterisk REST Interface,
      * intending to download a file.
      *
      * @param string $resourceUri URI Path
@@ -308,7 +310,7 @@ abstract class AbstractRestClient
     }
 
     /**
-     * Send a HTTP request to the Asterisk REST Interface.
+     * Send HTTP request to the Asterisk REST Interface.
      *
      * @param string $method The HTTP method that shall be used
      * @param string $resourceUri The requested resources URI

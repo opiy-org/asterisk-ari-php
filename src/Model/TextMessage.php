@@ -13,18 +13,18 @@ namespace OpiyOrg\AriClient\Model;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class TextMessage implements ModelInterface
+class TextMessage implements ModelInterface
 {
-    private string $body;
+    public string $body;
 
-    private string $from;
+    public string $from;
 
-    private string $to;
+    public string $to;
 
     /**
      * @var array<int, TextMessageVariable>
      */
-    private array $variables = [];
+    public array $variables = [];
 
     /**
      * The text of the message.

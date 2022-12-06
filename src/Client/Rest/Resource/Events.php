@@ -23,7 +23,7 @@ use OpiyOrg\AriClient\Exception\AsteriskRestInterfaceException;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class Events extends AbstractRestClient
+class Events extends AbstractRestClient
 {
     /**
      * Generate a stasis application user events.

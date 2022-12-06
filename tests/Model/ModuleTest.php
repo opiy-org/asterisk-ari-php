@@ -26,11 +26,11 @@ final class ModuleTest extends TestCase
          */
         $module = Helper::mapOntoInstance(
             [
-                'name'          => 'ExampleName',
-                'use_count'     => 5,
+                'name' => 'ExampleName',
+                'use_count' => 5,
                 'support_level' => 'ExampleSupportLevel',
-                'status'        => 'running',
-                'description'   => 'Cool module!',
+                'status' => 'running',
+                'description' => 'Cool module!',
             ],
             new Module()
         );

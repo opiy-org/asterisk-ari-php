@@ -23,7 +23,7 @@ final class VariableTest extends TestCase
     {
         $variable = new Variable();
 
-        Helper::mapOntoInstance(['value' => 'testValue'], $variable);
+        $variable = Helper::mapOntoInstance(['value' => 'testValue'], $variable);
 
         $this->assertSame('testValue', $variable->getValue());
     }

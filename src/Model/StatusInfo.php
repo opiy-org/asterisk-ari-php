@@ -13,17 +13,17 @@ namespace OpiyOrg\AriClient\Model;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class StatusInfo implements ModelInterface
+class StatusInfo implements ModelInterface
 {
     /**
      * @var string Time when Asterisk was last reloaded.
      */
-    private string $lastReloadTime;
+    public string $lastReloadTime;
 
     /**
      * @var string Time when Asterisk was started.
      */
-    private string $startupTime;
+    public string $startupTime;
 
     /**
      * @return string

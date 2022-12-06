@@ -15,9 +15,9 @@ use OpiyOrg\AriClient\Model\Channel;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class StasisEnd extends Event
+class StasisEnd extends Event
 {
-    private Channel $channel;
+    public Channel $channel;
 
     /**
      * @return Channel

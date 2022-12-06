@@ -13,13 +13,13 @@ namespace OpiyOrg\AriClient\Model;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class AsteriskPing implements ModelInterface
+class AsteriskPing implements ModelInterface
 {
-    private string $timestamp;
+    public string $timestamp;
 
-    private string $ping;
+    public string $ping = '';
 
-    private string $asteriskId;
+    public string $asteriskId;
 
     /**
      * The timestamp string of request received time.

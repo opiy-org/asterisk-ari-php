@@ -4,37 +4,6 @@
 
 declare(strict_types=1);
 
-/**
- * Overriding built-in PHP Class when testing in order to mock them.
- */
-
-namespace OpiyOrg\AriClient {
-    /**
-     * @return bool
-     */
-    function trigger_error($error_msg, $error_type = E_USER_NOTICE): bool
-    {
-        return true;
-    }
-
-    /**
-     * Dummy class
-     *
-     * @package OpiyOrg\AriClient
-     *
-     * @author Lukas Stermann <lukas@ng-voice.com>
-     */
-    class Yaml
-    {
-        /**
-         * @return array
-         */
-        public static function parseFile(): array
-        {
-            return ['debug_mode' => false];
-        }
-    }
-}
 namespace OpiyOrg\AriClient\Tests {
 
     use Exception;

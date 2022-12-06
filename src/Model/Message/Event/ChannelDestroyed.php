@@ -15,13 +15,13 @@ use OpiyOrg\AriClient\Model\Channel;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class ChannelDestroyed extends Event
+class ChannelDestroyed extends Event
 {
-    private int $cause;
+    public int $cause;
 
-    private string $causeTxt;
+    public string $causeTxt;
 
-    private Channel $channel;
+    public Channel $channel;
 
     /**
      * Integer representation of the cause of the hangup.

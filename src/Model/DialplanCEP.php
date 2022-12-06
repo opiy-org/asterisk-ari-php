@@ -13,20 +13,20 @@ namespace OpiyOrg\AriClient\Model;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class DialplanCEP implements ModelInterface
+class DialplanCEP implements ModelInterface
 {
     /**
      * @var mixed
      */
-    private $priority;
+    public $priority;
 
-    private string $exten;
+    public string $exten;
 
-    private ?string $appData = null;
+    public ?string $appData = null;
 
-    private ?string $appName = null;
+    public ?string $appName = null;
 
-    private string $context;
+    public string $context;
 
     /**
      * Priority in the dialplan.

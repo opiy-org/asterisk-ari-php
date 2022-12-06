@@ -17,9 +17,9 @@ use OpiyOrg\AriClient\Model\Message\Message;
  */
 class Event extends Message
 {
-    private string $application;
+    public string $application;
 
-    private string $timestamp;
+    public string $timestamp;
 
     /**
      * Name of the application receiving the event.

@@ -12,21 +12,21 @@ declare(strict_types=1);
 namespace OpiyOrg\AriClient\Client\WebSocket;
 
 use Closure;
-use Throwable;
-use JsonException;
-use ReflectionMethod;
-use ReflectionObject;
-use ReflectionFunction;
-use Psr\Log\LoggerInterface;
+use CuyZ\Valinor\Mapper\Source\Source;
+use CuyZ\Valinor\Mapper\TreeMapper;
+use CuyZ\Valinor\MapperBuilder;
 use InvalidArgumentException;
+use JsonException;
+use OpiyOrg\AriClient\Client\Rest\Resource\Applications;
+use OpiyOrg\AriClient\Client\Rest\Settings as RestClientSettings;
+use OpiyOrg\AriClient\Exception\AsteriskRestInterfaceException;
 use OpiyOrg\AriClient\Helper;
 use OpiyOrg\AriClient\StasisApplicationInterface;
-use Oktavlachs\DataMappingService\DataMappingService;
-use OpiyOrg\AriClient\Client\Rest\Resource\Applications;
-use OpiyOrg\AriClient\Exception\AsteriskRestInterfaceException;
-use OpiyOrg\AriClient\Client\Rest\Settings as RestClientSettings;
-use Oktavlachs\DataMappingService\Collection\SourceNamingConventions;
-use Oktavlachs\DataMappingService\Exception\DataMappingServiceException;
+use Psr\Log\LoggerInterface;
+use ReflectionFunction;
+use ReflectionMethod;
+use ReflectionObject;
+use Throwable;
 
 /**
  * Implementation of a basic web socket client that avoids duplicated
@@ -38,17 +38,17 @@ use Oktavlachs\DataMappingService\Exception\DataMappingServiceException;
  */
 abstract class AbstractWebSocketClient implements WebSocketClientInterface
 {
-    private Closure $errorHandler;
-
-    private Applications $ariApplicationsClient;
-
     protected bool $isInDebugMode;
 
     protected LoggerInterface $logger;
 
-    protected DataMappingService $dataMappingService;
-
     protected StasisApplicationInterface $stasisApplication;
+
+    private TreeMapper $dataMappingService;
+
+    private Closure $errorHandler;
+
+    private Applications $ariApplicationsClient;
 
     /**
      * AbstractWebSocketClient constructor.
@@ -84,15 +84,65 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
             );
         }
 
+        $this->dataMappingService = (new MapperBuilder())
+            ->enableFlexibleCasting()
+            ->allowSuperfluousKeys()
+            ->allowPermissiveTypes()
+            ->mapper();
+
         $this->ariApplicationsClient = $ariApplicationsClient;
 
-        $this->dataMappingService = new DataMappingService(
-            SourceNamingConventions::LOWER_SNAKE_CASE
-        );
-
-        $this->dataMappingService->setIsUsingTargetObjectSetters(false);
-
         $this->isInDebugMode = $webSocketClientSettings->isInDebugMode();
+    }
+
+    /**
+     * Initialize the error handler for this AbstractWebSocketClient.
+     *
+     * @param Closure|null $errorHandler The error handler to initialize
+     *
+     * @return void
+     *
+     * @noinspection PhpDocMissingThrowsInspection The ReflectionException is never
+     * thrown when getting an instance of the $errorHandler Closure.
+     */
+    private function initializeErrorHandler(?Closure $errorHandler): void
+    {
+        if ($errorHandler === null) {
+            $this->errorHandler = function (string $context, Throwable $throwable) {
+                $errorMessage = sprintf(
+                    "Error while handling '%s' -------> '%s'",
+                    $context,
+                    $throwable->getMessage()
+                );
+
+                $this->logger->error($errorMessage);
+            };
+
+            return;
+        }
+
+        /**
+         * @noinspection PhpUnhandledExceptionInspection Because
+         * $errorHandler is a Closure, this exception is never thrown.
+         */
+        $parameters = (new ReflectionFunction($errorHandler))->getParameters();
+
+        if (
+            !isset($parameters[0], $parameters[1])
+            || ($parameters[0]->getName() !== 'context')
+            || (($typeOne = $parameters[0]->getType()) === null)
+            || ($typeOne->getName() !== 'string')
+            || ($parameters[1]->getName() !== 'throwable')
+            || (($typeTwo = $parameters[1]->getType()) === null)
+            || ($typeTwo->getName() !== Throwable::class)
+        ) {
+            throw new InvalidArgumentException(
+                'The provided error handlers signature must start with '
+                . "'function (string \$context, Throwable \$throwable) ...'"
+            );
+        }
+
+        $this->errorHandler = $errorHandler;
     }
 
     /**
@@ -130,10 +180,82 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
         $infoMessage = sprintf(
             "Your Stasis app '%s' listens for the following events: '%s'",
             $applicationName,
-            (string) print_r($allowedEvents, true)
+            print_r($allowedEvents, true)
         );
 
         $this->logger->info($infoMessage);
+    }
+
+    /**
+     * Extract the available public method names from a Stasis application.
+     *
+     * @param ReflectionObject $myAppAsReflectionObject The Stasis app to extract
+     * the public method names from
+     *
+     * @return array<int, string>
+     */
+    private function extractPublicMethodNames(
+        ReflectionObject $myAppAsReflectionObject
+    ): array {
+        $publicReflectionMethods = $myAppAsReflectionObject->getMethods(
+            ReflectionMethod::IS_PUBLIC & ~ReflectionMethod::IS_STATIC
+        );
+
+        $publicMethodNames = [];
+
+        foreach ($publicReflectionMethods as $publicMethod) {
+            $publicMethodNames[] = $publicMethod->getName();
+        }
+
+        return $publicMethodNames;
+    }
+
+    /**
+     * Collect the names of Asterisk events the Stasis application class handles.
+     *
+     * Go through a list of public method names and filter the method names
+     * starting with the reserved ARI event handler method prefix.
+     * Extract the event name from the method name and add it to a result list.
+     *
+     * @param array<int, string> $myAppPublicMethodNames Names of the
+     * public methods of a given StasisApplicationInterface
+     *
+     * @return array<int, string> The list of Asterisk events, handled by
+     * the given StasisApplicationInterface
+     */
+    private function extractHandledAsteriskEvents(array $myAppPublicMethodNames): array
+    {
+        /** @var array<int, string> $handledAriEvents */
+        $handledAriEvents = [];
+        $eventHandlerMethodPrefixLength = strlen(self::ARI_EVENT_HANDLER_METHOD_PREFIX);
+
+        foreach ($myAppPublicMethodNames as $methodName) {
+            // Check for correct prefix syntax on incoming ARI events
+            if (!str_starts_with($methodName, self::ARI_EVENT_HANDLER_METHOD_PREFIX)) {
+                // Allow any public methods without the prefix
+                continue;
+            }
+
+            $eventName = substr($methodName, $eventHandlerMethodPrefixLength);
+
+            if (
+                !class_exists("OpiyOrg\\AriClient\\Model\\Message\\Event\\" . $eventName)
+            ) {
+                $errorMessage = sprintf(
+                    "The method '%s' in your Stasis application class '%s' "
+                    . 'has the correct ARI event handler method prefix but '
+                    . 'does not specify a valid ARI event name suffix.',
+                    $methodName,
+                    get_class($this->stasisApplication)
+                );
+
+                throw new InvalidArgumentException($errorMessage);
+            }
+
+            $handledAriEvents[] = $eventName;
+        }
+
+        return $handledAriEvents;
     }
 
     /**
@@ -142,9 +264,6 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
      *
      * @param string $ariEventAsJson The Asterisk REST Interface event as a JSON string
      *
-     * @noinspection PhpRedundantCatchClauseInspection We know that
-     * a JsonException can be thrown here because we explicitly set
-     * the flag.
      */
     public function onMessageHandlerLogic(string $ariEventAsJson): void
     {
@@ -170,18 +289,20 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
         $ariEventAsObject = new $ariEventNamespace();
 
         try {
-            $this
-                ->dataMappingService
-                ->mapArrayOntoObject($ariEventAsArray, $ariEventAsObject);
-        } catch (DataMappingServiceException $dataMappingServiceException) {
+            $ariEventAsObject = $this->dataMappingService
+                ->map(
+                    $ariEventAsObject::class,
+                    Source::array($ariEventAsArray)->camelCaseKeys()
+                );
+        } catch (Throwable $exception) {
             $context = sprintf(
                 'Mapping incoming JSON from ARI web socket server '
                 . "onto object '%s' failed | Error message: '%s'",
                 $ariEventNamespace,
-                $dataMappingServiceException->getMessage()
+                $exception->getMessage()
             );
 
-            ($this->errorHandler)($context, $dataMappingServiceException);
+            ($this->errorHandler)($context, $exception);
 
             return;
         }
@@ -244,7 +365,7 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
             '%s://%s:%s%s',
             $wsType,
             $webSocketClientSettings->getHost(),
-            (string) $webSocketClientSettings->getPort(),
+            $webSocketClientSettings->getPort(),
             $webSocketClientSettings->getRootUri()
         );
 
@@ -265,127 +386,5 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
         }
 
         return $uri;
-    }
-
-    /**
-     * Extract the available public method names from a Stasis application.
-     *
-     * @param ReflectionObject $myAppAsReflectionObject The Stasis app to extract
-     * the public method names from
-     *
-     * @return array<int, string>
-     */
-    private function extractPublicMethodNames(
-        ReflectionObject $myAppAsReflectionObject
-    ): array {
-        $publicReflectionMethods = $myAppAsReflectionObject->getMethods(
-            ReflectionMethod::IS_PUBLIC & ~ReflectionMethod::IS_STATIC
-        );
-
-        $publicMethodNames = [];
-
-        foreach ($publicReflectionMethods as $publicMethod) {
-            $publicMethodNames[] = $publicMethod->getName();
-        }
-
-        return $publicMethodNames;
-    }
-
-    /**
-     * Collect the names of Asterisk events the Stasis application class handles.
-     *
-     * Go through a list of public method names and filter the method names
-     * starting with the reserved ARI event handler method prefix.
-     * Extract the event name from the method name and add it to a result list.
-     *
-     * @param array<int, string> $myAppPublicMethodNames Names of the
-     * public methods of a given StasisApplicationInterface
-     *
-     * @return array<int, string> The list of Asterisk events, handled by
-     * the given StasisApplicationInterface
-     */
-    private function extractHandledAsteriskEvents(array $myAppPublicMethodNames): array
-    {
-        /** @var array<int, string> $handledAriEvents */
-        $handledAriEvents = [];
-        $eventHandlerMethodPrefixLength = strlen(self::ARI_EVENT_HANDLER_METHOD_PREFIX);
-
-        foreach ($myAppPublicMethodNames as $methodName) {
-            // Check for correct prefix syntax on incoming ARI events
-            if (strpos($methodName, self::ARI_EVENT_HANDLER_METHOD_PREFIX) !== 0) {
-                // Allow any public methods without the prefix
-                continue;
-            }
-
-            $eventName = (string) substr($methodName, $eventHandlerMethodPrefixLength);
-
-            if (
-                !class_exists("OpiyOrg\\AriClient\\Model\\Message\\Event\\" . $eventName)
-            ) {
-                $errorMessage = sprintf(
-                    "The method '%s' in your Stasis application class '%s' "
-                    . 'has the correct ARI event handler method prefix but '
-                    . 'does not specify a valid ARI event name suffix.',
-                    $methodName,
-                    get_class($this->stasisApplication)
-                );
-
-                throw new InvalidArgumentException($errorMessage);
-            }
-
-            $handledAriEvents[] = $eventName;
-        }
-
-        return $handledAriEvents;
-    }
-
-    /**
-     * Initialize the error handler for this AbstractWebSocketClient.
-     *
-     * @param Closure|null $errorHandler The error handler to initialize
-     *
-     * @return void
-     *
-     * @noinspection PhpDocMissingThrowsInspection The ReflectionException is never
-     * thrown when getting an instance of the $errorHandler Closure.
-     */
-    private function initializeErrorHandler(?Closure $errorHandler): void
-    {
-        if ($errorHandler === null) {
-            $this->errorHandler = function (string $context, Throwable $throwable) {
-                $errorMessage = sprintf(
-                    "Error while handling '%s' -------> '%s'",
-                    $context,
-                    $throwable->getMessage()
-                );
-
-                $this->logger->error($errorMessage);
-            };
-
-            return;
-        }
-
-        /**
-         * @noinspection PhpUnhandledExceptionInspection Because
-         * $errorHandler is a Closure, this exception is never thrown.
-         */
-        $parameters = (new ReflectionFunction($errorHandler))->getParameters();
-
-        if (
-            !isset($parameters[0], $parameters[1])
-            || ($parameters[0]->getName() !== 'context')
-            || (($typeOne = $parameters[0]->getType()) === null)
-            || ($typeOne->getName() !== 'string')
-            || ($parameters[1]->getName() !== 'throwable')
-            || (($typeTwo = $parameters[1]->getType()) === null)
-            || ($typeTwo->getName() !== Throwable::class)
-        ) {
-            throw new InvalidArgumentException(
-                'The provided error handlers signature must start with '
-                . "'function (string \$context, Throwable \$throwable) ...'"
-            );
-        }
-
-        $this->errorHandler = $errorHandler;
     }
 }

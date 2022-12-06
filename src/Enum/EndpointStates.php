@@ -20,7 +20,7 @@ namespace OpiyOrg\AriClient\Enum;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class EndpointStates
+class EndpointStates
 {
     public const UNKNOWN = 'unknown';
 

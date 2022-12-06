@@ -13,71 +13,71 @@ namespace OpiyOrg\AriClient\Model;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class RTPstat implements ModelInterface
+class RTPstat implements ModelInterface
 {
-    private string $channelUniqueid;
+    public string $channelUniqueid;
 
-    private ?float $localMaxjitter = null;
+    public ?float $localMaxjitter = null;
 
-    private ?float $localMaxrxploss = null;
+    public ?float $localMaxrxploss = null;
 
-    private ?float $localMinjitter = null;
+    public ?float $localMinjitter = null;
 
-    private ?float $localMinrxploss = null;
+    public ?float $localMinrxploss = null;
 
-    private ?float $localNormdevjitter = null;
+    public ?float $localNormdevjitter = null;
 
-    private ?float $localNormdevrxploss = null;
+    public ?float $localNormdevrxploss = null;
 
-    private int $localSsrc;
+    public int $localSsrc;
 
-    private ?float $localStdevjitter = null;
+    public ?float $localStdevjitter = null;
 
-    private ?float $localStdevrxploss = null;
+    public ?float $localStdevrxploss = null;
 
-    private ?float $maxrtt = null;
+    public ?float $maxrtt = null;
 
-    private ?float $minrtt = null;
+    public ?float $minrtt = null;
 
-    private ?float $normdevrtt = null;
+    public ?float $normdevrtt = null;
 
-    private ?float $remoteMaxjitter = null;
+    public ?float $remoteMaxjitter = null;
 
-    private ?float $remoteMaxrxploss = null;
+    public ?float $remoteMaxrxploss = null;
 
-    private ?float $remoteMinjitter = null;
+    public ?float $remoteMinjitter = null;
 
-    private ?float $remoteMinrxploss = null;
+    public ?float $remoteMinrxploss = null;
 
-    private ?float $remoteNormdevjitter = null;
+    public ?float $remoteNormdevjitter = null;
 
-    private ?float $remoteNormdevrxploss = null;
+    public ?float $remoteNormdevrxploss = null;
 
-    private int $remoteSsrc;
+    public int $remoteSsrc;
 
-    private ?float $remoteStdevjitter = null;
+    public ?float $remoteStdevjitter = null;
 
-    private ?float $remoteStdevrxploss = null;
+    public ?float $remoteStdevrxploss = null;
 
-    private ?float $rtt = null;
+    public ?float $rtt = null;
 
-    private int $rxcount;
+    public int $rxcount;
 
-    private ?float $rxjitter = null;
+    public ?float $rxjitter = null;
 
-    private int $rxoctetcount;
+    public int $rxoctetcount;
 
-    private int $rxploss;
+    public int $rxploss;
 
-    private ?float $stdevrtt = null;
+    public ?float $stdevrtt = null;
 
-    private int $txcount;
+    public int $txcount;
 
-    private ?float $txjitter = null;
+    public ?float $txjitter = null;
 
-    private int $txoctetcount;
+    public int $txoctetcount;
 
-    private int $txploss;
+    public int $txploss;
 
     /**
      * The Asterisk channel's unique ID that owns this instance.

@@ -20,7 +20,7 @@ namespace OpiyOrg\AriClient\Enum;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class DeviceStates
+class DeviceStates
 {
     public const NOT_INUSE = 'NOT_INUSE';
 

@@ -15,11 +15,11 @@ use OpiyOrg\AriClient\Model\Bridge;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class BridgeVideoSourceChanged extends Event
+class BridgeVideoSourceChanged extends Event
 {
-    private string $oldVideoSourceId;
+    public string $oldVideoSourceId;
 
-    private Bridge $bridge;
+    public Bridge $bridge;
 
     /**
      * The old video source id.

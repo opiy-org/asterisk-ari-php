@@ -13,16 +13,16 @@ namespace OpiyOrg\AriClient\Model;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class Sound implements ModelInterface
+class Sound implements ModelInterface
 {
-    private ?string $text = null;
+    public ?string $text = null;
 
-    private string $id;
+    public string $id;
 
     /**
      * @var array<int, FormatLangPair>
      */
-    private array $formats;
+    public array $formats;
 
     /**
      * Text description of the sound, usually the words spoken.

@@ -20,31 +20,31 @@ use PHPUnit\Framework\TestCase;
 final class ChannelTest extends TestCase
 {
     public const RAW_ARRAY_REPRESENTATION = [
-        'name'         => 'SIP/foo-0000a7e3',
-        'language'     => 'en',
-        'accountcode'  => 'TestAccount',
-        'channelvars'  => [
-            'testVar'  => 'correct',
+        'name' => 'SIP/foo-0000a7e3',
+        'language' => 'en',
+        'accountcode' => 'TestAccount',
+        'channelvars' => [
+            'testVar' => 'correct',
             'testVar2' => 'nope',
         ],
-        'caller'       => [
-            'name'   => 'ExampleName',
+        'caller' => [
+            'name' => 'ExampleName',
             'number' => 'ExampleNumber',
         ],
         'creationtime' => '2016-12-20 13:45:28 UTC',
-        'state'        => 'Up',
-        'connected'    => [
-            'name'   => 'ExampleName2',
+        'state' => 'Up',
+        'connected' => [
+            'name' => 'ExampleName2',
             'number' => 'ExampleNumber2',
         ],
-        'dialplan'     => [
-            'context'  => 'ExampleContext',
-            'exten'    => 'ExampleExten',
+        'dialplan' => [
+            'context' => 'ExampleContext',
+            'exten' => 'ExampleExten',
             'app_data' => 'someAppData',
             'app_name' => 'SomeAppName',
             'priority' => 3,
         ],
-        'id'           => '123456',
+        'id' => '123456',
     ];
 
     public function testParametersMappedCorrectly(): void

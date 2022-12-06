@@ -15,13 +15,13 @@ use OpiyOrg\AriClient\Model\Channel;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class ChannelVarset extends Event
+class ChannelVarset extends Event
 {
-    private string $variable;
+    public string $variable;
 
-    private ?Channel $channel = null;
+    public ?Channel $channel = null;
 
-    private string $value;
+    public string $value;
 
     /**
      * The variable that changed.

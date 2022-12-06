@@ -15,9 +15,9 @@ use OpiyOrg\AriClient\Model\Channel;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class ChannelTalkingStarted extends Event
+class ChannelTalkingStarted extends Event
 {
-    private Channel $channel;
+    public Channel $channel;
 
     /**
      * The channel on which talking started.

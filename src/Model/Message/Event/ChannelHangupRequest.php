@@ -15,13 +15,13 @@ use OpiyOrg\AriClient\Model\Channel;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class ChannelHangupRequest extends Event
+class ChannelHangupRequest extends Event
 {
-    private ?bool $soft = null;
+    public ?bool $soft = null;
 
-    private ?int $cause = null;
+    public ?int $cause = null;
 
-    private Channel $channel;
+    public Channel $channel;
 
     /**
      * Whether the hangup request was a soft hangup request.

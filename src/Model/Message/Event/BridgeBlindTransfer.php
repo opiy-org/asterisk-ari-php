@@ -15,23 +15,23 @@ use OpiyOrg\AriClient\Model\{Bridge, Channel};
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class BridgeBlindTransfer extends Event
+class BridgeBlindTransfer extends Event
 {
-    private ?Bridge $bridge = null;
+    public ?Bridge $bridge = null;
 
-    private ?Channel $replaceChannel = null;
+    public ?Channel $replaceChannel = null;
 
-    private bool $isExternal;
+    public bool $isExternal;
 
-    private string $exten;
+    public string $exten;
 
-    private string $result;
+    public string $result;
 
-    private string $context;
+    public string $context;
 
-    private ?Channel $transferee = null;
+    public ?Channel $transferee = null;
 
-    private Channel $channel;
+    public Channel $channel;
 
     /**
      * The bridge being transferred.

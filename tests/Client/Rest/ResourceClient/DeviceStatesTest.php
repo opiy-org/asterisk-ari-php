@@ -1,6 +1,6 @@
 <?php
 
-/** @copyright 2020 ng-voice GmbH */
+declare(strict_types=1);
 
 namespace OpiyOrg\AriClient\Tests\Client\Rest\ResourceClient;
 
@@ -32,8 +32,8 @@ class DeviceStatesTest extends TestCase
                 [
                     'state' => 'BUSY',
                     'name' => 'ExampleName',
-                ]
-            ]
+                ],
+            ],
         ];
     }
 
@@ -78,7 +78,7 @@ class DeviceStatesTest extends TestCase
     {
         $deviceStatesClient = $this->createDeviceStatesClient([]);
         $deviceStatesClient->delete('SomeDeviceName');
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**
@@ -89,7 +89,7 @@ class DeviceStatesTest extends TestCase
     {
         $deviceStatesClient = $this->createDeviceStatesClient([]);
         $deviceStatesClient->update('SomeDeviceName', 'NewState');
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**

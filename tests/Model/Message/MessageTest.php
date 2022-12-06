@@ -20,7 +20,7 @@ use PHPUnit\Framework\TestCase;
 final class MessageTest extends TestCase
 {
     public const RAW_ARRAY_REPRESENTATION = [
-        'type'        => 'SomeType',
+        'type' => 'SomeType',
         'asterisk_id' => '1224235346.2333',
     ];
 
@@ -38,14 +38,14 @@ final class MessageTest extends TestCase
 
     public function testSetAndGetAsteriskId(): void
     {
-        Helper::mapOntoInstance(self::RAW_ARRAY_REPRESENTATION, $this->message);
+        $this->message = Helper::mapOntoInstance(self::RAW_ARRAY_REPRESENTATION, $this->message);
 
         $this->assertSame('1224235346.2333', $this->message->getAsteriskId());
     }
 
     public function testSetAndGetType(): void
     {
-        Helper::mapOntoInstance(self::RAW_ARRAY_REPRESENTATION, $this->message);
+        $this->message = Helper::mapOntoInstance(self::RAW_ARRAY_REPRESENTATION, $this->message);
 
         $this->assertSame('SomeType', $this->message->getType());
     }

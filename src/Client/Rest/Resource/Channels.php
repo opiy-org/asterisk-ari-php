@@ -6,8 +6,9 @@ declare(strict_types=1);
 
 namespace OpiyOrg\AriClient\Client\Rest\Resource;
 
-use OpiyOrg\AriClient\Enum\HttpMethods;
+use JsonException;
 use OpiyOrg\AriClient\Client\Rest\AbstractRestClient;
+use OpiyOrg\AriClient\Enum\HttpMethods;
 use OpiyOrg\AriClient\Exception\AsteriskRestInterfaceException;
 use OpiyOrg\AriClient\Model\{Channel, LiveRecording, Playback, RTPstat, Variable};
 
@@ -21,7 +22,7 @@ use OpiyOrg\AriClient\Model\{Channel, LiveRecording, Playback, RTPstat, Variable
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class Channels extends AbstractRestClient
+class Channels extends AbstractRestClient
 {
     // To avoid duplicated strings in this class
     private const ENDPOINT = 'endpoint';
@@ -620,6 +621,7 @@ final class Channels extends AbstractRestClient
      * @return Variable
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
+     * @throws JsonException
      */
     public function getChannelVar(string $channelId, string $variable): Variable
     {
@@ -744,7 +746,7 @@ final class Channels extends AbstractRestClient
         }
 
         if ($timeout > 0) {
-            $queryParameters['timeout'] = (string) $timeout;
+            $queryParameters['timeout'] = (string)$timeout;
         }
 
         $this->sendRequest(
@@ -824,9 +826,9 @@ final class Channels extends AbstractRestClient
             HttpMethods::POST,
             '/channels/externalMedia',
             [
-                'app'           => $app,
+                'app' => $app,
                 'external_host' => $externalHost,
-                'format'        => $format,
+                'format' => $format,
             ] + $options,
             [self::VARIABLES => $channelVariables]
         );

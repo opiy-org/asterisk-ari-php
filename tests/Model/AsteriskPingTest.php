@@ -4,7 +4,7 @@
 
 declare(strict_types=1);
 
-namespace AriStasisApp\Tests\Model;
+namespace OpiyOrg\AriClient\Tests\Model;
 
 use OpiyOrg\AriClient\Model\{AsteriskPing};
 use OpiyOrg\AriClient\Tests\Helper;
@@ -13,15 +13,15 @@ use PHPUnit\Framework\TestCase;
 /**
  * Class AsteriskPingTest
  *
- * @package AriStasisApp\Tests\Model
+ * @package OpiyOrg\AriClient\Tests\Model
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
 final class AsteriskPingTest extends TestCase
 {
     private const RAW_ARRAY_REPRESENTATION = [
-        'timestamp'   => 'someTimestamp',
-        'ping'        => 'pong',
+        'timestamp' => 'someTimestamp',
+        'ping' => 'pong',
         'asterisk_id' => 'asteriskId',
     ];
 
@@ -39,21 +39,21 @@ final class AsteriskPingTest extends TestCase
 
     public function testSetAndGetTimestamp(): void
     {
-        Helper::mapOntoInstance(self::RAW_ARRAY_REPRESENTATION, $this->asteriskPing);
+        $this->asteriskPing = Helper::mapOntoInstance(self::RAW_ARRAY_REPRESENTATION, $this->asteriskPing);
 
         $this->assertSame('someTimestamp', $this->asteriskPing->getTimestamp());
     }
 
     public function testSetAndGetPing(): void
     {
-        Helper::mapOntoInstance(self::RAW_ARRAY_REPRESENTATION, $this->asteriskPing);
+        $this->asteriskPing = Helper::mapOntoInstance(self::RAW_ARRAY_REPRESENTATION, $this->asteriskPing);
 
         $this->assertSame('pong', $this->asteriskPing->getPing());
     }
 
     public function testSetAndGetAsteriskId(): void
     {
-        Helper::mapOntoInstance(self::RAW_ARRAY_REPRESENTATION, $this->asteriskPing);
+        $this->asteriskPing = Helper::mapOntoInstance(self::RAW_ARRAY_REPRESENTATION, $this->asteriskPing);
 
         $this->assertSame('asteriskId', $this->asteriskPing->getAsteriskId());
     }

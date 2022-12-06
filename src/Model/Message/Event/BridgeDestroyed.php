@@ -15,9 +15,9 @@ use OpiyOrg\AriClient\Model\Bridge;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class BridgeDestroyed extends Event
+class BridgeDestroyed extends Event
 {
-    private Bridge $bridge;
+    public Bridge $bridge;
 
     /**
      * @return Bridge

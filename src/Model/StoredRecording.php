@@ -13,11 +13,11 @@ namespace OpiyOrg\AriClient\Model;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class StoredRecording implements ModelInterface
+class StoredRecording implements ModelInterface
 {
-    private string $name;
+    public string $name;
 
-    private string $format;
+    public string $format;
 
     /**
      * Base name for the recording.

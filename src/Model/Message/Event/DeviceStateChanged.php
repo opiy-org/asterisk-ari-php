@@ -15,9 +15,9 @@ use OpiyOrg\AriClient\Model\DeviceState;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class DeviceStateChanged extends Event
+class DeviceStateChanged extends Event
 {
-    private DeviceState $deviceState;
+    public DeviceState $deviceState;
 
     /**
      * Device state object.

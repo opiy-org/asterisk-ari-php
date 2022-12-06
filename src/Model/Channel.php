@@ -16,27 +16,27 @@ use stdClass;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class Channel implements ModelInterface
+class Channel implements ModelInterface
 {
-    private string $accountcode;
+    public string $accountcode;
 
-    private string $name;
+    public string $name;
 
-    private string $language;
+    public string $language;
 
-    private ?stdClass $channelvars = null;
+    public array $channelvars = [];
 
-    private CallerID $caller;
+    public CallerID $caller;
 
-    private string $creationtime;
+    public string $creationtime;
 
-    private string $state;
+    public string $state;
 
-    private CallerID $connected;
+    public CallerID $connected;
 
-    private DialplanCEP $dialplan;
+    public DialplanCEP $dialplan;
 
-    private string $id;
+    public string $id;
 
     /**
      * The account code.
@@ -75,7 +75,7 @@ final class Channel implements ModelInterface
      */
     public function getChannelvars(): ?stdClass
     {
-        return $this->channelvars;
+        return (object)$this->channelvars;
     }
 
     /**
@@ -101,9 +101,9 @@ final class Channel implements ModelInterface
     /**
      * State of the channel.
      *
+     * @return string
      * @see ChannelStates
      *
-     * @return string
      */
     public function getState(): string
     {

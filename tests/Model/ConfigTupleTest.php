@@ -27,7 +27,7 @@ final class ConfigTupleTest extends TestCase
         $configTuple = Helper::mapOntoInstance(
             [
                 'attribute' => 'ExampleAttribute',
-                'value'     => 'ExampleValue',
+                'value' => 'ExampleValue',
             ],
             new ConfigTuple()
         );

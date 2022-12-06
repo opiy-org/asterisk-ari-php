@@ -13,6 +13,6 @@ namespace OpiyOrg\AriClient\Model;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class Dialed implements ModelInterface
+class Dialed implements ModelInterface
 {
 }

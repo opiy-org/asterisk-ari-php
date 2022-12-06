@@ -40,10 +40,14 @@ abstract class AbstractSettings
      */
     public function __construct(
         string $user,
-        string $password
+        string $password,
+        string $host = '127.0.0.1',
+        int $port = 8088
     ) {
         $this->user = $user;
         $this->password = $password;
+        $this->host = $host;
+        $this->port = $port;
     }
 
     /**
@@ -79,7 +83,7 @@ abstract class AbstractSettings
     /**
      * Set the hosts IP address or name of the Asterisk REST Interface host.
      *
-     * @param string The hosts IP address or name of the Asterisk REST Interface host
+     * @param string $host The hosts IP address or name of the Asterisk REST Interface host
      */
     public function setHost(string $host): void
     {
@@ -168,6 +172,16 @@ abstract class AbstractSettings
     }
 
     /**
+     * Get the logger interface of this client.
+     *
+     * @return LoggerInterface|null The logger of this client
+     */
+    public function getLoggerInterface(): ?LoggerInterface
+    {
+        return $this->loggerInterface;
+    }
+
+    /**
      * Set the logger interface for this client.
      *
      * @param LoggerInterface|null $loggerInterface The logger for this client
@@ -177,15 +191,5 @@ abstract class AbstractSettings
     public function setLoggerInterface(?LoggerInterface $loggerInterface): void
     {
         $this->loggerInterface = $loggerInterface;
-    }
-
-    /**
-     * Get the logger interface of this client.
-     *
-     * @return LoggerInterface|null The logger of this client
-     */
-    public function getLoggerInterface(): ?LoggerInterface
-    {
-        return $this->loggerInterface;
     }
 }

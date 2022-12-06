@@ -6,11 +6,8 @@ declare(strict_types=1);
 
 namespace OpiyOrg\AriClient\Client\WebSocket;
 
-use OpiyOrg\AriClient\Client\WebSocket\Ratchet\{
-    Settings as OptionalRatchetSettings,
+use OpiyOrg\AriClient\Client\WebSocket\Ratchet\{Settings as OptionalRatchetSettings,
     WebSocketClient as RatchetWebSocketClient};
-use OpiyOrg\AriClient\Client\WebSocket\Woketo\{Settings as OptionalWoketoSettings,
-    WebSocketClient as WoketoWebSocketClient};
 use OpiyOrg\AriClient\StasisApplicationInterface;
 
 /**
@@ -21,7 +18,7 @@ use OpiyOrg\AriClient\StasisApplicationInterface;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class Factory
+class Factory
 {
     /**
      * Create a new web socket client.
@@ -38,7 +35,7 @@ final class Factory
         Settings $ariWebSocketClientSettings,
         StasisApplicationInterface $myStasisApp
     ): WebSocketClientInterface {
-        return self::createWoketo($ariWebSocketClientSettings, $myStasisApp);
+        return self::createRatchet($ariWebSocketClientSettings, $myStasisApp);
     }
 
     /**
@@ -64,32 +61,6 @@ final class Factory
             $ariWebSocketClientSettings,
             $myStasisApp,
             $optionalRatchetSettings
-        );
-    }
-
-    /**
-     * Create an instance of the Woketo web socket client implementation.
-     *
-     * @param Settings $ariWebSocketClientSettings The
-     * web socket client settings
-     * @param StasisApplicationInterface $myStasisApp Your Stasis app
-     * that shall register within the connected Asterisk instance
-     * @param OptionalWoketoSettings|null $optionalWoketoSettings Optional
-     * settings for the specific Woketo implementation of the web socket
-     * client
-     *
-     * @return WoketoWebSocketClient The woketo web socket client
-     * implementation.
-     */
-    public static function createWoketo(
-        Settings $ariWebSocketClientSettings,
-        StasisApplicationInterface $myStasisApp,
-        ?OptionalWoketoSettings $optionalWoketoSettings = null
-    ): WoketoWebSocketClient {
-        return new WoketoWebSocketClient(
-            $ariWebSocketClientSettings,
-            $myStasisApp,
-            $optionalWoketoSettings
         );
     }
 }

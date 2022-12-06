@@ -21,7 +21,7 @@ use OpiyOrg\AriClient\Model\Endpoint;
  *
  * @author Lukas Stermann <lukas@ng-voice.com>
  */
-final class Endpoints extends AbstractRestClient
+class Endpoints extends AbstractRestClient
 {
     /**
      * List all endpoints.
