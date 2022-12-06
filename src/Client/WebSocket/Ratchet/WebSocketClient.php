@@ -7,16 +7,14 @@ declare(strict_types=1);
 namespace OpiyOrg\AriClient\Client\WebSocket\Ratchet;
 
 use Exception;
-use React\Socket\Connector as ReactConnector;
-use Ratchet\RFC6455\Messaging\MessageInterface;
+use OpiyOrg\AriClient\Client\WebSocket\{AbstractWebSocketClient, Settings as WebSocketClientSettings};
+use OpiyOrg\AriClient\Exception\AsteriskRestInterfaceException;
+use OpiyOrg\AriClient\StasisApplicationInterface;
 use Ratchet\Client\Connector as RatchetConnector;
 use Ratchet\Client\WebSocket as RatchetWebSocket;
-use OpiyOrg\AriClient\StasisApplicationInterface;
-use OpiyOrg\AriClient\Exception\AsteriskRestInterfaceException;
-use OpiyOrg\AriClient\Client\WebSocket\{AbstractWebSocketClient,
-    Settings as WebSocketClientSettings};
-use React\EventLoop\{Factory as ReactPhpEventLoopFactory,
-    LoopInterface as ReactPhpEventLoopInterface};
+use Ratchet\RFC6455\Messaging\MessageInterface;
+use React\EventLoop\{Factory as ReactPhpEventLoopFactory, LoopInterface as ReactPhpEventLoopInterface};
+use React\Socket\Connector as ReactConnector;
 
 /**
  * A Ratchet ARI web socket client implementation.
@@ -99,14 +97,6 @@ class WebSocketClient extends AbstractWebSocketClient
     /**
      * @inheritDoc
      */
-    public function start(): void
-    {
-        $this->loop->run();
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function getLoop(): ReactPhpEventLoopInterface
     {
         return $this->loop;
@@ -126,13 +116,13 @@ class WebSocketClient extends AbstractWebSocketClient
                 if ($this->isInDebugMode) {
                     $errorMessage = sprintf(
                         "Asterisk web socket server sent raw message: '%s'",
-                        (string) $message
+                        (string)$message
                     );
 
                     $this->logger->debug($errorMessage, [__FUNCTION__]);
                 }
 
-                parent::onMessageHandlerLogic((string) $message);
+                parent::onMessageHandlerLogic((string)$message);
             }
         );
     }
@@ -151,8 +141,8 @@ class WebSocketClient extends AbstractWebSocketClient
                 $errorMessage = sprintf(
                     'Connection to Asterisk web socket server closed. '
                     . "ErrorCode '%s' | Event: '%s'",
-                    (string) $code,
-                    (string) $reason
+                    (string)$code,
+                    (string)$reason
                 );
 
                 $this->logger->error($errorMessage, [__FUNCTION__]);
@@ -173,5 +163,13 @@ class WebSocketClient extends AbstractWebSocketClient
         );
 
         $this->onConnectionHandlerLogic();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function start(): void
+    {
+        $this->loop->run();
     }
 }

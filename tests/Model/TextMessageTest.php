@@ -26,12 +26,12 @@ final class TextMessageTest extends TestCase
          */
         $textMessage = Helper::mapOntoInstance(
             [
-                'body'      => 'ExampleBody',
-                'from'      => 'pjsip/bla1',
-                'to'        => 'pjsip/bla',
+                'body' => 'ExampleBody',
+                'from' => 'pjsip/bla1',
+                'to' => 'pjsip/bla',
                 'variables' => [
                     [
-                        'key'   => 'X',
+                        'key' => 'X',
                         'value' => 'Y',
                     ],
                 ],

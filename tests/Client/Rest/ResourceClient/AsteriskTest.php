@@ -1,13 +1,13 @@
 <?php
 
-/** @copyright 2020 ng-voice GmbH */
+declare(strict_types=1);
 
 namespace OpiyOrg\AriClient\Tests\Client\Rest\ResourceClient;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ServerException;
-use JsonException;
 use GuzzleHttp\Psr7\{Request, Response};
+use JsonException;
 use OpiyOrg\AriClient\Client\Rest\Resource\Asterisk;
 use OpiyOrg\AriClient\Client\Rest\Settings;
 use OpiyOrg\AriClient\Exception\AsteriskRestInterfaceException;
@@ -32,7 +32,7 @@ class AsteriskTest extends TestCase
     {
         $asteriskClient = $this->createAsteriskClientWithGuzzleClientStub([]);
         $asteriskClient->reloadModule('SomeModule');
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**
@@ -94,7 +94,7 @@ class AsteriskTest extends TestCase
     {
         $asteriskClient = $this->createAsteriskClientWithGuzzleClientStub([]);
         $asteriskClient->rotateLog('SomeLogChannel');
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**
@@ -139,7 +139,7 @@ class AsteriskTest extends TestCase
     {
         $asteriskClient = $this->createAsteriskClientWithGuzzleClientStub([]);
         $asteriskClient->addLog('SomeLogChannel', 'SomeConfig');
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**
@@ -247,7 +247,7 @@ class AsteriskTest extends TestCase
     {
         $asteriskClient = $this->createAsteriskClientWithGuzzleClientStub([]);
         $asteriskClient->deleteLog('SomeLogChannel');
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**
@@ -258,7 +258,7 @@ class AsteriskTest extends TestCase
     {
         $asteriskClient = $this->createAsteriskClientWithGuzzleClientStub([]);
         $asteriskClient->setGlobalVar('SomeVar', 'SomeVal');
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**
@@ -269,7 +269,7 @@ class AsteriskTest extends TestCase
     {
         $asteriskClient = $this->createAsteriskClientWithGuzzleClientStub([]);
         $asteriskClient->unloadModule('SomeModule');
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**
@@ -280,7 +280,7 @@ class AsteriskTest extends TestCase
     {
         $asteriskClient = $this->createAsteriskClientWithGuzzleClientStub([]);
         $asteriskClient->loadModule('SomeModule');
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**
@@ -291,7 +291,7 @@ class AsteriskTest extends TestCase
     {
         $asteriskClient = $this->createAsteriskClientWithGuzzleClientStub([]);
         $asteriskClient->deleteObject('SomeChannelId', 'SomeObject', 'SomeId');
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**

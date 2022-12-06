@@ -20,8 +20,8 @@ use PHPUnit\Framework\TestCase;
 final class ContactInfoTest extends TestCase
 {
     public const RAW_ARRAY_REPRESENTATION = [
-        'aor'            => 'ExampleAOR',
-        'uri'            => 'ExampleUri',
+        'aor' => 'ExampleAOR',
+        'uri' => 'ExampleUri',
         'roundtrip_usec' => '23',
         'contact_status' => 'Unreachable',
     ];

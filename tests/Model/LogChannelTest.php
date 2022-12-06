@@ -27,9 +27,9 @@ final class LogChannelTest extends TestCase
         $logChannel = Helper::mapOntoInstance(
             [
                 'configuration' => '3',
-                'type'          => 'DEBUG,ERROR',
-                'status'        => 'enabled',
-                'channel'       => '/var/log/syslog',
+                'type' => 'DEBUG,ERROR',
+                'status' => 'enabled',
+                'channel' => '/var/log/syslog',
             ],
             new LogChannel()
         );

@@ -25,8 +25,8 @@ final class ChannelDtmfReceivedTest extends TestCase
     {
         $channelDtmfReceived = [
             'duration_ms' => 1555,
-            'digit'       => '4',
-            'channel'     => ChannelTest::RAW_ARRAY_REPRESENTATION,
+            'digit' => '4',
+            'channel' => ChannelTest::RAW_ARRAY_REPRESENTATION,
         ];
 
         $channelDtmfReceived = Helper::mapOntoAriEvent(

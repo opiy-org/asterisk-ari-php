@@ -1,13 +1,14 @@
 <?php
 
-/** @copyright 2020 ng-voice GmbH */
+declare(strict_types=1);
 
-namespace Tests\Client\Rest\ResourceClient;
+namespace OpiyOrg\AriClient\Tests\Client\Rest\ResourceClient;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
+use JsonException;
 use OpiyOrg\AriClient\Client\Rest\Resource\Channels;
 use OpiyOrg\AriClient\Client\Rest\Settings;
 use OpiyOrg\AriClient\Exception\AsteriskRestInterfaceException;
@@ -32,31 +33,31 @@ class ChannelsTest extends TestCase
         return [
             'example channel' => [
                 [
-                    'name'         => 'SIP/foo-0000a7e3',
-                    'language'     => 'en',
-                    'accountcode'  => 'TestAccount',
-                    'channelvars'  => [
-                        'testVar'  => 'correct',
+                    'name' => 'SIP/foo-0000a7e3',
+                    'language' => 'en',
+                    'accountcode' => 'TestAccount',
+                    'channelvars' => [
+                        'testVar' => 'correct',
                         'testVar2' => 'nope',
                     ],
-                    'caller'       => [
-                        'name'   => 'ExampleName',
+                    'caller' => [
+                        'name' => 'ExampleName',
                         'number' => 'ExampleNumber',
                     ],
                     'creationtime' => '2016-12-20 13:45:28 UTC',
-                    'state'        => 'Up',
-                    'connected'    => [
-                        'name'   => 'ExampleName2',
+                    'state' => 'Up',
+                    'connected' => [
+                        'name' => 'ExampleName2',
                         'number' => 'ExampleNumber2',
                     ],
-                    'dialplan'     => [
-                        'context'  => 'ExampleContext',
+                    'dialplan' => [
+                        'context' => 'ExampleContext',
                         'app_data' => 'someAppData',
                         'app_name' => 'SomeAppName',
-                        'exten'    => 'ExampleExten',
+                        'exten' => 'ExampleExten',
                         'priority' => 3,
                     ],
-                    'id'           => '123456',
+                    'id' => '123456',
                 ],
             ],
         ];
@@ -70,7 +71,7 @@ class ChannelsTest extends TestCase
     {
         $channelsClient = $this->createChannelsClient([]);
         $channelsClient->continueInDialPlan('SomeChannelId', []);
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**
@@ -82,12 +83,12 @@ class ChannelsTest extends TestCase
         $channelsClient = $this->createChannelsClient(
             [
                 'talking_duration' => 3,
-                'name'             => 'ExampleName',
-                'target_uri'       => 'ExampleUri',
-                'format'           => 'wav',
-                'cause'            => 'ExampleCause',
-                'state'            => 'paused',
-                'duration'         => 4,
+                'name' => 'ExampleName',
+                'target_uri' => 'ExampleUri',
+                'format' => 'wav',
+                'cause' => 'ExampleCause',
+                'state' => 'paused',
+                'duration' => 4,
                 'silence_duration' => 2,
             ]
         );
@@ -104,7 +105,7 @@ class ChannelsTest extends TestCase
     {
         $channelsClient = $this->createChannelsClient([]);
         $channelsClient->setChannelVar('SomeChannelId', 'SomeVar', 'SomeVal');
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**
@@ -129,7 +130,7 @@ class ChannelsTest extends TestCase
     {
         $channelsClient = $this->createChannelsClient([]);
         $channelsClient->redirect('SomeChannelId', 'SomeEndpoint');
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**
@@ -154,6 +155,7 @@ class ChannelsTest extends TestCase
     /**
      * @throws AsteriskRestInterfaceException
      * @throws ReflectionException
+     * @throws JsonException
      */
     public function testGetChannelVar(): void
     {
@@ -171,7 +173,7 @@ class ChannelsTest extends TestCase
     {
         $channelsClient = $this->createChannelsClient([]);
         $channelsClient->mute('SomeChannelId');
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**
@@ -182,7 +184,7 @@ class ChannelsTest extends TestCase
     {
         $channelsClient = $this->createChannelsClient([]);
         $channelsClient->startSilence('SomeChannelId');
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**
@@ -193,7 +195,7 @@ class ChannelsTest extends TestCase
     {
         $channelsClient = $this->createChannelsClient([]);
         $channelsClient->dial('SomeChannelId', 'callerId', 500);
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**
@@ -218,7 +220,7 @@ class ChannelsTest extends TestCase
     {
         $channelsClient = $this->createChannelsClient([]);
         $channelsClient->sendDtmf('SomeChannelId', '1234');
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**
@@ -229,7 +231,7 @@ class ChannelsTest extends TestCase
     {
         $channelsClient = $this->createChannelsClient([]);
         $channelsClient->unHold('SomeChannelId');
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**
@@ -254,7 +256,7 @@ class ChannelsTest extends TestCase
     {
         $channelsClient = $this->createChannelsClient([]);
         $channelsClient->startMoh('SomeChannelId', 'SomeMohClass');
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**
@@ -266,7 +268,7 @@ class ChannelsTest extends TestCase
     {
         $channelsClient = $this->createChannelsClient([]);
         $channelsClient->ring('SomeChannelId');
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**
@@ -292,11 +294,11 @@ class ChannelsTest extends TestCase
         $channelsClient = $this->createChannelsClient(
             [
                 'next_media_uri' => 'ExampleUri',
-                'target_uri'     => 'ExampleTargetUri',
-                'language'       => 'en',
-                'state'          => 'queued',
-                'media_uri'      => 'ExampleMediaRui',
-                'id'             => 'ExampleId',
+                'target_uri' => 'ExampleTargetUri',
+                'language' => 'en',
+                'state' => 'queued',
+                'media_uri' => 'ExampleMediaRui',
+                'id' => 'ExampleId',
             ]
         );
         $resultPlayback =
@@ -313,7 +315,7 @@ class ChannelsTest extends TestCase
     {
         $channelsClient = $this->createChannelsClient([]);
         $channelsClient->hold('SomeChannelId');
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**
@@ -324,7 +326,7 @@ class ChannelsTest extends TestCase
     {
         $channelsClient = $this->createChannelsClient([]);
         $channelsClient->move('SomeChannelId', 'AppName', [2, 3, 5]);
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**
@@ -335,7 +337,7 @@ class ChannelsTest extends TestCase
     {
         $channelsClient = $this->createChannelsClient([]);
         $channelsClient->unMute('SomeChannelId');
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**
@@ -347,11 +349,11 @@ class ChannelsTest extends TestCase
         $channelsClient = $this->createChannelsClient(
             [
                 'next_media_uri' => 'ExampleUri',
-                'target_uri'     => 'ExampleTargetUri',
-                'language'       => 'en',
-                'state'          => 'queued',
-                'media_uri'      => 'ExampleMediaRui',
-                'id'             => 'ExampleId',
+                'target_uri' => 'ExampleTargetUri',
+                'language' => 'en',
+                'state' => 'queued',
+                'media_uri' => 'ExampleMediaRui',
+                'id' => 'ExampleId',
             ]
         );
         $resultPlayback = $channelsClient->play('12345', ['sound:exampleSound']);
@@ -382,7 +384,7 @@ class ChannelsTest extends TestCase
     {
         $channelsClient = $this->createChannelsClient([]);
         $channelsClient->stopSilence('SomeChannelId');
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**
@@ -393,7 +395,7 @@ class ChannelsTest extends TestCase
     {
         $channelsClient = $this->createChannelsClient([]);
         $channelsClient->stopMoh('SomeChannelId');
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**
@@ -404,7 +406,7 @@ class ChannelsTest extends TestCase
     {
         $channelsClient = $this->createChannelsClient([]);
         $channelsClient->ringStop('SomeChannelId');
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**
@@ -430,7 +432,7 @@ class ChannelsTest extends TestCase
     {
         $channelsClient = $this->createChannelsClient([]);
         $channelsClient->hangup('SomeChannelId', 'SomeReason');
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**
@@ -442,7 +444,7 @@ class ChannelsTest extends TestCase
     {
         $channelsClient = $this->createChannelsClient([]);
         $channelsClient->answer('SomeChannelId');
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**
@@ -454,7 +456,7 @@ class ChannelsTest extends TestCase
         $channelsClient = $this->createChannelsClientThatThrowsException();
         $this->expectException(AsteriskRestInterfaceException::class);
         $channelsClient->sendDtmf('SomeChannelId', '1234');
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**
@@ -466,7 +468,7 @@ class ChannelsTest extends TestCase
         $channelsClient = $this->createChannelsClientThatThrowsException();
         $this->expectException(AsteriskRestInterfaceException::class);
         $channelsClient->get('SomeChannelId');
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**
@@ -478,7 +480,7 @@ class ChannelsTest extends TestCase
         $channelsClient = $this->createChannelsClientThatThrowsException();
         $this->expectException(AsteriskRestInterfaceException::class);
         $channelsClient->unHold('SomeChannelId');
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**
@@ -577,11 +579,11 @@ class ChannelsTest extends TestCase
                 'local_ssrc' => 3,
                 'minrtt' => 8.33,
                 'local_minrxploss' => 32.3,
-                'normdevrtt' => 8.33
+                'normdevrtt' => 8.33,
             ]
         );
         $channelsClient->rtpStatistics('SomeChannelId');
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**

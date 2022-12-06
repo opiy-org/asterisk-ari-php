@@ -89,9 +89,9 @@ class LiveRecording implements ModelInterface
     /**
      * The recordings state.
      *
+     * @return string
      * @see RecordingStates
      *
-     * @return string
      */
     public function getState(): string
     {

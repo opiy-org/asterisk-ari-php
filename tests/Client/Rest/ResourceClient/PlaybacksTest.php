@@ -1,6 +1,6 @@
 <?php
 
-/** @copyright 2020 ng-voice GmbH */
+declare(strict_types=1);
 
 namespace OpiyOrg\AriClient\Tests\Client\Rest\ResourceClient;
 
@@ -29,11 +29,11 @@ class PlaybacksTest extends TestCase
             'example mailbox' => [
                 [
                     'next_media_uri' => 'ExampleUri',
-                    'target_uri'     => 'ExampleTargetUri',
-                    'language'       => 'en',
-                    'state'          => 'queued',
-                    'media_uri'      => 'ExampleMediaRui',
-                    'id'             => 'ExampleId',
+                    'target_uri' => 'ExampleTargetUri',
+                    'language' => 'en',
+                    'state' => 'queued',
+                    'media_uri' => 'ExampleMediaRui',
+                    'id' => 'ExampleId',
                 ],
             ],
         ];
@@ -47,7 +47,7 @@ class PlaybacksTest extends TestCase
     {
         $playbacksClient = $this->createPlaybacksClient([]);
         $playbacksClient->stop('SomePlaybackId');
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**
@@ -58,7 +58,7 @@ class PlaybacksTest extends TestCase
     {
         $playbacksClient = $this->createPlaybacksClient([]);
         $playbacksClient->control('SomePlaybackId', 'ExampleOperation');
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**

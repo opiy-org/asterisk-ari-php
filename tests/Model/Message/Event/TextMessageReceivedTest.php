@@ -31,13 +31,13 @@ final class TextMessageReceivedTest extends TestCase
             TextMessageReceived::class,
             [
                 'endpoint' => EndpointTest::RAW_ARRAY_REPRESENTATION,
-                'message'  => [
-                    'body'      => 'ExampleBody',
-                    'from'      => 'pjsip/bla1',
-                    'to'        => 'pjsip/bla',
+                'message' => [
+                    'body' => 'ExampleBody',
+                    'from' => 'pjsip/bla1',
+                    'to' => 'pjsip/bla',
                     'variables' => [
                         [
-                            'key'   => 'X',
+                            'key' => 'X',
                             'value' => 'Y',
                         ],
                     ],

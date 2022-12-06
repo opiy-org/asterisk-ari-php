@@ -10,9 +10,6 @@
     <file>src</file>
     <file>tests</file>
 
-    <exclude-pattern>*/src/Standards/*/Tests/*\.(inc|css|js)$</exclude-pattern>
-    <exclude-pattern>*/tests/Core/*/*Test\.(inc|css|js)$</exclude-pattern>
-
     <arg name="basepath" value="."/>
 
     <arg name="colors"/>
@@ -26,6 +23,10 @@
 
     <rule ref="PSR12">
         <exclude name="PSR2.ControlStructures.ControlStructureSpacing"/>
+    </rule>
+
+    <rule ref="Generic.Files.LineEndings">
+        <exclude name="Generic.Files.LineEndings.InvalidEOLChar"/>
     </rule>
 
     <rule ref="Generic.Files.LineLength">
@@ -89,25 +90,14 @@
     </rule>
 
     <!-- Rules for commenting -->
-    <rule ref="Squiz.Commenting.FileComment.EmptyCopyrightTag"/>
     <rule ref="Squiz.Commenting.ClassComment.SpacingAfter"/>
-    <rule ref="Generic.Commenting.DocComment.NonParamGroup"/>
-    <rule ref="PEAR.Commenting.FunctionComment.SpacingAfter"/>
-    <rule ref="PEAR.Commenting.FunctionComment.MissingParamComment"/>
     <rule ref="PEAR.Commenting.ClassComment">
+        <exclude name="PEAR.Commenting.ClassComment.MissingAuthorTag"/>
         <exclude name="PEAR.Commenting.ClassComment.MissingCategoryTag"/>
         <exclude name="PEAR.Commenting.ClassComment.MissingLicenseTag"/>
         <exclude name="PEAR.Commenting.ClassComment.MissingLinkTag"/>
         <exclude name="PEAR.Commenting.ClassComment.PackageTagOrder"/>
     </rule>
-    <!--
-        Commented out following rules because @inheritDoc is not recognized, but
-        linter errors are thrown when only using @inheritDoc within a comment.
-    -->
-    <!--<rule ref="Generic.Commenting.DocComment.MissingShort"/>-->
-    <!--<rule ref="PEAR.Commenting.FunctionComment.MissingParamTag"/>-->
-    <!--<rule ref="PEAR.Commenting.FunctionComment.MissingReturn"/>-->
-
 
     <!-- Private properties MUST not be prefixed with an underscore -->
     <rule ref="Squiz.NamingConventions.ValidVariableName.PrivateNoUnderscore">

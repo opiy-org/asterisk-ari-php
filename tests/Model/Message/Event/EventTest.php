@@ -27,7 +27,7 @@ final class EventTest extends TestCase
         $event = Helper::mapOntoAriEvent(
             Event::class,
             [
-                'timestamp'   => '2016-12-20 13:45:28 UTC',
+                'timestamp' => '2016-12-20 13:45:28 UTC',
                 'application' => 'someApplication',
             ]
         );

@@ -172,6 +172,16 @@ abstract class AbstractSettings
     }
 
     /**
+     * Get the logger interface of this client.
+     *
+     * @return LoggerInterface|null The logger of this client
+     */
+    public function getLoggerInterface(): ?LoggerInterface
+    {
+        return $this->loggerInterface;
+    }
+
+    /**
      * Set the logger interface for this client.
      *
      * @param LoggerInterface|null $loggerInterface The logger for this client
@@ -181,15 +191,5 @@ abstract class AbstractSettings
     public function setLoggerInterface(?LoggerInterface $loggerInterface): void
     {
         $this->loggerInterface = $loggerInterface;
-    }
-
-    /**
-     * Get the logger interface of this client.
-     *
-     * @return LoggerInterface|null The logger of this client
-     */
-    public function getLoggerInterface(): ?LoggerInterface
-    {
-        return $this->loggerInterface;
     }
 }

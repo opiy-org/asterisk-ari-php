@@ -1,6 +1,6 @@
 <?php
 
-/** @copyright 2020 ng-voice GmbH */
+declare(strict_types=1);
 
 namespace OpiyOrg\AriClient\Tests\Model;
 
@@ -24,7 +24,7 @@ class TextMessageVariableTest extends TestCase
          */
         $textMessageVariable = Helper::mapOntoInstance(
             [
-                'key'   => 'SomeKey',
+                'key' => 'SomeKey',
                 'value' => 'SomeValue',
             ],
             new TextMessageVariable()

@@ -36,3 +36,7 @@ jobs:
         run: composer update --no-ansi --no-interaction --no-progress
       - name: Execute tests
         run: composer test
+      - name: PhpStan
+        run: composer sca
+      - name: PhpCS
+        run: composer lint

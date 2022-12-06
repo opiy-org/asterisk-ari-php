@@ -29,7 +29,7 @@ final class ChannelHoldTest extends TestCase
         $channelHold = Helper::mapOntoAriEvent(
             ChannelHold::class,
             [
-                'channel'    => ChannelTest::RAW_ARRAY_REPRESENTATION,
+                'channel' => ChannelTest::RAW_ARRAY_REPRESENTATION,
                 'musicclass' => 'SomeMusicClass',
             ]
         );

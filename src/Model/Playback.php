@@ -63,9 +63,9 @@ class Playback implements ModelInterface
     /**
      * Current state of the playback operation.
      *
+     * @return string
      * @see PlaybackStates
      *
-     * @return string
      */
     public function getState(): string
     {

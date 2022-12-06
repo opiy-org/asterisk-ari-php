@@ -26,7 +26,7 @@ final class SetIdTest extends TestCase
          */
         $setId = Helper::mapOntoInstance(
             [
-                'user'  => 'ExampleUser',
+                'user' => 'ExampleUser',
                 'group' => 'ExampleGroup',
             ],
             new SetId()

@@ -29,9 +29,9 @@ final class StasisStartTest extends TestCase
         $stasisStart = Helper::mapOntoAriEvent(
             StasisStart::class,
             [
-                'channel'         => ChannelTest::RAW_ARRAY_REPRESENTATION,
+                'channel' => ChannelTest::RAW_ARRAY_REPRESENTATION,
                 'replace_channel' => ChannelTest::RAW_ARRAY_REPRESENTATION,
-                'args'            => [
+                'args' => [
                     'some',
                     'args',
                     'are',

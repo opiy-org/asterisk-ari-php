@@ -8,21 +8,20 @@ namespace OpiyOrg\AriClient\Tests\Client\WebSocket;
 
 use GuzzleHttp\Client;
 use InvalidArgumentException;
-use Psr\Log\LoggerInterface;
-use PHPUnit\Framework\TestCase;
-use React\EventLoop\LoopInterface;
-use Psr\Http\Message\StreamInterface;
-use Psr\Http\Message\ResponseInterface;
-use PHPUnit\Framework\MockObject\MockObject;
-use React\EventLoop\Factory as EventLoopFactory;
 use OpiyOrg\AriClient\Client\Rest\Resource\Applications;
+use OpiyOrg\AriClient\Client\Rest\Settings as RestClientSettings;
+use OpiyOrg\AriClient\Client\WebSocket\{AbstractWebSocketClient, Settings as WebSocketClientSettings};
 use OpiyOrg\AriClient\Exception\AsteriskRestInterfaceException;
-use OpiyOrg\AriClient\Client\WebSocket\{AbstractWebSocketClient,
-    Settings as WebSocketClientSettings};
 use OpiyOrg\AriClient\Model\Message\Event\ChannelUserevent;
 use OpiyOrg\AriClient\StasisApplicationInterface;
-use OpiyOrg\AriClient\Client\Rest\Settings as RestClientSettings;
 use OpiyOrg\AriClient\Tests\Client\Rest\ResourceClient\ApplicationsTest;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\StreamInterface;
+use Psr\Log\LoggerInterface;
+use React\EventLoop\Factory as EventLoopFactory;
+use React\EventLoop\LoopInterface;
 use Throwable;
 
 /**
@@ -80,7 +79,7 @@ class AbstractWebSocketClientTest extends TestCase
                 public function onAriEventChannelUserevent(
                     ChannelUserevent $channelUserevent
                 ): void {
-                    if (((bool) $channelUserevent->getUserevent()->ThrowException) === true) {
+                    if (((bool)$channelUserevent->getUserevent()->ThrowException) === true) {
                         throw new InvalidArgumentException('jo');
                     }
                 }
@@ -133,7 +132,6 @@ class AbstractWebSocketClientTest extends TestCase
             {
                 return $this->loop;
             }
-
         };
     }
 
@@ -191,7 +189,8 @@ class AbstractWebSocketClientTest extends TestCase
             new class () implements StasisApplicationInterface {
                 public function onAriEventThisIsNotAValidMethodName(
                     ChannelUserevent $channelUserevent
-                ): void {}
+                ): void {
+                }
             };
 
         $this->loop = EventLoopFactory::create();
@@ -225,7 +224,6 @@ class AbstractWebSocketClientTest extends TestCase
             {
                 return $this->loop;
             }
-
         };
 
         $this->expectException(InvalidArgumentException::class);
@@ -241,7 +239,7 @@ class AbstractWebSocketClientTest extends TestCase
                     'application' => 'ExampleApplication',
                     'timestamp' => 'someTimestamp',
                     'eventname' => 'jo',
-                    'userevent' => ['ThrowException' => false]
+                    'userevent' => ['ThrowException' => false],
                 ],
                 JSON_THROW_ON_ERROR
             )
@@ -259,7 +257,7 @@ class AbstractWebSocketClientTest extends TestCase
                     'application' => 'ExampleApplication',
                     'timestamp' => 'someTimestamp',
                     'eventname' => 'jo',
-                    'userevent' => ['ThrowException' => true]
+                    'userevent' => ['ThrowException' => true],
                 ],
                 JSON_THROW_ON_ERROR
             )
@@ -284,13 +282,14 @@ class AbstractWebSocketClientTest extends TestCase
     {
         $webSocketClientSettings = new WebSocketClientSettings('asterisk', 'asterisk');
         $webSocketClientSettings->setErrorHandler(
-            static function (string $context, Throwable $throwable) {}
+            static function (string $context, Throwable $throwable) {
+            }
         );
 
         $this->abstractWebSocketClient = new class (
             $webSocketClientSettings,
             $this->createMock(StasisApplicationInterface::class)
-        ) extends AbstractWebSocketClient{
+        ) extends AbstractWebSocketClient {
             /**
              * @inheritDoc
              */
@@ -317,14 +316,15 @@ class AbstractWebSocketClientTest extends TestCase
     {
         $webSocketClientSettings = new WebSocketClientSettings('asterisk', 'asterisk');
         $webSocketClientSettings->setErrorHandler(
-            static function (string $e, Throwable $a) {}
+            static function (string $e, Throwable $a) {
+            }
         );
 
         $this->expectException(InvalidArgumentException::class);
         $this->abstractWebSocketClient = new class (
             $webSocketClientSettings,
             $this->createMock(StasisApplicationInterface::class)
-        ) extends AbstractWebSocketClient{
+        ) extends AbstractWebSocketClient {
             /**
              * @inheritDoc
              */

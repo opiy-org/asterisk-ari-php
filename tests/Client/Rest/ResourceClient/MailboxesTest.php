@@ -1,6 +1,6 @@
 <?php
 
-/** @copyright 2020 ng-voice GmbH */
+declare(strict_types=1);
 
 namespace OpiyOrg\AriClient\Tests\Client\Rest\ResourceClient;
 
@@ -28,11 +28,11 @@ class MailboxesTest extends TestCase
         return [
             'example mailbox' => [
                 [
-                    'name'         => 'ExampleName',
+                    'name' => 'ExampleName',
                     'old_messages' => 5,
                     'new_messages' => 2,
                 ],
-            ]
+            ],
         ];
     }
 
@@ -76,8 +76,8 @@ class MailboxesTest extends TestCase
     public function testUpdate(): void
     {
         $mailboxesClient = $this->createMailboxesClient([]);
-        $mailboxesClient->update('SomeMailbox', '3', '2');
-        $this->assertTrue(true, true);
+        $mailboxesClient->update('SomeMailbox', 3, 2);
+        $this->assertTrue(true);
     }
 
     /**
@@ -88,7 +88,7 @@ class MailboxesTest extends TestCase
     {
         $mailboxesClient = $this->createMailboxesClient([]);
         $mailboxesClient->delete('SomeMailbox');
-        $this->assertTrue(true, true);
+        $this->assertTrue(true);
     }
 
     /**

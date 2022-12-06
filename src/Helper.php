@@ -20,6 +20,8 @@ use Psr\Log\LoggerInterface;
  */
 class Helper
 {
+    private const EMERGENCY_LOG_NAME = 'emerg.log';
+
     /**
      * Create and configure a basic logger.
      *
@@ -32,6 +34,9 @@ class Helper
         $logger = new Logger($name);
 
         $stdOut = fopen('php://stdout', 'wb');
+        if (!$stdOut) {
+            $stdOut = self::EMERGENCY_LOG_NAME;
+        }
         $logger->pushHandler(new StreamHandler($stdOut, Logger::DEBUG));
         $logger->pushHandler(new StreamHandler($stdOut, Logger::INFO));
         $logger->pushHandler(new StreamHandler($stdOut, Logger::WARNING));

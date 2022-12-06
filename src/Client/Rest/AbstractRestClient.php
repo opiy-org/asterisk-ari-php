@@ -177,7 +177,6 @@ abstract class AbstractRestClient
         array &$resultArray
     ): void {
         try {
-            /** @var array<int, array> $decodedResponseBody */
             $decodedResponseBody = json_decode(
                 (string)$response->getBody(),
                 true,
@@ -186,10 +185,11 @@ abstract class AbstractRestClient
             );
 
             foreach ($decodedResponseBody as $modelAsArray) {
-                $targetModelInstance = $this->dataMappingService->map(
-                    $ariModelInterface::class,
-                    Source::array($modelAsArray)->camelCaseKeys()
-                );
+                $targetModelInstance = $this->dataMappingService
+                    ->map(
+                        $ariModelInterface::class,
+                        Source::array($modelAsArray)->camelCaseKeys()
+                    );
 
                 $resultArray[] = $targetModelInstance;
             }
@@ -240,10 +240,11 @@ abstract class AbstractRestClient
                 JSON_THROW_ON_ERROR
             );
 
-            $modelInterface = $this->dataMappingService->map(
-                $modelInterface::class,
-                Source::array($decodedResponseBody)->camelCaseKeys()
-            );
+            $modelInterface = $this->dataMappingService
+                ->map(
+                    $modelInterface::class,
+                    Source::array($decodedResponseBody)->camelCaseKeys()
+                );
         } catch (MappingError $exception) {
             /*
              * This would only happen if Asterisk changed the design of its JSON

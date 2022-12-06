@@ -31,7 +31,7 @@ final class ChannelEnteredBridgeTest extends TestCase
         $channelEnteredBridge = Helper::mapOntoAriEvent(
             ChannelEnteredBridge::class,
             [
-                'bridge'  => BridgeTest::RAW_ARRAY_REPRESENTATION,
+                'bridge' => BridgeTest::RAW_ARRAY_REPRESENTATION,
                 'channel' => ChannelTest::RAW_ARRAY_REPRESENTATION,
             ]
         );

@@ -27,8 +27,8 @@ final class DialplanCEPTest extends TestCase
         $dialplanCEP = Helper::mapOntoInstance(
             [
                 'priority' => 3,
-                'exten'    => 'ExampleExten',
-                'context'  => 'ExampleContext',
+                'exten' => 'ExampleExten',
+                'context' => 'ExampleContext',
                 'app_name' => 'AppName',
                 'app_data' => 'App Data',
             ],

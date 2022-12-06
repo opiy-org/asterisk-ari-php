@@ -35,9 +35,9 @@ final class ApplicationMoveFailedTest extends TestCase
         $applicationMoveFailed = Helper::mapOntoAriEvent(
             ApplicationMoveFailed::class,
             [
-                'args'        => ['one', 'two', 'three'],
+                'args' => ['one', 'two', 'three'],
                 'destination' => 'someDestination',
-                'channel'     => ChannelTest::RAW_ARRAY_REPRESENTATION,
+                'channel' => ChannelTest::RAW_ARRAY_REPRESENTATION,
             ]
         );
 

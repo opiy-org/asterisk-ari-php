@@ -29,7 +29,7 @@ final class ChannelTalkingFinishedTest extends TestCase
         $channelTalkingFinished = Helper::mapOntoAriEvent(
             ChannelTalkingFinished::class,
             [
-                'channel'  => ChannelTest::RAW_ARRAY_REPRESENTATION,
+                'channel' => ChannelTest::RAW_ARRAY_REPRESENTATION,
                 'duration' => 44,
             ]
         );

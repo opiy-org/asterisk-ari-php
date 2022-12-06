@@ -17,6 +17,11 @@
   "version": "2.0",
   "authors": [
     {
+      "name": "opiy",
+      "email": "opiy@opiy.org",
+      "homepage": "https://opiy.org"
+    },
+    {
       "name": "Lukas Stermann",
       "email": "lukas@ng-voice.com",
       "homepage": "https://ng-voice.com",
@@ -53,7 +58,7 @@
   "scripts": {
     "lint": "vendor/bin/phpcs -s",
     "lint-fix": "vendor/bin/phpcbf",
-    "sca": "vendor/bin/phpstan analyse src --level 7",
+    "sca": "vendor/bin/phpstan analyse",
     "phpmd": "vendor/bin/phpmd ./src text codesize",
     "test": "vendor/bin/phpunit"
   }

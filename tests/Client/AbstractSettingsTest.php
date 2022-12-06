@@ -25,7 +25,8 @@ class AbstractSettingsTest extends TestCase
     public function setUp(): void
     {
         $this->abstractSettings =
-            new class ('asterisk', 'asterisk') extends AbstractSettings {};
+            new class ('asterisk', 'asterisk') extends AbstractSettings {
+            };
     }
 
     public function testConstruct(): void

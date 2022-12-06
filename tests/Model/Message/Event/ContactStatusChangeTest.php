@@ -32,7 +32,7 @@ final class ContactStatusChangeTest extends TestCase
             ContactStatusChange::class,
             [
                 'contact_info' => ContactInfoTest::RAW_ARRAY_REPRESENTATION,
-                'endpoint'     => EndpointTest::RAW_ARRAY_REPRESENTATION,
+                'endpoint' => EndpointTest::RAW_ARRAY_REPRESENTATION,
             ]
         );
         $this->assertInstanceOf(Endpoint::class, $contactStatusChange->getEndpoint());
