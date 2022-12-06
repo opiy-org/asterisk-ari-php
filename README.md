@@ -9,7 +9,7 @@ The idea is to make ARI calls safe and easy. Therefore, we wanted to get rid of
 JSON parsing in our application code. Instead, we aim to make it as easy as possible
 for anyone to talk to ARI without worrying about the implementation of a client stub.
 
-https://github.com/opiy-org/asterisk-ari-php/actions/workflows/main.yml/badge.svg
+[![tests](https://github.com/opiy-org/asterisk-ari-php/actions/workflows/main.yml/badge.svg)]
 
 ![Licence](https://img.shields.io/badge/licence-MIT-blue.svg)
 
