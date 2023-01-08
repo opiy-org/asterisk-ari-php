@@ -79,7 +79,9 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
             $ariApplicationsClient = new Applications(
                 new RestClientSettings(
                     $webSocketClientSettings->getUser(),
-                    $webSocketClientSettings->getPassword()
+                    $webSocketClientSettings->getPassword(),
+                    $webSocketClientSettings->getHost(),
+                    $webSocketClientSettings->getPort()
                 )
             );
         }
