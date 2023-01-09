@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 namespace OpiyOrg\AriClient\Client\Rest\Resource;
 
+use JsonException;
 use OpiyOrg\AriClient\Client\Rest\AbstractRestClient;
 use OpiyOrg\AriClient\Enum\HttpMethods;
 use OpiyOrg\AriClient\Exception\AsteriskRestInterfaceException;
@@ -29,6 +30,7 @@ class DeviceStates extends AbstractRestClient
      * @return DeviceState[]
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
+     * @throws JsonException
      */
     public function list(): array
     {
@@ -52,6 +54,7 @@ class DeviceStates extends AbstractRestClient
      * @return DeviceState
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
+     * @throws JsonException
      */
     public function get(string $deviceName): DeviceState
     {

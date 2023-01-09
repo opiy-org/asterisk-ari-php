@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 namespace OpiyOrg\AriClient\Client\Rest\Resource;
 
+use JsonException;
 use OpiyOrg\AriClient\Client\Rest\AbstractRestClient;
 use OpiyOrg\AriClient\Enum\HttpMethods;
 use OpiyOrg\AriClient\Exception\AsteriskRestInterfaceException;
@@ -29,6 +30,8 @@ class Mailboxes extends AbstractRestClient
      * @return Mailbox[]
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
+     * @throws JsonException
+     * @throws JsonException
      */
     public function list(): array
     {
@@ -53,6 +56,7 @@ class Mailboxes extends AbstractRestClient
      * @return Mailbox
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
+     * @throws JsonException
      */
     public function get(string $mailboxName): Mailbox
     {

@@ -41,6 +41,9 @@ class WebSocketClientTest extends TestCase
         $ratchetConnector->method('__invoke')->willReturn($promiseInterface);
 
         $optionalSettings->setRatchetConnector($ratchetConnector);
+        $optionalSettings->setLoop(
+            $this->createMock(LoopInterface::class)
+        );
 
         /**
          * @var RatchetSettings $webSocketSettings

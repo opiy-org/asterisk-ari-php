@@ -19,11 +19,11 @@ use React\Socket\Connector as ReactConnector;
  */
 class Settings
 {
-    private ?LoopInterface $loop = null;
+    protected ?LoopInterface $loop = null;
 
-    private ?ReactConnector $reactConnector = null;
+    protected ?ReactConnector $reactConnector = null;
 
-    private ?RatchetConnector $ratchetConnector = null;
+    protected ?RatchetConnector $ratchetConnector = null;
 
     /**
      * @return LoopInterface|null

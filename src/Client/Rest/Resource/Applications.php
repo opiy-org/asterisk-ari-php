@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 namespace OpiyOrg\AriClient\Client\Rest\Resource;
 
+use JsonException;
 use OpiyOrg\AriClient\Client\Rest\AbstractRestClient;
 use OpiyOrg\AriClient\Enum\HttpMethods;
 use OpiyOrg\AriClient\Exception\AsteriskRestInterfaceException;
@@ -29,6 +30,7 @@ class Applications extends AbstractRestClient
      * @return array<int, Application>
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
+     * @throws JsonException
      */
     public function list(): array
     {
@@ -52,6 +54,7 @@ class Applications extends AbstractRestClient
      * @return Application
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
+     * @throws JsonException
      */
     public function get(string $applicationName): Application
     {
@@ -67,7 +70,7 @@ class Applications extends AbstractRestClient
     }
 
     /**
-     * Subscribe an application to a events source.
+     * Subscribe an application to an events source.
      * Returns the state of the application after the subscriptions have changed.
      *
      * @param string $applicationName Application's name.
@@ -78,6 +81,7 @@ class Applications extends AbstractRestClient
      * @return Application
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
+     * @throws JsonException
      */
     public function subscribe(string $applicationName, array $eventSource): Application
     {
@@ -105,6 +109,7 @@ class Applications extends AbstractRestClient
      * @return Application
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
+     * @throws JsonException
      */
     public function unsubscribe(string $applicationName, array $eventSource): Application
     {
@@ -134,7 +139,7 @@ class Applications extends AbstractRestClient
      * an associated value:
      * "type" - The type name of the event to filter
      *
-     * The value must be the string name (case sensitive) of the event type that needs
+     * The value must be the string name (case-sensitive) of the event type that needs
      * filtering. For example:
      * { "allowed": [ { "type": "StasisStart" }, { "type": "StasisEnd" } ] }
      *
@@ -159,6 +164,7 @@ class Applications extends AbstractRestClient
      * @return Application
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
+     * @throws JsonException
      */
     public function filter(
         string $applicationName,

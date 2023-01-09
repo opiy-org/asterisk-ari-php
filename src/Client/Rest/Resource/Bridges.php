@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 namespace OpiyOrg\AriClient\Client\Rest\Resource;
 
+use JsonException;
 use OpiyOrg\AriClient\Client\Rest\AbstractRestClient;
 use OpiyOrg\AriClient\Enum\HttpMethods;
 use OpiyOrg\AriClient\Exception\AsteriskRestInterfaceException;
@@ -29,6 +30,7 @@ class Bridges extends AbstractRestClient
      * @return Bridge[]
      *
      * @throws AsteriskRestInterfaceException When the REST request fails.
+     * @throws JsonException
      */
     public function list(): array
     {
@@ -58,6 +60,7 @@ class Bridges extends AbstractRestClient
      * @return Bridge
      *
      * @throws AsteriskRestInterfaceException When the REST request fails.
+     * @throws JsonException
      */
     public function create(array $options = []): Bridge
     {
@@ -86,6 +89,7 @@ class Bridges extends AbstractRestClient
      * @return Bridge
      *
      * @throws AsteriskRestInterfaceException When the REST request fails.
+     * @throws JsonException
      */
     public function createWithId(string $bridgeId, array $options = []): Bridge
     {
@@ -109,6 +113,7 @@ class Bridges extends AbstractRestClient
      * @return Bridge
      *
      * @throws AsteriskRestInterfaceException When the REST request fails.
+     * @throws JsonException
      */
     public function get(string $bridgeId): Bridge
     {
@@ -269,6 +274,7 @@ class Bridges extends AbstractRestClient
      * @return Playback
      *
      * @throws AsteriskRestInterfaceException When the REST request fails.
+     * @throws JsonException
      */
     public function play(string $bridgeId, array $media, array $options = []): Playback
     {
@@ -304,6 +310,7 @@ class Bridges extends AbstractRestClient
      * @return Playback
      *
      * @throws AsteriskRestInterfaceException When the REST request fails.
+     * @throws JsonException
      */
     public function playWithId(
         string $bridgeId,
@@ -342,6 +349,7 @@ class Bridges extends AbstractRestClient
      * @return LiveRecording
      *
      * @throws AsteriskRestInterfaceException When the REST request fails.
+     * @throws JsonException
      */
     public function record(
         string $bridgeId,

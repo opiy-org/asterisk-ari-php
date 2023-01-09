@@ -289,7 +289,7 @@ abstract class AbstractRestClient
         $fullUri = $this->appendToRootUri($resourceUri);
 
         if ($this->isInDebugMode) {
-            $this->debugRequest(HttpMethods::GET, $resourceUri, [], []);
+            $this->debugRequest(HttpMethods::GET, $resourceUri);
         }
 
         try {
@@ -303,7 +303,7 @@ abstract class AbstractRestClient
         }
 
         if ($this->isInDebugMode) {
-            $this->debugResponse($response, HttpMethods::GET, $resourceUri, [], []);
+            $this->debugResponse($response, HttpMethods::GET, $resourceUri);
         }
 
         return $response;
