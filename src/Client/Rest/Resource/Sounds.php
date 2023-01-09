@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 namespace OpiyOrg\AriClient\Client\Rest\Resource;
 
+use JsonException;
 use OpiyOrg\AriClient\Client\Rest\AbstractRestClient;
 use OpiyOrg\AriClient\Enum\HttpMethods;
 use OpiyOrg\AriClient\Exception\AsteriskRestInterfaceException;
@@ -34,6 +35,7 @@ class Sounds extends AbstractRestClient
      * @return array<Sound>
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
+     * @throws JsonException
      */
     public function list(array $options = []): array
     {
@@ -62,6 +64,7 @@ class Sounds extends AbstractRestClient
      * @return Sound
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
+     * @throws JsonException
      */
     public function get(string $soundId): Sound
     {

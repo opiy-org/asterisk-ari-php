@@ -35,6 +35,7 @@ class Channels extends AbstractRestClient
      * @return Channel[]
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
+     * @throws JsonException
      */
     public function list(): array
     {
@@ -89,6 +90,7 @@ class Channels extends AbstractRestClient
      * @return Channel
      *
      * @throws AsteriskRestInterfaceException  in case the REST request fails.
+     * @throws JsonException
      */
     public function originate(
         string $endpoint,
@@ -128,6 +130,7 @@ class Channels extends AbstractRestClient
      * @return Channel
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
+     * @throws JsonException
      */
     public function create(string $endpoint, string $app, array $options = []): Channel
     {
@@ -151,6 +154,7 @@ class Channels extends AbstractRestClient
      * @return Channel
      *
      * @throws AsteriskRestInterfaceException  in case the REST request fails.
+     * @throws JsonException
      */
     public function get(string $channelId): Channel
     {
@@ -201,6 +205,7 @@ class Channels extends AbstractRestClient
      * @return Channel
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
+     * @throws JsonException
      */
     public function originateWithId(
         string $channelId,
@@ -515,6 +520,7 @@ class Channels extends AbstractRestClient
      * @return Playback
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
+     * @throws JsonException
      */
     public function play(string $channelId, array $media, array $options = []): Playback
     {
@@ -551,6 +557,7 @@ class Channels extends AbstractRestClient
      * @return Playback
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
+     * @throws JsonException
      */
     public function playWithId(
         string $channelId,
@@ -593,6 +600,7 @@ class Channels extends AbstractRestClient
      * @return LiveRecording
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
+     * @throws JsonException
      */
     public function record(
         string $channelId,
@@ -675,6 +683,7 @@ class Channels extends AbstractRestClient
      * @return Channel
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
+     * @throws JsonException
      */
     public function snoopChannel(
         string $channelId,
@@ -709,6 +718,7 @@ class Channels extends AbstractRestClient
      * @return Channel
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
+     * @throws JsonException
      */
     public function snoopChannelWithId(
         string $channelId,
@@ -764,6 +774,7 @@ class Channels extends AbstractRestClient
      * @return RTPstat
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
+     * @throws JsonException
      */
     public function rtpStatistics(string $channelId): RTPstat
     {
@@ -772,7 +783,6 @@ class Channels extends AbstractRestClient
             "/channels/{$channelId}/rtp_statistics"
         );
 
-        /** @var RTPstat $rtpStat */
         $rtpStat = new RTPstat();
         $this->responseToAriModelInstance($response, $rtpStat);
 
@@ -814,6 +824,7 @@ class Channels extends AbstractRestClient
      * @return Channel
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
+     * @throws JsonException
      */
     public function externalMedia(
         string $app,

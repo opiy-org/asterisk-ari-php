@@ -20,7 +20,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
-use React\EventLoop\Factory as EventLoopFactory;
+use React\EventLoop\Loop;
 use React\EventLoop\LoopInterface;
 use Throwable;
 
@@ -89,7 +89,7 @@ class AbstractWebSocketClientTest extends TestCase
                 }
             };
 
-        $this->loop = EventLoopFactory::create();
+        $this->loop = Loop::get();
 
         $this->abstractWebSocketClient = new class (
             $this->webSocketClientSettings,
@@ -193,7 +193,7 @@ class AbstractWebSocketClientTest extends TestCase
                 }
             };
 
-        $this->loop = EventLoopFactory::create();
+        $this->loop = Loop::get();
 
         $this->abstractWebSocketClient = new class (
             $this->webSocketClientSettings,
@@ -302,7 +302,7 @@ class AbstractWebSocketClientTest extends TestCase
              */
             public function getLoop(): LoopInterface
             {
-                return EventLoopFactory::create();
+                return Loop::get();
             }
         };
 
@@ -337,7 +337,7 @@ class AbstractWebSocketClientTest extends TestCase
              */
             public function getLoop(): LoopInterface
             {
-                return EventLoopFactory::create();
+                return Loop::get();
             }
         };
     }

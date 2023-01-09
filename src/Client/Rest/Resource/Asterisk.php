@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 namespace OpiyOrg\AriClient\Client\Rest\Resource;
 
+use JsonException;
 use OpiyOrg\AriClient\Client\Rest\AbstractRestClient;
 use OpiyOrg\AriClient\Enum\HttpMethods;
 use OpiyOrg\AriClient\Exception\AsteriskRestInterfaceException;
@@ -34,6 +35,7 @@ class Asterisk extends AbstractRestClient
      * @return ConfigTuple[]
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails
+     * @throws JsonException
      */
     public function getObject(string $configClass, string $objectType, string $id): array
     {
@@ -66,6 +68,7 @@ class Asterisk extends AbstractRestClient
      * @return ConfigTuple[]
      *
      * @throws AsteriskRestInterfaceException Default REST Interface Exception by Asterisk
+     * @throws JsonException
      */
     public function updateObject(
         string $configClass,
@@ -133,6 +136,7 @@ class Asterisk extends AbstractRestClient
      * @return AsteriskInfo
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails
+     * @throws JsonException
      */
     public function getInfo(array $only = []): AsteriskInfo
     {
@@ -159,6 +163,7 @@ class Asterisk extends AbstractRestClient
      * @return AsteriskPing
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails
+     * @throws JsonException
      */
     public function ping(): AsteriskPing
     {
@@ -176,6 +181,7 @@ class Asterisk extends AbstractRestClient
      * @return Module[]
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails
+     * @throws JsonException
      */
     public function listModules(): array
     {
@@ -200,6 +206,7 @@ class Asterisk extends AbstractRestClient
      * @return Module
      *
      * @throws AsteriskRestInterfaceException Default in case the REST request fails
+     * @throws JsonException
      */
     public function getModule(string $moduleName): Module
     {
@@ -256,6 +263,7 @@ class Asterisk extends AbstractRestClient
      * @return LogChannel[]
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails
+     * @throws JsonException
      */
     public function listLogChannels(): array
     {
@@ -323,6 +331,7 @@ class Asterisk extends AbstractRestClient
      * @return Variable
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails
+     * @throws JsonException
      */
     public function getGlobalVar(string $variable): Variable
     {

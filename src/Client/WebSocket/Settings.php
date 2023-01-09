@@ -112,7 +112,7 @@ class Settings extends AbstractSettings
     /**
      * Set the ARI Applications REST client for event filtering on web socket connection.
      *
-     * @param Applications $ariApplicationsClient The REST client
+     * @param Applications|null $ariApplicationsClient The REST client
      */
     public function setAriApplicationsClient(?Applications $ariApplicationsClient): void
     {

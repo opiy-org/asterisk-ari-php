@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 namespace OpiyOrg\AriClient\Client\Rest\Resource;
 
+use JsonException;
 use OpiyOrg\AriClient\Client\Rest\AbstractRestClient;
 use OpiyOrg\AriClient\Enum\HttpMethods;
 use OpiyOrg\AriClient\Exception\AsteriskRestInterfaceException;
@@ -29,6 +30,7 @@ class Recordings extends AbstractRestClient
      * @return StoredRecording[]
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
+     * @throws JsonException
      */
     public function listStored(): array
     {
@@ -53,6 +55,7 @@ class Recordings extends AbstractRestClient
      * @return StoredRecording
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
+     * @throws JsonException
      */
     public function getStored(string $recordingName): StoredRecording
     {
@@ -109,6 +112,7 @@ class Recordings extends AbstractRestClient
      * @return StoredRecording
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
+     * @throws JsonException
      */
     public function copyStored(
         string $recordingName,
@@ -134,6 +138,7 @@ class Recordings extends AbstractRestClient
      * @return LiveRecording
      *
      * @throws AsteriskRestInterfaceException in case the REST request fails.
+     * @throws JsonException
      */
     public function getLive(string $recordingName): LiveRecording
     {

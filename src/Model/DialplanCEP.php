@@ -15,10 +15,7 @@ namespace OpiyOrg\AriClient\Model;
  */
 class DialplanCEP implements ModelInterface
 {
-    /**
-     * @var mixed
-     */
-    public $priority;
+    public mixed $priority;
 
     public string $exten;
 
@@ -33,7 +30,7 @@ class DialplanCEP implements ModelInterface
      *
      * @return mixed
      */
-    public function getPriority()
+    public function getPriority(): mixed
     {
         return $this->priority;
     }

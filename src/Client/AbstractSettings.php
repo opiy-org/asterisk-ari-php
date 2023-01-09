@@ -18,15 +18,7 @@ use Psr\Log\LoggerInterface;
  */
 abstract class AbstractSettings
 {
-    private string $user;
-
-    private int $port = 8088;
-
-    private string $password;
-
-    private string $rootUri = '/ari';
-
-    private string $host = '127.0.0.1';
+    protected string $rootUri = '/ari';
 
     private bool $isInDebugMode = false;
 
@@ -39,21 +31,17 @@ abstract class AbstractSettings
      * @param string $password Password for the ARI
      */
     public function __construct(
-        string $user,
-        string $password,
-        string $host = '127.0.0.1',
-        int $port = 8088
+        protected string $user,
+        protected string $password,
+        protected string $host = '127.0.0.1',
+        protected int $port = 8088
     ) {
-        $this->user = $user;
-        $this->password = $password;
-        $this->host = $host;
-        $this->port = $port;
     }
 
     /**
-     * Get the Asterisk REST Interface user name.
+     * Get the Asterisk REST Interface username.
      *
-     * @return string The Asterisk REST Interface user name
+     * @return string The Asterisk REST Interface username
      */
     public function getUser(): string
     {
@@ -134,7 +122,7 @@ abstract class AbstractSettings
     public function setRootUri(string $rootUri): void
     {
         if (
-            (strpos($rootUri, '/') === 0)
+            (str_starts_with($rootUri, '/'))
             && (strrpos($rootUri, '/') !== (strlen($rootUri) - 1))
         ) {
             $this->rootUri = $rootUri;

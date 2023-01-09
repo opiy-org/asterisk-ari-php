@@ -151,6 +151,7 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
      * The logic to execute on a successful connection to a web socket server.
      *
      * @throws AsteriskRestInterfaceException In case the event filter request fails.
+     * @throws JsonException
      */
     public function onConnectionHandlerLogic(): void
     {
