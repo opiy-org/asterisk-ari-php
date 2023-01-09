@@ -44,7 +44,7 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
 
     protected StasisApplicationInterface $stasisApplication;
 
-    private TreeMapper $dataMappingService;
+    protected TreeMapper $dataMappingService;
 
     private Closure $errorHandler;
 

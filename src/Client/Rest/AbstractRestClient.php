@@ -35,13 +35,13 @@ use TypeError;
  */
 abstract class AbstractRestClient
 {
+    protected TreeMapper $dataMappingService;
+
+    protected LoggerInterface $logger;
+
     private string $rootUri;
 
     private GuzzleClient $httpClient;
-
-    private TreeMapper $dataMappingService;
-
-    protected LoggerInterface $logger;
 
     private bool $isInDebugMode;
 
