@@ -68,7 +68,7 @@ The following example originates a call using the Channels resource:
     
     // Of course inject your own REST client settings here.
     $ariChannelsRestResourceClient = new AriChannelsRestResourceClient(
-        new AriRestClientSettings('asterisk', 'asterisk')
+        new AriRestClientSettings('login', 'password', '127.0.0.1', '8088')
     );
     
     try {
