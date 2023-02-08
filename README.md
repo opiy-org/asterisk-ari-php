@@ -15,7 +15,7 @@ for anyone to talk to ARI without worrying about the implementation of a client 
 
 ![Diagram of the ARI communication](image/AriClientSketch.png)
 
-## Prerequisites
+### Prerequisites
 
 Download and install composer from the following link:
 
