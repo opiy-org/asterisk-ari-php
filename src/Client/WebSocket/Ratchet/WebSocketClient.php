@@ -70,7 +70,7 @@ class WebSocketClient extends AbstractWebSocketClient
         }
 
         // Configure the event handlers for the web socket client
-        $uri = $this->createUri($webSocketClientSettings, $stasisApplication);
+        $uri = $this->createUri($stasisApplication);
 
         $ratchetConnector($uri)
             ->then(
