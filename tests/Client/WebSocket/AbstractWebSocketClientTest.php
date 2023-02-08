@@ -108,14 +108,11 @@ class AbstractWebSocketClientTest extends TestCase
 
             public function triggerCreateUri(): string
             {
-                $webSocketClientSettings =
+                $this->webSocketClientSettings =
                     new WebSocketClientSettings('asterisk', 'asterisk');
-                $webSocketClientSettings->setIsSubscribeAll(true);
+                $this->webSocketClientSettings->setIsSubscribeAll(true);
 
-                return $this->createUri(
-                    $webSocketClientSettings,
-                    $this->stasisApplication,
-                );
+                return $this->createUri($this->stasisApplication);
             }
 
             /**

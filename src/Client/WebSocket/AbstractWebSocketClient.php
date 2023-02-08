@@ -44,6 +44,8 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
 
     protected StasisApplicationInterface $stasisApplication;
 
+    protected Settings $webSocketClientSettings;
+
     protected TreeMapper $dataMappingService;
 
     private Closure $errorHandler;
@@ -62,8 +64,9 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
         StasisApplicationInterface $stasisApplication
     ) {
         $this->stasisApplication = $stasisApplication;
+        $this->webSocketClientSettings = $webSocketClientSettings;
 
-        $logger = $webSocketClientSettings->getLoggerInterface();
+        $logger = $this->webSocketClientSettings->getLoggerInterface();
 
         if ($logger === null) {
             $logger = Helper::initLogger(static::class);
@@ -71,17 +74,17 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
 
         $this->logger = $logger;
 
-        $this->initializeErrorHandler($webSocketClientSettings->getErrorHandler());
+        $this->initializeErrorHandler($this->webSocketClientSettings->getErrorHandler());
 
-        $ariApplicationsClient = $webSocketClientSettings->getAriApplicationsClient();
+        $ariApplicationsClient = $this->webSocketClientSettings->getAriApplicationsClient();
 
         if ($ariApplicationsClient === null) {
             $ariApplicationsClient = new Applications(
                 new RestClientSettings(
-                    $webSocketClientSettings->getUser(),
-                    $webSocketClientSettings->getPassword(),
-                    $webSocketClientSettings->getHost(),
-                    $webSocketClientSettings->getPort()
+                    $this->webSocketClientSettings->getUser(),
+                    $this->webSocketClientSettings->getPassword(),
+                    $this->webSocketClientSettings->getHost(),
+                    $this->webSocketClientSettings->getPort()
                 )
             );
         }
@@ -94,7 +97,7 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
 
         $this->ariApplicationsClient = $ariApplicationsClient;
 
-        $this->isInDebugMode = $webSocketClientSettings->isInDebugMode();
+        $this->isInDebugMode = $this->webSocketClientSettings->isInDebugMode();
     }
 
     /**
@@ -164,7 +167,7 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
         $allowedEvents =
             $this->extractHandledAsteriskEvents($myAppPublicClassMethodNames);
 
-        $applicationName = $myAppAsReflectionObject->getShortName();
+        $applicationName = $this->webSocketClientSettings->getAppName() ?? $myAppAsReflectionObject->getShortName();
 
         /**
          * Tell Asterisk to only send events that are actually handled by the
@@ -345,15 +348,12 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
      * The URI represents the initial request sent to the ARI, to register
      * a web socket client.
      *
-     * @param Settings $webSocketClientSettings The settings for a web socket client
      * @param StasisApplicationInterface $stasisApplication The event handling Stasis app
      *
      * @return string The URI for the web socket client
      */
-    protected function createUri(
-        Settings $webSocketClientSettings,
-        StasisApplicationInterface $stasisApplication
-    ): string {
+    protected function createUri(StasisApplicationInterface $stasisApplication): string
+    {
         /*
          * Within this library you should only either subscribe to one or all running
          * StasisApps on Asterisk.
@@ -362,25 +362,25 @@ abstract class AbstractWebSocketClient implements WebSocketClientInterface
          */
 
         // Initialize the WebSocket
-        $wsType = $webSocketClientSettings->isWssEnabled() ? 'wss' : 'ws';
+        $wsType = $this->webSocketClientSettings->isWssEnabled() ? 'wss' : 'ws';
 
         $wsUrl = sprintf(
             '%s://%s:%s%s',
             $wsType,
-            $webSocketClientSettings->getHost(),
-            $webSocketClientSettings->getPort(),
-            $webSocketClientSettings->getRootUri()
+            $this->webSocketClientSettings->getHost(),
+            $this->webSocketClientSettings->getPort(),
+            $this->webSocketClientSettings->getRootUri()
         );
 
         $subscribeAllParameter =
-            $webSocketClientSettings->isSubscribeAll() ? 'true' : 'false';
+            $this->webSocketClientSettings->isSubscribeAll() ? 'true' : 'false';
 
         $uri = sprintf(
             '%s/events?api_key=%s:%s&app=%s&subscribeAll=%s',
             $wsUrl,
-            $webSocketClientSettings->getUser(),
-            $webSocketClientSettings->getPassword(),
-            (new ReflectionObject($stasisApplication))->getShortName(),
+            $this->webSocketClientSettings->getUser(),
+            $this->webSocketClientSettings->getPassword(),
+            $this->webSocketClientSettings->getAppName() ?? (new ReflectionObject($stasisApplication))->getShortName(),
             $subscribeAllParameter
         );
 

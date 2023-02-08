@@ -29,12 +29,16 @@ abstract class AbstractSettings
      *
      * @param string $user Username for the Asterisk REST Interface
      * @param string $password Password for the ARI
+     * @param string $host
+     * @param int $port
+     * @param string|null $appName
      */
     public function __construct(
         protected string $user,
         protected string $password,
         protected string $host = '127.0.0.1',
-        protected int $port = 8088
+        protected int $port = 8088,
+        protected ?string $appName = null
     ) {
     }
 
@@ -135,6 +139,22 @@ abstract class AbstractSettings
         );
 
         throw new InvalidArgumentException($errorMessage);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getAppName(): ?string
+    {
+        return $this->appName;
+    }
+
+    /**
+     * @param string|null $appName
+     */
+    public function setAppName(?string $appName): void
+    {
+        $this->appName = $appName;
     }
 
     /**
